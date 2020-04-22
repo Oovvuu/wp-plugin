@@ -2,14 +2,14 @@
 /**
  * Embed videos into your posts using the Oovvuu platform.
  *
- * Plugin Name: Oovvuu WP
+ * Plugin Name: Oovvuu
  * Description: Embed videos into your posts using the Oovvuu platform.
  * Version: 0.1.0
  *
- * @package Oovvuu_WP_Plugin
+ * @package Oovvuu
  */
 
-namespace Oovvuu_WP_Plugin;
+namespace Oovvuu;
 
 // Include functions for working with assets (primarily JavaScript).
 require_once __DIR__ . '/inc/assets.php';

@@ -2,10 +2,10 @@
 /**
  * Contains functions for working with assets (primarily JavaScript).
  *
- * @package Oovvuu_WP_Plugin
+ * @package Oovvuu
  */
 
-namespace Oovvuu_WP_Plugin;
+namespace Oovvuu;
 
 /**
  * Get the version for a given asset.
@@ -53,7 +53,7 @@ function inline_locale_data( string $to_handle ) {
 	// Define locale data for Jed.
 	$locale_data = [
 		'' => [
-			'domain' => 'oovvuu-wp-plugin',
+			'domain' => 'oovvuu',
 			'lang'   => is_admin() ? get_user_locale() : get_locale(),
 		],
 	];
@@ -61,6 +61,6 @@ function inline_locale_data( string $to_handle ) {
 	// Pass the Jed configuration to the admin to properly register i18n.
 	wp_add_inline_script(
 		$to_handle,
-		'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ", 'oovvuu-wp-plugin' );"
+		'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ", 'oovvuu' );"
 	);
 }
