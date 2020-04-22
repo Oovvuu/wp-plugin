@@ -1,0 +1,50 @@
+{
+  "name": "oovvuu-wp-plugin",
+  "version": "1.0.0",
+  "license": "unlicensed",
+  "main": "index.php",
+  "engines": {
+    "node": "12",
+    "npm": "6"
+  },
+  "scripts": {
+    "preinstall": "npx check-node-version --package",
+    "build": "webpack --mode=production",
+    "dev": "webpack --mode=development --watch",
+    "lint": "eslint .",
+    "scaffold": "scaffold dir ./scaffold --theme=./",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "lodash.debounce": "^4.0.8",
+    "papaparse": "^4.6.1",
+    "prop-types": "^15.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.2.4",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "chalk": "^3.0.0",
+    "check-node-version": "^4.0.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-import-resolver-babel-module": "^5.1.2",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.19.0",
+    "jest": "^25.2.4",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-stats-plugin": "^0.3.1"
+  }
+}
