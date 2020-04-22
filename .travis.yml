@@ -13,14 +13,10 @@ services:
 # @link http://about.travis-ci.org/docs/user/languages/php/
 language: php
 
-# PHP version.
-php:
-  - '7.3'
-
 # Specify when Travis should build.
 branches:
   only:
-    - master
+    - production
 
 cache:
   directories:
@@ -33,11 +29,19 @@ git:
 
 matrix:
   fast_finish: true
-
   include:
-    - env: WP_VERSION=latest PHP_LINT=1 WP_JS=1
-    - env: WP_VERSION=trunk
-    - env: WP_VERSION=latest WP_PHPCS=1 WP_TRAVIS_OBJECT_CACHE=1
+    - php: 7.3
+      env: WP_VERSION=latest PHP_LINT=1 WP_PHPCS=1 WP_JS=1
+    - php: 7.2
+      env: WP_VERSION=latest PHP_LINT=1
+    - php: 7.1
+      env: WP_VERSION=latest PHP_LINT=1
+    - php: 7.0
+      env: WP_VERSION=latest PHP_LINT=1
+    - php: 5.6
+      env: WP_VERSION=latest PHP_LINT=1
+    - php: 7.3
+      env: WP_VERSION=nightly
 
 # Prepare your build for testing.
 # Failures in this section will result in build status 'errored'.
@@ -48,7 +52,17 @@ before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Couple the PHPUnit version to the PHP version.
-  - composer global require "phpunit/phpunit=6.1.*"
+  - |
+    case "$TRAVIS_PHP_VERSION" in
+      7.*)
+        echo "Using PHPUnit 6.1"
+        composer global require "phpunit/phpunit=6.1.*"
+        ;;
+      *)
+        echo "Using PHPUnit 4.8"
+        composer global require "phpunit/phpunit=4.8.*"
+        ;;
+    esac
 
   # Set up WordPress.
   - |
