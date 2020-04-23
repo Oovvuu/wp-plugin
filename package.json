@@ -13,8 +13,8 @@
     "dev": "webpack --mode=development --watch",
     "lint": "eslint .",
     "scaffold": "scaffold dir ./scaffold --theme=./",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests"
   },
   "dependencies": {
     "eslint-plugin-react-hooks": "^2.5.1",
