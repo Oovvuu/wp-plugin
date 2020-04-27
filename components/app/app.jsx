@@ -1,7 +1,6 @@
-import { React } from 'react';
-
 const App = () => (
-  <h3>This is an app</h3>
+  // @TODO: Update with actual settings.
+  <p>This is where you will launch the Oovvuu modal.</p>
 );
 
 export default App;
