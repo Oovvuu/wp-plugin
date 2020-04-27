@@ -16,14 +16,10 @@
     "test:watch": "jest --watch --passWithNoTests"
   },
   "dependencies": {
-    "@wordpress/edit-post": "^3.15.1",
-    "@wordpress/plugins": "^2.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "lodash.debounce": "^4.0.8",
     "papaparse": "^4.6.1",
-    "prop-types": "^15.6.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "prop-types": "^15.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
