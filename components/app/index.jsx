@@ -1,3 +1,4 @@
+/* global React */
 import App from './app';
 
 const { PluginDocumentSettingPanel } = wp.editPost;

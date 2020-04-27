@@ -17,8 +17,7 @@
     "node": true
   },
   "globals": {
-    "wp": true,
-    "React": true
+    "wp": true
   },
   "settings": {
     "import/resolver": {
