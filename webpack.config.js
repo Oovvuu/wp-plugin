@@ -11,7 +11,8 @@ module.exports = (env, argv) => {
       ? 'source-map'
       : 'cheap-module-eval-source-map',
     entry: {
-      app: './app/index.js',
+      app: './components/app/index.jsx',
+      appClassic: './components/appClassic/index.jsx',
     },
     module: {
       rules: [

@@ -8,7 +8,78 @@
 namespace Oovvuu;
 
 /**
+ * A callback for the admin_enqueue_scripts action hook to register assets for the
+ * Classic Editor.
+ *
+ * @since 1.0.0
+ */
+function action_admin_enqueue_scripts() {
+	global $post_type;
+
+	// Only enqueue the script to register the scripts if supported.
+	if ( ! in_array( $post_type, allowed_post_types(), true ) ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'oovvuu-app-classic-js',
+		get_versioned_asset_path( 'appClassic.js' ),
+		[],
+		'1.0.0',
+		true
+	);
+}
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\action_admin_enqueue_scripts' );
+
+/**
+ * A callback for the enqueue_block_editor_assets action hook to register assets
+ * for the Gutenberg editor.
+ *
+ * @since 1.0.0
+ */
+function action_enqueue_block_editor_assets() {
+	global $post_type;
+
+	// Only enqueue the script to register the scripts if supported.
+	if ( ! in_array( $post_type, allowed_post_types(), true ) ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'oovvuu-app-js',
+		get_versioned_asset_path( 'app.js' ),
+		[ 'wp-i18n', 'wp-edit-post', 'wp-plugins' ],
+		'1.0.0',
+		true
+	);
+	inline_locale_data( 'oovvuu-app' );
+}
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\action_enqueue_block_editor_assets' );
+
+/**
+ * Set allowed post types.
+ *
+ * @since 1.0.0
+ *
+ * @return array array of post types allowed for Gutenberg.
+ */
+function allowed_post_types() {
+	$allowed_post_types = [ 'post' ];
+
+	/**
+	 * Filters the allowed post types used for including assets on edit post pages.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $allowed_post_types Array of post types.
+	 */
+	return apply_filters( 'oovvuu_allowed_post_types', $allowed_post_types );
+}
+
+/**
  * Get the version for a given asset.
+ *
+ * @since 1.0.0
  *
  * @param string $asset_path Entry point and asset type separated by a '.'.
  * @return string The asset version.
@@ -46,6 +117,8 @@ function get_versioned_asset_path( $asset_path ) {
 
 /**
  * Creates a new Jed instance with specified locale data configuration.
+ *
+ * @since 1.0.0
  *
  * @param string $to_handle The script handle to attach the inline script to.
  */
