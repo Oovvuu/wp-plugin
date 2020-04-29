@@ -11,6 +11,22 @@
 
 namespace Oovvuu;
 
+/**
+ * The base directory for all Optimizely X plugin files.
+ *
+ * @since 1.0.0
+ * @var string
+ */
+define( 'OOVVUU_PATH', __DIR__ );
+
+/**
+ * The base URL for all Optimizely X plugin files.
+ *
+ * @since 1.0.0
+ * @var string
+ */
+define( 'OOVVUU_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
+
 // Singleton.
 require_once __DIR__ . '/inc/traits/trait-singleton.php';
 
