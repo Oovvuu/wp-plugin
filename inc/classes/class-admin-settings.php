@@ -45,7 +45,7 @@ class Admin_Settings {
 			 *
 			 * @param string The settings page capability.
 			 */
-			apply_filters('oovvuu_settings_capability', 'manage_options' ),
+			apply_filters( 'oovvuu_settings_capability', 'manage_options' ),
 			$this->page_name,
 			[ $this, 'page_options_render' ]
 		);
