@@ -33,6 +33,9 @@ require_once __DIR__ . '/inc/traits/trait-singleton.php';
 // Admin settings.
 require_once __DIR__ . '/inc/classes/class-admin-settings.php';
 
+// Authentication.
+require_once __DIR__ . '/inc/classes/class-auth.php';
+
 // Include functions for working with assets (primarily JavaScript).
 require_once __DIR__ . '/inc/assets.php';
 
