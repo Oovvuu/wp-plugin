@@ -12,7 +12,7 @@
 namespace Oovvuu;
 
 /**
- * The base directory for all Optimizely X plugin files.
+ * The base directory for all Oovvuu plugin files.
  *
  * @since 1.0.0
  * @var string
@@ -20,7 +20,7 @@ namespace Oovvuu;
 define( 'OOVVUU_PATH', __DIR__ );
 
 /**
- * The base URL for all Optimizely X plugin files.
+ * The base URL for all Oovvuu plugin files.
  *
  * @since 1.0.0
  * @var string
