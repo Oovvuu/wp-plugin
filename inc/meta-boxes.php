@@ -7,6 +7,11 @@
 
 namespace Oovvuu;
 
+/**
+ * Add metabox.
+ *
+ * @since 1.0.0
+ */
 function add_metabox() {
 	add_meta_box(
 		'oovvuu',
