@@ -27,23 +27,48 @@ define( 'OOVVUU_PATH', __DIR__ );
  */
 define( 'OOVVUU_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 
+// phpcs:disable WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
+
+// Show error if plugin is not built.
+if ( ! file_exists( OOVVUU_PATH . '/vendor/autoload.php' ) ) {
+	add_action(
+		'admin_notices',
+		function () {
+			?>
+			<div class="notice notice-error">
+				<p>
+					<?php
+					echo wp_kses_post(
+						__( 'Oovvuu: Built version of this plugin is not installed. Please build assets with', 'oovvuu' )
+						. ' <code>composer install && npm install && npm run build</code>'
+					);
+					?>
+				</p>
+			</div>
+			<?php
+		}
+	);
+} else {
+	require_once OOVVUU_PATH . '/vendor/autoload.php';
+}
+
 // Functions.
-require_once __DIR__ . '/functions.php';
+require_once OOVVUU_PATH . '/functions.php';
 
 // Singleton.
-require_once __DIR__ . '/inc/traits/trait-singleton.php';
+require_once OOVVUU_PATH . '/inc/traits/trait-singleton.php';
 
 // Admin settings.
-require_once __DIR__ . '/inc/classes/class-admin-settings.php';
+require_once OOVVUU_PATH . '/inc/classes/class-admin-settings.php';
 
 // Authentication.
-require_once __DIR__ . '/inc/classes/class-auth.php';
+require_once OOVVUU_PATH . '/inc/classes/class-auth.php';
 
 // User Profile.
-require_once __DIR__ . '/inc/classes/class-user-profile.php';
+require_once OOVVUU_PATH . '/inc/classes/class-user-profile.php';
 
 // Include functions for working with assets (primarily JavaScript).
-require_once __DIR__ . '/inc/assets.php';
+require_once OOVVUU_PATH . '/inc/assets.php';
 
 // Metaboxes.
-require_once __DIR__ . '/inc/meta-boxes.php';
+require_once OOVVUU_PATH . '/inc/meta-boxes.php';
