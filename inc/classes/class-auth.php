@@ -113,7 +113,10 @@ class Auth {
 
 		$this->authentication_client = new \Auth0\SDK\API\Authentication(
 			$this->domain,
-			$this->client_id
+			$this->client_id,
+			$this->client_secret,
+			null,
+			'offline_access'
 		);
 
 		return $this->authentication_client;
@@ -151,6 +154,11 @@ class Auth {
 	 * @since 1.0.0
 	 */
 	public function oovvuu_auth0_redirect_callback() {
+		// Logout.
+		if ( isset( $_GET['logout'] ) ) {
+			$this->delete_user_token( get_current_user_id() );
+		}
+
 		// Authorization code was found.
 		if ( isset( $_GET['code'] ) ) {
 
@@ -223,11 +231,39 @@ class Auth {
 	public function set_user_token( $user_id, $token ) {
 		// No current user.
 		if ( empty( $user_id ) ) {
-			return false;
+			return;
 		}
 
-		// Get the access token from a user.
-		return update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
+		// Invalid token.
+		if ( empty( $token ) || ! is_array( $token ) ) {
+			return;
+		}
+
+		// Set metadata about the token.
+		$token['added_at'] = time();
+
+		// Set the token.
+		update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
+	}
+
+	/**
+	 * Delete a user token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $user_id User ID.
+	 */
+	public function delete_user_token( $user_id ) {
+		// No current user.
+		if ( empty( $user_id ) ) {
+			return;
+		}
+
+		// Set the token.
+		delete_user_meta( $user_id, 'oovvuu_auth0_token' );
+
+		// Log when token was deleted.
+		update_user_meta( $user_id, 'oovvuu_auth0_token_last_deleted_at', time() );
 	}
 
 	/**
@@ -272,9 +308,24 @@ class Auth {
 			return;
 		}
 
+		$current_user_id = get_current_user_id();
+
+		// No current user.
+		if ( empty( $current_user_id ) ) {
+			return;
+		}
+
 		try {
 			// Perform the exchange.
-			$authentication_client->code_exchange( $code, $this->get_redirect_callback() );
+			$token = $authentication_client->code_exchange( $code, $this->get_redirect_callback() );
+
+			// Ensure we have a valid token.
+			if (
+				! empty( $token['access_token'] )
+				&& ! empty( $token['refresh_token'] )
+			) {
+				$this->set_user_token( $current_user_id, $token );
+			}
 		} catch ( \Exception $exception ) {
 			if ( \method_exists( $exception, 'getMessage' ) ) {
 				$this->set_admin_notice( 'error', __( 'Oovvuu: Unable to create Auth0 connection. Failed with error: ', 'oovvuu' ) . '<code>' . $exception->getMessage() . '</code>' );
