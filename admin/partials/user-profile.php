@@ -6,21 +6,14 @@
  * @since 1.0.0
  */
 
+$oovvuu_auth0 = \Oovvuu\Auth::instance();
+
 ?>
 <h2><?php esc_html_e( 'Oovvuu Authentication', 'oovvuu' ); ?></h2>
 <?php
 
-$oovvuu_auth0        = \Oovvuu\Auth::instance();
-$oovvuu_auth0_client = $oovvuu_auth0->get_client();
-
-// Invalid client.
-if ( empty( $oovvuu_auth0_client ) ) {
-	?>
-	<p><?php esc_html_e( 'Unable to connect with Auth0 API', 'oovvuu' ); ?></p>
-	<?php
-}
-
 if ( ! $oovvuu_auth0->is_user_authenticated() ) {
+	// Un-authenticated.
 	?>
 	<a
 		class="button button-primary"
@@ -30,6 +23,7 @@ if ( ! $oovvuu_auth0->is_user_authenticated() ) {
 	</a>
 	<?php
 } else {
+	// Authenticated.
 	?>
 	<a
 		class="button"
