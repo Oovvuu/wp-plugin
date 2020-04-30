@@ -198,18 +198,11 @@ class Auth {
 	 * @since 1.0.0
 	 */
 	public function oovvuu_auth0_redirect_callback() {
-		// Get the redirect URL.
-		$redirect_url = admin_url( '/profile.php' );
-
+		// Authorization code was found.
 		if ( isset( $_GET['code'] ) ) {
 
-			// Code exchange.
+			// Perform the code exchange for an access token.
 			$this->code_exchange( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
-		} elseif ( isset( $_GET['error'] ) ) {
-
-			// Unable to authenticate.
-			// wp_safe_redirect( esc_url_raw( $redirect_url ) );
-			// exit;
 		}
 
 		wp_safe_redirect( esc_url_raw( $this->get_profile_url() ) );

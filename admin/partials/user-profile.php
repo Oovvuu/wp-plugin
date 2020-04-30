@@ -30,5 +30,12 @@ if ( ! $oovvuu_auth0->is_user_authenticated() ) {
 	</a>
 	<?php
 } else {
-
+	?>
+	<a
+		class="button"
+		href="<?php echo esc_url( /* TODO: Add logout link */ ); ?>"
+	>
+		<?php esc_html_e( 'Logout', 'oovvuu' ); ?>
+	</a>
+	<?php
 }
