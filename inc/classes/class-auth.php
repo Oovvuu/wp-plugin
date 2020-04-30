@@ -186,6 +186,8 @@ class Auth {
 		/**
 		 * Filters whether or not a user is authenticated with Oovvuu.
 		 *
+		 * @since 1.0.0
+		 *
 		 * @param bool $is_authenticated True or false.
 		 * @param int  $current_user_id  The current user ID.
 		 */
@@ -194,6 +196,8 @@ class Auth {
 
 	/**
 	 * Gets a user token from a user ID.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int $user_id User ID.
 	 * @return mixed The user token.
@@ -210,6 +214,8 @@ class Auth {
 
 	/**
 	 * Sets a user token.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int    $user_id User ID.
 	 * @param string $token   The user token.
@@ -340,6 +346,8 @@ class Auth {
 
 	/**
 	 * Redirects a user back to their profile page.
+	 *
+	 * @since 1.0.0
 	 */
 	public function redirect_to_user_profile() {
 		wp_safe_redirect( esc_url_raw( $this->get_profile_url() ) );
