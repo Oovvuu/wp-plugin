@@ -124,7 +124,7 @@ class Admin_Settings {
 		}
 
 		// Load the partial for the settings page.
-		$this->load( 'admin', 'settings' );
+		load_admin_partial( 'admin', 'settings' );
 	}
 
 	/**
@@ -147,27 +147,7 @@ class Admin_Settings {
 		}
 
 		// Load the partial for the field.
-		$this->load( 'admin', 'fields/' . str_replace( '_', '-', $args['field_name'] ) );
-	}
-
-	/**
-	 * A helper function for loading partials.
-	 *
-	 * @param string $scope Where to load the partial from (admin or public).
-	 * @param string $slug The partial filepath to the partial template.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 */
-	public static function load( $scope, $slug ) {
-
-		// Ensure requested partial exists.
-		$filepath = OOVVUU_PATH . '/admin/partials/' . $slug . '.php';
-		if ( ! file_exists( $filepath ) ) {
-			return;
-		}
-
-		require $filepath;
+		load_admin_partial( 'admin', 'fields/' . str_replace( '_', '-', $args['field_name'] ) );
 	}
 }
 
