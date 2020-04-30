@@ -14,6 +14,7 @@ $oovvuu_auth0_domain = get_option( 'oovvuu_auth0_domain', '' );
 		type="text"
 		id="oovvuu_auth0_domain"
 		name="oovvuu_auth0_domain"
+		class="regular-text"
 		value="<?php echo esc_attr( $oovvuu_auth0_domain ); ?>"
 	/>
 </div>
