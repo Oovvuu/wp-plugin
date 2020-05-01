@@ -232,10 +232,10 @@ class Auth {
 		}
 
 		// Get the access token from a user.
-		$token = $this->get_user_token( $current_user_id );
+		$token = $this->get_user_token_with_refresh( $current_user_id );
 
 		// Determine if the user is authenticated.
-		$is_authenticated = ! empty( $token );
+		$is_authenticated = $this->is_token_valid( $token );
 
 		/**
 		 * Filters whether or not a user is authenticated with Oovvuu.
