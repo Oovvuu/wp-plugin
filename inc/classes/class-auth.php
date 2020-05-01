@@ -85,8 +85,11 @@ class Auth {
 		// Redirect callback.
 		add_action( 'admin_post_' . $this->redirect_callback_action, [ $this, 'oovvuu_auth0_redirect_callback' ] );
 
-		// Admin notice.
+		// General admin notice.
 		add_action( 'admin_notices', [ $this, 'show_admin_notices' ] );
+
+		// Unauthenticated admin notice.
+		add_action( 'admin_notices', [ $this, 'current_user_unauthenticated_admin_notice' ] );
 
 		$this->domain        = get_option( 'oovvuu_auth0_domain', '' );
 		$this->client_id     = get_option( 'oovvuu_auth0_client_id', '' );
@@ -146,6 +149,48 @@ class Auth {
 
 		// Clear the current notice.
 		$this->clear_admin_notice();
+	}
+
+	/**
+	 * Shows admin notices if current user is unauthenticated.
+	 *
+	 * @since 1.0.0
+	 */
+	public function current_user_unauthenticated_admin_notice() {
+		$current_user_id = get_current_user_id();
+
+		// No current user.
+		if ( empty( $current_user_id ) ) {
+			return;
+		}
+
+		// Get the user token with a refresh.
+		$token = $this->get_user_token_with_refresh( $current_user_id );
+
+		/**
+		 * Filters whether or not to show the current user an unauthenticated admin
+		 * notice.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool True or false.
+		 */
+		if (
+			! $this->is_token_valid( $token )
+			&& current_user_can( 'edit_posts' )
+			&& apply_filters( 'oovvuu_show_current_user_unauthenticated_admin_notice', true )
+		) {
+			?>
+			<div class="notice notice-error">
+				<p>
+					<?php
+					esc_html_e( 'You are currently NOT authenticated with the Oovvuu API. Please authenticate from your', 'oovvuu' );
+					?>
+					<a href="<?php echo esc_url( $this->get_profile_url() ); ?>"><?php esc_html_e( 'profile page', 'oovvuu' ); ?></a>
+				</p>
+			</div>
+			<?php
+		}
 	}
 
 	/**
@@ -218,6 +263,110 @@ class Auth {
 
 		// Get the access token from a user.
 		return get_user_meta( $user_id, 'oovvuu_auth0_token', true );
+	}
+
+	/**
+	 * Gets a user token from a user ID and attempts to refresh the token if the
+	 * current accessn token is expired.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int  $user_id User ID.
+	 * @param bool $force Force a refresh.
+	 * @return mixed The user token.
+	 */
+	public function get_user_token_with_refresh( $user_id, $force = false ) {
+		// No current user.
+		if ( empty( $user_id ) ) {
+			return false;
+		}
+
+		// Get the current token.
+		$current_token = $this->get_user_token( $user_id );
+
+		// Attempt to refresh the token if the current token has expired.
+		if (
+			$force
+			|| (
+				$this->is_token_valid( $current_token )
+				&& $this->is_token_expired( $current_token )
+			)
+		) {
+			$new_token = $this->refresh_token( $current_token['refresh_token'] ?? '' );
+
+			// Return the refreshed token.
+			if ( $this->is_token_valid( $new_token ) ) {
+				return $new_token;
+			} else {
+
+				// Delete the token if the refresh has failed.
+				$this->delete_user_token( $user_id );
+
+				return null;
+			}
+		}
+
+		// Get the access token from a user.
+		return get_user_meta( $user_id, 'oovvuu_auth0_token', true );
+	}
+
+	/**
+	 * Validates a token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $token The Auth0 token.
+	 * @return mixed The user token.
+	 */
+	public function is_token_valid( $token ) {
+		// No token.
+		if ( empty( $token ) ) {
+			return false;
+		}
+
+		// Not an array.
+		if ( ! is_array( $token ) ) {
+			return false;
+		}
+
+		// Not formatted properly.
+		if (
+			empty( $token['access_token'] )
+			|| empty( $token['refresh_token'] )
+			|| empty( $token['expires_in'] )
+			|| empty( $token['added_at'] )
+		) {
+			return false;
+		}
+
+		// Valid token.
+		return true;
+	}
+
+	/**
+	 * Checks if a token has expired.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $token The Auth0 token.
+	 * @return mixed The user token.
+	 */
+	public function is_token_expired( $token ) {
+		// Invalid expiration values.
+		if (
+			0 === absint( $token['expires_in'] ?? 0 )
+			|| 0 === absint( $token['added_at'] ?? 0 )
+		) {
+			return true;
+		}
+
+		// Token has expired.
+		if ( $token['added_at'] + $token['expires_in'] < time() ) {
+			return true;
+		}
+
+		// Token still valid.
+		return false;
 	}
 
 	/**
@@ -334,6 +483,60 @@ class Auth {
 
 		// Redirect back to the user profile page.
 		$this->redirect_to_user_profile();
+	}
+
+	/**
+	 * Refreshes an access token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $refresh_token The existing refresh token.
+	 * @return mixed Valid new token or null if error.
+	 */
+	public function refresh_token( $refresh_token ) {
+		// Bail if token is not valid.
+		if ( empty( $refresh_token ) ) {
+			return null;
+		}
+
+		$authentication_client = $this->get_authentication_client();
+
+		// Invalid client.
+		if ( empty( $authentication_client ) ) {
+			return null;
+		}
+
+		$current_user_id = get_current_user_id();
+
+		// No current user.
+		if ( empty( $current_user_id ) ) {
+			return null;
+		}
+
+		try {
+			// Perform the refresh.
+			$new_token = $authentication_client->refresh_token(
+				$refresh_token,
+				[
+					'redirect_url' => $this->get_redirect_callback(),
+					'scope'        => 'offline_access',
+				]
+			);
+
+			// Ensure we have a valid token.
+			if (
+				! empty( $new_token['access_token'] )
+				&& ! empty( $new_token['refresh_token'] )
+			) {
+				$this->set_user_token( $current_user_id, $new_token );
+
+				return $new_token;
+			}
+		} catch ( \Exception $exception ) {
+			return new \WP_Error( 'error', __( 'Oovvuu: Unable to refresh access token with error: ', 'oovvuu' ) . $exception->getMessage() );
+		}
+
+		return null;
 	}
 
 	/**

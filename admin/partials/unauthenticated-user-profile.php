@@ -15,6 +15,6 @@ $oovvuu_auth0 = \Oovvuu\Auth::instance();
 		class="button button-primary"
 		href="<?php echo esc_url( $oovvuu_auth0->get_auth_link() ); ?>"
 	>
-		<?php esc_html_e( 'Login', 'oovvuu' ); ?>
+		<?php esc_html_e( 'Authenticate', 'oovvuu' ); ?>
 	</a>
 </p>
