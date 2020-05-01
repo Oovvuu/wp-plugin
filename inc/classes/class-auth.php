@@ -88,56 +88,9 @@ class Auth {
 		// Admin notice.
 		add_action( 'admin_notices', [ $this, 'show_admin_notices' ] );
 
-		$this->domain    = get_option( 'oovvuu_auth0_domain', '' );
-		$this->client_id = get_option( 'oovvuu_auth0_client_id', '' );
-
-		// Create the client.
-		$this->client = $this->get_client();
-	}
-
-	/**
-	 * Get the Auth0 client to connect with the API.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return \Auth0\SDK\Auth0|null The proper Auth0 object or null.
-	 */
-	public function get_client() {
-		// Auth0 call not found.
-		if ( ! class_exists( '\Auth0\SDK\Auth0' ) ) {
-			return null;
-		}
-
-		// Client is already created.
-		if ( $this->client instanceof \Auth0\SDK\Auth0 ) {
-			return $this->client;
-		}
-
-		try {
-			$client_args = [
-				'domain'        => $this->domain,
-				'client_id'     => $this->client_id,
-				'client_secret' => get_option( 'oovvuu_auth0_client_secret', '' ),
-				'redirect_uri'  => $this->get_redirect_callback(),
-			];
-
-			/**
-			 * Filters the client args to create the Auth0 object.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param array $client_args The arguments passed to the Auth0 object.
-			 */
-			$this->client = new \Auth0\SDK\Auth0( apply_filters( 'oovvuu_auth0_client_args', $client_args ) );
-		} catch ( \Exception $exception ) {
-			$this->client = null;
-
-			if ( \method_exists( $exception, 'getMessage' ) ) {
-				$this->set_admin_notice( 'error', __( 'Oovvuu: Unable to create Auth0 connection. Failed with error: ', 'oovvuu' ) . '<code>' . $exception->getMessage() . '</code>' );
-			}
-		}
-
-		return $this->client;
+		$this->domain        = get_option( 'oovvuu_auth0_domain', '' );
+		$this->client_id     = get_option( 'oovvuu_auth0_client_id', '' );
+		$this->client_secret = get_option( 'oovvuu_auth0_client_secret', '' );
 	}
 
 	/**
@@ -160,7 +113,10 @@ class Auth {
 
 		$this->authentication_client = new \Auth0\SDK\API\Authentication(
 			$this->domain,
-			$this->client_id
+			$this->client_id,
+			$this->client_secret,
+			null,
+			'offline_access'
 		);
 
 		return $this->authentication_client;
@@ -198,6 +154,11 @@ class Auth {
 	 * @since 1.0.0
 	 */
 	public function oovvuu_auth0_redirect_callback() {
+		// Logout.
+		if ( isset( $_GET['logout'] ) ) {
+			$this->delete_user_token( get_current_user_id() );
+		}
+
 		// Authorization code was found.
 		if ( isset( $_GET['code'] ) ) {
 
@@ -205,8 +166,8 @@ class Auth {
 			$this->code_exchange( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
 		}
 
-		wp_safe_redirect( esc_url_raw( $this->get_profile_url() ) );
-		exit;
+		// Redirect back to the user profile page.
+		$this->redirect_to_user_profile();
 	}
 
 	/**
@@ -217,9 +178,92 @@ class Auth {
 	 * @return boolean Whether or not the user is authenticated.
 	 */
 	public function is_user_authenticated() {
-		$token = get_user_meta( get_current_user_id(), 'oovvuu_auth0_token', true );
+		$current_user_id = get_current_user_id();
 
-		return ! empty( $token );
+		// No current user.
+		if ( empty( $current_user_id ) ) {
+			return false;
+		}
+
+		// Get the access token from a user.
+		$token = $this->get_user_token( $current_user_id );
+
+		// Determine if the user is authenticated.
+		$is_authenticated = ! empty( $token );
+
+		/**
+		 * Filters whether or not a user is authenticated with Oovvuu.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $is_authenticated True or false.
+		 * @param int  $current_user_id  The current user ID.
+		 */
+		return apply_filters( 'oovvuu_auth0_is_user_authenticated', (bool) $is_authenticated, $current_user_id );
+	}
+
+	/**
+	 * Gets a user token from a user ID.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $user_id User ID.
+	 * @return mixed The user token.
+	 */
+	public function get_user_token( $user_id ) {
+		// No current user.
+		if ( empty( $user_id ) ) {
+			return false;
+		}
+
+		// Get the access token from a user.
+		return get_user_meta( $user_id, 'oovvuu_auth0_token', true );
+	}
+
+	/**
+	 * Sets a user token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int    $user_id User ID.
+	 * @param string $token   The user token.
+	 */
+	public function set_user_token( $user_id, $token ) {
+		// No current user.
+		if ( empty( $user_id ) ) {
+			return;
+		}
+
+		// Invalid token.
+		if ( empty( $token ) || ! is_array( $token ) ) {
+			return;
+		}
+
+		// Set metadata about the token.
+		$token['added_at'] = time();
+
+		// Set the token.
+		update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
+	}
+
+	/**
+	 * Delete a user token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $user_id User ID.
+	 */
+	public function delete_user_token( $user_id ) {
+		// No current user.
+		if ( empty( $user_id ) ) {
+			return;
+		}
+
+		// Set the token.
+		delete_user_meta( $user_id, 'oovvuu_auth0_token' );
+
+		// Log when token was deleted.
+		update_user_meta( $user_id, 'oovvuu_auth0_token_last_deleted_at', time() );
 	}
 
 	/**
@@ -237,6 +281,7 @@ class Auth {
 			return '';
 		}
 
+		// Create the authorization link.
 		return $authentication_client->get_authorize_link(
 			'code',
 			$this->get_redirect_callback()
@@ -263,17 +308,32 @@ class Auth {
 			return;
 		}
 
+		$current_user_id = get_current_user_id();
+
+		// No current user.
+		if ( empty( $current_user_id ) ) {
+			return;
+		}
+
 		try {
 			// Perform the exchange.
-			$authentication_client->code_exchange( $code, $this->get_redirect_callback() );
+			$token = $authentication_client->code_exchange( $code, $this->get_redirect_callback() );
+
+			// Ensure we have a valid token.
+			if (
+				! empty( $token['access_token'] )
+				&& ! empty( $token['refresh_token'] )
+			) {
+				$this->set_user_token( $current_user_id, $token );
+			}
 		} catch ( \Exception $exception ) {
 			if ( \method_exists( $exception, 'getMessage' ) ) {
 				$this->set_admin_notice( 'error', __( 'Oovvuu: Unable to create Auth0 connection. Failed with error: ', 'oovvuu' ) . '<code>' . $exception->getMessage() . '</code>' );
 			}
 		}
 
-		wp_safe_redirect( esc_url_raw( $this->get_profile_url() ) );
-		exit;
+		// Redirect back to the user profile page.
+		$this->redirect_to_user_profile();
 	}
 
 	/**
@@ -333,6 +393,16 @@ class Auth {
 	 */
 	public function get_profile_url() {
 		return admin_url( '/profile.php' );
+	}
+
+	/**
+	 * Redirects a user back to their profile page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function redirect_to_user_profile() {
+		wp_safe_redirect( esc_url_raw( $this->get_profile_url() ) );
+		exit;
 	}
 }
 

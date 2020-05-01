@@ -14,6 +14,7 @@ $oovvuu_auth0_client_secret = get_option( 'oovvuu_auth0_client_secret', '' );
 		type="text"
 		id="oovvuu_auth0_client_secret"
 		name="oovvuu_auth0_client_secret"
+		class="regular-text"
 		value="<?php echo esc_attr( $oovvuu_auth0_client_secret ); ?>"
 	/>
 </div>
