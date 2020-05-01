@@ -167,18 +167,19 @@ class Auth {
 		// Get the user token with a refresh.
 		$token = $this->get_user_token_with_refresh( $current_user_id );
 
-		/**
-		 * Filters whether or not to show the current user an unauthenticated admin
-		 * notice.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param bool True or false.
-		 */
+		// Determine if the admin notice should be shown.
+		$show_notice = ! $this->is_token_valid( $token ) && current_user_can( 'edit_posts' );
+
 		if (
-			! $this->is_token_valid( $token )
-			&& current_user_can( 'edit_posts' )
-			&& apply_filters( 'oovvuu_show_current_user_unauthenticated_admin_notice', true )
+			/**
+			 * Filters whether or not to show the current user an unauthenticated admin
+			 * notice.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param bool True or false.
+			 */
+			apply_filters( 'oovvuu_show_current_user_unauthenticated_admin_notice', $show_notice )
 		) {
 			?>
 			<div class="notice notice-error">
@@ -267,7 +268,7 @@ class Auth {
 
 	/**
 	 * Gets a user token from a user ID and attempts to refresh the token if the
-	 * current accessn token is expired.
+	 * current access token is expired.
 	 *
 	 * @since 1.0.0
 	 *
@@ -306,8 +307,8 @@ class Auth {
 			}
 		}
 
-		// Get the access token from a user.
-		return get_user_meta( $user_id, 'oovvuu_auth0_token', true );
+		// Return existing token.
+		return $current_token;
 	}
 
 	/**
