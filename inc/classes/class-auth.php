@@ -88,8 +88,8 @@ class Auth {
 		// General admin notice.
 		add_action( 'admin_notices', [ $this, 'show_admin_notices' ] );
 
-		// Unauthenticated admin notice.
-		add_action( 'admin_notices', [ $this, 'current_user_unauthenticated_admin_notice' ] );
+		// Authentication admin notice.
+		add_action( 'admin_notices', [ $this, 'authentication_admin_notice' ] );
 
 		$this->domain        = get_option( 'oovvuu_auth0_domain', '' );
 		$this->client_id     = get_option( 'oovvuu_auth0_client_id', '' );
@@ -152,46 +152,33 @@ class Auth {
 	}
 
 	/**
-	 * Shows admin notices if current user is unauthenticated.
+	 * Shows admin notices based on authentication status.
 	 *
 	 * @since 1.0.0
 	 */
-	public function current_user_unauthenticated_admin_notice() {
-		$current_user_id = get_current_user_id();
-
-		// No current user.
-		if ( empty( $current_user_id ) ) {
+	public function authentication_admin_notice() {
+		// Check for oovvuu specific messages.
+		if ( ! isset( $_GET['oovvuu-notice'] ) ) {
 			return;
 		}
 
-		// Get the user token with a refresh.
-		$token = $this->get_user_token_with_refresh( $current_user_id );
-
-		// Determine if the admin notice should be shown.
-		$show_notice = ! $this->is_token_valid( $token ) && current_user_can( 'edit_posts' );
-
-		if (
-			/**
-			 * Filters whether or not to show the current user an unauthenticated admin
-			 * notice.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param bool True or false.
-			 */
-			apply_filters( 'oovvuu_show_current_user_unauthenticated_admin_notice', $show_notice )
-		) {
-			?>
-			<div class="notice notice-error">
-				<p>
-					<?php
-					esc_html_e( 'You are currently NOT authenticated with the Oovvuu API. Please authenticate from your', 'oovvuu' );
-					?>
-					<a href="<?php echo esc_url( $this->get_profile_url() ); ?>"><?php esc_html_e( 'profile page', 'oovvuu' ); ?></a>
-				</p>
-			</div>
-			<?php
+		// Empty data.
+		if ( empty( $_GET['message'] ) || empty( $_GET['type'] ) ) {
+			return;
 		}
+
+		$message = sanitize_text_field( wp_unslash( $_GET['message'] ?? '' ) );
+		$type = sanitize_text_field( wp_unslash( $_GET['type'] ?? '' ) );
+
+		?>
+		<div class="notice notice-<?php echo esc_attr( $type ); ?>">
+			<p>
+				<?php
+				echo wp_kses_post( $message );
+				?>
+			</p>
+		</div>
+		<?php
 	}
 
 	/**
@@ -480,6 +467,15 @@ class Auth {
 				&& ! empty( $token['refresh_token'] )
 			) {
 				$this->set_user_token( $current_user_id, $token );
+
+				// Redirect back to the user profile page.
+				$this->redirect_to_user_profile(
+					[
+						'oovvuu-notice' => true,
+						'message'       => __( 'Success! You are connected to the Oovvuu API.', 'oovvuu' ),
+						'type'          => 'success',
+					]
+				);
 			}
 		} catch ( \Exception $exception ) {
 			if ( \method_exists( $exception, 'getMessage' ) ) {
@@ -612,9 +608,18 @@ class Auth {
 	 * Redirects a user back to their profile page.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $query_args Query args to be added to the profile page URL.
 	 */
-	public function redirect_to_user_profile() {
-		wp_safe_redirect( esc_url_raw( $this->get_profile_url() ) );
+	public function redirect_to_user_profile( $query_args = [] ) {
+		$url = $this->get_profile_url();
+
+		if ( ! empty( $query_args ) && is_array( $query_args ) ) {
+			$url = add_query_arg( $query_args, $url );
+		}
+
+		// Redirect.
+		wp_safe_redirect( esc_url_raw( $url ) );
 		exit;
 	}
 }
