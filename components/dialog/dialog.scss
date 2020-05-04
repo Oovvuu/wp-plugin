@@ -19,8 +19,18 @@
   background-color: white;
   border-radius: 3px;
   display: block;
-  height: calc(100vh - 80px);
-  width: calc(100vw - 80px);
+  height: calc(100vh - 100px);
+  max-width: calc(100vw - 40px);
+  top: 40px;
+  width: 800px;
+
+  @media only screen and (max-width: 1024px) {
+    width: 600px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: calc(100vw - 40px);
+  }
 }
 
 .header,
