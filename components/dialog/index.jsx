@@ -62,6 +62,7 @@ const DialogWrapper = (props) => {
           Current keywords:
           {keywords}
         </p>
+        <button type="button">Test button</button>
       </Dialog>
     </>
   );
