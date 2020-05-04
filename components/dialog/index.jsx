@@ -8,6 +8,7 @@ const {
   },
 } = wp;
 
+const { __ } = wp.i18n;
 
 /**
  * The Dialog container.
@@ -41,21 +42,28 @@ const DialogWrapper = (props) => {
 
   // @TODO: Update with actual content.
   return (
-    <Dialog
-      isOpen={isOpen}
-      openDialog={openDialog}
-      closeDialog={closeDialog}
-    >
-      <p>Dialog content.</p>
-      <p>
-        Current positions:
-        {positions}
-      </p>
-      <p>
-        Current keywords:
-        {keywords}
-      </p>
-    </Dialog>
+    <>
+      <button
+        type="button"
+        onClick={openDialog}
+      >
+        {__('Open Dialog', 'oovvuu')}
+      </button>
+      <Dialog
+        isOpen={isOpen}
+        closeDialog={closeDialog}
+      >
+        <p>Dialog content.</p>
+        <p>
+          Current positions:
+          {positions}
+        </p>
+        <p>
+          Current keywords:
+          {keywords}
+        </p>
+      </Dialog>
+    </>
   );
 };
 

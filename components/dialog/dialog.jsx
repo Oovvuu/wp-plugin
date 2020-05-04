@@ -10,26 +10,34 @@ const { __ } = wp.i18n;
  */
 const Dialog = ({
   isOpen,
-  openDialog,
   closeDialog,
   children,
 }) => (
   <div className={classnames(styles.wrapper, { [styles.isOpen]: isOpen })}>
-    <button
-      type="button"
-      onClick={openDialog}
-    >
-      {__('Open Dialog', 'oovvuu')}
-    </button>
-    <div className="oovvuu-dialog">
-      <button
-        type="button"
-        onClick={closeDialog}
-      >
-        {__('Close', 'oovvuu')}
-      </button>
-      <div className="oovvuu-dialog-content">
+    <div className={classnames(styles.dialog)}>
+      <div className={classnames(styles.header)}>
+        <span>{__('Oovvuu', 'oovvuu')}</span>
+        <button
+          type="button"
+          className={classnames(styles.closeButton)}
+          onClick={closeDialog}
+        >
+          {__('Close', 'oovvuu')}
+        </button>
+      </div>
+
+
+      <div className={classnames(styles.content)}>
         {children}
+      </div>
+
+      <div className={classnames(styles.footer)}>
+        <button
+          type="button"
+          onClick={closeDialog}
+        >
+          {__('Save', 'oovvuu')}
+        </button>
       </div>
     </div>
   </div>
@@ -37,7 +45,6 @@ const Dialog = ({
 
 Dialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  openDialog: PropTypes.func.isRequired,
   closeDialog: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
