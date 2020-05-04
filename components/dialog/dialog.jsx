@@ -14,7 +14,7 @@ const Dialog = ({
   children,
 }) => (
   <div className={classnames(styles.wrapper, { [styles.isOpen]: isOpen })}>
-    <div className={classnames(styles.dialog)}>
+    <div className={styles.dialog}>
       <div className={classnames(styles.header)}>
         <span>{__('Oovvuu', 'oovvuu')}</span>
         <button
