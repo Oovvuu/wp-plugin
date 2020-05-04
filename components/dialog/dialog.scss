@@ -1,0 +1,13 @@
+.wrapper {
+  display: none;
+}
+
+.isOpen {
+  background-color: rgba(0,0,0,0.25);
+  bottom: 0;
+  display: block;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
