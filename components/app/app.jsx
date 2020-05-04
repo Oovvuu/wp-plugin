@@ -1,4 +1,6 @@
 /* global React */
+import DialogWrapper from '../dialog';
+
 const {
   element: {
     useState,
@@ -27,6 +29,10 @@ const App = () => {
         Current keywords:
         {keywords}
       </p>
+      <DialogWrapper
+        keywords={keywords}
+        positions={positions}
+      />
     </>
   );
 };

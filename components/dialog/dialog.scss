@@ -1,0 +1,44 @@
+.wrapper {
+  display: none;
+}
+
+.isOpen {
+  background-color: rgba(0,0,0,0.7);
+  bottom: 0;
+  display: block;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 160000;
+}
+
+.dialog {
+  background-color: white;
+  margin: 0 auto;
+  position: relative;
+  top: 40px;
+  width: 700px;
+}
+
+.header,
+.footer {
+  padding: 20px;
+}
+
+.header {
+  border-bottom: 1px solid black;
+}
+
+.footer {
+  border-top: 1px solid black;
+  text-align: right;
+}
+
+.content {
+  padding: 20px;
+}
+
+.closeButton {
+  float: right;
+}
