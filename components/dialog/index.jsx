@@ -25,7 +25,7 @@ const DialogWrapper = (props) => {
   /**
    * Open the dialog.
    *
-   * @return {[function]} The handler for opening the dialog.
+   * @return {[function]} The handler function.
    */
   const openDialog = () => {
     setIsOpen(true);
@@ -34,7 +34,7 @@ const DialogWrapper = (props) => {
   /**
    * Close the dialog.
    *
-   * @return {[function]} The handler for opening the dialog.
+   * @return {[function]} The handler function.
    */
   const closeDialog = () => {
     setIsOpen(false);
