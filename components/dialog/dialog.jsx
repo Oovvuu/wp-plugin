@@ -15,11 +15,11 @@ const Dialog = ({
 }) => (
   <div className={classnames(styles.wrapper, { [styles.isOpen]: isOpen })}>
     <div className={styles.dialog}>
-      <div className={classnames(styles.header)}>
+      <div className={styles.header}>
         <span>{__('Oovvuu', 'oovvuu')}</span>
         <button
           type="button"
-          className={classnames(styles.closeButton)}
+          className={styles.closeButton}
           onClick={closeDialog}
         >
           {__('Close', 'oovvuu')}
@@ -27,11 +27,11 @@ const Dialog = ({
       </div>
 
 
-      <div className={classnames(styles.content)}>
+      <div className={styles.content}>
         {children}
       </div>
 
-      <div className={classnames(styles.footer)}>
+      <div className={styles.footer}>
         <button
           type="button"
           onClick={closeDialog}
