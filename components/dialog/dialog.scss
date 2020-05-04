@@ -3,35 +3,34 @@
 }
 
 .isOpen {
+  align-items: center;
   background-color: rgba(0,0,0,0.7);
   bottom: 0;
-  display: block;
+  display: flex;
+  justify-content: center;
   left: 0;
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 160000;
+  z-index: 100;
 }
 
 .dialog {
   background-color: white;
-  margin: 0 auto;
-  position: relative;
-  top: 40px;
-  width: 700px;
+  border-radius: 3px;
+  display: block;
+  height: calc(100vh - 80px);
+  width: calc(100vw - 80px);
 }
 
 .header,
 .footer {
+  background-color: #159d8f;
+  color: white;
   padding: 20px;
 }
 
-.header {
-  border-bottom: 1px solid black;
-}
-
 .footer {
-  border-top: 1px solid black;
   text-align: right;
 }
 
@@ -40,5 +39,8 @@
 }
 
 .closeButton {
+  background-color: transparent;
+  border: none;
+  color: white;
   float: right;
 }

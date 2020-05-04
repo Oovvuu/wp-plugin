@@ -75,6 +75,7 @@ const Dialog = ({
       role="presentation"
       aria-hidden={!isOpen}
       tabIndex="-1"
+      id="oovvuu-dialog-wrapper"
     >
       <div
         ref={dialogRef}
@@ -87,9 +88,9 @@ const Dialog = ({
             type="button"
             className={styles.closeButton}
             onClick={closeDialog}
-            tabIndex="0"
+            aria-label={__('Close', 'oovvuu')}
           >
-            {__('Close', 'oovvuu')}
+            <span className="dashicons dashicons-no-alt" />
           </button>
         </div>
 
