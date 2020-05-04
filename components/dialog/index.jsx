@@ -29,6 +29,13 @@ const DialogWrapper = (props) => {
    */
   const openDialog = () => {
     setIsOpen(true);
+
+    // Add body class.
+    const body = document.querySelector('.wp-admin.wp-core-ui');
+
+    if (body && !body.classList.contains('modal-open')) {
+      body.classList.add('modal-open');
+    }
   };
 
   /**
@@ -38,6 +45,13 @@ const DialogWrapper = (props) => {
    */
   const closeDialog = () => {
     setIsOpen(false);
+
+    // Remove body class.
+    const body = document.querySelector('.wp-admin.wp-core-ui');
+
+    if (body && body.classList.contains('modal-open')) {
+      body.classList.remove('modal-open');
+    }
   };
 
   // @TODO: Update with actual content.
@@ -46,6 +60,10 @@ const DialogWrapper = (props) => {
       <button
         type="button"
         onClick={openDialog}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        aria-controls="oovvuu-dialog-wrapper"
+        aria-owns="oovvuu-dialog-wrapper"
       >
         {__('Open Dialog', 'oovvuu')}
       </button>
@@ -62,6 +80,7 @@ const DialogWrapper = (props) => {
           Current keywords:
           {keywords}
         </p>
+        <button type="button">Test button</button>
       </Dialog>
     </>
   );
