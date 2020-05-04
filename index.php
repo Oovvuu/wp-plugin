@@ -64,6 +64,9 @@ require_once OOVVUU_PATH . '/inc/classes/class-admin-settings.php';
 // Authentication.
 require_once OOVVUU_PATH . '/inc/classes/class-auth.php';
 
+// REST API.
+require_once OOVVUU_PATH . '/inc/classes/class-rest-api.php';
+
 // User Profile.
 require_once OOVVUU_PATH . '/inc/classes/class-user-profile.php';
 
