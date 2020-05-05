@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import keyCodes from '../../utils/keyCodes';
@@ -64,7 +65,7 @@ const Dialog = ({
     }
   };
 
-  return (
+  return createPortal(
     <div
       className={classnames(styles.wrapper, { [styles.isOpen]: isOpen })}
       onKeyDown={onKeyPressed}
@@ -112,7 +113,8 @@ const Dialog = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.getElementById('oovvuu-dialog-wrapper-container'),
   );
 };
 
