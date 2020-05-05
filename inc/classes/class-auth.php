@@ -91,6 +91,9 @@ class Auth {
 		// Authentication admin notice.
 		add_action( 'admin_notices', [ $this, 'authentication_admin_notice' ] );
 
+		// Perform CRON job to refresh user access token.
+		add_action( 'oovvuu_auth0_token_refresh', [ $this, 'cron_refresh_user_token' ], 10, 2 );
+
 		$this->domain        = get_option( 'oovvuu_auth0_domain', '' );
 		$this->client_id     = get_option( 'oovvuu_auth0_client_id', '' );
 		$this->client_secret = get_option( 'oovvuu_auth0_client_secret', '' );
@@ -219,7 +222,7 @@ class Auth {
 		}
 
 		// Get the access token from a user.
-		$token = $this->get_user_token_with_refresh( $current_user_id );
+		$token = $this->get_user_token( $current_user_id );
 
 		// Determine if the user is authenticated.
 		$is_authenticated = $this->is_token_valid( $token );
@@ -280,7 +283,7 @@ class Auth {
 				&& $this->is_token_expired( $current_token )
 			)
 		) {
-			$new_token = $this->refresh_token( $current_token['refresh_token'] ?? '' );
+			$new_token = $this->refresh_token( $current_token['refresh_token'] ?? '', $user_id );
 
 			// Return the refreshed token.
 			if ( $this->is_token_valid( $new_token ) ) {
@@ -385,6 +388,13 @@ class Auth {
 		// Set the token.
 		update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
 
+		// Add a single cron event to refresh the token before it expires.
+		wp_schedule_single_event(
+			time() + $token['expires_in'] - ( 10 * MINUTE_IN_SECONDS ), // Add a 10 min buffer.
+			'oovvuu_auth0_token_refresh',
+			[ $user_id, $token ]
+		);
+
 		return $token;
 	}
 
@@ -406,6 +416,24 @@ class Auth {
 
 		// Log when token was deleted.
 		update_user_meta( $user_id, 'oovvuu_auth0_token_last_deleted_at', time() );
+	}
+
+	/**
+	 * Refreshes a user token.
+	 *
+	 * @param  int   $user_id       The user ID.
+	 * @param  array $current_token The current token.
+	 */
+	public function cron_refresh_user_token( $user_id, $current_token ) {
+		$refreshed_token = $this->get_user_token_with_refresh( $user_id, true );
+
+		// Invalid refresh token.
+		if (
+			empty( $refreshed_token )
+			&& $refreshed_token === $current_token
+		) {
+			$this->delete_user_token( $user_id );
+		}
 	}
 
 	/**
@@ -493,9 +521,10 @@ class Auth {
 	 * @since 1.0.0
 	 *
 	 * @param array $refresh_token The existing refresh token.
+	 * @param int   $user_id       The user ID.
 	 * @return mixed Valid new token or null if error.
 	 */
-	public function refresh_token( $refresh_token ) {
+	public function refresh_token( $refresh_token, $user_id = null ) {
 		// Bail if token is not valid.
 		if ( empty( $refresh_token ) ) {
 			return null;
@@ -508,7 +537,7 @@ class Auth {
 			return null;
 		}
 
-		$current_user_id = get_current_user_id();
+		$current_user_id = $user_id ?? get_current_user_id();
 
 		// No current user.
 		if ( empty( $current_user_id ) ) {
