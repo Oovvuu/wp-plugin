@@ -17,7 +17,6 @@
 
 .dialog {
   background-color: white;
-  border-radius: 3px;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 100px);
@@ -36,9 +35,27 @@
 
 .header,
 .footer {
+  align-items: center;
   background-color: #159d8f;
   color: white;
-  padding: 20px;
+  display: flex;
+  padding: 8px;
+}
+
+.oovvuuLogo,
+.wpVipLogo {
+  height: 30px;
+}
+
+.oovvuuLogo svg,
+.wpVipLogo svg {
+  fill: white;
+  height: 100%;
+  width: auto;
+}
+
+.logoSeparator {
+  margin: 0 4px;
 }
 
 .footer {
@@ -51,8 +68,17 @@
 }
 
 .closeButton {
+  appearance: none;
   background-color: transparent;
   border: none;
   color: white;
-  float: right;
+  height: 15px;
+  margin-left: auto;
+  margin-right: 4px;
+  padding: 0;
+  width: 15px;
+
+  svg {
+    fill: white;
+  }
 }

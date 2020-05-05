@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import keyCodes from '../../utils/keyCodes';
 import styles from './dialog.scss';
+import OovvuuSVGLogo from '../../assets/oovvuu-logo.svg';
+import WPVIPSVGLogo from '../../assets/wp-vip-logo.svg';
+import CloseSVG from '../../assets/close.svg';
 
 const { __ } = wp.i18n;
 
@@ -76,7 +79,13 @@ const Dialog = ({
         className={styles.dialog}
       >
         <div className={styles.header}>
-          <span>{__('Oovvuu', 'oovvuu')}</span>
+          <span className={styles.oovvuuLogo}>
+            <OovvuuSVGLogo />
+          </span>
+          <span className={styles.logoSeparator}>{__('for', 'oovvuu')}</span>
+          <span className={styles.wpVipLogo}>
+            <WPVIPSVGLogo />
+          </span>
           <button
             ref={closeButtonRef}
             type="button"
@@ -84,7 +93,7 @@ const Dialog = ({
             onClick={closeDialog}
             aria-label={__('Close', 'oovvuu')}
           >
-            <span className="dashicons dashicons-no-alt" />
+            <CloseSVG />
           </button>
         </div>
 
