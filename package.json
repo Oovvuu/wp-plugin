@@ -20,7 +20,9 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "lodash.debounce": "^4.0.8",
     "papaparse": "^4.6.1",
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.6.2",
+    "react": "16.9.0",
+    "react-dom": "16.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

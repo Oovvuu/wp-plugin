@@ -1,12 +1,6 @@
-/* global React */
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from './dialog';
-
-const {
-  element: {
-    useState,
-  },
-} = wp;
 
 const { __ } = wp.i18n;
 
