@@ -388,7 +388,7 @@ class Auth {
 		// Set the token.
 		update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
 
-		$cron_hook   = '';
+		$cron_hook   = 'oovvuu_auth0_token_refresh';
 		$cron_args   = [ absint( $user_id ) ];
 		$cron_expire = time() + $token['expires_in'] - ( 10 * MINUTE_IN_SECONDS ); // Add a 10 min buffer.
 
