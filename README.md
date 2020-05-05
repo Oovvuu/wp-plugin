@@ -8,7 +8,7 @@ All built files are ignored by default and therefore the plugin needs to be buil
 This plugin uses the Auth0 php SDK to authenticate with the Oovvuu API. Please run `composer install` to properly install this SDK.
 
 ## Client builds
-To build client files (i.e. Javascript and CSS files) we utilize npm. First install all packages with `npm install`. Then run `npm run build` to build all production assets. Run `npm run dev` for a development build of assets, which also watches files for changes and automatically recompiles.
+To build client files (i.e. JavaScript and CSS files) we utilize npm. First install all packages with `npm install`. Then run `npm run build` to build all production assets. Run `npm run dev` for a development build of assets, which also watches files for changes and automatically recompiles.
 
 ## Testing
 
