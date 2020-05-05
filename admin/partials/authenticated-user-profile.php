@@ -9,7 +9,7 @@
 $oovvuu_auth0 = \Oovvuu\Auth::instance();
 
 // Refresh the token if needed.
-$oovvuu_current_user_token = $oovvuu_auth0->get_user_token_with_refresh( get_current_user_id() );
+$oovvuu_current_user_token = $oovvuu_auth0->get_user_token( get_current_user_id() );
 
 // Show unauthenticated view if the refresh has failed.
 if ( ! $oovvuu_auth0->is_token_valid( $oovvuu_current_user_token ) ) {
