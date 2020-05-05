@@ -92,7 +92,7 @@ class Auth {
 		add_action( 'admin_notices', [ $this, 'authentication_admin_notice' ] );
 
 		// Perform CRON job to refresh user access token.
-		add_action( 'oovvuu_auth0_token_refresh', [ $this, 'cron_refresh_user_token' ], 10, 2 );
+		add_action( 'oovvuu_auth0_token_refresh', [ $this, 'cron_refresh_user_token' ] );
 
 		$this->domain        = get_option( 'oovvuu_auth0_domain', '' );
 		$this->client_id     = get_option( 'oovvuu_auth0_client_id', '' );
@@ -388,12 +388,18 @@ class Auth {
 		// Set the token.
 		update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
 
+		$cron_hook   = '';
+		$cron_args   = [ absint( $user_id ) ];
+		$cron_expire = time() + $token['expires_in'] - ( 10 * MINUTE_IN_SECONDS ); // Add a 10 min buffer.
+
 		// Add a single cron event to refresh the token before it expires.
-		wp_schedule_single_event(
-			time() + $token['expires_in'] - ( 10 * MINUTE_IN_SECONDS ), // Add a 10 min buffer.
-			'oovvuu_auth0_token_refresh',
-			[ $user_id, $token ]
-		);
+		if ( ! wp_next_scheduled( $cron_hook, $cron_args ) ) {
+			wp_schedule_single_event(
+				$cron_expire,
+				$cron_hook,
+				$cron_args
+			);
+		}
 
 		return $token;
 	}
@@ -421,19 +427,12 @@ class Auth {
 	/**
 	 * Refreshes a user token.
 	 *
-	 * @param  int   $user_id       The user ID.
-	 * @param  array $current_token The current token.
+	 * @since 1.0.0
+	 *
+	 * @param int $user_id The user ID.
 	 */
-	public function cron_refresh_user_token( $user_id, $current_token ) {
-		$refreshed_token = $this->get_user_token_with_refresh( $user_id, true );
-
-		// Invalid refresh token.
-		if (
-			empty( $refreshed_token )
-			&& $refreshed_token === $current_token
-		) {
-			$this->delete_user_token( $user_id );
-		}
+	public function cron_refresh_user_token( $user_id ) {
+		$this->get_user_token_with_refresh( $user_id, true );
 	}
 
 	/**
