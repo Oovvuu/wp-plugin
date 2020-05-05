@@ -1,16 +1,10 @@
-/* global React */
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import keyCodes from '../../utils/keyCodes';
 import styles from './dialog.scss';
 
 const { __ } = wp.i18n;
-
-const {
-  element: {
-    useRef,
-  },
-} = wp;
 
 /**
  * The Dialog container.
@@ -116,7 +110,7 @@ const Dialog = ({
 Dialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
 };
 
 export default Dialog;

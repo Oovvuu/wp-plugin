@@ -1,11 +1,5 @@
-/* global React */
+import React, { useState } from 'react';
 import DialogWrapper from '../dialog';
-
-const {
-  element: {
-    useState,
-  },
-} = wp;
 
 /**
  * The main app used to render the entire Oovvuu video modal in Gutenberg.

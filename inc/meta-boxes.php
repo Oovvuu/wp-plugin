@@ -17,11 +17,11 @@ function add_metabox() {
 		'oovvuu',
 		__( 'Oovvuu', 'oovvuu' ),
 		function () {
-			echo 'Content';
+			// React container.
+			echo '<div id="oovvuu-classic-editor-react-app"></div>';
 		},
 		allowed_post_types(),
 		'side'
 	);
 }
-// @TODO Enable once classic editor support is started.
-// add_action( 'add_meta_boxes', __NAMESPACE__ . '\add_metabox' );
+add_action( 'add_meta_boxes', __NAMESPACE__ . '\add_metabox' );
