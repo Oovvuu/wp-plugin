@@ -21,6 +21,16 @@ function action_admin_enqueue_scripts() {
 		return;
 	}
 
+	// Only load within the classic editor.
+	$current_screen = get_current_screen();
+
+	if (
+		$current_screen instanceof \WP_Screen
+		&& $current_screen->is_block_editor()
+	) {
+		return;
+	}
+
 	wp_enqueue_script(
 		'oovvuu-app-classic-js',
 		get_versioned_asset_path( 'appClassic.js' ),
