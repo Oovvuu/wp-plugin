@@ -13,6 +13,16 @@ namespace Oovvuu;
  * @since 1.0.0
  */
 function add_metabox() {
+	// Only load within the classic editor.
+	$current_screen = get_current_screen();
+
+	if (
+		$current_screen instanceof \WP_Screen
+		&& $current_screen->is_block_editor()
+	) {
+		return;
+	}
+
 	add_meta_box(
 		'oovvuu',
 		__( 'Oovvuu', 'oovvuu' ),
