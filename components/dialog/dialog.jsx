@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import keyCodes from '../../utils/keyCodes';
@@ -64,7 +65,8 @@ const Dialog = ({
     }
   };
 
-  return (
+  // The Dialog React element.
+  const dialogElement = (
     <div
       className={classnames(styles.wrapper, { [styles.isOpen]: isOpen })}
       onKeyDown={onKeyPressed}
@@ -114,6 +116,15 @@ const Dialog = ({
       </div>
     </div>
   );
+
+  // The dialog container div.
+  const dialogContainerEl = document.getElementById('oovvuu-dialog-wrapper-container');
+
+  // Ensure the DOMNode exists before creating a portal for it.
+  return dialogContainerEl ? createPortal(
+    dialogElement,
+    dialogContainerEl,
+  ) : dialogElement;
 };
 
 Dialog.propTypes = {
