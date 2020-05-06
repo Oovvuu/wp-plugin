@@ -121,11 +121,33 @@ class Auth {
 			$this->domain,
 			$this->client_id,
 			$this->client_secret,
-			null,
-			'offline_access'
+			$this->get_authentication_audience(),
+			$this->get_authentication_scope()
 		);
 
 		return $this->authentication_client;
+	}
+
+	/**
+	 * Gets the audience used for authentication API calls.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array The audience.
+	 */
+	public function get_authentication_audience() {
+		return 'https://api.staging.oovvuu.io';
+	}
+
+	/**
+	 * Gets the scope used for authentication API calls.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string The scope.
+	 */
+	public function get_authentication_scope() {
+		return 'offline_access openid';
 	}
 
 	/**
@@ -327,6 +349,7 @@ class Auth {
 		if (
 			empty( $token['access_token'] )
 			|| empty( $token['refresh_token'] )
+			|| empty( $token['id_token'] )
 			|| empty( $token['expires_in'] )
 			|| empty( $token['added_at'] )
 		) {
@@ -549,7 +572,7 @@ class Auth {
 				$refresh_token,
 				[
 					'redirect_url' => $this->get_redirect_callback(),
-					'scope'        => 'offline_access',
+					'scope'        => $this->get_authentication_scope(),
 				]
 			);
 

@@ -40,7 +40,7 @@ class Auth_Test extends WP_UnitTestCase {
 		$this->assertFalse( Auth::instance()->is_user_authenticated(), 'Expecting user to be unauthenticated when no token is set.' );
 
 		// Add access token.
-		Auth::instance()->set_user_token( $this->admin_id, [ 'access_token' => 'xxx', 'refresh_token' => 'xxx', 'expires_in' => 123, 'added_at' => 123 ] );
+		Auth::instance()->set_user_token( $this->admin_id, [ 'access_token' => 'xxx', 'refresh_token' => 'xxx', 'id_token' => 'xxx', 'expires_in' => 123, 'added_at' => 123 ] );
 
 		$this->assertTrue( Auth::instance()->is_user_authenticated(), 'Expecting user to be authenticated.' );
 	}
@@ -59,7 +59,7 @@ class Auth_Test extends WP_UnitTestCase {
 		$this->assertFalse( Auth::instance()->is_token_valid( [ 'token' => 'xxx', 'expires' => 1234 ] ), 'Expecting invalid token structure to be invalid.' );
 
 		// Valid token
-		$this->assertTrue( Auth::instance()->is_token_valid( [ 'access_token' => 'xxx', 'refresh_token' => 'xxx', 'expires_in' => 123, 'added_at' => 123 ] ), 'Expecting token to be valid.' );
+		$this->assertTrue( Auth::instance()->is_token_valid( [ 'access_token' => 'xxx', 'refresh_token' => 'xxx', 'id_token' => 'xxx', 'expires_in' => 123, 'added_at' => 123 ] ), 'Expecting token to be valid.' );
 	}
 
 	/**
