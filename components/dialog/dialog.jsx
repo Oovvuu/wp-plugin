@@ -117,10 +117,13 @@ const Dialog = ({
     </div>
   );
 
+  // The dialog container div.
+  const dialogContainerEl = document.getElementById('oovvuu-dialog-wrapper-container');
+
   // Ensure the DOMNode exists before creating a portal for it.
-  return document.getElementById('oovvuu-dialog-wrapper-container') ? createPortal(
+  return dialogContainerEl ? createPortal(
     dialogElement,
-    document.getElementById('oovvuu-dialog-wrapper-container'),
+    dialogContainerEl,
   ) : dialogElement;
 };
 
