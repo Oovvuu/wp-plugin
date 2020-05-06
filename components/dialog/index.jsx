@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from './dialog';
+import getKeywords from '../../services/getKeywords';
 
 const { __ } = wp.i18n;
 
@@ -47,6 +48,14 @@ const DialogWrapper = (props) => {
       body.classList.remove('modal-open');
     }
   };
+
+  const title = wp.data.select('core/editor').getEditedPostAttribute('title');
+  const content = wp.data.select('core/editor').getEditedPostAttribute('content');
+
+  // Get keywords based on the current post title and content.
+  getKeywords(title, content).then((value) => {
+    console.log(value.data.analyseText.wordings);
+  });
 
   // @TODO: Update with actual content.
   return (

@@ -51,7 +51,7 @@ class REST_API {
 			$this->namespace,
 			'/keywords',
 			[
-				'methods'             => \WP_REST_Server::READABLE,
+				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'get_keywords' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
 			]
@@ -74,9 +74,10 @@ class REST_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param \WP_REST_Request $request The request object.
 	 * @return \WP_REST_Response The rest response object.
 	 */
-	public function get_keywords() {
+	public function get_keywords( $request ) {
 		$current_user_id = get_current_user_id();
 
 		// No user.
@@ -91,10 +92,6 @@ class REST_API {
 		if ( ! Auth::instance()->is_token_valid( $token ) ) {
 			return rest_ensure_response( new \WP_Error( 'invalid-token', __( 'Invalid token', 'oovvuu' ) ) );
 		}
-
-		// @TODO: Replace with data given by the user.
-		$title   = 'this is a test title';
-		$content = 'this is a test body \n with sample paragraph one \n and sample paragraph two \n and a third sample paragraph';
 
 		// Perform the request.
 		$response = wp_remote_post(
@@ -113,8 +110,8 @@ class REST_API {
 						}',
 						'variables' => [
 							'input' => [
-								'title' => $title,
-								'body'  => $content,
+								'title' => $request['title'] ?? '',
+								'body'  => $request['content'] ?? '',
 							],
 						],
 					]
