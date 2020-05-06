@@ -23,6 +23,15 @@ class REST_API {
 	private $namespace = 'oovvuu/v1';
 
 	/**
+	 * GraphQL API Endpoint.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	private $endpoint = 'https://api.staging.oovvuu.io/graphql/';
+
+	/**
 	 * Setup the class instance.
 	 *
 	 * @since 1.0.0
@@ -68,8 +77,60 @@ class REST_API {
 	 * @return \WP_REST_Response The rest response object.
 	 */
 	public function get_keywords() {
-		// @TODO: Perform API call to Oovvuu to get keywords.
-		return rest_ensure_response( [] );
+		$current_user_id = get_current_user_id();
+
+		// No user.
+		if ( empty( $current_user_id ) ) {
+			return rest_ensure_response( new \WP_Error( 'no-user', __( 'All requests must have a logged in user', 'oovvuu' ) ) );
+		}
+
+		// Get the user token.
+		$token = Auth::instance()->get_user_token( $current_user_id );
+
+		// Invalid token.
+		if ( ! Auth::instance()->is_token_valid( $token ) ) {
+			return rest_ensure_response( new \WP_Error( 'invalid-token', __( 'Invalid token', 'oovvuu' ) ) );
+		}
+
+		// @TODO: Replace with data given by the user.
+		$title   = 'this is a test title';
+		$content = 'this is a test body \n with sample paragraph one \n and sample paragraph two \n and a third sample paragraph';
+
+		// Perform the request.
+		$response = wp_remote_post(
+			$this->endpoint,
+			[
+				'headers' => [
+					'Authorization' => 'Bearer ' . $token['access_token'] ?? '',
+					'Content-Type'  => 'application/json',
+				],
+				'body'    => wp_json_encode(
+					[
+						'query'     => 'query ($input: TextAnalysisInput) {
+							analyseText(input: $input) {
+								wordings
+							}
+						}',
+						'variables' => [
+							'input' => [
+								'title' => $title,
+								'body'  => $content,
+							],
+						],
+					]
+				),
+			]
+		);
+
+		// Return early if WP_Error.
+		if ( is_wp_error( $response ) ) {
+			return rest_ensure_response( $response );
+		}
+
+		// Decode the response.
+		$data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		return rest_ensure_response( $data );
 	}
 
 	/**
