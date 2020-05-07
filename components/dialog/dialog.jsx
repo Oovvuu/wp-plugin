@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import keyCodes from '../../utils/keyCodes';
+import keyCodes from 'utils/keyCodes';
+import OovvuuSVGLogo from 'assets/oovvuu-logo.svg';
+import WPVIPSVGLogo from 'assets/wp-vip-logo.svg';
+import CloseSVG from 'assets/close.svg';
 import styles from './dialog.scss';
-import OovvuuSVGLogo from '../../assets/oovvuu-logo.svg';
-import WPVIPSVGLogo from '../../assets/wp-vip-logo.svg';
-import CloseSVG from '../../assets/close.svg';
 
 const { __ } = wp.i18n;
 

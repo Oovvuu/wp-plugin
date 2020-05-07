@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import getKeywords from 'services/getKeywords';
+import getVideos from 'services/getVideos';
 import Dialog from './dialog';
-import getKeywords from '../../services/getKeywords';
-import getVideos from '../../services/getVideos';
 
 const { __ } = wp.i18n;
 

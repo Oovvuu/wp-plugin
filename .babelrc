@@ -7,7 +7,9 @@
         "extensions": [".js", ".jsx"],
         "alias": {
           "components": "./components",
-          "services": "./services"
+          "services": "./services",
+          "assets": "./client/assets",
+          "utils": "./client/utils",
         },
         "root": ["./"]
       }

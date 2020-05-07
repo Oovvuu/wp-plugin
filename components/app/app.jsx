@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DialogWrapper from '../dialog';
+import DialogWrapper from 'components/dialog';
 
 /**
  * The main app used to render the entire Oovvuu video modal in Gutenberg.
