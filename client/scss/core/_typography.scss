@@ -1,0 +1,17 @@
+// Font-weights
+$font-weights: (
+  regular: 400,
+  bold: 700,
+);
+
+// Shortcuts for font-weights.
+$weight-regular: _get-font-weight(regular);
+$weight-bold: _get-font-weight(bold);
+
+/**
+ * Add letter-spacing to uppercased strings.
+ */
+@mixin uppercase {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

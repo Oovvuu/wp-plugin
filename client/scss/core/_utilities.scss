@@ -1,0 +1,85 @@
+/**
+ * Outputs font properties.
+ *
+ * @param {Number}        $size                The font-size
+ * @param {Number}        $line-height: normal The line-height
+ * @param {Number|String} $weight: false       The font-weight, either numerical or a map key
+ */
+@mixin font-props($size, $line-height: normal, $weight: false) {
+  @if (type-of($size) == 'number') {
+    font-size: rem($size);
+  }
+
+  @if ($weight) {
+    /* stylelint-disable-next-line font-weight-notation */
+    font-weight: if(
+      type-of($weight) == 'number',
+      $weight,
+      _get-font-weight($weight)
+    );
+  }
+
+  line-height: if(
+    type-of($line-height) == 'number',
+    ($line-height / $size),
+    $line-height
+  );
+}
+
+/**
+ * Get a font-weight by key.
+ *
+ * @param  {String} $weight A map key to match
+ * @return {Number}
+ */
+@function _get-font-weight($weight) {
+  @if (not map-has-key($font-weights, $weight)) {
+    @warn "$font-weights[#{$weight}] doesn't exist.";
+    @return map-get($font-weights, regular);
+  }
+
+  @return map-get($font-weights, $weight);
+}
+
+/**
+ * Remove browser default form element styles.
+ */
+@mixin form-element-reset {
+  appearance: none;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  font: inherit;
+  margin: 0;
+}
+
+/**
+ * Remove browser default input styles.
+ */
+@mixin input-reset {
+  @include form-element-reset;
+
+  &::-ms-clear {
+    display: none;
+  }
+}
+
+/**
+ * Remove browser default select styles.
+ */
+@mixin select-reset {
+  @include form-element-reset;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+/**
+ * Remove browser default button styles.
+ */
+@mixin button-reset {
+  @include form-element-reset;
+  background-color: transparent;
+  padding: 0;
+}

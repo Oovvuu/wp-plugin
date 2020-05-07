@@ -7,6 +7,7 @@ const createWriteWpAssetManifest = require('./webpack/wpAssets');
 const paths = {
   config: path.join(__dirname, './config'),
   build: path.join(__dirname, './build'),
+  scss: path.join(__dirname, './client/scss'),
 };
 
 module.exports = (env, argv) => {
@@ -53,6 +54,16 @@ module.exports = (env, argv) => {
             },
             'resolve-url-loader',
             'sass-loader',
+            {
+              loader: 'sass-resources-loader',
+              options: {
+                resources: [
+                  'core/_utilities.scss',
+                  'core/_a11y.scss',
+                  'core/_typography.scss',
+                ].map((file) => path.resolve(`${paths.scss}`, file)),
+              },
+            },
           ],
         },
         {
