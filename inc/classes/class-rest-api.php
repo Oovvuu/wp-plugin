@@ -168,6 +168,92 @@ class REST_API {
 	}
 
 	/**
+	 * Gets the current user from the Oovvuu API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed The response body or WP_Error
+	 */
+	public function get_current_user() {
+		return $this->request(
+			'query{
+				currentUser {
+					id
+					primaryVideoCollection {
+						id
+					}
+				}
+			}',
+			false,
+			0
+		);
+	}
+
+	/**
+	 * Gets the current user from the Oovvuu API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $oovvuu_user_id The Oovvuu user ID.
+	 * @return mixed The response body or WP_Error
+	 */
+	public function get_current_user_org( $oovvuu_user_id ) {
+		return $this->request(
+			'query {
+				user(id: "' . (string) $oovvuu_user_id . '") {
+					id
+					ownerOrganisation {
+						id
+					}
+				}
+			}',
+			false,
+			0
+		);
+	}
+
+	/**
+	 * Gets the user Oovvuu publisher ID.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  int $user_id WP user ID.
+	 * @return int The Oovvuu user publisher ID.
+	 */
+	public function get_publisher_id( $user_id ) {
+		$publisher_id = get_user_meta( $user_id, 'oovvuu_auth0_publisher_id', true );
+
+		// Publisher ID already set.
+		if ( ! empty( $publisher_id ) ) {
+			return $publisher_id;
+		}
+
+		// Get the current Oovvuu user ID.
+		$oovvuu_user_id = $this->get_current_user();
+
+		// Invalid Oovvuu current user ID.
+		if ( is_wp_error( $oovvuu_user_id ) || empty( $oovvuu_user_id['data']['currentUser']['id'] ) ) {
+			return 0;
+		}
+
+		$publisher_id = $this->get_current_user_org( absint( $oovvuu_user_id['data']['currentUser']['id'] ) );
+
+		// Invalid Oovvuu publisher ID.
+		if ( is_wp_error( $publisher_id ) || empty( $publisher_id['data']['user']['ownerOrganisation']['id'] ) ) {
+			return 0;
+		}
+
+		// Sanitize value.
+		$publisher_id = absint( $publisher_id['data']['user']['ownerOrganisation']['id'] );
+
+		// Save to user meta.
+		update_user_meta( $user_id, 'oovvuu_auth0_publisher_id', $publisher_id );
+
+		// Return the publisher ID.
+		return $publisher_id;
+	}
+
+	/**
 	 * Perform GraphQL request to the Oovvuu API.
 	 *
 	 * @since 1.0.0
@@ -193,16 +279,24 @@ class REST_API {
 			return new \WP_Error( 'invalid-token', __( 'Invalid token', 'oovvuu' ) );
 		}
 
-		$input = wp_parse_args(
-			$input,
-			[
-				'articleMetadata' => [
-					'publisherId'  => (string) 0,
-					'cmsArticleId' => (string) $post_id,
-					'masthead'     => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
-				],
-			]
-		);
+		// Create the payload.
+		$payload = [
+			'query' => $query,
+		];
+
+		// Add defaults if input variables are supplied.
+		if ( false !== $input ) {
+			$payload['variables']['input'] = wp_parse_args(
+				$input,
+				[
+					'articleMetadata' => [
+						'publisherId'  => (string) $this->get_publisher_id( $current_user_id ),
+						'cmsArticleId' => (string) $post_id,
+						'masthead'     => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+					],
+				]
+			);
+		}
 
 		// Perform the request.
 		$response = wp_remote_post(
@@ -212,14 +306,7 @@ class REST_API {
 					'Authorization' => 'Bearer ' . $token['access_token'] ?? '',
 					'Content-Type'  => 'application/json',
 				],
-				'body'    => wp_json_encode(
-					[
-						'query'     => $query,
-						'variables' => [
-							'input' => $input,
-						],
-					]
-				),
+				'body'    => wp_json_encode( $payload ),
 			]
 		);
 
@@ -229,7 +316,7 @@ class REST_API {
 		}
 
 		// Decode the response.
-		return json_decode( wp_remote_retrieve_body( $response ) );
+		return json_decode( wp_remote_retrieve_body( $response ), true );
 	}
 
 	/**
