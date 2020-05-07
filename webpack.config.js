@@ -4,6 +4,11 @@ const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
 
+const paths = {
+  config: path.join(__dirname, './config'),
+  build: path.join(__dirname, './build'),
+};
+
 module.exports = (env, argv) => {
   const { mode } = argv;
 
@@ -42,7 +47,7 @@ module.exports = (env, argv) => {
               loader: 'postcss-loader',
               options: {
                 config: {
-                  path: path.join(__dirname, './config/postcss.config.js'),
+                  path: path.join(paths.config, 'postcss.config.js'),
                 },
               },
             },
@@ -70,7 +75,7 @@ module.exports = (env, argv) => {
       filename: mode === 'production'
         ? '[name].[chunkhash].bundle.min.js'
         : '[name].js',
-      path: path.join(__dirname, 'build'),
+      path: paths.build,
     },
     plugins: [
       new StatsPlugin({
@@ -84,7 +89,7 @@ module.exports = (env, argv) => {
         ] : []
       ),
       new StylelintPlugin({
-        configFile: path.join(__dirname, './config/stylelint.config.js'),
+        configFile: path.join(paths.config, 'stylelint.config.js'),
       }),
     ],
     resolve: {
