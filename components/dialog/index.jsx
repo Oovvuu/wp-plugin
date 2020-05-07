@@ -46,16 +46,18 @@ const DialogWrapper = (props) => {
     }
   };
 
+  // Get the post title.
+  const postTitle = wp.data.select('core/editor').getEditedPostAttribute('title');
+
   /**
    * Updates the keywords based on the current post title and content.
    */
   const updateKeywords = () => {
-    const title = wp.data.select('core/editor').getEditedPostAttribute('title');
     const content = wp.data.select('core/editor').getEditedPostAttribute('content');
     const id = wp.data.select('core/editor').getEditedPostAttribute('id');
 
     // Get keywords based on the current post title and content.
-    getKeywords(title, content, id)
+    getKeywords(postTitle, content, id)
       .then((value) => {
         if (value.data.analyseText.wordings) {
           setKeywords(value.data.analyseText.wordings);
@@ -84,6 +86,7 @@ const DialogWrapper = (props) => {
         isOpen={isOpen}
         closeDialog={closeDialog}
       >
+        <h2>{postTitle}</h2>
         <p>{__('Recommended Keywords', 'oovvuu')}</p>
         <input
           type="text"
