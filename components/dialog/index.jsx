@@ -78,8 +78,7 @@ const DialogWrapper = (props) => {
     const id = wp.data.select('core/editor').getEditedPostAttribute('id');
 
     // Get keywords based on the current post title and content.
-    // TODO use keywords from state.
-    getVideos(['covid'], id)
+    getVideos(keywords, id)
       .then((value) => {
         if (value.data.videosForArticle) {
           setPositions(value.data.videosForArticle);
