@@ -83,17 +83,20 @@ const DialogWrapper = (props) => {
         isOpen={isOpen}
         closeDialog={closeDialog}
       >
-        <p>Dialog content.</p>
+        <p>{__('Recommended Keywords', 'oovvuu')}</p>
+        <input
+          type="text"
+          className="widefat"
+          value={keywords.join(' ')}
+        />
         <p>
-          Current keywords:
-          {keywords}
+          <button
+            type="button"
+            onClick={updateKeywords}
+          >
+            {__('Get new Keywords', 'oovvuu')}
+          </button>
         </p>
-        <button
-          type="button"
-          onClick={updateKeywords}
-        >
-          {__('Get new Keywords', 'oovvuu')}
-        </button>
         <p>
           Current positions:
           {positions}
