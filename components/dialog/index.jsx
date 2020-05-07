@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from './dialog';
 import getKeywords from '../../services/getKeywords';
+import getVideos from '../../services/getVideos';
 
 const { __ } = wp.i18n;
 
@@ -12,7 +13,8 @@ const DialogWrapper = (props) => {
   const {
     keywords = [],
     setKeywords,
-    positions = [],
+    positions = {},
+    setPositions,
   } = props;
 
   // Open/close state.
@@ -69,6 +71,25 @@ const DialogWrapper = (props) => {
       });
   };
 
+  /**
+   * Fetchs videos given a set of keywords
+   */
+  const fetchVideos = () => {
+    const id = wp.data.select('core/editor').getEditedPostAttribute('id');
+
+    // Get keywords based on the current post title and content.
+    getVideos(keywords, id)
+      .then((value) => {
+        if (value.data.videosForArticle) {
+          setPositions(value.data.videosForArticle);
+        }
+      })
+      .catch((error) => {
+        // TODO: Perform error handling.
+        console.log(error);
+      });
+  };
+
   // @TODO: Update with actual content.
   return (
     <>
@@ -91,6 +112,7 @@ const DialogWrapper = (props) => {
         <input
           type="text"
           className="widefat"
+          readOnly
           value={keywords.join(' ')}
         />
         <p>
@@ -100,12 +122,35 @@ const DialogWrapper = (props) => {
           >
             {__('Get new Keywords', 'oovvuu')}
           </button>
+          <button
+            type="button"
+            onClick={fetchVideos}
+          >
+            {__('Fetch Videos', 'oovvuu')}
+          </button>
         </p>
-        <p>
-          Current positions:
-          {positions}
-        </p>
-        <button type="button">Test button</button>
+        <h3>{__('Hero', 'oovvuu')}</h3>
+        <div>
+          {positions.hero !== undefined && positions.hero.map((value) => (
+            <div
+              key={value.id}
+            >
+              <p>{value.title}</p>
+              <img src={value.thumbnail.url} alt="" />
+            </div>
+          ))}
+        </div>
+        <h3>{__('4th Paragraph', 'oovvuu')}</h3>
+        <div>
+          {positions.positionTwo !== undefined && positions.positionTwo.map((value) => (
+            <div
+              key={value.id}
+            >
+              <p>{value.title}</p>
+              <img src={value.thumbnail.url} alt="" />
+            </div>
+          ))}
+        </div>
       </Dialog>
     </>
   );
@@ -114,7 +159,8 @@ const DialogWrapper = (props) => {
 DialogWrapper.propTypes = {
   keywords: PropTypes.arrayOf(PropTypes.string).isRequired,
   setKeywords: PropTypes.func.isRequired,
-  positions: PropTypes.arrayOf(PropTypes.array).isRequired,
+  positions: PropTypes.objectOf(PropTypes.array).isRequired,
+  setPositions: PropTypes.func.isRequired,
 };
 
 export default DialogWrapper;
