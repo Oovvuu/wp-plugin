@@ -62,7 +62,7 @@ class REST_API {
 			$this->namespace,
 			'/videos',
 			[
-				'methods'             => \WP_REST_Server::READABLE,
+				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'get_videos' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
 			]
@@ -78,11 +78,111 @@ class REST_API {
 	 * @return \WP_REST_Response The rest response object.
 	 */
 	public function get_keywords( $request ) {
+		return rest_ensure_response(
+			$this->request(
+				'query ($input: TextAnalysisInput) {
+					analyseText(input: $input) {
+						wordings
+					}
+				}',
+				[
+					'title' => $request['title'] ?? '',
+					'body'  => $request['content'] ?? '',
+				],
+				$request['id'] ?? 0
+			)
+		);
+	}
+
+	/**
+	 * Gets videos based on keywords.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function get_videos( $request ) {
+		return rest_ensure_response(
+			$this->request(
+				'query ($input: ArticleRecommendationInput) {
+					videosForArticle(input: $input) {
+						hero {
+							...VideoDetailFragment
+						}
+						heroSecondary {
+							...VideoDetailFragment
+						}
+						heroEmptyReason
+						positionTwo {
+							...VideoDetailFragment
+						}
+						positionTwoSecondary {
+							...VideoDetailFragment
+						}
+						positionTwoEmptyReason
+					}
+				}
+
+				fragment VideoDetailFragment on Video {
+					id
+					title
+					description
+					tags
+					thumbnail(input: { width: 500, height: 281 }) {
+						url
+					}
+					preview {
+						brightcoveVideoId
+						brightcovePlayerId
+						brightcoveAccountId
+					}
+					collection {
+						id
+						provider {
+							id
+							name
+							legalName
+							logo(input: { width: 100, height: 100 }) {
+								url
+							}
+						}
+					}
+					genres
+					duration
+					created
+					modified
+					activeSince
+					providerAssetId
+				}',
+				[
+					'articleTitle' => $request['title'] ?? '',
+					'articleBody'  => $request['content'] ?? '',
+					'filter'       => [
+						'keywordMatch' => $request['keywords'] ?? [],
+					],
+				],
+				$request['id'] ?? 0
+			)
+		);
+	}
+
+	/**
+	 * Perform GraphQL request to the Oovvuu API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $query GraphQL query.
+	 * @param  array  $input Input variables.
+	 * @param  int    $post_id The current post ID relating to the request.
+	 * @return mixed The HTTP response body or a WP_Error object.
+	 */
+	public function request( $query, $input, $post_id = 0 ) {
 		$current_user_id = get_current_user_id();
 
 		// No user.
 		if ( empty( $current_user_id ) ) {
-			return rest_ensure_response( new \WP_Error( 'no-user', __( 'All requests must have a logged in user', 'oovvuu' ) ) );
+			return new \WP_Error( 'no-user', __( 'All requests must have a logged in user', 'oovvuu' ) );
 		}
 
 		// Get the user token.
@@ -90,8 +190,19 @@ class REST_API {
 
 		// Invalid token.
 		if ( ! Auth::instance()->is_token_valid( $token ) ) {
-			return rest_ensure_response( new \WP_Error( 'invalid-token', __( 'Invalid token', 'oovvuu' ) ) );
+			return new \WP_Error( 'invalid-token', __( 'Invalid token', 'oovvuu' ) );
 		}
+
+		$input = wp_parse_args(
+			$input,
+			[
+				'articleMetadata' => [
+					'publisherId'  => (string) 0,
+					'cmsArticleId' => (string) $post_id,
+					'masthead'     => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+				],
+			]
+		);
 
 		// Perform the request.
 		$response = wp_remote_post(
@@ -103,16 +214,9 @@ class REST_API {
 				],
 				'body'    => wp_json_encode(
 					[
-						'query'     => 'query ($input: TextAnalysisInput) {
-							analyseText(input: $input) {
-								wordings
-							}
-						}',
+						'query'     => $query,
 						'variables' => [
-							'input' => [
-								'title' => $request['title'] ?? '',
-								'body'  => $request['content'] ?? '',
-							],
+							'input' => $input,
 						],
 					]
 				),
@@ -121,25 +225,11 @@ class REST_API {
 
 		// Return early if WP_Error.
 		if ( is_wp_error( $response ) ) {
-			return rest_ensure_response( $response );
+			return $response;
 		}
 
 		// Decode the response.
-		$data = json_decode( wp_remote_retrieve_body( $response ) );
-
-		return rest_ensure_response( $data );
-	}
-
-	/**
-	 * Gets videos based on keywords.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return \WP_REST_Response The rest response object.
-	 */
-	public function get_videos() {
-		// @TODO: Perform API call to Oovvuu to get videos.
-		return rest_ensure_response( [] );
+		return json_decode( wp_remote_retrieve_body( $response ) );
 	}
 
 	/**
