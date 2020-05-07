@@ -62,6 +62,7 @@ const DialogWrapper = (props) => {
         }
       })
       .catch((error) => {
+        // TODO: Perform error handling.
         console.log(error);
       });
   };
