@@ -122,6 +122,12 @@ const DialogWrapper = (props) => {
           >
             {__('Get new Keywords', 'oovvuu')}
           </button>
+          <button
+            type="button"
+            onClick={fetchVideos}
+          >
+            {__('Fetch Videos', 'oovvuu')}
+          </button>
         </p>
         <h3>{__('Hero', 'oovvuu')}</h3>
         <div>
@@ -145,14 +151,6 @@ const DialogWrapper = (props) => {
             </div>
           ))}
         </div>
-        <p>
-          <button
-            type="button"
-            onClick={fetchVideos}
-          >
-            {__('Fetch Videos', 'oovvuu')}
-          </button>
-        </p>
       </Dialog>
     </>
   );
