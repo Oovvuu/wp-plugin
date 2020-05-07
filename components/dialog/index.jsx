@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from './dialog';
+import getKeywords from '../../services/getKeywords';
 
 const { __ } = wp.i18n;
 
@@ -10,6 +11,7 @@ const { __ } = wp.i18n;
 const DialogWrapper = (props) => {
   const {
     keywords = [],
+    setKeywords,
     positions = [],
   } = props;
 
@@ -18,8 +20,6 @@ const DialogWrapper = (props) => {
 
   /**
    * Open the dialog.
-   *
-   * @return {[function]} The handler function.
    */
   const openDialog = () => {
     setIsOpen(true);
@@ -34,8 +34,6 @@ const DialogWrapper = (props) => {
 
   /**
    * Close the dialog.
-   *
-   * @return {[function]} The handler function.
    */
   const closeDialog = () => {
     setIsOpen(false);
@@ -46,6 +44,26 @@ const DialogWrapper = (props) => {
     if (body && body.classList.contains('modal-open')) {
       body.classList.remove('modal-open');
     }
+  };
+
+  /**
+   * Updates the keywords based on the current post title and content.
+   */
+  const updateKeywords = () => {
+    const title = wp.data.select('core/editor').getEditedPostAttribute('title');
+    const content = wp.data.select('core/editor').getEditedPostAttribute('content');
+    const id = wp.data.select('core/editor').getEditedPostAttribute('id');
+
+    // Get keywords based on the current post title and content.
+    getKeywords(title, content, id)
+      .then((value) => {
+        if (value.data.analyseText.wordings) {
+          setKeywords(value.data.analyseText.wordings);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // @TODO: Update with actual content.
@@ -67,12 +85,18 @@ const DialogWrapper = (props) => {
       >
         <p>Dialog content.</p>
         <p>
-          Current positions:
-          {positions}
-        </p>
-        <p>
           Current keywords:
           {keywords}
+        </p>
+        <button
+          type="button"
+          onClick={updateKeywords}
+        >
+          {__('Get new Keywords', 'oovvuu')}
+        </button>
+        <p>
+          Current positions:
+          {positions}
         </p>
         <button type="button">Test button</button>
       </Dialog>
@@ -82,6 +106,7 @@ const DialogWrapper = (props) => {
 
 DialogWrapper.propTypes = {
   keywords: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setKeywords: PropTypes.func.isRequired,
   positions: PropTypes.arrayOf(PropTypes.array).isRequired,
 };
 
