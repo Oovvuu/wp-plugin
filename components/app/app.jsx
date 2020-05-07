@@ -6,7 +6,7 @@ import DialogWrapper from '../dialog';
  */
 const App = () => {
   // Keywords.
-  const [keywords] = useState([]);
+  const [keywords, setKeywords] = useState([]);
 
   // The video positions.
   const [positions] = useState([]);
@@ -25,6 +25,7 @@ const App = () => {
       </p>
       <DialogWrapper
         keywords={keywords}
+        setKeywords={setKeywords}
         positions={positions}
       />
     </>
