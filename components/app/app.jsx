@@ -9,24 +9,17 @@ const App = () => {
   const [keywords, setKeywords] = useState([]);
 
   // The video positions.
-  const [positions] = useState([]);
+  const [positions, setPositions] = useState({});
 
   // @TODO: Update with actual settings.
   return (
     <>
       <p>This is where you will launch the Oovvuu modal.</p>
-      <p>
-        Current positions:
-        {positions}
-      </p>
-      <p>
-        Current keywords:
-        {keywords}
-      </p>
       <DialogWrapper
         keywords={keywords}
         setKeywords={setKeywords}
         positions={positions}
+        setPositions={setPositions}
       />
     </>
   );
