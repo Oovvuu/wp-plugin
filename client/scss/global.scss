@@ -1,12 +1,9 @@
-/* stylelint-disable selector-max-specificity */
+@import './fonts';
+@import './reset.scss';
+@import './vars.scss';
 
-:root {
-  font-size: medium;
-}
-
-// The plugin body.
+// "Body" styles.
 #oovvuu-dialog-wrapper-container {
-  @include reset;
   background-color: white;
   color: var(--color-text);
   font-family: 'Barlow', sans-serif;
@@ -18,15 +15,4 @@
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   word-break: keep-all;
-
-  img {
-    display: block;
-    height: auto;
-    max-width: 100%;
-  }
-
-  svg {
-    display: block;
-    pointer-events: none;
-  }
 }
