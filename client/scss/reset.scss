@@ -1,0 +1,43 @@
+/* stylelint-disable selector-list-comma-newline-after, declaration-block-no-shorthand-property-overrides */
+
+// The plugin body.
+#oovvuu-dialog-wrapper-container {
+
+  div, span,
+  object, iframe, embed,
+  h1, h2, h3, h4, h5, h6,
+  p, a, em, strong,
+  ol, ul, li,
+  fieldset, form, label,
+  article, aside,
+  footer, header, nav, section,
+  img, figure, figcaption,
+  time, video {
+    border: 0;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+  }
+
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+
+  ol, ul {
+    list-style: none;
+  }
+
+  img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+  }
+
+  svg {
+    display: block;
+    pointer-events: none;
+  }
+}

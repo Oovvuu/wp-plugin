@@ -38,6 +38,13 @@ function action_admin_enqueue_scripts() {
 		'1.0.0',
 		true
 	);
+
+	wp_enqueue_style(
+		'oovvuu-fonts-css',
+		get_versioned_asset_path( 'fonts.css' ),
+		[],
+		'1.0.0'
+	);
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\action_admin_enqueue_scripts' );
 
@@ -63,6 +70,13 @@ function action_enqueue_block_editor_assets() {
 		true
 	);
 	inline_locale_data( 'oovvuu-app' );
+
+	wp_enqueue_style(
+		'oovvuu-fonts-css',
+		get_versioned_asset_path( 'fonts.css' ),
+		[],
+		'1.0.0'
+	);
 }
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\action_enqueue_block_editor_assets' );
 
