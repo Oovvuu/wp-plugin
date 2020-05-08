@@ -1,5 +1,4 @@
 import React from 'react';
-import 'scss';
 import App from './app';
 
 const { PluginDocumentSettingPanel } = wp.editPost;
