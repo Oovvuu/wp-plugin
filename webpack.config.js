@@ -1,6 +1,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
 
@@ -21,6 +22,7 @@ module.exports = (env, argv) => {
     entry: {
       app: './components/app/index.jsx',
       appClassic: './components/appClassic/index.jsx',
+      fonts: './client/fonts/fonts.scss',
     },
     module: {
       rules: [
@@ -34,6 +36,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.scss$/,
+          exclude: /client\/fonts/,
           loaders: [
             'style-loader',
             {
@@ -72,6 +75,20 @@ module.exports = (env, argv) => {
                 ].map((file) => path.resolve(`${paths.scss}`, file)),
               },
             },
+          ],
+        },
+        {
+          test: /\.scss$/,
+          include: /client\/fonts/,
+          loaders: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: '.',
+              },
+            },
+            'css-loader',
+            'sass-loader',
           ],
         },
         {
@@ -121,6 +138,10 @@ module.exports = (env, argv) => {
       ),
       new StylelintPlugin({
         configFile: path.join(paths.config, 'stylelint.config.js'),
+      }),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].min.css',
+        chunkFilename: '[name].[contenthash].chunk.min.css',
       }),
     ],
     resolve: {

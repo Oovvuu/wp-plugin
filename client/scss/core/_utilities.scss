@@ -1,38 +1,4 @@
 /**
- * Scopes the style reset to the parent element.
- */
-@mixin reset() {
-  /* stylelint-disable */
-  div, span,
-  object, iframe, embed,
-  h1, h2, h3, h4, h5, h6,
-  p, a, em, strong,
-  ol, ul, li,
-  fieldset, form, label,
-  article, aside,
-  footer, header, nav, section,
-  img, figure, figcaption,
-  time, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-  }
-
-  *, *::before, *::after {
-    box-sizing: inherit;
-  }
-
-  ol, ul {
-    list-style: none;
-  }
-  /* stylelint-enable */
-}
-
-/**
  * Outputs font properties.
  *
  * @param {Number}        $size                The font-size
