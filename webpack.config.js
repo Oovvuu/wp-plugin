@@ -40,7 +40,14 @@ module.exports = (env, argv) => {
               loader: 'css-loader',
               options: {
                 modules: {
-                  mode: 'local',
+                  mode: (resourcePath) => {
+                    // Exclude core styles from this loader's CSS Modules mode.
+                    if (/client\/scss/i.test(resourcePath)) {
+                      return 'global';
+                    }
+
+                    return 'local';
+                  },
                   localIdentName: 'oovvuu-[name]__[local]___[hash:base64:5]',
                 },
               },
