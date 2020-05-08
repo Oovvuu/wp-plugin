@@ -11,6 +11,7 @@ module.exports = {
         'first-nested',
       ],
       ignore: ['after-comment'],
+      ignoreAtRules: ['if', 'else', 'import', 'return'],
     }],
     indentation: 2,
     'at-rule-name-case': 'lower',

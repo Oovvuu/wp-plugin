@@ -8,10 +8,11 @@
         "alias": {
           "components": "./components",
           "services": "./services",
-          "assets": "./client/assets",
-          "utils": "./client/utils",
         },
-        "root": ["./"]
+        "root": [
+          "./",
+          "./client/**",
+        ],
       }
     ]
   ],
