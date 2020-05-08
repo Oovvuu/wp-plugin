@@ -34,7 +34,7 @@ function action_admin_enqueue_scripts() {
 	wp_enqueue_script(
 		'oovvuu-app-classic-js',
 		get_versioned_asset_path( 'appClassic.js' ),
-		[ 'react', 'react-dom' ],
+		[ 'react', 'react-dom', 'wp-api-fetch' ],
 		'1.0.0',
 		true
 	);
