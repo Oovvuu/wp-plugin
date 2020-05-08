@@ -88,18 +88,6 @@ module.exports = (env, argv) => {
             },
           ],
         },
-        {
-          test: [
-            /\.woff2?$/,
-          ],
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              name: 'media/[name].[ext]',
-            },
-          },
-        },
       ],
     },
     output: {
