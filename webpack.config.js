@@ -8,6 +8,7 @@ const paths = {
   config: path.join(__dirname, './config'),
   build: path.join(__dirname, './build'),
   scss: path.join(__dirname, './client/scss'),
+  fonts: path.join(__dirname, './client/fonts'),
 };
 
 module.exports = (env, argv) => {
@@ -80,6 +81,18 @@ module.exports = (env, argv) => {
             },
           ],
         },
+        {
+          test: [
+            /\.woff2?$/,
+          ],
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'media/[name].[ext]',
+            },
+          },
+        },
       ],
     },
     output: {
@@ -105,6 +118,9 @@ module.exports = (env, argv) => {
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
+      alias: {
+        fonts: paths.fonts,
+      },
     },
     externals: {
       react: 'React',
