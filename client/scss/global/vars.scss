@@ -8,11 +8,11 @@ $color-theme: #159D8F;
   // Theme colors.
   --color-theme: #{$color-theme};
   --color-theme-faded: rgba($color-theme, 0.2);
-  --color-deactivated: #E0E0E0;
   --color-warn: #D32F2F;
+  --color-decoration: #E0E0E0;
+  --color-deactivated: #9E9E9E;
 
   // Text
-  --color-text-light: #9E9E9E;
   --color-text: #383838;
   --color-text-dark: #263238;
 

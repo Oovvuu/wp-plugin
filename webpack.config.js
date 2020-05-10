@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
                 modules: {
                   mode: (resourcePath) => {
                     // Exclude core styles from this loader's CSS Modules mode.
-                    if (/client\/scss/i.test(resourcePath)) {
+                    if (/client\/scss\/global/i.test(resourcePath)) {
                       return 'global';
                     }
 
