@@ -72,6 +72,7 @@ module.exports = (env, argv) => {
                   'core/_utilities.scss',
                   'core/_a11y.scss',
                   'core/_typography.scss',
+                  'core/_buttons.scss',
                 ].map((file) => path.resolve(`${paths.scss}`, file)),
               },
             },
@@ -148,6 +149,7 @@ module.exports = (env, argv) => {
       extensions: ['.js', '.jsx'],
       alias: {
         fonts: paths.fonts,
+        shared: path.join(paths.scss, 'shared'),
       },
     },
     externals: {
