@@ -47,7 +47,7 @@ module.exports = {
     'selector-descendant-combinator-no-non-space': true,
     'selector-list-comma-newline-after': 'always',
     'selector-max-specificity': ['0,2,1', {
-      ignoreSelectors: [':global', ':local', '#oovvuu-dialog-wrapper-container'],
+      ignoreSelectors: [':global', ':local', '#oovvuu-dialog-wrapper'],
     }],
     'selector-no-vendor-prefix': true,
     'selector-pseudo-class-case': 'lower',
