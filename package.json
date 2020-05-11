@@ -12,8 +12,8 @@
     "build": "webpack --mode=production",
     "dev": "webpack --mode=development --watch",
     "lint": "eslint .",
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch --passWithNoTests"
+    "test": "jest --passWithNoTests --config=config/jest.js",
+    "test:watch": "jest --watch --passWithNoTests --config=config/jest.js"
   },
   "dependencies": {
     "classnames": "^2.2.6",
