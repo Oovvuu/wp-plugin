@@ -83,3 +83,22 @@
   background-color: transparent;
   padding: 0;
 }
+
+/**
+ * Remove browser and WP default checkbox styles.
+ */
+@mixin checkbox-reset {
+  @include input-reset;
+
+  // override wp styles.
+  &[type="checkbox"] {
+    box-shadow: none;
+    transition: none;
+
+    &:checked::before,
+    &:checked::after {
+      content: '';
+      margin: 0;
+    }
+  }
+}

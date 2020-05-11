@@ -1,0 +1,100 @@
+// Button classes.
+
+/**
+ * Basic action button.
+ */
+.buttonAction {
+  @include button-base;
+  border-radius: rem(4);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+  padding: 0 rem(16);
+
+  &[disabled] {
+    background-color: var(--color-deactivated);
+  }
+
+  svg {
+    fill: white;
+  }
+}
+
+/**
+ * Button base.
+ * Sets height and icon margin.
+ */
+.button {
+  composes: buttonAction;
+  height: rem(36);
+
+  svg {
+    margin-right: rem(8);
+  }
+}
+
+/**
+ * Large button base.
+ * Sets height and icon margin.
+ */
+.buttonLarge {
+  composes: buttonAction;
+  height: rem(48);
+
+  svg {
+    margin-right: rem(18);
+  }
+}
+
+/**
+ * Theme-colored button.
+ */
+.buttonTheme {
+  background-color: var(--color-theme);
+  color: var(--color-white);
+  composes: button;
+}
+
+/**
+ * Confirmation or warning button.
+ */
+.buttonWarn {
+  background-color: var(--color-warn);
+  color: var(--color-white);
+  composes: button;
+}
+
+/**
+ * Large confirmation or warning button.
+ */
+.buttonWarnLarge {
+  background-color: var(--color-warn);
+  color: var(--color-white);
+  composes: buttonLarge;
+}
+
+/**
+ * Section collapse button.
+ */
+.buttonCollapse {
+  @include button-base;
+  @include spin-expanded-icon;
+  height: rem(24);
+
+  svg {
+    fill: var(--color-text);
+    margin-left: rem(12);
+  }
+}
+
+/**
+ * Menubar popup button.
+ */
+.buttonPopup {
+  @include button-base;
+  @include spin-expanded-icon;
+  height: rem(22);
+
+  svg {
+    fill: var(--color-text);
+    margin-left: rem(12);
+  }
+}

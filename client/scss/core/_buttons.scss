@@ -1,0 +1,32 @@
+/**
+ * Base styles for global buttons.
+ */
+@mixin button-base {
+  @include button-reset;
+  @include font-props(14, 14, medium);
+  @include uppercase;
+  background-color: white;
+  color: var(--color-text-dark);
+
+  span {
+    align-items: center;
+    display: flex;
+  }
+}
+
+/**
+ * Transition and turn the inner icon when the button is expanded.
+ */
+@mixin spin-expanded-icon {
+
+  svg {
+    transition: transform 250ms ease-in-out;
+  }
+
+  &[aria-expanded="true"] {
+
+    svg {
+      transform: rotate(0.5turn);
+    }
+  }
+}

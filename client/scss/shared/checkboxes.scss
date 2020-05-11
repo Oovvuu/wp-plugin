@@ -1,0 +1,114 @@
+/* stylelint-disable selector-max-specificity */
+
+/**
+ * Styles a keyword checkbox.
+ */
+.keyword {
+  position: relative;
+
+  &:not(:last-of-type) {
+    margin-right: rem(10);
+  }
+
+  &:focus-within span {
+    box-shadow: 0 0 1px 1px var(--color-theme);
+  }
+
+  input {
+    @include screen-reader-only;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:checked + span {
+      background-color: rgba(21, 157, 143, 0.2);
+      border: solid 1px var(--color-theme);
+    }
+  }
+
+  span {
+    align-items: center;
+    background-color: var(--color-white);
+    border: solid 1px var(--color-decoration);
+    border-radius: rem(16);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: rem(14);
+    font-weight: 500;
+    height: rem(32);
+    justify-content: center;
+    line-height: 1;
+    min-width: rem(163);
+    padding: 0 rem(24);
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+/**
+ * Toggle-style checkbox.
+ */
+.toggle {
+  display: inline-block;
+
+  &:focus-within {
+    text-decoration: underline;
+  }
+
+  label {
+    @include font-props(14, 14, medium);
+    @include uppercase;
+    align-items: center;
+    display: flex;
+  }
+
+  input[type="checkbox"] {
+    @include checkbox-reset;
+    height: rem(20);
+    margin-left: rem(6);
+    outline: none;
+    position: relative;
+    width: rem(34);
+    z-index: 0;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+    }
+
+    &::before {
+      background-color: rgba(18, 22, 27, 0.2);
+      border-radius: rem(7);
+      height: rem(14);
+      left: 0;
+      position: absolute;
+      top: calc(50% - rem(7)); // Minus half the height.
+      width: rem(34);
+      z-index: -1;
+    }
+
+    &::after {
+      background-color: #E4E7EB;
+      border-radius: 50%;
+      height: rem(20);
+      transition: transform 150ms ease-in-out, color 150ms ease-in-out;
+      width: rem(20);
+      z-index: 1;
+    }
+
+    &:checked {
+
+      &::after {
+        background-color: var(--color-theme);
+        transform: translateX(rem(20));
+      }
+
+      &::before {
+        background-color: var(--color-theme);
+        opacity: 0.5;
+      }
+    }
+  }
+}
