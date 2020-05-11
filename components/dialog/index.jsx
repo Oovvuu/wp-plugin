@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import getKeywords from 'services/getKeywords';
+import getPostAttribute from 'services/getPostAttribute';
 import getVideos from 'services/getVideos';
 import Dialog from './dialog';
 
@@ -49,19 +50,24 @@ const DialogWrapper = (props) => {
   };
 
   // Get the post title.
-  const postTitle = wp.data.select('core/editor').getEditedPostAttribute('title');
+  const postTitle = getPostAttribute('title');
 
   /**
    * Updates the keywords based on the current post title and content.
    */
   const updateKeywords = () => {
-    const content = wp.data.select('core/editor').getEditedPostAttribute('content');
-    const id = wp.data.select('core/editor').getEditedPostAttribute('id');
+    const content = getPostAttribute('content');
+    const id = getPostAttribute('id');
 
     // Get keywords based on the current post title and content.
     getKeywords(postTitle, content, id)
       .then((value) => {
-        if (value.data.analyseText.wordings) {
+        if (
+          value !== undefined
+          && value.data !== undefined
+          && value.data.analyseText !== undefined
+          && value.data.analyseText.wordings !== undefined
+        ) {
           setKeywords(value.data.analyseText.wordings);
         }
       })
@@ -75,12 +81,16 @@ const DialogWrapper = (props) => {
    * Fetchs videos given a set of keywords
    */
   const fetchVideos = () => {
-    const id = wp.data.select('core/editor').getEditedPostAttribute('id');
+    const id = getPostAttribute('id');
 
     // Get keywords based on the current post title and content.
     getVideos(keywords, id)
       .then((value) => {
-        if (value.data.videosForArticle) {
+        if (
+          value !== undefined
+          && value.data !== undefined
+          && value.data.videosForArticle !== undefined
+        ) {
           setPositions(value.data.videosForArticle);
         }
       })
@@ -159,7 +169,14 @@ const DialogWrapper = (props) => {
 DialogWrapper.propTypes = {
   keywords: PropTypes.arrayOf(PropTypes.string).isRequired,
   setKeywords: PropTypes.func.isRequired,
-  positions: PropTypes.objectOf(PropTypes.array).isRequired,
+  positions: PropTypes.shape({
+    hero: PropTypes.array,
+    heroSecondary: PropTypes.array,
+    heroEmptyReason: PropTypes.string,
+    positionTwo: PropTypes.array,
+    positionTwoSecondary: PropTypes.array,
+    positionTwoEmptyReason: PropTypes.string,
+  }).isRequired,
   setPositions: PropTypes.func.isRequired,
 };
 
