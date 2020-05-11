@@ -413,7 +413,7 @@ class Auth {
 
 		$cron_hook   = 'oovvuu_auth0_token_refresh';
 		$cron_args   = [ absint( $user_id ) ];
-		$cron_expire = time() + $token['expires_in'] - ( 10 * MINUTE_IN_SECONDS ); // Add a 10 min buffer.
+		$cron_expire = time() + $token['expires_in'] + ( 10 * MINUTE_IN_SECONDS ); // Add a 10 min buffer to ensure the token has expired.
 
 		// Add a single cron event to refresh the token before it expires.
 		if ( ! wp_next_scheduled( $cron_hook, $cron_args ) ) {
