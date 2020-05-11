@@ -1,77 +1,75 @@
-.wrapper {
-  display: none;
-}
-
-.isOpen {
+.overlay {
   align-items: center;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   bottom: 0;
-  display: flex;
+  display: none;
   justify-content: center;
   left: 0;
   position: fixed;
   right: 0;
   top: 0;
   z-index: 9999;
+
+  &[aria-hidden="false"] {
+    display: flex;
+  }
 }
 
 .dialog {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 100px);
-  max-width: calc(100vw - 40px);
-  top: 40px;
-  width: 1400px;
+  background-color: #F2F4F7;
+  color: var(--color-text);
+  font-family: 'Barlow', sans-serif;
+  height: calc(100vh - rem(100));
+  max-width: rem(1462);
+  overflow: hidden;
+  width: calc(100vw - rem(40));
 }
 
-.header,
-.footer {
+.header {
   align-items: center;
-  background-color: #159d8f;
-  color: white;
+  background-color: var(--color-theme);
+  color: var(--color-white);
   display: flex;
-  padding: 8px;
+  height: rem(50);
+  padding: 0 rem(15) 0 rem(8);
+  position: sticky;
+  top: 0;
 }
 
 .oovvuuLogo,
 .wpVipLogo {
-  height: 30px;
-}
+  height: rem(30);
 
-.oovvuuLogo svg,
-.wpVipLogo svg {
-  fill: white;
-  height: 100%;
-  width: auto;
+  svg {
+    fill: var(--color-white);
+    height: 100%;
+    width: auto;
+  }
 }
 
 .logoSeparator {
-  margin: 0 4px;
+  @include font-props(16, 16);
+  margin: 0 rem(5);
 }
 
-.footer {
-  text-align: right;
+.container {
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .content {
-  flex-grow: 1;
-  overflow-y: scroll;
-  padding: 20px;
+  padding: rem(55) rem(32) rem(32) rem(32);
 }
 
 .closeButton {
-  appearance: none;
-  background-color: transparent;
-  border: none;
-  color: white;
-  height: 15px;
+  @include button-reset;
+  height: rem(16);
   margin-left: auto;
-  margin-right: 4px;
-  padding: 0;
-  width: 15px;
+  width: rem(16);
 
   svg {
-    fill: white;
+    fill: var(--color-white);
+    height: auto;
+    width: 100%;
   }
 }
