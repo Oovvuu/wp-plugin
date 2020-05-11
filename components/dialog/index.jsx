@@ -62,12 +62,7 @@ const DialogWrapper = (props) => {
     // Get keywords based on the current post title and content.
     getKeywords(postTitle, content, id)
       .then((value) => {
-        if (
-          value !== undefined
-          && value.data !== undefined
-          && value.data.analyseText !== undefined
-          && value.data.analyseText.wordings !== undefined
-        ) {
+        if (value?.data?.analyseText?.wordings !== undefined) {
           setKeywords(value.data.analyseText.wordings);
         }
       })
