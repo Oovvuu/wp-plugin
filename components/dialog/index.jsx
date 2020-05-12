@@ -4,6 +4,7 @@ import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getVideos from 'services/getVideos';
 import Dialog from './dialog';
+import KeywordSelector from '../keywordSelector/keywordSelector';
 
 const { __ } = wp.i18n;
 
@@ -113,13 +114,8 @@ const DialogWrapper = (props) => {
         closeDialog={closeDialog}
       >
         <h2>{postTitle}</h2>
-        <p>{__('Recommended Keywords', 'oovvuu')}</p>
-        <input
-          type="text"
-          className="widefat"
-          readOnly
-          value={keywords.join(' ')}
-        />
+        <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
+        <KeywordSelector keywords={keywords} postTitle={postTitle} />
         <p>
           <button
             type="button"
