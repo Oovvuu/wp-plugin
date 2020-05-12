@@ -14,7 +14,8 @@
           "./client/**",
         ],
       }
-    ]
+    ],
+    "@babel/plugin-proposal-optional-chaining"
   ],
   "presets": [
     [
