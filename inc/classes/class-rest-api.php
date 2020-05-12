@@ -272,7 +272,7 @@ class REST_API {
 		}
 
 		// Get the user token.
-		$token = Auth::instance()->get_user_token( $current_user_id );
+		$token = Auth::instance()->get_user_token_with_refresh( $current_user_id );
 
 		// Invalid token.
 		if ( ! Auth::instance()->is_token_valid( $token ) ) {

@@ -49,18 +49,18 @@ const DialogWrapper = (props) => {
     }
   };
 
-  // Get the post title.
-  const postTitle = getPostAttribute('title');
+  // Get the post ID.
+  const postID = getPostAttribute('id');
 
   /**
    * Updates the keywords based on the current post title and content.
    */
   const updateKeywords = () => {
+    const title = getPostAttribute('title');
     const content = getPostAttribute('content');
-    const id = getPostAttribute('id');
 
     // Get keywords based on the current post title and content.
-    getKeywords(postTitle, content, id)
+    getKeywords(title, content, postID)
       .then((value) => {
         if (
           value !== undefined
@@ -81,10 +81,8 @@ const DialogWrapper = (props) => {
    * Fetchs videos given a set of keywords
    */
   const fetchVideos = () => {
-    const id = getPostAttribute('id');
-
     // Get keywords based on the current post title and content.
-    getVideos(keywords, id)
+    getVideos(keywords, postID)
       .then((value) => {
         if (
           value !== undefined
@@ -117,7 +115,7 @@ const DialogWrapper = (props) => {
         isOpen={isOpen}
         closeDialog={closeDialog}
       >
-        <h2>{postTitle}</h2>
+        <h2>{getPostAttribute('title')}</h2>
         <p>{__('Recommended Keywords', 'oovvuu')}</p>
         <input
           type="text"
