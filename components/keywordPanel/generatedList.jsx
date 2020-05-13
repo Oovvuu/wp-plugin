@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import KeywordItem from './keywordItem';
-import styles from './keywordSelector.scss';
+import styles from './keywordPanel.scss';
 
 const GeneratedList = (props) => {
   const { keywordItems, onUpdate } = props;
