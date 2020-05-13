@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './keywordPanel.scss';
 
 const KeywordItem = (props) => {
   const {
@@ -8,8 +9,9 @@ const KeywordItem = (props) => {
   } = props;
 
   return (
-    <label htmlFor={id}>
+    <label className={styles.label} htmlFor={id}>
       <input
+        className={styles.input}
         id={id}
         name={keyword}
         onChange={() => onToggle(id)}

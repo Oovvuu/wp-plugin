@@ -1,4 +1,107 @@
-.flexList {
+.panel {
+  background-color: var(--color-white);
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+  padding: 24px 20px;
+  position: relative;
+
+  h3 {
+    @include font-props(14, 16, medium);
+    background-color: var(--color-white);
+    display: inline-block;
+    left: 16px;
+    margin: 0;
+    position: relative;
+    text-transform: uppercase;
+    top: 6px;
+    z-index: 100;
+
+    &::after {
+      background-color: var(--color-white);
+      content: ' ';
+      padding: 0 6px;
+    }
+
+    &::before {
+      background-color: var(--color-white);
+      content: ' ';
+      padding: 0 2px;
+    }
+  }
+
+  h4 {
+    @include font-props(16, 24, regular);
+  }
+}
+
+.selector {
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+  padding: 16px;
+}
+
+/**
+ * Styles for keywords lists, including the following components:
+ *   - GeneratedList
+ *   - UserList
+ *   - KeywordItem
+ */
+
+.keywords {
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  margin-bottom: 20px;
+}
+
+.keyword {
+  margin-right: 10px;
+  position: relative;
+
+  &:not(:last-of-type) {
+    margin-right: 10px;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:focus-within .pill {
+    box-shadow: 0 0 1px 1px #159d8f;
+  }
+
+  label {
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.input {
+  @include screen-reader-only;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:checked + span {
+    background-color: rgba(21, 157, 143, 0.2);
+    border: solid 1px #159d8f;
+  }
+}
+
+.label span {
+  align-items: center;
+  background-color: white;
+  border: solid 1px #e0e0e0;
+  border-radius: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 500;
+  height: 32px;
+  justify-content: center;
+  line-height: 1;
+  min-width: 163px;
+  padding: 0 24px;
+  text-align: center;
+  text-transform: uppercase;
 }

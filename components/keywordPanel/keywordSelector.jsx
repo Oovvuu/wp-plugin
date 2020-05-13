@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 import uuid from 'react-uuid';
 import GeneratedList from './generatedList';
 import UserList from './userList';
+import styles from './keywordPanel.scss';
 
 const KeywordSelector = (props) => {
   const { keywords, onKeywordsUpdated } = props;
@@ -91,7 +92,7 @@ const KeywordSelector = (props) => {
   }, [keywords]);
 
   return (
-    <>
+    <div className={styles.selector}>
       <h4>{__('Select all relevant keywords', 'oovvuu')}</h4>
       <GeneratedList
         keywordItems={itemsFor('generated')}
@@ -99,7 +100,7 @@ const KeywordSelector = (props) => {
       />
       <h4>{__('Add additional keywords here', 'oovvuu')}</h4>
       <UserList keywordItems={itemsFor('user')} onUpdate={handleItemUpdated} />
-    </>
+    </div>
   );
 };
 

@@ -19,9 +19,9 @@ const GeneratedList = (props) => {
   };
 
   return (
-    <ul className={styles.flexList}>
+    <ul className={styles.keywords}>
       {Object.keys(keywordItems).map((key) => (
-        <li key={keywordItems[key].id}>
+        <li className={styles.keyword} key={keywordItems[key].id}>
           <KeywordItem item={keywordItems[key]} onToggle={handleToggle} />
         </li>
       ))}
