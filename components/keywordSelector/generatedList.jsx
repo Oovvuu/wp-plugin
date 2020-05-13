@@ -6,6 +6,11 @@ import styles from './keywordSelector.scss';
 const GeneratedList = (props) => {
   const { keywordItems, onUpdate } = props;
 
+  /**
+   * Flips selected state of a keyword item and calls update callback.
+   *
+   * @param key string UUID key of the updated keyword item.
+   */
   const handleToggle = (key) => {
     const toggled = keywordItems[key];
     toggled.isSelected = !toggled.isSelected;
