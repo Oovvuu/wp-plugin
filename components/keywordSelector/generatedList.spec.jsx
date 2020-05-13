@@ -27,12 +27,11 @@ const mockKeywordItems = keywords.reduce((carry, keyword) => {
 }, {});
 
 describe('KeywordList', () => {
-  beforeEach(() => {
-    jest.spyOn(React, 'useEffect').mockImplementationOnce((effect) => effect());
-  });
-
   it('Renders li for each available keyword', () => {
-    const wrapper = shallow(<GeneratedList keywordItems={mockKeywordItems} onUpdate={() => true} />);
+    const wrapper = shallow(<GeneratedList
+      keywordItems={mockKeywordItems}
+      onUpdate={() => true}
+    />);
 
     expect(wrapper.find('li')).toHaveLength(keywords.length);
   });
