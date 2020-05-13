@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getVideos from 'services/getVideos';
-import KeywordSelector from 'components/keywordSelector/keywordSelector';
+import KeywordPanel from 'components/keywordPanel/keywordPanel';
 import Dialog from './dialog';
 
 const { __ } = wp.i18n;
@@ -115,25 +115,12 @@ const DialogWrapper = (props) => {
         closeDialog={closeDialog}
       >
         <h2>{getPostAttribute('title')}</h2>
-        <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
-        <KeywordSelector
+        <KeywordPanel
           keywords={keywords}
-          onKeywordsUpdated={(updated) => setSelectedKeywords(updated)}
+          onFetchKeywords={fetchKeywords}
+          onFetchVideos={fetchVideos}
+          onSetKeywords={setSelectedKeywords}
         />
-        <p>
-          <button
-            type="button"
-            onClick={fetchKeywords}
-          >
-            {__('Get new Keywords', 'oovvuu')}
-          </button>
-          <button
-            type="button"
-            onClick={fetchVideos}
-          >
-            {__('Fetch Videos', 'oovvuu')}
-          </button>
-        </p>
         <h3>{__('Hero', 'oovvuu')}</h3>
         <div>
           {positions.hero !== undefined && positions.hero.map((value) => (
