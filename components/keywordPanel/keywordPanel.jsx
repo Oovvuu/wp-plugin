@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
 import KeywordSelector from './keywordSelector';
+import styles from './keywordPanel.scss';
 
 const KeywordPanel = (props) => {
   const {
@@ -9,7 +10,7 @@ const KeywordPanel = (props) => {
   } = props;
 
   return (
-    <>
+    <div className={styles.panel}>
       <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector
         keywords={keywords}
@@ -29,7 +30,7 @@ const KeywordPanel = (props) => {
           {__('Fetch Videos', 'oovvuu')}
         </button>
       </p>
-    </>
+    </div>
   );
 };
 
