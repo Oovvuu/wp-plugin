@@ -2,9 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const KeywordItem = (props) => {
-  const { item, onToggle } = props;
+  const {
+    item: { id, isSelected, keyword },
+    onToggle,
+  } = props;
 
-  return <button onClick={() => onToggle(item.id)} type="button">{item.keyword}</button>;
+  return (
+    <label htmlFor={id}>
+      <input
+        id={id}
+        name={keyword}
+        onChange={() => onToggle(id)}
+        checked={isSelected}
+        type="checkbox"
+      />
+      <span>{keyword}</span>
+    </label>
+  );
 };
 
 KeywordItem.propTypes = {
