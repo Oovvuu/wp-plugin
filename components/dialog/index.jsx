@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getVideos from 'services/getVideos';
+import KeywordSelector from 'components/keywordSelector/keywordSelector';
 import Dialog from './dialog';
-import KeywordSelector from '../keywordSelector/keywordSelector';
 
 const { __ } = wp.i18n;
 
@@ -13,11 +13,14 @@ const { __ } = wp.i18n;
  */
 const DialogWrapper = (props) => {
   const {
-    keywords = [],
+    keywords,
     setKeywords,
-    positions = {},
+    positions,
     setPositions,
   } = props;
+
+  // eslint-disable-next-line no-unused-vars
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
 
   // Open/close state.
   const [isOpen, setIsOpen] = useState(false);
@@ -54,9 +57,9 @@ const DialogWrapper = (props) => {
   const postTitle = getPostAttribute('title');
 
   /**
-   * Updates the keywords based on the current post title and content.
+   * Fetches recommended keywords based on the current post title and content.
    */
-  const updateKeywords = () => {
+  const fetchKeywords = () => {
     const content = getPostAttribute('content');
     const id = getPostAttribute('id');
 
@@ -74,7 +77,7 @@ const DialogWrapper = (props) => {
   };
 
   /**
-   * Fetchs videos given a set of keywords
+   * Fetches videos given a set of keywords
    */
   const fetchVideos = () => {
     const id = getPostAttribute('id');
@@ -115,11 +118,14 @@ const DialogWrapper = (props) => {
       >
         <h2>{postTitle}</h2>
         <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
-        <KeywordSelector keywords={keywords} postTitle={postTitle} />
+        <KeywordSelector
+          keywords={keywords}
+          onKeywordsUpdated={(updated) => setSelectedKeywords(updated)}
+        />
         <p>
           <button
             type="button"
-            onClick={updateKeywords}
+            onClick={fetchKeywords}
           >
             {__('Get new Keywords', 'oovvuu')}
           </button>
