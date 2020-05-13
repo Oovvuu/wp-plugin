@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const UserList = (props) => {
   // eslint-disable-next-line no-unused-vars
-  const { keywordItems, onAdd, onRemove } = props;
+  const { keywordItems, onUpdate } = props;
 
   return <p>Hello, world!</p>;
 };
@@ -14,8 +14,7 @@ UserList.propTypes = {
     isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   })).isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default UserList;
