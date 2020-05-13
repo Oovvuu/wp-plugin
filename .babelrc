@@ -7,15 +7,16 @@
         "extensions": [".js", ".jsx"],
         "alias": {
           "components": "./components",
-          "services": "./services",
+          "services": "./services"
         },
         "root": [
           "./",
-          "./client/**",
-        ],
+          "./client/**"
+        ]
       }
     ],
-    "@babel/plugin-proposal-optional-chaining"
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-proposal-object-rest-spread"
   ],
   "presets": [
     [

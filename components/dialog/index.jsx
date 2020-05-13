@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getVideos from 'services/getVideos';
+import KeywordPanel from 'components/keywordPanel/keywordPanel';
 import Dialog from './dialog';
 
 const { __ } = wp.i18n;
@@ -12,11 +13,14 @@ const { __ } = wp.i18n;
  */
 const DialogWrapper = (props) => {
   const {
-    keywords = [],
+    keywords,
     setKeywords,
-    positions = {},
+    positions,
     setPositions,
   } = props;
+
+  // eslint-disable-next-line no-unused-vars
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
 
   // Open/close state.
   const [isOpen, setIsOpen] = useState(false);
@@ -49,18 +53,18 @@ const DialogWrapper = (props) => {
     }
   };
 
-  // Get the post title.
-  const postTitle = getPostAttribute('title');
+  // Get the post ID.
+  const postID = getPostAttribute('id');
 
   /**
-   * Updates the keywords based on the current post title and content.
+   * Fetches recommended keywords based on the current post title and content.
    */
-  const updateKeywords = () => {
+  const fetchKeywords = () => {
+    const title = getPostAttribute('title');
     const content = getPostAttribute('content');
-    const id = getPostAttribute('id');
 
     // Get keywords based on the current post title and content.
-    getKeywords(postTitle, content, id)
+    getKeywords(title, content, postID)
       .then((value) => {
         if (value?.data?.analyseText?.wordings !== undefined) {
           setKeywords(value.data.analyseText.wordings);
@@ -73,13 +77,11 @@ const DialogWrapper = (props) => {
   };
 
   /**
-   * Fetchs videos given a set of keywords
+   * Fetches videos given a set of keywords
    */
   const fetchVideos = () => {
-    const id = getPostAttribute('id');
-
     // Get keywords based on the current post title and content.
-    getVideos(keywords, id)
+    getVideos(keywords, postID)
       .then((value) => {
         if (
           value !== undefined
@@ -112,28 +114,13 @@ const DialogWrapper = (props) => {
         isOpen={isOpen}
         closeDialog={closeDialog}
       >
-        <h2>{postTitle}</h2>
-        <p>{__('Recommended Keywords', 'oovvuu')}</p>
-        <input
-          type="text"
-          className="widefat"
-          readOnly
-          value={keywords.join(' ')}
+        <h2>{getPostAttribute('title')}</h2>
+        <KeywordPanel
+          keywords={keywords}
+          onFetchKeywords={fetchKeywords}
+          onFetchVideos={fetchVideos}
+          onSetKeywords={setSelectedKeywords}
         />
-        <p>
-          <button
-            type="button"
-            onClick={updateKeywords}
-          >
-            {__('Get new Keywords', 'oovvuu')}
-          </button>
-          <button
-            type="button"
-            onClick={fetchVideos}
-          >
-            {__('Fetch Videos', 'oovvuu')}
-          </button>
-        </p>
         <h3>{__('Hero', 'oovvuu')}</h3>
         <div>
           {positions.hero !== undefined && positions.hero.map((value) => (
