@@ -4,7 +4,13 @@ import VideoCardWrapper from './index';
 
 describe('VideoCardWrapper', () => {
   it('Renders p', () => {
-    const wrapper = shallow(<VideoCardWrapper />);
+    const wrapper = shallow(
+      <VideoCardWrapper
+        id={1}
+        thumbnail={{ url: 'url' }}
+        title="title"
+      />,
+    );
 
     expect(wrapper.find('p')).toHaveLength(1);
   });
