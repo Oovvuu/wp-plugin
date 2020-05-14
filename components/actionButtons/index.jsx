@@ -8,7 +8,10 @@ const ActionButtonWrapper = (props) => {
 };
 
 ActionButtonWrapper.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]).isRequired,
 };
 
 export default ActionButtonWrapper;
