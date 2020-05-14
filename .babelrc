@@ -1,4 +1,18 @@
 {
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    }
+  },
   "plugins": [
     "transform-class-properties",
     [
@@ -23,7 +37,8 @@
       "@babel/preset-env",
       {
         "targets": {
-          "browsers": ["last 2 versions", "ie >= 11"]
+          "browsers": ["last 2 versions", "ie >= 11"],
+          "node": "current"
         }
       }
     ],
