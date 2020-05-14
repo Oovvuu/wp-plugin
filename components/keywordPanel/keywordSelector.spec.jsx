@@ -1,9 +1,8 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import KeywordSelector from './keywordSelector';
 import GeneratedList from './generatedList';
 import UserList from './userList';
-import KeywordItem from './keywordItem';
 
 const mockKeywordList = [];
 
@@ -38,28 +37,47 @@ describe('KeywordSelector', () => {
     expect(wrapper.find(UserList)).toHaveLength(1);
   });
 
-  it.skip('Updates selected items from the GeneratedList correctly', () => {
-    jest.spyOn(React, 'useContext')
-      .mockImplementation(() => ({
-        dispatch: jest.fn(),
-        state: { recommendedKeywords: [] },
-      }));
+  describe('Builds and updates items correctly', () => {
+    let dispatchFn;
+    let wrapper;
+    let listComponent;
+    let items;
+    let firstItem;
 
-    const onKeywordsUpdatedFn = jest.fn();
-    const wrapper = mount(<KeywordSelector
-      keywords={['keyword']}
-      onKeywordsUpdated={onKeywordsUpdatedFn}
-    />);
+    beforeEach(() => {
+      dispatchFn = jest.fn();
+      jest.spyOn(React, 'useContext')
+        .mockImplementation(() => ({
+          dispatch: dispatchFn,
+          state: { recommendedKeywords: ['keyword'] },
+        }));
+      jest.spyOn(React, 'useEffect')
+        .mockImplementationOnce((effect) => effect());
 
-    // Make sure we have one and only one KeywordItem.
-    expect(wrapper.find(KeywordItem)).toHaveLength(1);
+      wrapper = shallow(<KeywordSelector />);
 
-    // Select our generated keyword and verify it is added to the selections list.
-    wrapper.find('input[type="checkbox"]').at(0).simulate('change');
-    expect(onKeywordsUpdatedFn.mock.calls[0][0][0]).toContain('keyword');
+      // Find and select keyword item.
+      listComponent = wrapper.find(GeneratedList);
+      items = listComponent.prop('keywordItems');
+      const [firstKey] = Object.keys(items);
+      firstItem = items[firstKey];
+    });
 
-    // Deselect our generated keyword and verify it is removed from the selections list.
-    wrapper.find('input[type="checkbox"]').at(0).simulate('change');
-    expect(onKeywordsUpdatedFn.mock.calls[1][0]).toHaveLength(0);
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('Updates deselected items from the GeneratedList correctly', () => {
+      listComponent.prop('onUpdate')(firstItem);
+
+      expect(dispatchFn).toHaveBeenCalledWith({ payload: [], type: 'UPDATE_SELECTED_KEYWORDS' });
+    });
+
+    it('Updates selected items from the GeneratedList correctly', () => {
+      firstItem.isSelected = true;
+      listComponent.prop('onUpdate')(firstItem);
+
+      expect(dispatchFn).toHaveBeenCalledWith({ payload: [firstItem.keyword], type: 'UPDATE_SELECTED_KEYWORDS' });
+    });
   });
 });
