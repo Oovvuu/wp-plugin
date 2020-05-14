@@ -1,19 +1,14 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
-import OovvuuData from 'components/app/oovvuuDataContext';
 import KeywordPanel from 'components/keywordPanel/keywordPanel';
 import getPostAttribute from 'services/getPostAttribute';
 import Dialog from './dialog';
+import VideosPanel from '../videosPanel/videosPanel';
 
 /**
  * The Dialog container.
  */
 const DialogWrapper = () => {
-  const {
-    state: {
-      recommendedVideos: { hero, positionTwo },
-    },
-  } = React.useContext(OovvuuData);
   const [isOpen, setIsOpen] = React.useState(false);
 
   /**
@@ -44,7 +39,6 @@ const DialogWrapper = () => {
     }
   };
 
-  // @TODO: Update with actual content.
   return (
     <>
       <button
@@ -63,28 +57,7 @@ const DialogWrapper = () => {
       >
         <h2>{getPostAttribute('title')}</h2>
         <KeywordPanel />
-        <h3>{__('Hero', 'oovvuu')}</h3>
-        <div>
-          {hero.map((value) => (
-            <div
-              key={value.id}
-            >
-              <p>{value.title}</p>
-              <img src={value.thumbnail.url} alt="" />
-            </div>
-          ))}
-        </div>
-        <h3>{__('4th Paragraph', 'oovvuu')}</h3>
-        <div>
-          {positionTwo.map((value) => (
-            <div
-              key={value.id}
-            >
-              <p>{value.title}</p>
-              <img src={value.thumbnail.url} alt="" />
-            </div>
-          ))}
-        </div>
+        <VideosPanel />
       </Dialog>
     </>
   );
