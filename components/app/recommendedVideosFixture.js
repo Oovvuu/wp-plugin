@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+
 const recommendedVideos = {
   hero: [
     {
