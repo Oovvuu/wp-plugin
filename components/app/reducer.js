@@ -14,16 +14,26 @@
 const reducer = (state, action) => {
   const { payload, type } = action;
 
+  const nextState = { ...state, lastActionType: type };
+
   switch (type) {
     case 'UPDATE_RECOMMENDED_KEYWORDS':
-      return { ...state, recommendedKeywords: payload };
+      nextState.recommendedKeywords = payload;
+      return nextState;
     case 'UPDATE_RECOMMENDED_VIDEOS':
-      return { ...state, recommendedVideos: payload };
+      nextState.recommendedVideos = payload;
+      return nextState;
     case 'UPDATE_SELECTED_KEYWORDS':
-      return { ...state, selectedKeywords: payload };
+      nextState.selectedKeywords = payload;
+      return nextState;
+    case 'UPDATE_SELECTED_HERO':
+      nextState.selectedVideos.hero = payload;
+      return nextState;
+    case 'UPDATE_SELECTED_POSITION_TWO':
+      nextState.selectedVideos.positionTwo = payload;
+      return nextState;
     default:
-      console.error(`Unknown action:\n${JSON.stringify(action)}`);
-      return state;
+      return nextState;
   }
 };
 
