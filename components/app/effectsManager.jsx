@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
  * Container component to manage side effects related to dispatched context actions. Discrete
  *   actions that affect a single slice of state should go in the state reducer.
  *   The useEffect hook here should be used only to dispatch follow-on actions.
+ *   Inspiration here is drawn from redux-thunk for composing actions to manage side effects
+ *   and keep reducers lean:
+ *
+ * @link https://github.com/reduxjs/redux-thunk
  */
 const EffectsManager = (props) => {
   const {
