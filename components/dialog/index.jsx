@@ -4,6 +4,7 @@ import OovvuuData from 'components/app/oovvuuDataContext';
 import KeywordPanel from 'components/keywordPanel/keywordPanel';
 import getPostAttribute from 'services/getPostAttribute';
 import Dialog from './dialog';
+import styles from './dialog.scss';
 
 /**
  * The Dialog container.
@@ -61,7 +62,7 @@ const DialogWrapper = () => {
         isOpen={isOpen}
         closeDialog={closeDialog}
       >
-        <h2>{getPostAttribute('title')}</h2>
+        <h2 className={styles.postTitle}>{getPostAttribute('title')}</h2>
         <KeywordPanel />
         <h3>{__('Hero', 'oovvuu')}</h3>
         <div>
