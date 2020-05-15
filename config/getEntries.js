@@ -16,8 +16,14 @@ module.exports = function getEntries(mode, entries) {
     'webpack/hot/only-dev-server',
   ];
 
-  return Object.keys(entries).reduce((acc, entry) => ({
-    ...acc,
-    [entry]: [...hotEntries, entries[entry]],
-  }), {});
+  return Object.keys(entries).reduce((acc, entryKey) => {
+    const entry = Array.isArray(entries[entryKey])
+      ? entries[entryKey]
+      : [entries[entryKey]];
+
+    return {
+      ...acc,
+      [entry]: [...hotEntries, ...entry],
+    };
+  }, {});
 };
