@@ -10,13 +10,15 @@
   "scripts": {
     "preinstall": "npx check-node-version --package",
     "build": "webpack --mode=production",
-    "dev": "webpack --mode=development --watch",
+    "dev": "webpack-dev-server --config webpack.config.js --mode development --no-inline",
     "lint": "eslint .",
     "test": "jest --passWithNoTests --config=config/jest.js",
     "test:watch": "jest --watch --passWithNoTests --config=config/jest.js"
   },
   "dependencies": {
     "@brightcove/react-player-loader": "^1.4.0",
+    "@hot-loader/react-dom": "^16.13.0",
+    "@wordpress/i18n": "^3.12.0",
     "classnames": "^2.2.6",
     "eslint-plugin-react-hooks": "^2.5.1",
     "lodash.debounce": "^4.0.8",
@@ -26,8 +28,10 @@
     "prop-types": "^15.6.2",
     "react": "16.9.0",
     "react-dom": "16.9.0",
+    "react-hot-loader": "^4.12.21",
     "react-uuid": "^1.0.2",
-    "sass-resources-loader": "^2.0.3"
+    "sass-resources-loader": "^2.0.3",
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

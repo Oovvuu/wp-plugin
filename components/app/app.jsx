@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import DialogWrapper from 'components/dialog';
 import portalId from 'services/portalId';
@@ -18,4 +19,4 @@ const App = () => (
   </>
 );
 
-export default App;
+export default hot(App);

@@ -1,9 +1,12 @@
+const webpack = require('webpack');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
+const getDevServer = require('./config/devServer');
+const getEntries = require('./config/entries');
 
 const paths = {
   config: path.join(__dirname, './config'),
@@ -15,21 +18,26 @@ const paths = {
 module.exports = (env, argv) => {
   const { mode } = argv;
 
+  // The base entries used in production mode.
+  const entries = {
+    app: './components/app',
+    appClassic: './components/appClassic',
+    fonts: './client/fonts/fonts.scss',
+  };
+
   return {
     devtool: mode === 'production'
       ? 'source-map'
       : 'cheap-module-eval-source-map',
-    entry: {
-      app: './components/app/index.jsx',
-      appClassic: './components/appClassic/index.jsx',
-      fonts: './client/fonts/fonts.scss',
-    },
+    entry: getEntries(mode, entries),
+    devServer: getDevServer(mode, env),
     module: {
       rules: [
         {
           exclude: /node_modules/,
           test: /.jsx?$/,
           use: [
+            'react-hot-loader/webpack',
             'babel-loader',
             'eslint-loader',
           ],
@@ -125,6 +133,9 @@ module.exports = (env, argv) => {
         ? '[name].[chunkhash].bundle.min.js'
         : '[name].js',
       path: paths.build,
+      publicPath: (mode === 'development')
+        ? 'https://8080-httpsproxy.alley.test/build/'
+        : paths.build,
     },
     plugins: [
       new StatsPlugin({
@@ -135,6 +146,13 @@ module.exports = (env, argv) => {
       ...(mode === 'production'
         ? [
           new CleanWebpackPlugin(),
+        ] : []
+      ),
+      ...(mode === 'development'
+        ? [
+          new webpack.HotModuleReplacementPlugin({
+            multiStep: true,
+          }),
         ] : []
       ),
       new StylelintPlugin({
@@ -150,6 +168,7 @@ module.exports = (env, argv) => {
       alias: {
         fonts: paths.fonts,
         shared: path.join(paths.scss, 'shared'),
+        'react-dom': '@hot-loader/react-dom',
       },
     },
     externals: {

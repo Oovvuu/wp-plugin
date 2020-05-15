@@ -110,9 +110,10 @@ function allowed_post_types() {
  */
 function get_versioned_asset_path( $asset_path ) {
 	static $asset_map;
-
 	// Create public path.
-	$base_path = plugins_url( 'build/', __DIR__ );
+	$base_path = is_dev() ?
+		'https://8080-httpsproxy.alley.test/build/' :
+		plugins_url( 'build/', __DIR__ );
 
 	if ( ! isset( $asset_map ) ) {
 		$asset_map_file = dirname( __DIR__ ) . '/build/assetMap.json';
@@ -161,3 +162,29 @@ function inline_locale_data( string $to_handle ) {
 		'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ", 'oovvuu' );"
 	);
 }
+
+/**
+ * Check if we're in FE development mode
+ *
+ * @return bool whether or not we're in development mode
+ */
+function is_dev() {
+	return (
+		( ! empty( $_GET['fe-dev'] ) && 'on' === $_GET['fe-dev'] ) || // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
+		! empty( $_COOKIE['fe-dev'] ) // phpcs:ignore WordPress.VIP.RestrictedVariables.cache_constraints___COOKIE, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE
+	);
+}
+
+/**
+ * Set cookie to truthy value if fe-dev param is set to 'on', otherwise set coookie to falsy value
+ */
+function set_dev_cookie() {
+	if ( ! empty( $_GET['fe-dev'] ) && 'off' === $_GET['fe-dev'] ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
+		setcookie( 'fe-dev', '0', 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl() ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
+		$_COOKIE['fe-dev'] = null; // phpcs:ignore WordPress.VIP.RestrictedVariables.cache_constraints___COOKIE, WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE, WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
+	} elseif ( is_dev() ) {
+		setcookie( 'fe-dev', '1', 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl() ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
+	}
+}
+
+add_action( 'init', __NAMESPACE__ . '\set_dev_cookie' );
