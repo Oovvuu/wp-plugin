@@ -3,7 +3,8 @@ import DialogWrapper from 'components/dialog';
 import 'scss/global/vars.scss';
 
 /**
- * The main app used to render the entire Oovvuu video modal in Gutenberg.
+ * The main app used to render the entire Oovvuu video modal in both classic
+ *   and Gutenberg editors.
  */
 const App = () => (
   <>

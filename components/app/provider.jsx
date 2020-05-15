@@ -1,9 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import OovvuuDataContext from './oovvuuDataContext';
-import initialState from './initial-state';
+import initialState from './initialState';
 import reducer from './reducer';
 
+/**
+ * Main provider for global app state via React context API.
+ *
+ * @param children
+ * @returns {*}
+ * @constructor
+ */
 const Provider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
