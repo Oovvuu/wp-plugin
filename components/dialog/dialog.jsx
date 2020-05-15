@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import portalId from 'services/portalId';
 import keyCodes from 'utils/keyCodes';
 import OovvuuSVGLogo from 'assets/oovvuu-logo.svg';
 import WPVIPSVGLogo from 'assets/wp-vip-logo.svg';
@@ -115,7 +116,7 @@ const Dialog = ({
   );
 
   // The dialog container div.
-  const dialogContainerEl = document.getElementById('oovvuu-dialog-wrapper-container');
+  const dialogContainerEl = document.getElementById(portalId);
 
   // Ensure the DOMNode exists before creating a portal for it.
   return dialogContainerEl ? createPortal(
