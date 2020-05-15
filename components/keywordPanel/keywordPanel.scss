@@ -13,11 +13,13 @@
 
   h4 {
     @include font-props(16, 24, regular);
+    margin: 0 0 rem(20) 0;
   }
 }
 
 .selector {
   border: 1px solid #DEDEDE;
+  border-radius: var(--border-radius);
   margin-bottom: rem(20);
   padding: rem(16);
 }
