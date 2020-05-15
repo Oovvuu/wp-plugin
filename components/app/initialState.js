@@ -15,6 +15,10 @@ const initialState = {
     positionTwoSecondary: [],
   },
   selectedKeywords: [],
+  selectedVideos: {
+    hero: null,
+    positionTwo: [],
+  },
 };
 
 export default initialState;
