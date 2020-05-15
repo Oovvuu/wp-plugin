@@ -16,9 +16,19 @@ const KeywordPanel = (props) => {
   } = React.useContext(oovvuuData);
   const id = getPostAttribute('id');
 
+  /**
+   * onClick handler for the "Get new Keywords" button. Calls the getKeywords
+   *   service with details on the current post. On successful response,
+   *   dispatches an update to application state to set the recommendedKeywords
+   *   from the Oovvuu API.
+   *
+   * @returns {Promise<void>} Future for response data or error object.
+   */
   const handleFetchKeywords = async () => {
     const title = getPostAttribute('title');
     const content = getPostAttribute('content');
+
+    // TODO: Wrap with start and stop loading spinner.
     const response = await getKeywords(title, content, id);
 
     if (!response.hasError) {
@@ -27,7 +37,17 @@ const KeywordPanel = (props) => {
     }
   };
 
+
+  /**
+   * onClick handler for the "Fetch Videos" button. Calls the getVideos
+   *   service with selectedKeywords and the current post ID. On successful response,
+   *   dispatches an update to application state to set the recommendedVideos
+   *   from the Oovvuu API.
+   *
+   * @returns {Promise<void>} Future for response data or error object.
+   */
   const handleFetchVideos = async () => {
+    // TODO: Wrap with start and stop loading spinner.
     const response = await getVideos(selectedKeywords, id);
 
     if (!response.hasError) {
