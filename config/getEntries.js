@@ -23,7 +23,7 @@ module.exports = function getEntries(mode, entries) {
 
     return {
       ...acc,
-      [entry]: [...hotEntries, ...entry],
+      [entryKey]: [...hotEntries, ...entry],
     };
   }, {});
 };
