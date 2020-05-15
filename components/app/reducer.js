@@ -26,11 +26,8 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_KEYWORDS':
       nextState.selectedKeywords = payload;
       return nextState;
-    case 'UPDATE_SELECTED_HERO':
-      nextState.selectedVideos.hero = payload;
-      return nextState;
-    case 'UPDATE_SELECTED_POSITION_TWO':
-      nextState.selectedVideos.positionTwo = payload;
+    case 'UPDATE_SELECTED_VIDEOS':
+      nextState.selectedVideos = payload;
       return nextState;
     default:
       return nextState;
