@@ -7,8 +7,6 @@ import WPVIPSVGLogo from 'assets/wp-vip-logo.svg';
 import CloseSVG from 'assets/close.svg';
 import styles from './dialog.scss';
 
-const { __ } = wp.i18n;
-
 /**
  * The Dialog container.
  */
@@ -17,6 +15,7 @@ const Dialog = ({
   closeDialog,
   children,
 }) => {
+  const { __ } = wp.i18n;
   /**
    * Create references to elements.
    */

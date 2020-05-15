@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { __ } from '@wordpress/i18n';
 import PositionToggleWrapper from 'components/positionToggle';
 
+/**
+ * Stub component for the video position wrapper.
+ */
 const PositionWrapper = (props) => {
+  const { i18n: { __ } } = wp;
   const { children } = props;
 
   return (

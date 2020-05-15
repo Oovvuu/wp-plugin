@@ -1,11 +1,14 @@
 import React from 'react';
-import { __ } from '@wordpress/i18n';
 import OovvuuData from 'components/app/oovvuuDataContext';
 import PositionWrapper from 'components/position';
 import PositionToggle from 'components/positionToggle';
 import VideoCardWrapper from 'components/videoCard';
 
+/**
+ * Stub component for the videos panel.
+ */
 const VideosPanel = () => {
+  const { i18n: { __ } } = wp;
   const { state: { recommendedVideos: { hero } } } = React.useContext(OovvuuData);
 
   return (

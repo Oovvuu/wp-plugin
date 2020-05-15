@@ -6,6 +6,8 @@ import UserList from './userList';
 
 const mockKeywordList = [];
 
+global.wp = { i18n: { __: () => 'translated' } };
+
 describe('KeywordSelector', () => {
   it('Renders GeneratedList', () => {
     jest.spyOn(React, 'useContext')

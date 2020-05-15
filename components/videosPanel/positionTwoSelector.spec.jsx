@@ -7,6 +7,8 @@ jest.spyOn(React, 'useContext')
     state: { recommendedVideos: { positionTwo: [] } },
   }));
 
+global.wp = { i18n: { __: () => 'translated' } };
+
 describe('PositionTwoSelector', () => {
   it('Renders one h3 elements', () => {
     const wrapper = shallow(<PositionTwoSelector />);

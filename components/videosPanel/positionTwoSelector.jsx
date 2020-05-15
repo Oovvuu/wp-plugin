@@ -1,12 +1,14 @@
 import React from 'react';
-import { __ } from '@wordpress/i18n';
-// import PropTypes from 'prop-types';
 import OovvuuData from 'components/app/oovvuuDataContext';
 import PositionWrapper from 'components/position';
 import PositionToggle from 'components/positionToggle';
 import VideoCardWrapper from 'components/videoCard';
 
+/**
+ * Stub component for the positionTwo wrapper.
+ */
 const PositionTwoSelector = () => {
+  const { i18n: { __ } } = wp;
   const { state: { recommendedVideos: { positionTwo } } } = React.useContext(OovvuuData);
 
   return (

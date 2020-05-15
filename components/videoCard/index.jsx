@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Stub component for the video card wrapper.
+ */
 const VideoCardWrapper = (props) => {
   const { id, title, thumbnail: { url } } = props;
 
