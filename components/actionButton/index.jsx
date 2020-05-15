@@ -8,7 +8,7 @@ import buttons from 'shared/buttons.scss';
  *
  * Note: The inner span is required for flex layout.
  */
-const ActionButtonWrapper = (props) => {
+const ActionButton = (props) => {
   const {
     children,
     disabled,
@@ -36,12 +36,12 @@ const ActionButtonWrapper = (props) => {
   );
 };
 
-ActionButtonWrapper.defaultProps = {
+ActionButton.defaultProps = {
   buttonStyle: 'button',
   disabled: false,
 };
 
-ActionButtonWrapper.propTypes = {
+ActionButton.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
@@ -57,4 +57,4 @@ ActionButtonWrapper.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default ActionButtonWrapper;
+export default ActionButton;

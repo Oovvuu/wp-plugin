@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ActionButtonWrapper from './index';
+import ActionButton from './index';
 
-describe('ActionButtonWrapper', () => {
+describe('ActionButton', () => {
   it('Renders button', () => {
     const wrapper = shallow(
-      <ActionButtonWrapper>
+      <ActionButton>
         <span>Hello, world!</span>
-      </ActionButtonWrapper>,
+      </ActionButton>,
     );
 
     expect(wrapper.find('button')).toHaveLength(1);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/oovvuuDataContext';
-import ActionButtonWrapper from 'components/actionButtons';
+import ActionButton from 'components/actionButton';
 import getKeywords from 'services/getKeywords';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
@@ -84,32 +84,32 @@ const KeywordPanelWrapper = (props) => {
       <div className={styles.buttonWrapper}>
         {selectedKeywords.length > 0
           && (
-            <ActionButtonWrapper
+            <ActionButton
               buttonStyle="primary"
             >
               <CloseIcon />
               {__('Clear Selection', 'oovvuu')}
-            </ActionButtonWrapper>
+            </ActionButton>
           )}
 
         {recommendedKeywords.length === 0
           && (
-            <ActionButtonWrapper
+            <ActionButton
               buttonStyle="primary"
               onClickHandler={handleFetchKeywords}
             >
               {__('Get Keywords', 'oovvuu')}
-            </ActionButtonWrapper>
+            </ActionButton>
           )}
 
-        <ActionButtonWrapper
+        <ActionButton
           buttonStyle="primary"
           onClickHandler={handleFetchVideos}
           disabled={!recommendedKeywords.length}
         >
           <SearchIcon />
           {__('Recommend Videos', 'oovvuu')}
-        </ActionButtonWrapper>
+        </ActionButton>
       </div>
     </div>
   );
