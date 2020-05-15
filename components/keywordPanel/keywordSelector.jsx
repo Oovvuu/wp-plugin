@@ -1,18 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
 import uuid from 'react-uuid';
+import oovvuuData from 'components/app/oovvuuDataContext';
 import GeneratedList from './generatedList';
 import UserList from './userList';
 import styles from './keywordPanel.scss';
 
-const KeywordSelector = (props) => {
-  const { keywords, onKeywordsUpdated } = props;
+const KeywordSelector = () => {
   const [allKeywordItems, setAllKeywordItems] = React.useState({});
   const [selectedKeywords, setSelectedKeywords] = React.useState([]);
+  const { dispatch, state: { recommendedKeywords } } = React.useContext(oovvuuData);
 
   /**
-   * Need to track these separately so they are not blown away if keywords
+   * Need to track these separately so they are not blown away if recommendedKeywords
    *   (string list fetched via API) is refreshed.
    */
   const [userKeywordItems, setUserKeywordItems] = React.useState({});
@@ -20,7 +20,7 @@ const KeywordSelector = (props) => {
   /**
    * Handles sync of all state when a keyword item is updated.
    *   - User keyword items require extra handling as they
-   *     must be maintained even when the generated keywords list
+   *     must be maintained even when the generated recommendedKeywords list
    *     is refreshed.
    *   - Keyword item objects should have the following shape:
    *     - id: string (UUID)
@@ -41,7 +41,7 @@ const KeywordSelector = (props) => {
       : selectedKeywords.filter((selected) => selected !== keyword);
     setAllKeywordItems(updatedAllKeywordItems);
     setSelectedKeywords(updatedSelectedKeywords);
-    onKeywordsUpdated(updatedSelectedKeywords);
+    dispatch({ payload: updatedSelectedKeywords, type: 'UPDATE_SELECTED_KEYWORDS' });
 
     // TODO: Refine on build-out of UserList component (OVU-9).
     if (type === 'user') {
@@ -70,11 +70,11 @@ const KeywordSelector = (props) => {
 
   /**
    * Builds the allKeywordItems list, with unique ID, selection state and item type,
-   *   when the keywords prop changes.
+   *   when the recommendedKeywords prop changes.
    */
   React.useEffect(() => {
-    if (keywords.length) {
-      const indexedKeywords = keywords.reduce((carry, keyword) => {
+    if (recommendedKeywords.length) {
+      const indexedKeywords = recommendedKeywords.reduce((carry, keyword) => {
         const id = uuid();
         return {
           ...carry,
@@ -85,11 +85,11 @@ const KeywordSelector = (props) => {
           },
         };
       }, {});
-      // Merge in userKeywordItems, if any, so they are not blown away on keywords update.
+      // Merge in userKeywordItems so they are not blown away on recommendedKeywords update.
       const updatedAllKeywordItems = { ...indexedKeywords, ...userKeywordItems };
       setAllKeywordItems(updatedAllKeywordItems);
     }
-  }, [keywords]);
+  }, [recommendedKeywords]);
 
   return (
     <div className={styles.selector}>
@@ -102,11 +102,6 @@ const KeywordSelector = (props) => {
       <UserList keywordItems={itemsFor('user')} onUpdate={handleItemUpdated} />
     </div>
   );
-};
-
-KeywordSelector.propTypes = {
-  keywords: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onKeywordsUpdated: PropTypes.func.isRequired,
 };
 
 export default KeywordSelector;

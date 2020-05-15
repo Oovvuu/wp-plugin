@@ -1,4 +1,5 @@
 import React from 'react';
+import OovvuuDataProvider from 'components/app/provider';
 import App from './app';
 
 const { PluginDocumentSettingPanel } = wp.editPost;
@@ -32,7 +33,9 @@ const OovvuuPluginDocumentSettingPanel = () => (
     title="Oovvuu"
     className="oovvuu"
   >
-    <App />
+    <OovvuuDataProvider>
+      <App />
+    </OovvuuDataProvider>
   </PluginDocumentSettingPanel>
 );
 registerPlugin('plugin-document-setting-panel-oovvuu', { render: OovvuuPluginDocumentSettingPanel });
