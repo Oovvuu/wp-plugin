@@ -10,7 +10,7 @@ import theme from 'shared/theme.scss';
 import KeywordSelector from './keywordSelector';
 import styles from './keywordPanel.scss';
 
-const KeywordPanel = (props) => {
+const KeywordPanelWrapper = (props) => {
   const { onSetKeywords } = props;
   const {
     dispatch,
@@ -83,6 +83,6 @@ const KeywordPanel = (props) => {
   );
 };
 
-KeywordPanel.propTypes = { onSetKeywords: PropTypes.func.isRequired };
+KeywordPanelWrapper.propTypes = { onSetKeywords: PropTypes.func.isRequired };
 
-export default KeywordPanel;
+export default KeywordPanelWrapper;

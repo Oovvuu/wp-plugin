@@ -1,15 +1,15 @@
 import React from 'react';
-import { __ } from '@wordpress/i18n';
-import KeywordPanel from 'components/keywordPanel/keywordPanel';
+import KeywordPanel from 'components/keywordPanel';
+import VideosPanelWrapper from 'components/videosPanel';
 import getPostAttribute from 'services/getPostAttribute';
 import Dialog from './dialog';
-import VideosPanel from '../videosPanel/videosPanel';
 import styles from './dialog.scss';
 
 /**
  * The Dialog container.
  */
 const DialogWrapper = () => {
+  const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
 
   /**
@@ -58,7 +58,7 @@ const DialogWrapper = () => {
       >
         <h2 className={styles.postTitle}>{getPostAttribute('title')}</h2>
         <KeywordPanel />
-        <VideosPanel />
+        <VideosPanelWrapper />
       </Dialog>
     </>
   );
