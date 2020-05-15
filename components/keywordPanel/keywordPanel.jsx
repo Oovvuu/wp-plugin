@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
+import classnames from 'classnames';
 import oovvuuData from 'components/app/oovvuuDataContext';
 import getKeywords from 'services/getKeywords';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
+import theme from 'shared/theme.scss';
 import KeywordSelector from './keywordSelector';
 import styles from './keywordPanel.scss';
 
@@ -57,13 +59,13 @@ const KeywordPanel = (props) => {
   };
 
   return (
-    <div className={styles.panel}>
+    <div className={classnames(styles.panel, theme.panel)}>
       <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector
         keywords={recommendedKeywords}
         onKeywordsUpdated={(updated) => onSetKeywords(updated)}
       />
-      <p>
+      <div>
         <button
           type="button"
           onClick={handleFetchKeywords}
@@ -76,7 +78,7 @@ const KeywordPanel = (props) => {
         >
           {__('Fetch Videos', 'oovvuu')}
         </button>
-      </p>
+      </div>
     </div>
   );
 };

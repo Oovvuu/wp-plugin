@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './keywordPanel.scss';
+import checkboxes from 'shared/checkboxes.scss';
 
 const KeywordItem = (props) => {
   const {
@@ -9,9 +9,8 @@ const KeywordItem = (props) => {
   } = props;
 
   return (
-    <label className={styles.label} htmlFor={id}>
+    <label className={checkboxes.keyword} htmlFor={id}>
       <input
-        className={styles.input}
         id={id}
         name={keyword}
         onChange={() => onToggle(id)}
