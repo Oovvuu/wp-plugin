@@ -16,6 +16,7 @@
     "test:watch": "jest --watch --passWithNoTests --config=config/jest.js"
   },
   "dependencies": {
+    "@brightcove/react-player-loader": "^1.4.0",
     "classnames": "^2.2.6",
     "eslint-plugin-react-hooks": "^2.5.1",
     "lodash.debounce": "^4.0.8",
