@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import KeywordSelector from './keywordSelector';
-import KeywordPanel from './keywordPanel';
+import KeywordPanelWrapper from './index';
 
 jest.spyOn(React, 'useContext')
   .mockImplementation(() => ({
@@ -24,10 +24,10 @@ global.wp = {
   },
 };
 
-describe('KeywordPanel', () => {
+describe('KeywordPanelWrapper', () => {
   it('Renders KeywordSelector', () => {
     const wrapper = shallow(
-      <KeywordPanel onSetKeywords={jest.fn()} />,
+      <KeywordPanelWrapper onSetKeywords={jest.fn()} />,
     );
 
     expect(wrapper.find(KeywordSelector)).toHaveLength(1);

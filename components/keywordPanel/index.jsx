@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/oovvuuDataContext';
 import getKeywords from 'services/getKeywords';
@@ -10,7 +9,12 @@ import theme from 'shared/theme.scss';
 import KeywordSelector from './keywordSelector';
 import styles from './keywordPanel.scss';
 
-const KeywordPanel = (props) => {
+/**
+ * Wrapper component for the keyword selector panel. Includes generated
+ *   and user-supplied keywords.
+ */
+const KeywordPanelWrapper = (props) => {
+  const { i18n: { __ } } = wp;
   const { onSetKeywords } = props;
   const {
     dispatch,
@@ -83,6 +87,6 @@ const KeywordPanel = (props) => {
   );
 };
 
-KeywordPanel.propTypes = { onSetKeywords: PropTypes.func.isRequired };
+KeywordPanelWrapper.propTypes = { onSetKeywords: PropTypes.func.isRequired };
 
-export default KeywordPanel;
+export default KeywordPanelWrapper;

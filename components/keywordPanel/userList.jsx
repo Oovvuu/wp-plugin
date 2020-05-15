@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Stub component for the user-supplied list of keywords.
+ */
 const UserList = (props) => {
   // eslint-disable-next-line no-unused-vars
   const { keywordItems, onUpdate } = props;

@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import checkboxes from 'shared/checkboxes.scss';
 
+/**
+ * Component for a single pill for selecting and deselecting a keyword.
+ */
 const KeywordItem = (props) => {
   const {
     item: { id, isSelected, keyword },

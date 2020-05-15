@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import KeywordItem from './keywordItem';
 import styles from './keywordPanel.scss';
 
+/**
+ * Component for showing list of recommendedKeywords for the current post.
+ */
 const GeneratedList = (props) => {
   const { keywordItems, onUpdate } = props;
 

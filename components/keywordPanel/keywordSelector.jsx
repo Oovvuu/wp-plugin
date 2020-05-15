@@ -1,12 +1,17 @@
 import React from 'react';
-import { __ } from '@wordpress/i18n';
 import uuid from 'react-uuid';
 import oovvuuData from 'components/app/oovvuuDataContext';
 import GeneratedList from './generatedList';
 import UserList from './userList';
 import styles from './keywordPanel.scss';
 
+/**
+ * Container component aggregating keyword selections from both the generated list
+ *   and the user-supplied list. Handles merging of lists into a master list
+ *   of all selected keywords.
+ */
 const KeywordSelector = () => {
+  const { i18n: { __ } } = wp;
   const [allKeywordItems, setAllKeywordItems] = React.useState({});
   const [selectedKeywords, setSelectedKeywords] = React.useState([]);
   const { dispatch, state: { recommendedKeywords } } = React.useContext(oovvuuData);
