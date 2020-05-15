@@ -18,11 +18,14 @@ const PositionTwoSelector = () => {
         <PositionToggle />
       </header>
       <div>
-        {positionTwo.map(({ id, thumbnail, title }) => (
+        {positionTwo.map(({
+          id, thumbnail, title, preview,
+        }) => (
           <VideoCardWrapper
             id={id}
             thumbnail={thumbnail}
             title={title}
+            preview={preview}
           />
         ))}
       </div>

@@ -4,8 +4,18 @@ import PlayerWrapper from './index';
 
 describe('PositionWrapper', () => {
   it('Renders p', () => {
-    const wrapper = shallow(<PlayerWrapper />);
+    const preview = {
+      brightcoveVideoId: 'xxx',
+      brightcovePlayerId: 'xxx',
+      brightcoveAccountId: 'xxx',
+    };
+    const wrapper = shallow(
+      <PlayerWrapper
+        thumbnailUrl="url"
+        preview={preview}
+      />,
+    );
 
-    expect(wrapper.find('p')).toHaveLength(1);
+    expect(wrapper.find('ReactPlayerLoader')).toHaveLength(1);
   });
 });
