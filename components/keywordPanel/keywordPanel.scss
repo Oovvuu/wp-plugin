@@ -24,6 +24,17 @@
   padding: rem(16);
 }
 
+.description {
+  max-width: rem(530);
+  width: 100%;
+
+  p {
+    @include font-props(16, 16, light);
+    color: var(--color-deactivated);
+    margin: 0;
+  }
+}
+
 .buttonWrapper {
   display: flex;
   justify-content: flex-end;

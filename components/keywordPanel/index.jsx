@@ -72,9 +72,14 @@ const KeywordPanelWrapper = (props) => {
         keywords={recommendedKeywords}
         onKeywordsUpdated={(updated) => onSetKeywords(updated)}
       />
-      <div>
-        <button
-          type="button"
+
+      {recommendedKeywords.length > 0
+        && (
+        <div className={styles.description}>
+          { /* eslint-disable-next-line max-len */ }
+          <p>{__('Select the most contextually relevant keywords and add any additional keywords to ensure your receive the best video recommendation', 'oovvuu')}</p>
+        </div>
+        )}
 
       <div className={styles.buttonWrapper}>
         {selectedKeywords.length > 0
