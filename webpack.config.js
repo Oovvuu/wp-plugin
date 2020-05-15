@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
 const getDevServer = require('./config/devServer');
-const getEntries = require('./config/entries');
+const getEntries = require('./config/getEntries');
 
 const paths = {
   config: path.join(__dirname, './config'),
