@@ -24,6 +24,18 @@
   padding: rem(16);
 }
 
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+
+    &:not(:last-of-type) {
+      margin-right: rem(20);
+    }
+  }
+}
+
 /**
  * Styles for keywords lists, including the following components:
  *   - GeneratedList

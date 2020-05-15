@@ -2,10 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/oovvuuDataContext';
+import ThemeButton from 'components/actionButtons/theme';
 import getKeywords from 'services/getKeywords';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
 import theme from 'shared/theme.scss';
+import SearchIcon from 'assets/search.svg';
+import CloseIcon from 'assets/close.svg';
 import KeywordSelector from './keywordSelector';
 import styles from './keywordPanel.scss';
 
@@ -72,16 +75,32 @@ const KeywordPanelWrapper = (props) => {
       <div>
         <button
           type="button"
-          onClick={handleFetchKeywords}
-        >
-          {__('Get new Keywords', 'oovvuu')}
-        </button>
-        <button
-          type="button"
+
+      <div className={styles.buttonWrapper}>
+        {selectedKeywords.length > 0
+          && (
+            <ThemeButton>
+              <CloseIcon />
+              {__('Clear Selection', 'oovvuu')}
+            </ThemeButton>
+          )}
+
+        {recommendedKeywords.length === 0
+          && (
+            <ThemeButton
+              onClick={handleFetchKeywords}
+            >
+              {__('Get Keywords', 'oovvuu')}
+            </ThemeButton>
+          )}
+
+        <ThemeButton
           onClick={handleFetchVideos}
+          disabled={!recommendedKeywords.length}
         >
-          {__('Fetch Videos', 'oovvuu')}
-        </button>
+          <SearchIcon />
+          {__('Recommend Videos', 'oovvuu')}
+        </ThemeButton>
       </div>
     </div>
   );
