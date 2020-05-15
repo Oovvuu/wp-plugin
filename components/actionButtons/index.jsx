@@ -3,17 +3,33 @@ import PropTypes from 'prop-types';
 import buttons from 'shared/buttons.scss';
 
 /**
- * Wrapper component to create an icon button intended to trigger an action,
- *   such as closing a dialog.
+ * Wrapper component to create a button with text and optional icon intended to
+ * trigger an action.
+ *
+ * Note: The inner span is required for flex layout.
  */
 const ActionButtonWrapper = (props) => {
-  const { children, style, disabled } = props;
+  const {
+    children,
+    disabled,
+    buttonStyle,
+    onClickHandler,
+  } = props;
+
+  const buttonStyles = {
+    button: buttons.button,
+    primary: buttons.buttonTheme,
+    warn: buttons.buttonWarn,
+    warnLarge: buttons.buttonWarnLarge,
+    collapse: buttons.buttonCollapse,
+  };
 
   return (
     <button
-      className={style}
+      className={buttonStyles[buttonStyle]}
       type="button"
       disabled={disabled}
+      onClick={onClickHandler}
     >
       <span>{children}</span>
     </button>
@@ -21,7 +37,7 @@ const ActionButtonWrapper = (props) => {
 };
 
 ActionButtonWrapper.defaultProps = {
-  style: buttons.button,
+  buttonStyle: 'button',
   disabled: false,
 };
 
@@ -30,7 +46,14 @@ ActionButtonWrapper.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]).isRequired,
-  style: PropTypes.string,
+  onClickHandler: PropTypes.func.isRequired,
+  buttonStyle: PropTypes.oneOf([
+    'button',
+    'primary',
+    'warn',
+    'warnLarge',
+    'collapse',
+  ]),
   disabled: PropTypes.bool,
 };
 
