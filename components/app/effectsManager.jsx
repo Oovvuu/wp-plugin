@@ -2,19 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Container component to manage synchronization of selections
- *   when recommendedVideos are updated from the Oovvuu API.
+ * Container component to manage side effects related to dispatched context actions. Discrete
+ *   actions that affect a single slice of state should go in the state reducer.
+ *   The useEffect hook here should be used only to dispatch follow-on actions.
  */
 const EffectsManager = (props) => {
   const {
     actionType, children, dispatch, state,
   } = props;
 
+  const syncSelectedToRecommendedVideos = () => {
+    const { hero, positionTwo } = state.recommendedVideos;
+    dispatch({
+      payload: {
+        hero: { ...hero[0], position: 'hero' },
+        positionTwo: positionTwo.map((video) => ({ ...video, position: 'two' })),
+      },
+      type: 'UPDATE_SELECTED_VIDEOS',
+    });
+  };
+
+  /**
+   * Listens for action types that require additional state updates.
+   */
   React.useEffect(() => {
+    /**
+     * For a new batch of recommendedVideos, reset selectedVideos on all positions.
+     *   Add key to flag current position (for tracking during drag-and-drop
+     *   across positions).
+     */
     if (actionType === 'UPDATE_RECOMMENDED_VIDEOS') {
-      const { hero, positionTwo } = state.recommendedVideos;
-      dispatch({ payload: hero[0], type: 'UPDATE_SELECTED_HERO' });
-      dispatch({ payload: positionTwo, type: 'UPDATE_SELECTED_POSITION_TWO' });
+      syncSelectedToRecommendedVideos();
     }
   }, [actionType]);
 
