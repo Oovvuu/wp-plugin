@@ -169,7 +169,7 @@ function inline_locale_data( string $to_handle ) {
  * @return bool
  */
 function allow_dev_mode() {
-	return is_admin() &&  ( defined( 'ALLOW_DEV_MODE' ) && ALLOW_DEV_MODE );
+	return is_admin() && ( defined( 'ALLOW_DEV_MODE' ) && ALLOW_DEV_MODE );
 }
 
 /**
