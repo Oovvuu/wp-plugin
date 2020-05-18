@@ -1,8 +1,13 @@
 import React from 'react';
 import DialogWrapper from 'components/dialog';
+import portalId from 'services/portalId';
+import addModalDivEl from 'services/addModalDivEl';
 import 'scss/global/vars.scss';
 import OovvuuDataContext from './oovvuuDataContext';
 import EffectsManager from './effectsManager';
+
+// Ensure the app entry point exists.
+addModalDivEl(portalId);
 
 /**
  * The main app used to render the entire Oovvuu video modal in both classic

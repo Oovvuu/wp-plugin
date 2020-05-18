@@ -18,11 +18,14 @@ const VideosPanel = () => {
         <PositionToggle />
       </header>
       <div>
-        {hero.map(({ id, thumbnail, title }) => (
+        {hero.map(({
+          id, thumbnail, title, preview,
+        }) => (
           <VideoCardWrapper
             id={id}
             thumbnail={thumbnail}
             title={title}
+            preview={preview}
           />
         ))}
       </div>
