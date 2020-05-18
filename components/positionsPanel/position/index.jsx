@@ -6,7 +6,7 @@ import VideoCardWrapper from 'components/positionsPanel/videoCard';
 import styles from 'components/positionsPanel/positionsPanel.scss';
 
 /**
- * Stub component for the video position wrapper.
+ * Handles logic for displaying a specific position.
  */
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
