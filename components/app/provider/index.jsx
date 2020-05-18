@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import OovvuuDataContext from './oovvuuDataContext';
-import initialState from './initialState';
-import reducer from './reducer';
+import OovvuuDataContext from '../context';
+import initialState from '../context/initialState';
+import reducer from '../context/reducer';
 
 /**
  * Main provider for global app state via React context API.

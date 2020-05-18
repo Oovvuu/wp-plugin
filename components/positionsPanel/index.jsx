@@ -1,5 +1,5 @@
 import React from 'react';
-import OovvuuDataContext from 'components/app/oovvuuDataContext';
+import OovvuuDataContext from 'components/app/context';
 import PositionWrapper from './position';
 
 /**

@@ -1,6 +1,6 @@
 import React from 'react';
 import uuid from 'react-uuid';
-import oovvuuData from 'components/app/oovvuuDataContext';
+import oovvuuData from 'components/app/context';
 import GeneratedList from '../generatedList';
 import UserList from '../userList';
 import styles from '../keywordPanel.scss';
