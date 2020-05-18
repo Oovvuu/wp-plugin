@@ -14,7 +14,7 @@ const VideosPanelWrapper = () => {
       {hero && (
         <HeroSelector hero={hero} />
       )}
-      {positionTwo.length && (
+      {positionTwo?.length && (
         <PositionTwoSelector positionTwo={positionTwo} />
       )}
     </>
