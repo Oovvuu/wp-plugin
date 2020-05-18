@@ -11,7 +11,7 @@ describe('VideoCardWrapper', () => {
     };
     const wrapper = shallow(
       <VideoCardWrapper
-        id={1}
+        id="1"
         thumbnail={{ url: 'url' }}
         title="title"
         preview={preview}
