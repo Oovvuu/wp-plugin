@@ -112,7 +112,7 @@ function get_versioned_asset_path( $asset_path ) {
 	static $asset_map;
 	// Create public path.
 	$base_path = is_dev() ?
-		'https://8080-httpsproxy.alley.test/build/' :
+		'https://0.0.0.0:8080/build/' :
 		plugins_url( 'build/', __DIR__ );
 
 	if ( ! isset( $asset_map ) ) {

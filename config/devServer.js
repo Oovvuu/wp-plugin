@@ -22,10 +22,6 @@ module.exports = function getDevServer(mode, env) {
         disableHostCheck: true,
         headers: { 'Access-Control-Allow-Origin': '*' },
         host: '0.0.0.0',
-        proxy: {
-          '**': 'https://8080-httpsproxy.alley.test',
-          changeOrigin: true,
-        },
         stats: { colors: true },
         https: http ? false : {
           cert: fs.readFileSync(

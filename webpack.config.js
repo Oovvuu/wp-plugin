@@ -134,7 +134,7 @@ module.exports = (env, argv) => {
         : '[name].js',
       path: paths.build,
       publicPath: (mode === 'development')
-        ? 'https://8080-httpsproxy.alley.test/build/'
+        ? 'https://0.0.0.0:8080/build/'
         : paths.build,
     },
     plugins: [
