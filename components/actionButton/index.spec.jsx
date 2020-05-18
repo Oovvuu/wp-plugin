@@ -5,7 +5,9 @@ import ActionButton from './index';
 describe('ActionButton', () => {
   it('Renders button', () => {
     const wrapper = shallow(
-      <ActionButton>
+      <ActionButton
+        onClickHandler={() => {}}
+      >
         <span>Hello, world!</span>
       </ActionButton>,
     );
