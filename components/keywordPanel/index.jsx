@@ -1,10 +1,13 @@
 import React from 'react';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/oovvuuDataContext';
+import ActionButton from 'components/actionButton';
 import getKeywords from 'services/getKeywords';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
 import theme from 'shared/theme.scss';
+import SearchIcon from 'assets/search.svg';
+import CloseIcon from 'assets/close.svg';
 import KeywordSelector from './keywordSelector';
 import styles from './keywordPanel.scss';
 
@@ -66,19 +69,44 @@ const KeywordPanelWrapper = () => {
       <KeywordSelector
         keywords={recommendedKeywords}
       />
-      <div>
-        <button
-          type="button"
-          onClick={handleFetchKeywords}
+
+      {recommendedKeywords.length > 0
+        && (
+        <div className={styles.description}>
+          { /* eslint-disable-next-line max-len */ }
+          <p>{__('Select the most contextually relevant keywords and add any additional keywords to ensure your receive the best video recommendation', 'oovvuu')}</p>
+        </div>
+        )}
+
+      <div className={styles.buttonWrapper}>
+        {selectedKeywords && selectedKeywords.length > 0
+          && (
+            <ActionButton
+              buttonStyle="primary"
+            >
+              <CloseIcon />
+              {__('Clear Selection', 'oovvuu')}
+            </ActionButton>
+          )}
+
+        {recommendedKeywords.length === 0
+          && (
+            <ActionButton
+              buttonStyle="primary"
+              onClickHandler={handleFetchKeywords}
+            >
+              {__('Get Keywords', 'oovvuu')}
+            </ActionButton>
+          )}
+
+        <ActionButton
+          buttonStyle="primary"
+          onClickHandler={handleFetchVideos}
+          disabled={!recommendedKeywords.length}
         >
-          {__('Get new Keywords', 'oovvuu')}
-        </button>
-        <button
-          type="button"
-          onClick={handleFetchVideos}
-        >
-          {__('Fetch Videos', 'oovvuu')}
-        </button>
+          <SearchIcon />
+          {__('Recommend Videos', 'oovvuu')}
+        </ActionButton>
       </div>
     </div>
   );
