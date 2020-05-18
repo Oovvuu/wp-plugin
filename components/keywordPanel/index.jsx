@@ -82,7 +82,7 @@ const KeywordPanelWrapper = (props) => {
         )}
 
       <div className={styles.buttonWrapper}>
-        {selectedKeywords.length > 0
+        {selectedKeywords && selectedKeywords.length > 0
           && (
             <ActionButton
               buttonStyle="primary"
