@@ -2,23 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import VideoCardWrapper from './index';
 
+const mockVideo = { title: 'title' };
+
 describe('VideoCardWrapper', () => {
   it('Renders p', () => {
-    const preview = {
-      brightcoveVideoId: 'xxx',
-      brightcovePlayerId: 'xxx',
-      brightcoveAccountId: 'xxx',
-    };
     const wrapper = shallow(
-      <VideoCardWrapper
-        id={1}
-        thumbnail={{ url: 'url' }}
-        title="title"
-        preview={preview}
-      />,
+      <VideoCardWrapper video={mockVideo} />,
     );
 
     expect(wrapper.find('p')).toHaveLength(1);
-    expect(wrapper.find('PlayerWrapper')).toHaveLength(1);
   });
 });
