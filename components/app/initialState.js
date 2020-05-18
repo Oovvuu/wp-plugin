@@ -5,6 +5,9 @@
  * @type {{object}}
  */
 const initialState = {
+  isHeroEnabled: true,
+  isPositionTwoEnabled: true,
+  lastActionType: null,
   recommendedKeywords: [],
   recommendedVideos: {
     hero: [],
@@ -15,6 +18,10 @@ const initialState = {
     positionTwoSecondary: [],
   },
   selectedKeywords: [],
+  selectedVideos: {
+    hero: null,
+    positionTwo: [],
+  },
 };
 
 export default initialState;
