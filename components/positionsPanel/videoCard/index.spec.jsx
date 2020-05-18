@@ -7,7 +7,7 @@ const mockVideo = { title: 'title' };
 describe('VideoCardWrapper', () => {
   it('Renders p', () => {
     const wrapper = shallow(
-      <VideoCardWrapper video={mockVideo} />,
+      <VideoCardWrapper positionKey="hero" video={mockVideo} />,
     );
 
     expect(wrapper.find('p')).toHaveLength(1);
