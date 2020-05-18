@@ -4,6 +4,11 @@ import VideosPanelWrapper from './index';
 import HeroSelector from './heroSelector';
 import PositionTwoSelector from './positionTwoSelector';
 
+jest.spyOn(React, 'useContext')
+  .mockImplementation(() => ({
+    state: { selectedVideos: { hero: {}, positionTwo: [{}] } },
+  }));
+
 describe('VideosPanelWrapper', () => {
   it('Renders a HeroSelector', () => {
     const wrapper = shallow(<VideosPanelWrapper />);
