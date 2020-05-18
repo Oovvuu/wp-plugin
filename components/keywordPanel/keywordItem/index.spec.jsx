@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import KeywordItem from './keywordItem';
+import KeywordItem from './';
 
 const id = 'uuid';
 const mockItem = { id, isSelected: false, keyword: 'keyword' };

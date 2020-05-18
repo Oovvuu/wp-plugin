@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import KeywordSelector from './keywordSelector';
-import GeneratedList from './generatedList';
-import UserList from './userList';
+import KeywordSelector from './';
+import GeneratedList from '../generatedList';
+import UserList from '../userList';
 
 const mockKeywordList = [];
 

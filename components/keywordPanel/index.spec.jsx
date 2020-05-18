@@ -27,7 +27,7 @@ global.wp = {
 describe('KeywordPanelWrapper', () => {
   it('Renders KeywordSelector', () => {
     const wrapper = shallow(
-      <KeywordPanelWrapper onSetKeywords={jest.fn()} />,
+      <KeywordPanelWrapper />,
     );
 
     expect(wrapper.find(KeywordSelector)).toHaveLength(1);
