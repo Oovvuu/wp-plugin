@@ -7,7 +7,6 @@ import ReactPlayerLoader from '@brightcove/react-player-loader';
  */
 const PlayerWrapper = (props) => {
   const { videos } = props;
-  const { preview, thumbnail: { url } } = videos[0];
 
   const onSuccess = function (success) {
     console.log(success);
@@ -17,22 +16,33 @@ const PlayerWrapper = (props) => {
     console.log(failure);
   };
 
-  return (
-    preview
-    && preview.brightcoveAccountId
-    && preview.brightcovePlayerId
-    && preview.brightcoveVideoId
-      ? (
-        <ReactPlayerLoader
-          accountId={preview.brightcoveAccountId}
-          playerId={preview.brightcovePlayerId}
-          videoId={preview.brightcoveVideoId}
-          onSuccess={(success) => { onSuccess(success); }}
-          onFailure={(failure) => { onFailure(failure); }}
-        />
-      )
-      : (<img src={url} alt="" />)
-  );
+  /**
+   * At the moment, the player API is in flux, so this is just a stub to identify
+   *   whether we have videos and, if so, to extract the first of the list to show a player.
+   * @returns {null|*}
+   */
+  const getPlayer = () => {
+    if (!videos.length) {
+      return null;
+    }
+
+    const { preview, thumbnail: { url } } = videos[0];
+    const isPreviewConfigured = preview?.brightcoveAccountId
+      && preview?.brightcovePlayerId
+      && preview?.brightcoveVideoId;
+
+    return isPreviewConfigured ? (
+      <ReactPlayerLoader
+        accountId={preview.brightcoveAccountId}
+        playerId={preview.brightcovePlayerId}
+        videoId={preview.brightcoveVideoId}
+        onSuccess={(success) => { onSuccess(success); }}
+        onFailure={(failure) => { onFailure(failure); }}
+      />
+    ) : <img src={url} alt="" />;
+  };
+
+  return getPlayer();
 };
 
 PlayerWrapper.propTypes = {
