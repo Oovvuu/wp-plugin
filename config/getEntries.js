@@ -10,9 +10,11 @@ module.exports = function getEntries(mode, entries) {
     return entries;
   }
 
+  const { PROXY_URL = 'https://0.0.0.0:8080' } = process.env;
+
   const hotEntries = [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?https://8080-httpsproxy.alley.test',
+    `webpack-dev-server/client?${PROXY_URL}`,
     'webpack/hot/only-dev-server',
   ];
 
