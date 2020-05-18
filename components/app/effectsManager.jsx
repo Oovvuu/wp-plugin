@@ -24,7 +24,7 @@ const EffectsManager = (props) => {
     const { hero, positionTwo } = state.recommendedVideos;
     dispatch({
       payload: {
-        hero: { ...hero[0], position: 'hero' },
+        hero: hero.map((video) => ({ ...video, position: 'hero' })),
         positionTwo: positionTwo.map((video) => ({ ...video, position: 'two' })),
       },
       type: 'UPDATE_SELECTED_VIDEOS',

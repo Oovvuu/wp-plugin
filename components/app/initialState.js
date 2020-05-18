@@ -19,7 +19,7 @@ const initialState = {
   },
   selectedKeywords: [],
   selectedVideos: {
-    hero: null,
+    hero: [],
     positionTwo: [],
   },
 };

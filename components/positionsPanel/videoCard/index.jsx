@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerWrapper from 'components/player';
+import PlayerWrapper from './player';
 
 /**
- * Stub component for the video card wrapper.
+ * Displays an individual video with an position.
  */
 const VideoCardWrapper = (props) => {
   const {
@@ -24,7 +24,7 @@ const VideoCardWrapper = (props) => {
 };
 
 VideoCardWrapper.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   thumbnail: PropTypes.shape({ url: PropTypes.string.isRequired }).isRequired,
   preview: PropTypes.shape({
