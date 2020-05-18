@@ -4,8 +4,12 @@ import ActionButton from './index';
 
 describe('ActionButton', () => {
   it('Renders button', () => {
+    const clickHandler = jest.fn();
+
     const wrapper = shallow(
-      <ActionButton>
+      <ActionButton
+        onClickHandler={clickHandler}
+      >
         <span>Hello, world!</span>
       </ActionButton>,
     );
