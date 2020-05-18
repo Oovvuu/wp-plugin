@@ -20,6 +20,7 @@ const paths = {
 
 module.exports = (env, argv) => {
   const { mode } = argv;
+  const { PROXY_URL = 'https://0.0.0.0:8080' } = process.env;
 
   // The base entries used in production mode.
   const entries = {
@@ -137,7 +138,7 @@ module.exports = (env, argv) => {
         : '[name].js',
       path: paths.build,
       publicPath: (mode === 'development')
-        ? 'https://0.0.0.0:8080/build/'
+        ? `${PROXY_URL}/build/`
         : paths.build,
     },
     plugins: [
