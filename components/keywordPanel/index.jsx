@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/oovvuuDataContext';
 import getKeywords from 'services/getKeywords';
@@ -13,9 +12,8 @@ import styles from './keywordPanel.scss';
  * Wrapper component for the keyword selector panel. Includes generated
  *   and user-supplied keywords.
  */
-const KeywordPanelWrapper = (props) => {
+const KeywordPanelWrapper = () => {
   const { i18n: { __ } } = wp;
-  const { onSetKeywords } = props;
   const {
     dispatch,
     state: { recommendedKeywords, selectedKeywords },
@@ -67,7 +65,6 @@ const KeywordPanelWrapper = (props) => {
       <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector
         keywords={recommendedKeywords}
-        onKeywordsUpdated={(updated) => onSetKeywords(updated)}
       />
       <div>
         <button
@@ -86,7 +83,5 @@ const KeywordPanelWrapper = (props) => {
     </div>
   );
 };
-
-KeywordPanelWrapper.propTypes = { onSetKeywords: PropTypes.func.isRequired };
 
 export default KeywordPanelWrapper;

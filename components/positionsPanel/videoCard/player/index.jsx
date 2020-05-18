@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactPlayerLoader from '@brightcove/react-player-loader';
 
 /**
- * Stub component for the video player wrapper.
+ * Displays a specific Brightcove player for a given video.
  */
 const PlayerWrapper = (props) => {
   const { thumbnailUrl, preview } = props;

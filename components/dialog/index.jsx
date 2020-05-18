@@ -1,6 +1,6 @@
 import React from 'react';
 import KeywordPanel from 'components/keywordPanel';
-import VideosPanelWrapper from 'components/videosPanel';
+import PositionsPanelWrapper from 'components/positionsPanel';
 import getPostAttribute from 'services/getPostAttribute';
 import Dialog from './dialog';
 import styles from './dialog.scss';
@@ -58,7 +58,7 @@ const DialogWrapper = () => {
       >
         <h2 className={styles.postTitle}>{getPostAttribute('title')}</h2>
         <KeywordPanel />
-        <VideosPanelWrapper />
+        <PositionsPanelWrapper />
       </Dialog>
     </>
   );

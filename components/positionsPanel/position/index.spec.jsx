@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import PositionToggle from 'components/positionToggle';
+import PositionToggle from '../positionToggle';
 import PositionWrapper from './index';
 
 global.wp = { i18n: { __: () => 'translated' } };
@@ -8,9 +8,10 @@ global.wp = { i18n: { __: () => 'translated' } };
 describe('PositionWrapper', () => {
   it('Renders h3', () => {
     const wrapper = shallow(
-      <PositionWrapper>
-        <p>Hello, world!</p>
-      </PositionWrapper>,
+      <PositionWrapper
+        positionTitle="Title"
+        videos={[]}
+      />,
     );
 
     expect(wrapper.find('h3')).toHaveLength(1);
@@ -18,9 +19,10 @@ describe('PositionWrapper', () => {
 
   it('Renders PositionToggle', () => {
     const wrapper = shallow(
-      <PositionWrapper>
-        <p>Hello, world!</p>
-      </PositionWrapper>,
+      <PositionWrapper
+        positionTitle="Title"
+        videos={[]}
+      />,
     );
 
     expect(wrapper.find(PositionToggle)).toHaveLength(1);
