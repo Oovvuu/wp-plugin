@@ -28,6 +28,8 @@ In order to enable a secure connection you'll need to define a couple enrionment
 * `HTTPS_KEY_PATH` - Path to TLS key relative to current home directory.
 * `HTTPS_CERT_PATH` - Path to TLS cert relative to current home directory.
 
+The default URL for development mode is `0.0.0.0`. Define a `PROXY_URL` in the `.env` file in order to use a different URL.
+
 ## Testing
 
 Run `phpunit` to test against php files and their WordPress integration.
