@@ -1,5 +1,5 @@
 import React from 'react';
-import OovvuuDataDontext from 'components/app/oovvuuDataContext';
+import OovvuuDataContext from 'components/app/oovvuuDataContext';
 import PositionWrapper from './position';
 
 /**
@@ -8,7 +8,7 @@ import PositionWrapper from './position';
  */
 const PositionsPanelWrapper = () => {
   const { i18n: { __ } } = wp;
-  const { state: { selectedVideos: { hero, positionTwo } } } = React.useContext(OovvuuDataDontext);
+  const { state: { selectedVideos: { hero, positionTwo } } } = React.useContext(OovvuuDataContext);
 
   return hero.length && positionTwo.length && (
     <>
