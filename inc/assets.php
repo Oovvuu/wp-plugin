@@ -169,10 +169,14 @@ function inline_locale_data( string $to_handle ) {
  * @return string
  */
 function get_proxy_path() {
-	return sprintf(
-		'%s/build/',
-		getenv( 'PROXY_URL' ) ?? 'https://0.0.0.0:8080'
-	);
+	$proxy_url = 'https://0.0.0.0:8080';
+
+	// Use the value in .env if available.
+	if ( function_exists( 'getenv' ) && ! empty( getenv( 'PROXY_URL' ) ) ) {
+		$proxy_url = getenv( 'PROXY_URL' );
+	}
+
+	return sprintf( '%s/build/', $proxy_url );
 }
 
 /**

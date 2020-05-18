@@ -49,9 +49,6 @@ before_script:
 
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # Install composer dependencies.
-  - composer install
-
   # Couple the PHPUnit version to the PHP version.
   - |
     case "$TRAVIS_PHP_VERSION" in
