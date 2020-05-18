@@ -8,6 +8,9 @@ const createWriteWpAssetManifest = require('./webpack/wpAssets');
 const getDevServer = require('./config/devServer');
 const getEntries = require('./config/getEntries');
 
+// Set variables from .env file.
+require('dotenv').config();
+
 const paths = {
   config: path.join(__dirname, './config'),
   build: path.join(__dirname, './build'),
@@ -30,7 +33,7 @@ module.exports = (env, argv) => {
       ? 'source-map'
       : 'cheap-module-eval-source-map',
     entry: getEntries(mode, entries),
-    devServer: getDevServer(mode, env),
+    devServer: getDevServer(mode),
     module: {
       rules: [
         {
