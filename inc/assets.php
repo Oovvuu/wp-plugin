@@ -164,15 +164,28 @@ function inline_locale_data( string $to_handle ) {
 }
 
 /**
- * Check if we're in FE development mode
+ * Whether development mode is allowed.
+ *
+ * @return bool
+ */
+function allow_dev_mode() {
+	return is_admin() &&  ( defined( 'ALLOW_DEV_MODE' ) && ALLOW_DEV_MODE );
+}
+
+/**
+ * Whether development mode is enabled.
  *
  * @return bool whether or not we're in development mode
  */
 function is_dev() {
-	return (
-		( ! empty( $_GET['fe-dev'] ) && 'on' === $_GET['fe-dev'] ) || // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
-		! empty( $_COOKIE['fe-dev'] ) // phpcs:ignore WordPress.VIP.RestrictedVariables.cache_constraints___COOKIE, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE
-	);
+	if ( allow_dev_mode() ) {
+		return (
+			( ! empty( $_GET['fe-dev'] ) && 'on' === $_GET['fe-dev'] ) || // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
+			! empty( $_COOKIE['fe-dev'] ) // phpcs:ignore WordPress.VIP.RestrictedVariables.cache_constraints___COOKIE, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE
+		);
+	}
+
+	return false;
 }
 
 /**
