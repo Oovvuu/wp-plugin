@@ -1,0 +1,28 @@
+.wrapper {
+  background-color: var(--color-white);
+  border: rem(1) solid var(--color-theme);
+  border-radius: var(--border-radius);
+  margin-bottom: rem(20);
+
+  header {
+    align-items: center;
+    background-color: rgba(#159D8F, 0.2);
+    display: flex;
+    justify-content: space-between;
+    padding: rem(9 7 7);
+  }
+}
+
+h3 {
+
+  &.title {
+    color: var(--color-text);
+    font-size: rem(20);
+    font-weight: $weight-regular;
+    margin: 0;
+
+    span {
+      text-transform: uppercase;
+    }
+  }
+}
