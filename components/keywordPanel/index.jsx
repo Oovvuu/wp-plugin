@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import oovvuuData from 'components/app/oovvuuDataContext';
+import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import getKeywords from 'services/getKeywords';
 import getVideos from 'services/getVideos';
