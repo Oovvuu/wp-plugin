@@ -15,6 +15,11 @@ const EffectsManager = (props) => {
     actionType, children, dispatch, state,
   } = props;
 
+  /**
+   * For a new batch of recommendedVideos, reset selectedVideos on all positions.
+   *   Add key to flag current position (for tracking during drag-and-drop
+   *   across positions).
+   */
   const syncSelectedToRecommendedVideos = () => {
     const { hero, positionTwo } = state.recommendedVideos;
     dispatch({
@@ -30,11 +35,6 @@ const EffectsManager = (props) => {
    * Listens for action types that require additional state updates.
    */
   React.useEffect(() => {
-    /**
-     * For a new batch of recommendedVideos, reset selectedVideos on all positions.
-     *   Add key to flag current position (for tracking during drag-and-drop
-     *   across positions).
-     */
     if (actionType === 'UPDATE_RECOMMENDED_VIDEOS') {
       syncSelectedToRecommendedVideos();
     }
@@ -53,13 +53,9 @@ EffectsManager.propTypes = {
   ]).isRequired,
   dispatch: PropTypes.func.isRequired,
   state: PropTypes.shape({
-    isHeroEnabled: PropTypes.bool.isRequired,
     recommendedVideos: PropTypes.shape({
       hero: PropTypes.arrayOf(PropTypes.object).isRequired,
       positionTwo: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }).isRequired,
-    selectedVideos: PropTypes.shape({
-      hero: PropTypes.object,
     }).isRequired,
   }).isRequired,
 };
