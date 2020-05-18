@@ -3,9 +3,9 @@ import { shallow } from 'enzyme';
 import PositionToggleWrapper from './index';
 
 describe('PositionToggleWrapper', () => {
-  it('Renders p', () => {
+  it('Renders a checkbox', () => {
     const wrapper = shallow(<PositionToggleWrapper />);
 
-    expect(wrapper.find('p')).toHaveLength(1);
+    expect(wrapper.find('input[type="checkbox"]')).toHaveLength(1);
   });
 });

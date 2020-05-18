@@ -7,7 +7,7 @@ import VideoCardWrapper from 'components/videoCard';
 /**
  * Stub component for the videos panel.
  */
-const VideosPanel = () => {
+const HeroSelector = () => {
   const { i18n: { __ } } = wp;
   const { state: { recommendedVideos: { hero } } } = React.useContext(OovvuuData);
 
@@ -33,4 +33,4 @@ const VideosPanel = () => {
   );
 };
 
-export default VideosPanel;
+export default HeroSelector;
