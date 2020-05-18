@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
  * Displays an individual video with an position.
  */
 const VideoCardWrapper = (props) => {
-  const { video: { title } } = props;
+  const { positionKey, video: { title } } = props;
+
+  // TODO: Remove when positionKey is used.
+  console.log(positionKey);
 
   return (
     <div>
@@ -15,6 +18,7 @@ const VideoCardWrapper = (props) => {
 };
 
 VideoCardWrapper.propTypes = {
+  positionKey: PropTypes.string.isRequired,
   video: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }).isRequired,

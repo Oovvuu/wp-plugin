@@ -10,12 +10,25 @@ const PositionsPanelWrapper = () => {
   const { i18n: { __ } } = wp;
   const { state: { selectedVideos: { hero, positionTwo } } } = React.useContext(OovvuuDataContext);
 
-  return hero.length && positionTwo.length && (
+  /**
+   * Load the positions panel when any of the positions have a video.
+   */
+  const positionPanel = hero.length || positionTwo.length ? (
     <>
-      <PositionWrapper title={__('Hero', 'oovvuu')} videos={hero} />
-      <PositionWrapper title={__('Position Two', 'oovvuu')} videos={positionTwo} />
+      <PositionWrapper
+        positionKey="hero"
+        title={__('Hero', 'oovvuu')}
+        videos={hero}
+      />
+      <PositionWrapper
+        positionKey="positionTwo"
+        title={__('Position Two', 'oovvuu')}
+        videos={positionTwo}
+      />
     </>
-  );
+  ) : '';
+
+  return positionPanel;
 };
 
 export default PositionsPanelWrapper;

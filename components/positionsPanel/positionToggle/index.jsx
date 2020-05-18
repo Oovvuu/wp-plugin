@@ -8,21 +8,41 @@ import PositionToggle from './positionToggle';
  */
 const PositionToggleWrapper = (props) => {
   const { positionKey } = props;
-  const { state: { isHeroEnabled, isPositionTwoEnabled } } = React.useContext(OovvuuDataContext);
+  const {
+    dispatch,
+    state: {
+      isHeroEnabled,
+      isPositionTwoEnabled,
+    },
+  } = React.useContext(OovvuuDataContext);
 
   /**
    * Toggles the position enable/disable state.
    */
   const togglePosition = () => {
-    console.log(positionKey);
-    console.log(isHeroEnabled);
-    console.log(isPositionTwoEnabled);
-    console.log('Position state');
+    dispatch({ type: `TOGGLE_POSITION_${positionKey.toUpperCase()}_ENABLED` });
+  };
+
+  /**
+   * Determine if the current position is enabled based on the global context.
+   *
+   * @param  {String} key The position key.
+   * @return {Boolean} True or false on whether or not the position is enabled.
+   */
+  const isPositionEnabled = (key) => {
+    if (key === 'hero') {
+      return isHeroEnabled;
+    } if (key === 'positionTwo') {
+      return isPositionTwoEnabled;
+    }
+
+    return false;
   };
 
   return (
     <PositionToggle
       togglePosition={togglePosition}
+      enabled={isPositionEnabled(positionKey)}
     />
   );
 };

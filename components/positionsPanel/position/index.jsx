@@ -10,7 +10,7 @@ import styles from 'components/positionsPanel/positionsPanel.scss';
  */
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
-  const { title, videos } = props;
+  const { positionKey, title, videos } = props;
 
   return (
     <div className={styles.wrapper}>
@@ -19,21 +19,28 @@ const PositionWrapper = (props) => {
           <span>{__('Position:', 'oovvuu')}</span>
           {` ${title}`}
         </h3>
-        <PositionToggleWrapper />
+        <PositionToggleWrapper positionKey={positionKey} />
       </header>
       <div className={styles.content}>
         <PlayerWrapper videos={videos} />
         {videos.map((video) => (
-          <VideoCardWrapper key={video.id} video={video} />
+          <VideoCardWrapper
+            positionKey={positionKey}
+            key={video.id}
+            video={video}
+          />
         ))}
       </div>
     </div>
   );
 };
 
-PositionWrapper.defaultProps = { title: '' };
+PositionWrapper.defaultProps = {
+  title: '',
+};
 
 PositionWrapper.propTypes = {
+  positionKey: PropTypes.string.isRequired,
   title: PropTypes.string,
   videos: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
