@@ -11,8 +11,6 @@ const PositionToggle = (props) => {
   const { i18n: { __ } } = wp;
   const { togglePosition, enabled } = props;
 
-  console.log(togglePosition, enabled);
-
   return (
     <span className={checkboxes.toggle}>
       <label
