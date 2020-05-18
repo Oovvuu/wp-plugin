@@ -6,7 +6,8 @@ import ReactPlayerLoader from '@brightcove/react-player-loader';
  * Displays a specific Brightcove player for a given video.
  */
 const PlayerWrapper = (props) => {
-  const { thumbnailUrl, preview } = props;
+  const { videos } = props;
+  const { preview, thumbnail: { url } } = videos[0];
 
   const onSuccess = function (success) {
     console.log(success);
@@ -30,17 +31,21 @@ const PlayerWrapper = (props) => {
           onFailure={(failure) => { onFailure(failure); }}
         />
       )
-      : (<img src={thumbnailUrl} alt="" />)
+      : (<img src={url} alt="" />)
   );
 };
 
 PlayerWrapper.propTypes = {
-  thumbnailUrl: PropTypes.string.isRequired,
-  preview: PropTypes.shape({
-    brightcoveVideoId: PropTypes.string,
-    brightcovePlayerId: PropTypes.string,
-    brightcoveAccountId: PropTypes.string.isRequired,
-  }).isRequired,
+  videos: PropTypes.arrayOf(PropTypes.shape({
+    preview: PropTypes.shape({
+      brightcoveVideoId: PropTypes.string,
+      brightcovePlayerId: PropTypes.string,
+      brightcoveAccountId: PropTypes.string.isRequired,
+    }).isRequired,
+    thumbnail: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+    }).isRequired,
+  })).isRequired,
 };
 
 export default PlayerWrapper;
