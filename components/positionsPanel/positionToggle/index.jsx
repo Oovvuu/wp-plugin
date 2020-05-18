@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './positionToggle.scss';
 
 /**
- * Stub component for position toggle wrapper component.
+ * Displays the toggle to enable/disable a position.
  */
 const PositionToggleWrapper = () => (
   <span className={styles.toggle}>
