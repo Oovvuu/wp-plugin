@@ -1,31 +1,34 @@
 import React from 'react';
-import uuid from 'react-uuid';
-import checkboxes from 'shared/checkboxes.scss';
+import PropTypes from 'prop-types';
+import OovvuuDataContext from 'components/app/context';
+import PositionToggle from './positionToggle';
 
 /**
  * Displays the toggle to enable/disable a position.
  */
-const PositionToggleWrapper = () => {
-  const id = uuid();
-  const { i18n: { __ } } = wp;
+const PositionToggleWrapper = (props) => {
+  const { positionKey } = props;
+  const { state: { isHeroEnabled, isPositionTwoEnabled } } = React.useContext(OovvuuDataContext);
+
+  /**
+   * Toggles the position enable/disable state.
+   */
+  const togglePosition = () => {
+    console.log(positionKey);
+    console.log(isHeroEnabled);
+    console.log(isPositionTwoEnabled);
+    console.log('Position state');
+  };
 
   return (
-    <span className={checkboxes.toggle}>
-      <label
-        htmlFor={id}
-        className="uppercase"
-      >
-        {__('Show on article', 'oovvuu')}
-        <input
-          className=""
-          name="tag"
-          id={id}
-          value={__('Show on article', 'oovvuu')}
-          type="checkbox"
-        />
-      </label>
-    </span>
+    <PositionToggle
+      togglePosition={togglePosition}
+    />
   );
+};
+
+PositionToggleWrapper.propTypes = {
+  positionKey: PropTypes.string.isRequired,
 };
 
 export default PositionToggleWrapper;
