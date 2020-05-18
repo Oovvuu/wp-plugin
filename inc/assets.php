@@ -112,7 +112,7 @@ function get_versioned_asset_path( $asset_path ) {
 	static $asset_map;
 	// Create public path.
 	$base_path = is_dev() ?
-		'https://0.0.0.0:8080/build/' :
+		get_proxy_path() :
 		plugins_url( 'build/', __DIR__ );
 
 	if ( ! isset( $asset_map ) ) {
@@ -160,6 +160,18 @@ function inline_locale_data( string $to_handle ) {
 	wp_add_inline_script(
 		$to_handle,
 		'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ", 'oovvuu' );"
+	);
+}
+
+/**
+ * Get the development mode proxy URL from .env
+ *
+ * @return string
+ */
+function get_proxy_path() {
+	return sprintf(
+		'%s/build/',
+		getenv( 'PROXY_URL' ) ?? 'https://0.0.0.0:8080'
 	);
 }
 

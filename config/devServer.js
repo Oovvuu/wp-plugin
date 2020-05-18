@@ -5,7 +5,12 @@ const os = require('os');
 module.exports = function getDevServer(mode) {
   switch (mode) {
     case 'development': {
-      const { HTTPS_CERT_PATH, HTTPS_KEY_PATH } = process.env;
+      const {
+        HTTPS_CERT_PATH,
+        HTTPS_KEY_PATH,
+        PROXY_URL,
+      } = process.env;
+
       let https = false;
 
       if (HTTPS_KEY_PATH && HTTPS_CERT_PATH) {
@@ -21,6 +26,10 @@ module.exports = function getDevServer(mode) {
         https = { cert, key };
       }
 
+      const proxy = PROXY_URL
+        ? { '**': PROXY_URL, changeOrigin: true }
+        : {};
+
       return {
         hot: true,
         inline: false,
@@ -30,6 +39,7 @@ module.exports = function getDevServer(mode) {
         disableHostCheck: true,
         headers: { 'Access-Control-Allow-Origin': '*' },
         host: '0.0.0.0',
+        proxy,
         stats: { colors: true },
         https,
       };
