@@ -19,7 +19,7 @@ const mockVideos = [{
 describe('PositionWrapper', () => {
   it('Renders h3', () => {
     const wrapper = shallow(
-      <PositionWrapper title="title" videos={mockVideos} />,
+      <PositionWrapper positionKey="hero" title="title" videos={mockVideos} />,
     );
 
     expect(wrapper.find('h3')).toHaveLength(1);
@@ -27,7 +27,7 @@ describe('PositionWrapper', () => {
 
   it('Renders PositionToggle', () => {
     const wrapper = shallow(
-      <PositionWrapper title="title" videos={mockVideos} />,
+      <PositionWrapper positionKey="hero" title="title" videos={mockVideos} />,
     );
 
     expect(wrapper.find(PositionToggle)).toHaveLength(1);
@@ -35,7 +35,7 @@ describe('PositionWrapper', () => {
 
   it('Renders PlayerWrapper', () => {
     const wrapper = shallow(
-      <PositionWrapper title="title" videos={mockVideos} />,
+      <PositionWrapper positionKey="hero" title="title" videos={mockVideos} />,
     );
 
     expect(wrapper.find(PlayerWraper)).toHaveLength(1);
