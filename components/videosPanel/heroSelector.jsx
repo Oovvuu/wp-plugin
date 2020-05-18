@@ -1,7 +1,6 @@
 import React from 'react';
 import OovvuuData from 'components/app/oovvuuDataContext';
 import PositionWrapper from 'components/position';
-import PositionToggle from 'components/positionToggle';
 import VideoCardWrapper from 'components/videoCard';
 
 /**
@@ -12,11 +11,7 @@ const HeroSelector = () => {
   const { state: { recommendedVideos: { hero } } } = React.useContext(OovvuuData);
 
   return (
-    <PositionWrapper>
-      <header>
-        <h3>{__('Hero', 'oovvuu')}</h3>
-        <PositionToggle />
-      </header>
+    <PositionWrapper label={__('Hero', 'oovvuu')}>
       <div>
         {hero.map(({
           id, thumbnail, title, preview,
