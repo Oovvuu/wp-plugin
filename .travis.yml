@@ -9,11 +9,6 @@ services:
   - mysql
   - memcached
 
-# Bionic does not start mysql or memcached by default
-services:
-  - mysql
-  - memcached
-
 # Declare project language.
 # @link http://about.travis-ci.org/docs/user/languages/php/
 language: php
