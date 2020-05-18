@@ -187,4 +187,4 @@ function set_dev_cookie() {
 	}
 }
 
-add_action( 'init', __NAMESPACE__ . '\set_dev_cookie' );
+add_action( 'admin_init', __NAMESPACE__ . '\set_dev_cookie' );
