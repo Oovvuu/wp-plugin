@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// eslint-disable-next-line no-unused-vars
 import moment from 'moment';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/actionButton';
-import CloseIcon from 'assets/close.svg';
+import ClearIcon from 'assets/clear.svg';
 import styles from './videoCard.scss';
 import Badge from './badge';
 
@@ -71,7 +70,7 @@ const VideoCardWrapper = (props) => {
             buttonStyle="collapse"
             onClickHandler={removeVideo}
           >
-            <CloseIcon />
+            <ClearIcon />
           </ActionButton>
         </header>
         <p className={styles.description}>{description}</p>
