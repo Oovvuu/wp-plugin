@@ -12,17 +12,8 @@ import classnames from 'classnames';
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
   const {
-    positionKey, title, videos,
+    positionKey, title, videos, enabled,
   } = props;
-
-  const [enabled, setEnabled] = React.useState(true);
-
-  /**
-   * Toggles the enabled state.
-   */
-  const toggleEnabled = () => {
-    setEnabled(!enabled);
-  };
 
   return (
     <div className={classnames(styles.wrapper, { [styles.disabled]: !enabled })}>
@@ -33,7 +24,6 @@ const PositionWrapper = (props) => {
         </h3>
         <PositionToggleWrapper
           positionKey={positionKey}
-          toggleEnabled={toggleEnabled}
         />
       </header>
       <div className={styles.content}>
@@ -52,11 +42,13 @@ const PositionWrapper = (props) => {
 
 PositionWrapper.defaultProps = {
   title: '',
+  enabled: true,
 };
 
 PositionWrapper.propTypes = {
   positionKey: PropTypes.string.isRequired,
   title: PropTypes.string,
+  enabled: PropTypes.bool,
   videos: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
   })).isRequired,

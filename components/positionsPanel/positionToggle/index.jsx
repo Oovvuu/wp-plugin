@@ -7,7 +7,7 @@ import PositionToggle from './positionToggle';
  * Displays the toggle to enable/disable a position.
  */
 const PositionToggleWrapper = (props) => {
-  const { positionKey, toggleEnabled } = props;
+  const { positionKey } = props;
   const {
     dispatch,
     state: {
@@ -20,7 +20,6 @@ const PositionToggleWrapper = (props) => {
    * Toggles the position enable/disable state.
    */
   const togglePosition = () => {
-    toggleEnabled();
     dispatch({ type: `TOGGLE_POSITION_${positionKey.toUpperCase()}_ENABLED` });
   };
 
@@ -50,7 +49,6 @@ const PositionToggleWrapper = (props) => {
 
 PositionToggleWrapper.propTypes = {
   positionKey: PropTypes.string.isRequired,
-  toggleEnabled: PropTypes.func.isRequired,
 };
 
 export default PositionToggleWrapper;
