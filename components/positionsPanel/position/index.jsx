@@ -29,7 +29,9 @@ const PositionWrapper = (props) => {
           />
         </header>
         <div className={styles.content}>
-          <PlayerWrapper videos={videos} />
+          <div className={classnames(styles.playerWrapper, theme.panel)}>
+            <PlayerWrapper videos={videos} />
+          </div>
           <div className={styles.cardsWrapper}>
             {videos.map((video) => (
               <VideoCardWrapper

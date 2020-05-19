@@ -37,6 +37,15 @@
   padding: 0 rem(28) rem(14) rem(16);
 }
 
+.playerWrapper {
+  height: max-content;
+  padding: rem(10);
+}
+
+:global(.brightcove-react-player-loader) {
+  /* tbd */
+}
+
 .title {
   @include font-props(20, normal, medium);
   color: var(--color-text);
