@@ -29,7 +29,12 @@ const PositionWrapper = (props) => {
           />
         </header>
         <div className={styles.content}>
-          <div className={classnames(styles.playerWrapper, theme.panel)}>
+          <div className={classnames(
+            styles.playerWrapper,
+            theme.panel,
+            { [styles[`playerCount${videos.length}`]]: videos.length },
+          )}
+          >
             <PlayerWrapper videos={videos} />
           </div>
           <div className={styles.cardsWrapper}>

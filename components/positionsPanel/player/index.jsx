@@ -37,6 +37,7 @@ const PlayerWrapper = (props) => {
           accountId={preview.brightcoveAccountId}
           playerId={preview.brightcovePlayerId}
           videoId={preview.brightcoveVideoId}
+          embedOptions={{ responsive: true }}
           onSuccess={(success) => { onSuccess(success); }}
           onFailure={(failure) => { onFailure(failure); }}
         />
