@@ -95,7 +95,7 @@ const KeywordPanelWrapper = () => {
               buttonStyle="primary"
               onClickHandler={handleFetchKeywords}
             >
-              {__('Get Keywords', 'oovvuu')}
+              <>{__('Get Keywords', 'oovvuu')}</>
             </ActionButton>
           )}
 

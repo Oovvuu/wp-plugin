@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+}
+
+.content {
+
+  header {
+    background-color: inherit;
+
+    h4 {
+      @include font-props(18, 26, medium);
+      margin: 0;
+    }
+  }
+}
+
+.description {
+  padding-left: rem(7);
+}
