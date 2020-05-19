@@ -1,21 +1,40 @@
 .wrapper {
-  display: flex;
+  box-shadow: var(--box-shadow-deep);
+  display: grid;
+  grid-gap: rem(10) rem(20);
+  grid-template-areas:
+    'logo title'
+    'logo meta'
+    'logo description';
+  padding: rem(10) rem(26) rem(10) rem(10);
 }
 
-.content {
+.logo {
+  grid-area: logo;
+  height: rem(60);
+  width: rem(60);
 
-  header {
-    background-color: inherit;
-
-    h4 {
-      @include font-props(18, 26, medium);
-      margin: 0;
-    }
+  img {
+    display: block;
+    max-width: 100%;
   }
 }
 
+.title {
+  @include font-props(20, normal, medium);
+  grid-area: title;
+  margin: 0;
+}
+
+.meta {
+  align-items: center;
+  display: flex;
+}
+
 .description {
-  padding-left: rem(7);
+  @include font-props(16, 24);
+  grid-area: description;
+  margin: 0;
 }
 
 .removeVideo {
