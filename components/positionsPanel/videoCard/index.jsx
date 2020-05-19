@@ -65,7 +65,7 @@ const VideoCardWrapper = (props) => {
           <div className={styles.meta}>
             <Badge text={clipLength} />
             <Badge text={moment(modified).fromNow()} />
-            <Badge text="hello" type="embed" />
+            <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
           </div>
           <ActionButton
             buttonStyle="collapse"

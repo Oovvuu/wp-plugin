@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import CheckCircle from 'assets/check-circle.svg';
 import styles from './badge.scss';
@@ -7,7 +8,7 @@ const Badge = (props) => {
   const { text, type } = props;
 
   return (
-    <span className={`${styles.meta} ${styles.uppercase}`}>
+    <span className={classNames(styles.meta, styles.uppercase)}>
       {type === 'embed' && <CheckCircle />}
       {text}
     </span>
