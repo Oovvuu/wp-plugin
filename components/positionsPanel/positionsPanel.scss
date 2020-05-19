@@ -13,6 +13,14 @@
   }
 }
 
+.disabled {
+  border: rem(1) solid var(--color-deactivated);
+
+  header {
+    background-color: rgba(#9E9E9E, 0.2);
+  }
+}
+
 h3 {
 
   &.title {
