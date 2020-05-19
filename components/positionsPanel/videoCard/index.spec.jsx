@@ -13,6 +13,7 @@ const mockVideo = {
   description: 'description',
   title: 'title',
 };
+global.wp = { i18n: { __: () => 'translated' } };
 
 describe('VideoCardWrapper', () => {
   it('Renders logo image', () => {
