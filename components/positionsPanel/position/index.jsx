@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import PlayerWrapper from 'components/positionsPanel/player';
 import PositionToggleWrapper from 'components/positionsPanel/positionToggle';
 import VideoCardWrapper from 'components/positionsPanel/videoCard';
+import theme from 'shared/theme.scss';
 import styles from './position.scss';
 
 /**
@@ -16,25 +17,27 @@ const PositionWrapper = (props) => {
   } = props;
 
   return (
-    <div className={classnames(styles.wrapper, { [styles.disabled]: !enabled })}>
-      <header>
-        <h3 className={styles.title}>
-          <span>{__('Position:', 'oovvuu')}</span>
-          {` ${title}`}
-        </h3>
-        <PositionToggleWrapper
-          positionKey={positionKey}
-        />
-      </header>
-      <div className={styles.content}>
-        <PlayerWrapper videos={videos} />
-        {videos.map((video) => (
-          <VideoCardWrapper
+    <div className={classnames(styles.panel, theme.panel)}>
+      <div className={classnames(styles.wrapper, { [styles.disabled]: !enabled })}>
+        <header className={styles.positionHeader}>
+          <h3 className={styles.title}>
+            <span>{__('Position:', 'oovvuu')}</span>
+            {` ${title}`}
+          </h3>
+          <PositionToggleWrapper
             positionKey={positionKey}
-            key={video.id}
-            video={video}
           />
-        ))}
+        </header>
+        <div className={styles.content}>
+          <PlayerWrapper videos={videos} />
+          {videos.map((video) => (
+            <VideoCardWrapper
+              positionKey={positionKey}
+              key={video.id}
+              video={video}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -4,16 +4,17 @@ $color-theme: #159D8F;
   // Basic colors.
   --color-white: #FFFFFF;
   --color-black: #000000;
+  --color-gray-dark: #383838;
 
   // Theme colors.
   --color-theme: #{$color-theme};
-  --color-theme-faded: rgba($color-theme, 0.2);
+  --color-theme-faded: #{rgba($color-theme, 0.2)};
   --color-warn: #D32F2F;
   --color-decoration: #E0E0E0;
   --color-deactivated: #9E9E9E;
 
   // Text
-  --color-text: #383838;
+  --color-text: var(--color-gray-dark);
   --color-text-dark: #263238;
 
   // Shadows.
