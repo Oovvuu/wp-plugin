@@ -4,22 +4,37 @@ import PlayerWrapper from 'components/positionsPanel/player';
 import PositionToggleWrapper from 'components/positionsPanel/positionToggle';
 import VideoCardWrapper from 'components/positionsPanel/videoCard';
 import styles from 'components/positionsPanel/positionsPanel.scss';
+import classnames from 'classnames';
 
 /**
  * Handles logic for displaying a specific position.
  */
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
-  const { positionKey, title, videos } = props;
+  const {
+    positionKey, title, videos,
+  } = props;
+
+  const [enabled, setEnabled] = React.useState(true);
+
+  /**
+   * Toggles the enabled state.
+   */
+  const toggleEnabled = () => {
+    setEnabled(!enabled);
+  };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={classnames(styles.wrapper, { [styles.disabled]: !enabled })}>
       <header>
         <h3 className={styles.title}>
           <span>{__('Position:', 'oovvuu')}</span>
           {` ${title}`}
         </h3>
-        <PositionToggleWrapper positionKey={positionKey} />
+        <PositionToggleWrapper
+          positionKey={positionKey}
+          toggleEnabled={toggleEnabled}
+        />
       </header>
       <div className={styles.content}>
         <PlayerWrapper videos={videos} />
