@@ -22,6 +22,8 @@ const VideoCardWrapper = (props) => {
         },
       },
       description,
+      duration,
+      modified,
       id,
       title,
     },
@@ -58,7 +60,9 @@ const VideoCardWrapper = (props) => {
         <header>
           <h4>{title}</h4>
           <div className={styles.meta}>
-            <Badge text="hello" />
+            <Badge text={parseInt(duration, 10)} />
+            <Badge text={modified} />
+            <Badge text="hello" type="embed" />
           </div>
           <ActionButton
             buttonStyle="collapse"
@@ -84,6 +88,8 @@ VideoCardWrapper.propTypes = {
       }).isRequired,
     }).isRequired,
     description: PropTypes.string.isRequired,
+    duration: PropTypes.number.isRequired,
+    modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
