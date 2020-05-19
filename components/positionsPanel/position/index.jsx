@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import PlayerWrapper from 'components/positionsPanel/player';
 import PositionToggleWrapper from 'components/positionsPanel/positionToggle';
 import VideoCardWrapper from 'components/positionsPanel/videoCard';
-import styles from 'components/positionsPanel/positionsPanel.scss';
-import classnames from 'classnames';
+import styles from './position.scss';
 
 /**
  * Handles logic for displaying a specific position.

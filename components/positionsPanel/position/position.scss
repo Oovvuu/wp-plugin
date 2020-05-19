@@ -13,6 +13,10 @@
   }
 }
 
+.content {
+  display: flex;
+}
+
 .disabled {
   border: rem(1) solid var(--color-deactivated);
 
