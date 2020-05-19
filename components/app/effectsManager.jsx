@@ -21,11 +21,15 @@ const EffectsManager = (props) => {
    *   across positions).
    */
   const syncSelectedToRecommendedVideos = () => {
-    const { hero, positionTwo } = state.recommendedVideos;
+    const {
+      hero, heroSecondary, positionTwo, positionTwoSecondary,
+    } = state.recommendedVideos;
     dispatch({
       payload: {
         hero: hero.map((video) => ({ ...video, position: 'hero' })),
-        positionTwo: positionTwo.map((video) => ({ ...video, position: 'two' })),
+        heroSecondary: heroSecondary.map((video) => ({ ...video, position: 'heroSecondary' })),
+        positionTwo: positionTwo.map((video) => ({ ...video, position: 'positionTwo' })),
+        positionTwoSecondary: positionTwoSecondary.map((video) => ({ ...video, position: 'positionTwoSecondary' })),
       },
       type: 'UPDATE_SELECTED_VIDEOS',
     });
@@ -55,7 +59,9 @@ EffectsManager.propTypes = {
   state: PropTypes.shape({
     recommendedVideos: PropTypes.shape({
       hero: PropTypes.arrayOf(PropTypes.object).isRequired,
+      heroSecondary: PropTypes.arrayOf(PropTypes.object).isRequired,
       positionTwo: PropTypes.arrayOf(PropTypes.object).isRequired,
+      positionTwoSecondary: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }).isRequired,
 };

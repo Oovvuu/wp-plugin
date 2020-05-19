@@ -13,7 +13,10 @@ module.exports = {
     '<rootDir>/config/configureEnzyme.js',
     '<rootDir>/node_modules/jest-enzyme/lib/index.js',
   ],
-  testMatch: ['<rootDir>/components/**/?(*.)+(spec|test).[jt]s?(x)'],
+  testMatch: [
+    '<rootDir>/components/**/?(*.)+(spec|test).[jt]s?(x)',
+    '<rootDir>/services/**/?(*.)+(spec|test).[jt]s?(x)',
+  ],
   transformIgnorePatterns: [
     '/node_modules/(?!aria-components).+(js|jsx)$',
   ],

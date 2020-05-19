@@ -1,29 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import icon from 'assets/check-circle.svg';
+import styles from './badge.scss';
 
 const Badge = (props) => {
-  const {
-    text,
-    /* eslint-disable */
-    bgColor,
-    icon,
-     /* eslint-enable */
-  } = props;
+  const { text, type } = props;
 
   return (
-    <span>{text}</span>
+    <>
+      {type === 'embed' && icon}
+      <span className={`${styles.meta} ${styles.uppercase}`}>{text}</span>
+    </>
   );
 };
 
-Badge.defaultProps = {
-  bgColor: 'grey',
-  icon: () => true,
-};
+Badge.defaultProps = { type: 'default' };
 
 Badge.propTypes = {
   text: PropTypes.string.isRequired,
-  bgColor: PropTypes.string,
-  icon: PropTypes.func,
+  type: PropTypes.string,
 };
 
 
