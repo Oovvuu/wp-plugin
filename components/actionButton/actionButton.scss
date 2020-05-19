@@ -98,3 +98,10 @@
     margin-left: rem(12);
   }
 }
+
+/**
+ * Clickable Icons.
+ */
+.buttonIcon {
+  @include button-reset;
+}
