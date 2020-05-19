@@ -12,7 +12,7 @@ const mockVideo = {
   },
   description: 'description',
   duration: 61,
-  modified: Date.now().toString(),
+  modified: new Date().toISOString(),
   id: 'id',
   title: 'title',
 };
