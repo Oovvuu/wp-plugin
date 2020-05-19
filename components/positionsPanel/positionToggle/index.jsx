@@ -20,7 +20,7 @@ const PositionToggleWrapper = (props) => {
    * Toggles the position enable/disable state.
    */
   const togglePosition = () => {
-    dispatch({ type: `TOGGLE_POSITION_${positionKey.toUpperCase()}_ENABLED` });
+    dispatch({ type: 'TOGGLE_POSITION_ENABLED', payload: { position: positionKey } });
   };
 
   /**
