@@ -55,6 +55,13 @@ const VideoCardWrapper = (props) => {
 
   return (
     <div className={styles.wrapper}>
+      <ActionButton
+        buttonStyle="icon"
+        className={styles.removeVideo}
+        onClickHandler={removeVideo}
+      >
+        <ClearIcon />
+      </ActionButton>
       <div
         className={styles.logo}
         role="img"
@@ -68,13 +75,6 @@ const VideoCardWrapper = (props) => {
         <Badge text={moment(modified).fromNow()} />
         <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
       </div>
-      <ActionButton
-        buttonStyle="icon"
-        className={styles.removeVideo}
-        onClickHandler={removeVideo}
-      >
-        <ClearIcon />
-      </ActionButton>
       <p className={styles.description}>{description}</p>
     </div>
   );

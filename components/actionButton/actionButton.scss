@@ -104,4 +104,10 @@
  */
 .buttonIcon {
   @include button-reset;
+
+  span {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
 }

@@ -7,6 +7,7 @@
     'logo meta'
     'logo description';
   padding: rem(10) rem(26) rem(10) rem(10);
+  position: relative;
 }
 
 .logo {
@@ -39,6 +40,9 @@
 
 .removeVideo {
   cursor: pointer;
+  position: absolute;
+  right: rem(3);
+  top: rem(3);
 
   svg {
     background: transparent;
