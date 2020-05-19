@@ -8,7 +8,7 @@ const Badge = (props) => {
   const { text, type } = props;
 
   return (
-    <span className={classNames(styles.meta, styles.uppercase)}>
+    <span className={classNames(styles.meta, { [styles.embed]: (type === 'embed') })}>
       {type === 'embed' && <CheckCircle />}
       {text}
     </span>
