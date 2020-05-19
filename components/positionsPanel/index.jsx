@@ -8,7 +8,16 @@ import PositionWrapper from './position';
  */
 const PositionsPanelWrapper = () => {
   const { i18n: { __ } } = wp;
-  const { state: { selectedVideos: { hero, positionTwo } } } = React.useContext(OovvuuDataContext);
+  const {
+    state: {
+      isHeroEnabled,
+      isPositionTwoEnabled,
+      selectedVideos: {
+        hero,
+        positionTwo,
+      },
+    },
+  } = React.useContext(OovvuuDataContext);
 
   /**
    * Load the positions panel when any of the positions have a video.
@@ -17,11 +26,13 @@ const PositionsPanelWrapper = () => {
     <>
       <PositionWrapper
         positionKey="hero"
+        enabled={isHeroEnabled}
         title={__('Hero', 'oovvuu')}
         videos={hero}
       />
       <PositionWrapper
         positionKey="positionTwo"
+        enabled={isPositionTwoEnabled}
         title={__('Position Two', 'oovvuu')}
         videos={positionTwo}
       />
