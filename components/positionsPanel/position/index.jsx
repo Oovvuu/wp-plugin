@@ -29,14 +29,18 @@ const PositionWrapper = (props) => {
           />
         </header>
         <div className={styles.content}>
-          <PlayerWrapper videos={videos} />
-          {videos.map((video) => (
-            <VideoCardWrapper
-              positionKey={positionKey}
-              key={video.id}
-              video={video}
-            />
-          ))}
+          <div className={classnames(styles.playerWrapper, theme.panel)}>
+            <PlayerWrapper videos={videos} />
+          </div>
+          <div className={styles.cardsWrapper}>
+            {videos.map((video) => (
+              <VideoCardWrapper
+                positionKey={positionKey}
+                key={video.id}
+                video={video}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

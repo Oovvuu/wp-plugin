@@ -55,27 +55,27 @@ const VideoCardWrapper = (props) => {
 
   return (
     <div className={styles.wrapper}>
-      <div role="img" aria-label="logo">
+      <ActionButton
+        buttonStyle="icon"
+        className={styles.removeVideo}
+        onClickHandler={removeVideo}
+      >
+        <ClearIcon />
+      </ActionButton>
+      <div
+        className={styles.logo}
+        role="img"
+        aria-label="logo"
+      >
         <img src={url} alt="" />
       </div>
-      <div className={styles.content}>
-        <header>
-          <h4>{title}</h4>
-          <div className={styles.meta}>
-            <Badge text={clipLength} />
-            <Badge text={moment(modified).fromNow()} />
-            <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
-          </div>
-          <ActionButton
-            buttonStyle="icon"
-            className={styles.removeVideo}
-            onClickHandler={removeVideo}
-          >
-            <ClearIcon />
-          </ActionButton>
-        </header>
-        <p className={styles.description}>{description}</p>
+      <h4 className={styles.title}>{title}</h4>
+      <div className={styles.meta}>
+        <Badge text={clipLength} />
+        <Badge text={moment(modified).fromNow()} />
+        <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
       </div>
+      <p className={styles.description}>{description}</p>
     </div>
   );
 };

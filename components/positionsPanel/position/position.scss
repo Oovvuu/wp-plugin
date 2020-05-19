@@ -31,7 +31,19 @@
 }
 
 .content {
-  display: flex;
+  display: grid;
+  grid-column-gap: rem(20);
+  grid-template-columns: minmax(auto, rem(500)) 1fr;
+  padding: 0 rem(28) rem(14) rem(16);
+}
+
+.playerWrapper {
+  height: max-content;
+  padding: rem(10);
+}
+
+:global(.brightcove-react-player-loader) {
+  /* tbd */
 }
 
 .title {
@@ -42,4 +54,9 @@
   span {
     @include uppercase;
   }
+}
+
+.cardsWrapper {
+  display: grid;
+  grid-row-gap: rem(14);
 }

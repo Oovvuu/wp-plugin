@@ -1,18 +1,26 @@
 .meta {
+  @include uppercase;
+  @include font-props(12, 12, medium);
   align-items: center;
-  background-color: #e0e0e0;
-  border-radius: 4px;
+  background-color: var(--color-decoration);
+  border-radius: var(--border-radius);
   display: inline-flex;
-  font-size: 12px;
-  font-weight: 500;
-  height: 20px;
+  height: rem(20);
   justify-content: center;
   line-height: 1;
-  min-width: 58px;
-  padding: 0 6px;
+  min-width: rem(58);
+  padding: 0 rem(10);
+
+  &:not(:last-of-type) {
+    margin-right: rem(10);
+  }
 }
 
-.uppercase {
-  letter-spacing: 0.01875em;
-  text-transform: uppercase;
+.embed {
+  background-color: #b0c738;
+  color: white;
+
+  svg {
+    margin-right: rem(6);
+  }
 }
