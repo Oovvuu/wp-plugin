@@ -7,6 +7,14 @@ import PositionWrapper from './index';
 global.wp = { i18n: { __: () => 'translated' } };
 const mockVideos = [{
   id: '1',
+  collection: {
+    provider: {
+      logo: {
+        url: 'url',
+      },
+    },
+  },
+  description: 'description',
   preview: {
     brightcoveVideoId: 'xxx',
     brightcovePlayerId: 'xxx',
