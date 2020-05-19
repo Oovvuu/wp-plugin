@@ -8,6 +8,7 @@ import CloseIcon from 'assets/close.svg';
  * Displays an individual video with an position.
  */
 const VideoCardWrapper = (props) => {
+  const { i18n: { __ } } = wp;
   const { positionKey, video: { id, title } } = props;
   const {
     dispatch,
@@ -17,13 +18,19 @@ const VideoCardWrapper = (props) => {
    * Removes a video from the position.
    */
   const removeVideo = () => {
-    dispatch({
-      type: 'REMOVE_VIDEO',
-      payload: {
-        position: positionKey,
-        videoId: id,
-      },
-    });
+    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals
+      __('Are you sure you want to remove this video?', 'oovvuu'),
+    );
+
+    if (confirmDialog === true) {
+      dispatch({
+        type: 'REMOVE_VIDEO',
+        payload: {
+          position: positionKey,
+          videoId: id,
+        },
+      });
+    }
   };
 
   return (
