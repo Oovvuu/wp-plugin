@@ -15,7 +15,6 @@ const PositionToggle = (props) => {
     <span className={checkboxes.toggle}>
       <label
         htmlFor={id}
-        className="uppercase"
       >
         {__('Show on article', 'oovvuu')}
         <input
