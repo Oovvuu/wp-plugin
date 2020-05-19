@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import VideoCardWrapper from './index';
 
 const mockVideo = { title: 'title' };
+global.wp = { i18n: { __: () => 'translated' } };
 
 describe('VideoCardWrapper', () => {
   it('Renders p', () => {
