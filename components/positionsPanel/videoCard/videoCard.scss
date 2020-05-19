@@ -6,9 +6,14 @@
 
   header {
     background-color: inherit;
+
+    h4 {
+      @include font-props(18, 26, medium);
+      margin: 0;
+    }
   }
 }
 
 .description {
-  color: blue;
+  padding-left: rem(7);
 }
