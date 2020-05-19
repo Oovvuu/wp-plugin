@@ -8,6 +8,7 @@ const mockVideo = {
       logo: {
         url: 'url',
       },
+      legalName: 'Legal Name',
     },
   },
   description: 'description',
@@ -24,7 +25,7 @@ describe('VideoCardWrapper', () => {
       <VideoCardWrapper positionKey="hero" video={mockVideo} />,
     );
 
-    expect(wrapper.find('div[role="img"][aria-label="logo"]')).toHaveLength(1);
+    expect(wrapper.find('div img[alt="Legal Name"]')).toHaveLength(1);
   });
 
   it('Renders title', () => {

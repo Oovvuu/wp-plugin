@@ -20,6 +20,7 @@ const VideoCardWrapper = (props) => {
           logo: {
             url,
           },
+          legalName,
         },
       },
       description,
@@ -62,12 +63,8 @@ const VideoCardWrapper = (props) => {
       >
         <ClearIcon />
       </ActionButton>
-      <div
-        className={styles.logo}
-        role="img"
-        aria-label="logo"
-      >
-        <img src={url} alt="" />
+      <div className={styles.logo}>
+        <img src={url} alt={legalName} />
       </div>
       <h4 className={styles.title}>{title}</h4>
       <div className={styles.meta}>
@@ -88,6 +85,7 @@ VideoCardWrapper.propTypes = {
         logo: PropTypes.shape({
           url: PropTypes.string.isRequired,
         }).isRequired,
+        legalName: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
     description: PropTypes.string.isRequired,
