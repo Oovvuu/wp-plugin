@@ -67,7 +67,8 @@ const VideoCardWrapper = (props) => {
             <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
           </div>
           <ActionButton
-            buttonStyle="collapse"
+            buttonStyle="icon"
+            className={styles.removeVideo}
             onClickHandler={removeVideo}
           >
             <ClearIcon />

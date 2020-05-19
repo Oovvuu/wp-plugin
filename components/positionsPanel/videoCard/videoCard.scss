@@ -17,3 +17,11 @@
 .description {
   padding-left: rem(7);
 }
+
+.removeVideo {
+  cursor: pointer;
+
+  svg {
+    background: transparent;
+  }
+}

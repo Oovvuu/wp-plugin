@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import buttons from './actionButton.scss';
 
 /**
@@ -14,6 +15,7 @@ const ActionButton = (props) => {
     disabled,
     buttonStyle,
     onClickHandler,
+    className,
   } = props;
 
   const buttonStyles = {
@@ -27,7 +29,7 @@ const ActionButton = (props) => {
 
   return (
     <button
-      className={buttonStyles[buttonStyle]}
+      className={classNames(buttonStyles[buttonStyle], className)}
       type="button"
       disabled={disabled}
       onClick={onClickHandler}
@@ -39,6 +41,7 @@ const ActionButton = (props) => {
 
 ActionButton.defaultProps = {
   buttonStyle: 'button',
+  className: '',
   disabled: false,
 };
 
@@ -56,6 +59,7 @@ ActionButton.propTypes = {
     'warn',
     'warnLarge',
   ]),
+  className: PropTypes.string,
   disabled: PropTypes.bool,
 };
 
