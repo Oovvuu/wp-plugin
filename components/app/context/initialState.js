@@ -20,7 +20,9 @@ const initialState = {
   selectedKeywords: [],
   selectedVideos: {
     hero: [],
+    heroSecondary: [],
     positionTwo: [],
+    positionTwoSecondary: [],
   },
 };
 

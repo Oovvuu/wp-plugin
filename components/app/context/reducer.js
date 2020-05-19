@@ -1,3 +1,5 @@
+import removeVideo from 'services/removeVideo';
+
 /**
  * Reducer function passed with initialState to a useReducer hook to create
  *   a global application state via React context API. App state is immutable,
@@ -29,12 +31,16 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_VIDEOS':
       nextState.selectedVideos = payload;
       return nextState;
-    case 'TOGGLE_POSITION_HERO_ENABLED':
-      nextState.isHeroEnabled = !nextState.isHeroEnabled;
+    case 'TOGGLE_POSITION_ENABLED':
+      if (payload.position === 'hero') {
+        nextState.isHeroEnabled = !nextState.isHeroEnabled;
+      } else if (payload.position === 'positionTwo') {
+        nextState.isPositionTwoEnabled = !nextState.isPositionTwoEnabled;
+      }
       return nextState;
-    case 'TOGGLE_POSITION_POSITIONTWO_ENABLED':
-      nextState.isPositionTwoEnabled = !nextState.isPositionTwoEnabled;
-      return nextState;
+    case 'REMOVE_VIDEO': {
+      return removeVideo(nextState, payload.position, payload.videoId);
+    }
     default:
       return nextState;
   }

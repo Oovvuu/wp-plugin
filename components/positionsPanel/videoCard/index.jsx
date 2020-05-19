@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import OovvuuDataContext from 'components/app/context';
+import ActionButton from 'components/actionButton';
+import CloseIcon from 'assets/close.svg';
 import styles from './videoCard.scss';
 import Badge from './badge';
 
@@ -7,6 +10,7 @@ import Badge from './badge';
  * Displays an individual video with an position.
  */
 const VideoCardWrapper = (props) => {
+  const { i18n: { __ } } = wp;
   const {
     positionKey,
     video: {
@@ -18,12 +22,32 @@ const VideoCardWrapper = (props) => {
         },
       },
       description,
+      id,
       title,
     },
   } = props;
+  const {
+    dispatch,
+  } = React.useContext(OovvuuDataContext);
 
-  // TODO: Remove when positionKey is used.
-  console.log(positionKey);
+  /**
+   * Removes a video from the position.
+   */
+  const removeVideo = () => {
+    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals
+      __('Are you sure you want to remove this video?', 'oovvuu'),
+    );
+
+    if (confirmDialog === true) {
+      dispatch({
+        type: 'REMOVE_VIDEO',
+        payload: {
+          position: positionKey,
+          videoId: id,
+        },
+      });
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -36,6 +60,12 @@ const VideoCardWrapper = (props) => {
           <div className={styles.meta}>
             <Badge text="hello" />
           </div>
+          <ActionButton
+            buttonStyle="collapse"
+            onClickHandler={removeVideo}
+          >
+            <CloseIcon />
+          </ActionButton>
         </header>
         <p className={styles.description}>{description}</p>
       </div>
@@ -43,10 +73,8 @@ const VideoCardWrapper = (props) => {
   );
 };
 
-VideoCardWrapper.defaultProps = { positionKey: 'hero' };
-
 VideoCardWrapper.propTypes = {
-  positionKey: PropTypes.string,
+  positionKey: PropTypes.string.isRequired,
   video: PropTypes.shape({
     collection: PropTypes.shape({
       provider: PropTypes.shape({
@@ -56,6 +84,7 @@ VideoCardWrapper.propTypes = {
       }).isRequired,
     }).isRequired,
     description: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
 };
