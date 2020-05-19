@@ -64,7 +64,7 @@
 
 .postTitle {
   @include font-props(29, 32, medium);
-  margin-bottom: 0 0 rem(40) 0; // Zeros out WP styles.
+  margin: 0 0 rem(40) 0; // Zeros out WP styles.
 }
 
 .closeButton {

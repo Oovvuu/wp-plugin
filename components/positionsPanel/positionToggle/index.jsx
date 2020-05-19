@@ -1,25 +1,54 @@
 import React from 'react';
-import styles from './positionToggle.scss';
+import PropTypes from 'prop-types';
+import OovvuuDataContext from 'components/app/context';
+import PositionToggle from './positionToggle';
 
 /**
  * Displays the toggle to enable/disable a position.
  */
-const PositionToggleWrapper = () => (
-  <span className={styles.toggle}>
-    <label
-      htmlFor="toggle-1"
-      className="uppercase"
-    >
-      Show on article
-      <input
-        className=""
-        name="tag"
-        id="toggle-1"
-        value="Show on article"
-        type="checkbox"
-      />
-    </label>
-  </span>
-);
+const PositionToggleWrapper = (props) => {
+  const { positionKey } = props;
+  const {
+    dispatch,
+    state: {
+      isHeroEnabled,
+      isPositionTwoEnabled,
+    },
+  } = React.useContext(OovvuuDataContext);
+
+  /**
+   * Toggles the position enable/disable state.
+   */
+  const togglePosition = () => {
+    dispatch({ type: `TOGGLE_POSITION_${positionKey.toUpperCase()}_ENABLED` });
+  };
+
+  /**
+   * Determine if the current position is enabled based on the global context.
+   *
+   * @param  {String} key The position key.
+   * @return {Boolean} True or false on whether or not the position is enabled.
+   */
+  const isPositionEnabled = (key) => {
+    if (key === 'hero') {
+      return isHeroEnabled;
+    } if (key === 'positionTwo') {
+      return isPositionTwoEnabled;
+    }
+
+    return false;
+  };
+
+  return (
+    <PositionToggle
+      togglePosition={togglePosition}
+      enabled={isPositionEnabled(positionKey)}
+    />
+  );
+};
+
+PositionToggleWrapper.propTypes = {
+  positionKey: PropTypes.string.isRequired,
+};
 
 export default PositionToggleWrapper;

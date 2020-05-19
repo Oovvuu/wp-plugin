@@ -65,6 +65,7 @@
 
   input[type="checkbox"] {
     @include checkbox-reset;
+    background: none;
     height: rem(20);
     margin-left: rem(6);
     outline: none;

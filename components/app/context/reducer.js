@@ -29,6 +29,12 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_VIDEOS':
       nextState.selectedVideos = payload;
       return nextState;
+    case 'TOGGLE_POSITION_HERO_ENABLED':
+      nextState.isHeroEnabled = !nextState.isHeroEnabled;
+      return nextState;
+    case 'TOGGLE_POSITION_POSITIONTWO_ENABLED':
+      nextState.isPositionTwoEnabled = !nextState.isPositionTwoEnabled;
+      return nextState;
     default:
       return nextState;
   }
