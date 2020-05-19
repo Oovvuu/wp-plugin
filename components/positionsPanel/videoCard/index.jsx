@@ -22,6 +22,7 @@ const VideoCardWrapper = (props) => {
         },
       },
       description,
+      id,
       title,
     },
   } = props;
