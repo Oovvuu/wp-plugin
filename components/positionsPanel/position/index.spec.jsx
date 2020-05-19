@@ -15,6 +15,8 @@ const mockVideos = [{
     },
   },
   description: 'description',
+  duration: 61,
+  modified: Date.now().toString(),
   preview: {
     brightcoveVideoId: 'xxx',
     brightcovePlayerId: 'xxx',

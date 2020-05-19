@@ -60,7 +60,7 @@ const VideoCardWrapper = (props) => {
         <header>
           <h4>{title}</h4>
           <div className={styles.meta}>
-            <Badge text={parseInt(duration, 10)} />
+            <Badge text={duration.toString()} />
             <Badge text={modified} />
             <Badge text="hello" type="embed" />
           </div>

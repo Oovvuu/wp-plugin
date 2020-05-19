@@ -11,6 +11,8 @@ const mockVideo = {
     },
   },
   description: 'description',
+  duration: 61,
+  modified: Date.now().toString(),
   id: 'id',
   title: 'title',
 };
