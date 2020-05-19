@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import buttons from 'shared/buttons.scss';
+import buttons from './actionButton.scss';
 
 /**
  * Wrapper component to create a button with text and optional icon intended to
@@ -18,10 +18,11 @@ const ActionButton = (props) => {
 
   const buttonStyles = {
     button: buttons.button,
+    collapse: buttons.buttonCollapse,
+    icon: buttons.buttonIcon,
     primary: buttons.buttonTheme,
     warn: buttons.buttonWarn,
     warnLarge: buttons.buttonWarnLarge,
-    collapse: buttons.buttonCollapse,
   };
 
   return (
@@ -49,10 +50,11 @@ ActionButton.propTypes = {
   onClickHandler: PropTypes.func.isRequired,
   buttonStyle: PropTypes.oneOf([
     'button',
+    'collapse',
+    'icon',
     'primary',
     'warn',
     'warnLarge',
-    'collapse',
   ]),
   disabled: PropTypes.bool,
 };

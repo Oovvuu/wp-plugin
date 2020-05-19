@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/actionButton';
-import CloseIcon from 'assets/close.svg';
+import ClearIcon from 'assets/clear.svg';
 
 /**
  * Displays an individual video with an position.
@@ -37,10 +37,10 @@ const VideoCardWrapper = (props) => {
     <div>
       <p>{title}</p>
       <ActionButton
-        buttonStyle="collapse"
+        buttonStyle="icon"
         onClickHandler={removeVideo}
       >
-        <CloseIcon />
+        <ClearIcon />
       </ActionButton>
     </div>
   );
