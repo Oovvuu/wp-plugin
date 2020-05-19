@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import VideoCardWrapper from './index';
 
-const mockVideo = { title: 'title' };
+const mockVideo = { id: '123', title: 'title' };
 global.wp = { i18n: { __: () => 'translated' } };
 
 describe('VideoCardWrapper', () => {
