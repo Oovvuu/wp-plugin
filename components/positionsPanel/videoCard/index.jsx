@@ -9,7 +9,17 @@ import Badge from './badge';
 const VideoCardWrapper = (props) => {
   const {
     positionKey,
-    video: { title, description, collection: { provider: { logo: { url } } } },
+    video: {
+      collection: {
+        provider: {
+          logo: {
+            url,
+          },
+        },
+      },
+      description,
+      title,
+    },
   } = props;
 
   // TODO: Remove when positionKey is used.
@@ -23,7 +33,9 @@ const VideoCardWrapper = (props) => {
       <div className={styles.content}>
         <header>
           <h4>{title}</h4>
-          <Badge text="hello" />
+          <div className={styles.meta}>
+            <Badge text="hello" />
+          </div>
         </header>
         <p className={styles.description}>{description}</p>
       </div>
@@ -31,11 +43,11 @@ const VideoCardWrapper = (props) => {
   );
 };
 
+VideoCardWrapper.defaultProps = { positionKey: 'hero' };
+
 VideoCardWrapper.propTypes = {
-  positionKey: PropTypes.string.isRequired,
+  positionKey: PropTypes.string,
   video: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
     collection: PropTypes.shape({
       provider: PropTypes.shape({
         logo: PropTypes.shape({
@@ -43,6 +55,8 @@ VideoCardWrapper.propTypes = {
         }).isRequired,
       }).isRequired,
     }).isRequired,
+    description: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   }).isRequired,
 };
 
