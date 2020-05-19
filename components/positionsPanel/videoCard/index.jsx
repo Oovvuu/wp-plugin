@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line no-unused-vars
+import moment from 'moment';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import CloseIcon from 'assets/close.svg';
@@ -31,6 +33,7 @@ const VideoCardWrapper = (props) => {
   const {
     dispatch,
   } = React.useContext(OovvuuDataContext);
+  const clipLength = moment(moment.duration(duration, 'seconds').asMilliseconds()).format('mm:ss');
 
   /**
    * Removes a video from the position.
@@ -60,8 +63,8 @@ const VideoCardWrapper = (props) => {
         <header>
           <h4>{title}</h4>
           <div className={styles.meta}>
-            <Badge text={duration.toString()} />
-            <Badge text={modified} />
+            <Badge text={clipLength} />
+            <Badge text={moment(modified).fromNow()} />
             <Badge text="hello" type="embed" />
           </div>
           <ActionButton
