@@ -1,8 +1,8 @@
-### **Jira:**
-**[OVU-](https://alleyinteractive.atlassian.net/browse/OVU-)**
+### **Overview:**
+
 ___
 
-### **Overview:**
+### **Links:**
 
 ___
 
