@@ -72,10 +72,8 @@ const VideoCardWrapper = (props) => {
   );
 };
 
-VideoCardWrapper.defaultProps = { positionKey: 'hero' };
-
 VideoCardWrapper.propTypes = {
-  positionKey: PropTypes.string,
+  positionKey: PropTypes.string.isRequired,
   video: PropTypes.shape({
     collection: PropTypes.shape({
       provider: PropTypes.shape({
