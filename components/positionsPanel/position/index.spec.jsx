@@ -12,6 +12,7 @@ const mockVideos = [{
       logo: {
         url: 'url',
       },
+      legalName: 'Legal Name',
     },
   },
   description: 'description',
