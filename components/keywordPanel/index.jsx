@@ -66,9 +66,7 @@ const KeywordPanelWrapper = () => {
   return (
     <div className={classnames(styles.panel, theme.panel)}>
       <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
-      <KeywordSelector
-        keywords={recommendedKeywords}
-      />
+      <KeywordSelector />
 
       {recommendedKeywords.length > 0
         && (
@@ -83,6 +81,8 @@ const KeywordPanelWrapper = () => {
           && (
             <ActionButton
               buttonStyle="primary"
+              // TODO: Add actual clear functionality.
+              onClickHandler={() => {}}
             >
               <CloseIcon />
               {__('Clear Selection', 'oovvuu')}

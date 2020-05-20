@@ -50,9 +50,8 @@ const DialogWrapper = () => {
     const response = await saveState(state, getPostAttribute('id'));
 
     if (!response.hasError) {
-      console.log(response);
       // Close the Dialog.
-      // closeDialog();
+      closeDialog();
     }
   };
 

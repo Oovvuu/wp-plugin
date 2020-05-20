@@ -3,6 +3,8 @@ import React from 'react';
 import DialogWrapper from 'components/dialog';
 import portalId from 'services/portalId';
 import addModalDivEl from 'services/addModalDivEl';
+import getState from 'services/getState';
+import getPostAttribute from 'services/getPostAttribute';
 import 'scss/global/vars.scss';
 import OovvuuDataContext from './context';
 import EffectsManager from './effectsManager';
@@ -18,6 +20,30 @@ addModalDivEl(portalId);
 const App = () => {
   const { dispatch, state } = React.useContext(OovvuuDataContext);
   const { lastActionType: actionType } = state;
+
+  /**
+   * Load state from post meta and update the current state.
+   *
+   * @return {Promise}
+   */
+  const loadStateFromPostMeta = async () => {
+    const loadedState = await getState(getPostAttribute('id'));
+
+    // Reset the state based on the state that was saved to post meta.
+    if (!loadedState.hasError) {
+      dispatch({
+        type: 'RESET_STATE',
+        payload: loadedState.data,
+      });
+    }
+  };
+
+  /**
+   * Populate the state from post meta if any previous state was saved.
+   */
+  React.useEffect(() => {
+    loadStateFromPostMeta();
+  }, []);
 
   return (
     <EffectsManager actionType={actionType} dispatch={dispatch} state={state}>

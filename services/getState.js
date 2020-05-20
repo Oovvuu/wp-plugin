@@ -1,22 +1,21 @@
 /**
- * Performs an API request to save the current state.
+ * Performs an API request to get the current state.
  *
- * @param   {object} state The current state.
  * @param   {int}    id    The post ID.
  * @returns {Promise}      Future object for API response data.
  */
-const saveState = (state, id) => {
+const getState = (id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
   return apiFetch({
-    path: '/oovvuu/v1/saveState/',
+    path: '/oovvuu/v1/getState/',
     method: 'POST',
-    data: { state, id },
+    data: { id },
   })
     .then((value) => (value.success
       ? {
         hasError: false,
-        data: value,
+        data: value.state,
       } : {
         hasError: true,
         message: __('Malformed response data.', 'oovvuu'),
@@ -33,4 +32,4 @@ const saveState = (state, id) => {
     });
 };
 
-export default saveState;
+export default getState;

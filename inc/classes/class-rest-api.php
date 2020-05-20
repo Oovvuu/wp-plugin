@@ -71,10 +71,21 @@ class REST_API {
 		// Save.
 		register_rest_route(
 			$this->namespace,
-			'/save',
+			'/saveState',
 			[
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'save_state' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
+			]
+		);
+
+		// Save.
+		register_rest_route(
+			$this->namespace,
+			'/getState',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'get_state' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
 			]
 		);
@@ -250,6 +261,31 @@ class REST_API {
 			[
 				'success' => true,
 				'embeds'  => $embeds,
+			]
+		);
+	}
+
+	/**
+	 * Get the keywords and videos state.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function get_state( $request ) {
+
+		// Empty post ID.
+		if ( empty( $request['id'] ) ) {
+			return rest_ensure_response( new \WP_Error( 'empty-post-id', __( 'Post ID value is required', 'oovvuu' ) ) );
+		}
+
+		$state = get_post_meta( $request['id'], 'oovvuu_state', true );
+
+		return rest_ensure_response(
+			[
+				'success' => false !== $state,
+				'state'   => $state,
 			]
 		);
 	}
