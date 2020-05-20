@@ -68,7 +68,7 @@ class REST_API {
 			]
 		);
 
-		// Save.
+		// Save state.
 		register_rest_route(
 			$this->namespace,
 			'/saveState',
@@ -79,7 +79,7 @@ class REST_API {
 			]
 		);
 
-		// Save.
+		// Get state.
 		register_rest_route(
 			$this->namespace,
 			'/getState',
