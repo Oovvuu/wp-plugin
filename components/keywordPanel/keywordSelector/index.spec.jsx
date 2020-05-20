@@ -4,8 +4,6 @@ import KeywordSelector from './';
 import GeneratedList from '../generatedList';
 import UserList from '../userList';
 
-const mockKeywordList = [];
-
 global.wp = { i18n: { __: () => 'translated' } };
 
 describe('KeywordSelector', () => {
@@ -16,10 +14,7 @@ describe('KeywordSelector', () => {
         state: { recommendedKeywords: [] },
       }));
 
-    const wrapper = shallow(<KeywordSelector
-      keywords={mockKeywordList}
-      onKeywordsUpdated={jest.fn()}
-    />);
+    const wrapper = shallow(<KeywordSelector />);
 
     expect(wrapper.find(GeneratedList)).toHaveLength(1);
   });
@@ -31,10 +26,7 @@ describe('KeywordSelector', () => {
         state: { recommendedKeywords: [] },
       }));
 
-    const wrapper = shallow(<KeywordSelector
-      keywords={mockKeywordList}
-      onKeywordsUpdated={jest.fn()}
-    />);
+    const wrapper = shallow(<KeywordSelector />);
 
     expect(wrapper.find(UserList)).toHaveLength(1);
   });

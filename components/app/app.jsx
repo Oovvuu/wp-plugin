@@ -30,7 +30,7 @@ const App = () => {
     const loadedState = await getState(getPostAttribute('id'));
 
     // Reset the state based on the state that was saved to post meta.
-    if (!loadedState.hasError) {
+    if (!loadedState.hasError && typeof loadedState.data === 'object') {
       dispatch({
         type: 'RESET_STATE',
         payload: loadedState.data,

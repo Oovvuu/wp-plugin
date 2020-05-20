@@ -17,7 +17,7 @@ const KeywordSelector = () => {
     dispatch,
     state: {
       recommendedKeywords,
-      selectedKeywords,
+      selectedKeywords = [],
     },
   } = React.useContext(oovvuuData);
 
