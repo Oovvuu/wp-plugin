@@ -14,7 +14,6 @@ import styles from './dialog.scss';
 const Dialog = ({
   isOpen,
   closeDialog,
-  onHandleSave,
   children,
 }) => {
   const { __ } = wp.i18n;
@@ -23,7 +22,7 @@ const Dialog = ({
    */
   const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
-  const saveButtonRef = useRef(null);
+  const backToTopButtonRef = useRef(null);
 
   /**
    * Trap key tabs within the dialog.
@@ -41,8 +40,8 @@ const Dialog = ({
          * Move back from the first interactive child element to the last
          * interactive child element
          */
-        saveButtonRef.current.focus();
-      } else if (!shiftKey && saveButtonRef.current.contains(event.target)) {
+        backToTopButtonRef.current.focus();
+      } else if (!shiftKey && backToTopButtonRef.current.contains(event.target)) {
         event.preventDefault();
         /*
          * Move forward from the last interactive child element to the first
@@ -92,12 +91,11 @@ const Dialog = ({
           </div>
 
           <button
-            ref={saveButtonRef}
+            className="screen-reader-shortcut"
+            ref={backToTopButtonRef}
             type="button"
-            onClick={onHandleSave}
-          >
-            {__('Save', 'oovvuu')}
-          </button>
+            aria-label={__('Back to Top of Modal', 'oovvuu')}
+          />
         </div>
       </div>
     </div>
@@ -116,7 +114,6 @@ const Dialog = ({
 Dialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
-  onHandleSave: PropTypes.func.isRequired,
   children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
 };
 

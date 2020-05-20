@@ -1,9 +1,11 @@
 import React from 'react';
 import KeywordPanel from 'components/keywordPanel';
 import PositionsPanelWrapper from 'components/positionsPanel';
+import ActionButton from 'components/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
 import oovvuuData from 'components/app/context';
+import SaveSVG from 'assets/save.svg';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 
@@ -85,9 +87,18 @@ const DialogWrapper = () => {
       <Dialog
         isOpen={isOpen}
         closeDialog={() => { closeDialog(true); }}
-        onHandleSave={handleSave}
       >
-        <h2 className={styles.postTitle}>{getPostAttribute('title')}</h2>
+        <h2 className={styles.postTitle}>
+          <span>{getPostAttribute('title')}</span>
+          <ActionButton
+            className={styles.saveButton}
+            buttonStyle="primary"
+            onClickHandler={handleSave}
+          >
+            <SaveSVG />
+            <>{__('Save and Close', 'oovvuu')}</>
+          </ActionButton>
+        </h2>
         <KeywordPanel />
         <PositionsPanelWrapper />
       </Dialog>
