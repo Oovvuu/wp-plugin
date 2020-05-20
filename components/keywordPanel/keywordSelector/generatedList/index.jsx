@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GeneratedKeywordItem from './keywordItem';
-import styles from './generatedList.scss';
+import styles from 'shared/checkboxes.scss';
+import KeywordItem from '../keywordItem';
 
 /**
  * Component for showing list of recommendedKeywords for the current post.
@@ -25,7 +25,7 @@ const GeneratedList = (props) => {
     <ul className={styles.keywords}>
       {Object.keys(keywordItems).map((key) => (
         <li className={styles.keyword} key={keywordItems[key].id}>
-          <GeneratedKeywordItem item={keywordItems[key]} onToggle={handleToggle} />
+          <KeywordItem item={keywordItems[key]} onToggle={handleToggle} />
         </li>
       ))}
     </ul>
