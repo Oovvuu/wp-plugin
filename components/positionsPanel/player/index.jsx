@@ -26,20 +26,23 @@ const PlayerWrapper = (props) => {
       return null;
     }
 
-    const { preview, thumbnail: { url } } = videos[0];
-    const isPreviewConfigured = preview?.brightcoveAccountId
-      && preview?.brightcovePlayerId
-      && preview?.brightcoveVideoId;
+    return videos.map((video) => {
+      const { preview, thumbnail: { url } } = video;
+      const isPreviewConfigured = preview?.brightcoveAccountId
+        && preview?.brightcovePlayerId
+        && preview?.brightcoveVideoId;
 
-    return isPreviewConfigured ? (
-      <ReactPlayerLoader
-        accountId={preview.brightcoveAccountId}
-        playerId={preview.brightcovePlayerId}
-        videoId={preview.brightcoveVideoId}
-        onSuccess={(success) => { onSuccess(success); }}
-        onFailure={(failure) => { onFailure(failure); }}
-      />
-    ) : <img src={url} alt="" />;
+      return isPreviewConfigured ? (
+        <ReactPlayerLoader
+          accountId={preview.brightcoveAccountId}
+          playerId={preview.brightcovePlayerId}
+          videoId={preview.brightcoveVideoId}
+          embedOptions={{ responsive: true }}
+          onSuccess={(success) => { onSuccess(success); }}
+          onFailure={(failure) => { onFailure(failure); }}
+        />
+      ) : <img src={url} alt="" />;
+    });
   };
 
   return getPlayer();
