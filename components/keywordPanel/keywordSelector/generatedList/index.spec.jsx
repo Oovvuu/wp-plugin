@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import uuid from 'react-uuid';
 import GeneratedList from './';
-import KeywordItem from '../keywordItem';
+import GeneratedKeywordItem from './keywordItem';
 
 const keywords = [
   'coronavirus',
@@ -43,7 +43,7 @@ describe('KeywordList', () => {
     const wrapper = shallow(<GeneratedList keywordItems={items} onUpdate={updateFn} />);
 
     const expected = { id: 'uuid', isSelected: false, keyword: 'keyword' };
-    wrapper.find(KeywordItem).at(0).prop('onToggle')(expected.id);
+    wrapper.find(GeneratedKeywordItem).at(0).prop('onToggle')(expected.id);
     expect(updateFn.mock.calls[0][0].isSelected).toBeTruthy();
     expect(updateFn.mock.calls[0][0].id).toEqual(expected.id);
   });
@@ -55,7 +55,7 @@ describe('KeywordList', () => {
     const wrapper = shallow(<GeneratedList keywordItems={items} onUpdate={updateFn} />);
 
     const expected = items[id];
-    wrapper.find(KeywordItem).at(0).prop('onToggle')(expected.id);
+    wrapper.find(GeneratedKeywordItem).at(0).prop('onToggle')(expected.id);
     expect(updateFn.mock.calls[0][0].isSelected).toBeFalsy();
     expect(updateFn.mock.calls[0][0].keyword).toEqual(expected.keyword);
   });
