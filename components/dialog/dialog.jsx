@@ -14,6 +14,7 @@ import styles from './dialog.scss';
 const Dialog = ({
   isOpen,
   closeDialog,
+  onHandleSave,
   children,
 }) => {
   const { __ } = wp.i18n;
@@ -52,24 +53,11 @@ const Dialog = ({
     }
   };
 
-  /**
-   * Closes the dialog when a user clicks outside of the modal.
-   *
-   * @param {Event} event The Event object.
-   */
-  const closeDialogOnOutsideClick = (event) => {
-    if (!dialogRef.current.contains(event.target)) {
-      event.preventDefault();
-      closeDialog();
-    }
-  };
-
   // The Dialog React element.
   const dialogElement = (
     <div
       className={styles.overlay}
       onKeyDown={onKeyPressed}
-      onClick={closeDialogOnOutsideClick}
       role="presentation"
       aria-hidden={!isOpen}
       tabIndex="-1"
@@ -106,7 +94,7 @@ const Dialog = ({
           <button
             ref={saveButtonRef}
             type="button"
-            onClick={closeDialog}
+            onClick={onHandleSave}
           >
             {__('Save', 'oovvuu')}
           </button>
@@ -128,6 +116,7 @@ const Dialog = ({
 Dialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
+  onHandleSave: PropTypes.func.isRequired,
   children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
 };
 

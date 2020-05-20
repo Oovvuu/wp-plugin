@@ -2,6 +2,8 @@ import React from 'react';
 import KeywordPanel from 'components/keywordPanel';
 import PositionsPanelWrapper from 'components/positionsPanel';
 import getPostAttribute from 'services/getPostAttribute';
+import saveState from 'services/saveState';
+import oovvuuData from 'components/app/context';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 
@@ -11,6 +13,7 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
+  const { state } = React.useContext(oovvuuData);
 
   /**
    * Open the dialog.
@@ -40,6 +43,19 @@ const DialogWrapper = () => {
     }
   };
 
+  /**
+   * Handles the save action when a user clicks the save button.
+   */
+  const handleSave = async () => {
+    const response = await saveState(state, getPostAttribute('id'));
+
+    if (!response.hasError) {
+      console.log(response);
+      // Close the Dialog.
+      // closeDialog();
+    }
+  };
+
   return (
     <>
       <button
@@ -55,6 +71,7 @@ const DialogWrapper = () => {
       <Dialog
         isOpen={isOpen}
         closeDialog={closeDialog}
+        onHandleSave={handleSave}
       >
         <h2 className={styles.postTitle}>{getPostAttribute('title')}</h2>
         <KeywordPanel />

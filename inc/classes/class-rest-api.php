@@ -201,7 +201,7 @@ class REST_API {
 		}
 
 		// Empty post ID.
-		if ( empty( $request['post_id'] ) ) {
+		if ( empty( $request['id'] ) ) {
 			return rest_ensure_response( new \WP_Error( 'empty-post-id', __( 'Post ID value is required', 'oovvuu' ) ) );
 		}
 
@@ -217,14 +217,14 @@ class REST_API {
 		];
 
 		// Save the state to post meta.
-		update_post_meta( $request['post_id'], 'oovvuu_state', $request['state'] );
+		update_post_meta( $request['id'], 'oovvuu_state', $request['state'] );
 
 		// Create the embeds.
 		$embeds = [];
 		foreach ( $positions as $position => $data ) {
 
 			// Position is empty to skip creating the embed.
-			if ( ! empty( $request['state']['selectedVideos'][ $position ] ) ) {
+			if ( empty( $request['state']['selectedVideos'][ $position ] ) ) {
 				continue;
 			}
 
@@ -235,7 +235,7 @@ class REST_API {
 					'video_ids'      => $request['state']['selectedVideos'][ $position ],
 					'type'           => $data['type'],
 					'keywords'       => $request['state']['selectedKeywords'],
-					'post_id'        => $request['post_id'],
+					'post_id'        => $request['id'],
 					'embed_location' => $data['embed_location'],
 				]
 			);
@@ -243,7 +243,7 @@ class REST_API {
 
 		// Save the embed code if it is valid.
 		if ( ! empty( $embeds ) ) {
-			update_post_meta( $request['post_id'], 'oovvuu_embeds', $embeds );
+			update_post_meta( $request['id'], 'oovvuu_embeds', $embeds );
 		}
 
 		return rest_ensure_response(
@@ -281,7 +281,16 @@ class REST_API {
 			}',
 			[
 				'userId'   => (string) $payload['user_id'] ?? '0',
-				'videoIds' => (array) $payload['video_ids'] ?? [],
+				'videoIds' => array_values(
+					array_filter(
+						array_map(
+							function ( $video ) {
+								return $video['id'] ?? null;
+							},
+							(array) $payload['video_ids'] ?? []
+						)
+					)
+				),
 				'metadata' => [
 					'type'     => $payload['type'] ?? 'Single',
 					'keywords' => $payload['keywords'] ?? [],
@@ -293,7 +302,8 @@ class REST_API {
 					],
 				],
 			],
-			$payload['post_id'] ?? 0
+			$payload['post_id'] ?? 0,
+			true
 		);
 	}
 
@@ -391,9 +401,10 @@ class REST_API {
 	 * @param  string $query GraphQL query.
 	 * @param  array  $input Input variables.
 	 * @param  int    $post_id The current post ID relating to the request.
+	 * @param  bool   $remove_article_metadata Whether or not to remove the article metadata input.
 	 * @return mixed The HTTP response body or a WP_Error object.
 	 */
-	public function request( $query, $input, $post_id = 0 ) {
+	public function request( $query, $input, $post_id = 0, $remove_article_metadata = false ) {
 		$current_user_id = get_current_user_id();
 
 		// No user.
@@ -426,6 +437,11 @@ class REST_API {
 					],
 				]
 			);
+		}
+
+		// Remove the default article metadata.
+		if ( true === $remove_article_metadata ) {
+			unset( $payload['variables']['input']['articleMetadata'] );
 		}
 
 		// Perform the request.
