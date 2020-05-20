@@ -67,6 +67,17 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 			]
 		);
+
+		// Save.
+		register_rest_route(
+			$this->namespace,
+			'/save',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'save_state' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
+			]
+		);
 	}
 
 	/**
@@ -164,6 +175,125 @@ class REST_API {
 				],
 				$request['id'] ?? 0
 			)
+		);
+	}
+
+	/**
+	 * Save the keywords and videos state.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function save_state( $request ) {
+
+		$current_user_id = get_current_user_id();
+
+		// No user.
+		if ( empty( $current_user_id ) ) {
+			return new \WP_Error( 'no-user', __( 'All requests must have a logged in user', 'oovvuu' ) );
+		}
+
+		// Empty state.
+		if ( empty( $request['state'] ) ) {
+			return rest_ensure_response( new \WP_Error( 'empty-state', __( 'State value is required', 'oovvuu' ) ) );
+		}
+
+		// Empty post ID.
+		if ( empty( $request['post_id'] ) ) {
+			return rest_ensure_response( new \WP_Error( 'empty-post-id', __( 'Post ID value is required', 'oovvuu' ) ) );
+		}
+
+		$positions = [
+			'hero'        => [
+				'type'           => 'Single',
+				'embed_location' => 'Hero',
+			],
+			'positionTwo' => [
+				'type'           => 'OneByThree',
+				'embed_location' => 'PositionTwo',
+			],
+		];
+
+		// Save the state to post meta.
+		update_post_meta( $request['post_id'], 'oovvuu_state', $request['state'] );
+
+		// Create the embeds.
+		$embeds = [];
+		foreach ( $positions as $position => $data ) {
+
+			// Position is empty to skip creating the embed.
+			if ( ! empty( $request['state']['selectedVideos'][ $position ] ) ) {
+				continue;
+			}
+
+			// Create the embed.
+			$embeds[ $position ] = $this->create_embed(
+				[
+					'user_id'        => $this->get_publisher_id( $current_user_id ),
+					'video_ids'      => $request['state']['selectedVideos'][ $position ],
+					'type'           => $data['type'],
+					'keywords'       => $request['state']['selectedKeywords'],
+					'post_id'        => $request['post_id'],
+					'embed_location' => $data['embed_location'],
+				]
+			);
+		}
+
+		// Save the embed code if it is valid.
+		if ( ! empty( $embeds ) ) {
+			update_post_meta( $request['post_id'], 'oovvuu_embeds', $embeds );
+		}
+
+		return rest_ensure_response(
+			[
+				'success' => true,
+				'embeds'  => $embeds,
+			]
+		);
+	}
+
+	/**
+	 * Creates a brightcove video embed given a set of videos and a position.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  array $payload {
+	 *     The payload data.
+	 *
+	 *     @type string $user_id        The current Oovvuu publisher ID.
+	 *     @type array  $video_ids      The array of videos ids.
+	 *     @type string $type           The player type (Single|OneByThree)
+	 *     @type array  $keywords       The keywords used to get the videos.
+	 *     @type string $post_id        The current post ID.
+	 *     @type string $embed_location The embed location (Hero|PositionTwo)
+	 * }
+	 * @return mixed The HTTP response body or a WP_Error object.
+	 */
+	public function create_embed( $payload = [] ) {
+		return $this->request(
+			'mutation CreateEmbed($input: CreateEmbedInput!) {
+				createEmbed(input: $input) {
+					id
+					snippet
+				}
+			}',
+			[
+				'userId'   => (string) $payload['user_id'] ?? '0',
+				'videoIds' => (array) $payload['video_ids'] ?? [],
+				'metadata' => [
+					'type'     => $payload['type'] ?? 'Single',
+					'keywords' => $payload['keywords'] ?? [],
+					'article'  => [
+						'publisherId'   => (string) $payload['user_id'] ?? '0',
+						'cmsArticleId'  => (string) $payload['post_id'] ?? '0',
+						'embedLocation' => (string) $payload['embed_location'] ?? 'Hero',
+						'masthead'      => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+					],
+				],
+			],
+			$payload['post_id'] ?? 0
 		);
 	}
 
