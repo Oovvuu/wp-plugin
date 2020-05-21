@@ -76,6 +76,18 @@ class REST_API {
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'save_state' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
+				'args'                => [
+					'state' => [
+						'validate_callback' => function( $value, $request, $param ) {
+							return empty( $value );
+						},
+					],
+					'id'    => [
+						'sanitize_callback' => function( $value, $request, $param ) {
+							return absint( $value );
+						},
+					],
+				],
 			]
 		);
 
@@ -87,6 +99,13 @@ class REST_API {
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'get_state' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
+				'args'                => [
+					'id' => [
+						'sanitize_callback' => function( $value, $request, $param ) {
+							return absint( $value );
+						},
+					],
+				],
 			]
 		);
 	}
@@ -199,23 +218,6 @@ class REST_API {
 	 */
 	public function save_state( $request ) {
 
-		$current_user_id = get_current_user_id();
-
-		// No user.
-		if ( empty( $current_user_id ) ) {
-			return new \WP_Error( 'no-user', __( 'All requests must have a logged in user', 'oovvuu' ) );
-		}
-
-		// Empty state.
-		if ( empty( $request['state'] ) ) {
-			return rest_ensure_response( new \WP_Error( 'empty-state', __( 'State value is required', 'oovvuu' ) ) );
-		}
-
-		// Empty post ID.
-		if ( empty( $request['id'] ) ) {
-			return rest_ensure_response( new \WP_Error( 'empty-post-id', __( 'Post ID value is required', 'oovvuu' ) ) );
-		}
-
 		$positions = [
 			'hero'        => [
 				'type'           => 'Single',
@@ -234,7 +236,7 @@ class REST_API {
 		$embeds = [];
 		foreach ( $positions as $position => $data ) {
 
-			// Position is empty to skip creating the embed.
+			// Position is empty.
 			if ( empty( $request['state']['selectedVideos'][ $position ] ) ) {
 				continue;
 			}
@@ -242,7 +244,7 @@ class REST_API {
 			// Create the embed.
 			$embeds[ $position ] = $this->create_embed(
 				[
-					'user_id'        => $this->get_publisher_id( $current_user_id ),
+					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => $request['state']['selectedVideos'][ $position ],
 					'type'           => $data['type'],
 					'keywords'       => $request['state']['selectedKeywords'],
@@ -274,12 +276,6 @@ class REST_API {
 	 * @return \WP_REST_Response The rest response object.
 	 */
 	public function get_state( $request ) {
-
-		// Empty post ID.
-		if ( empty( $request['id'] ) ) {
-			return rest_ensure_response( new \WP_Error( 'empty-post-id', __( 'Post ID value is required', 'oovvuu' ) ) );
-		}
-
 		$state = get_post_meta( $request['id'], 'oovvuu_state', true );
 
 		return rest_ensure_response(

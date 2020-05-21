@@ -20,7 +20,7 @@ const reducer = (state, action) => {
 
   switch (type) {
     case 'RESET_STATE':
-      return payload;
+      return { ...nextState, ...payload };
     case 'UPDATE_RECOMMENDED_KEYWORDS':
       nextState.recommendedKeywords = payload;
       return nextState;
