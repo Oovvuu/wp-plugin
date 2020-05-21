@@ -2,6 +2,7 @@
   @include button-base;
   background: transparent;
   cursor: pointer;
+  transform: translate(rem(-25), rem(-1));
 
   svg {
     background: transparent;
