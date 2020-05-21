@@ -52,6 +52,15 @@ const Dialog = ({
     }
   };
 
+  /**
+   * Sets focus on modal open to the close button.
+   */
+  React.useEffect(() => {
+    if (isOpen) {
+      closeButtonRef.current.focus();
+    }
+  }, [isOpen]);
+
   // The Dialog React element.
   const dialogElement = (
     <div

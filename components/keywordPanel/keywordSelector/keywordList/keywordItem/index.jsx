@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ClearIcon from 'assets/clear.svg';
 import ActionButton from 'components/actionButton';
+import keyCodes from 'utils/keyCodes';
 import checkboxes from 'shared/checkboxes.scss';
 import styles from './keywordItem.scss';
 
@@ -15,8 +16,29 @@ const KeywordItem = (props) => {
     onToggle,
   } = props;
 
+  /**
+   * Allow users to press enter when the chip is active to toggle the state of
+   * the chip.
+   *
+   * @param  {Event} event The keypress event.
+   * @return {[type]}       [description]
+   */
+  const handleKeyDown = (event) => {
+    const { RETURN } = keyCodes;
+    const { keyCode } = event;
+
+    // Enter key is pressed.
+    if (RETURN === keyCode) {
+      onToggle(id);
+    }
+  };
+
   return (
-    <label className={checkboxes.keyword} htmlFor={id}>
+    <label
+      className={checkboxes.keyword}
+      htmlFor={id}
+      onKeyDown={handleKeyDown}
+    >
       <input
         id={id}
         name={keyword}
