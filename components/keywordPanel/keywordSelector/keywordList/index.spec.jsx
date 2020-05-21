@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import uuid from 'react-uuid';
 import GeneratedList from './';
-import KeywordItem from '../keywordItem';
+import KeywordItem from './keywordItem';
 
 const keywords = [
   'coronavirus',
