@@ -1,3 +1,9 @@
 .removeKeyword {
-  @include action-icon;
+  @include button-base;
+  background: transparent;
+  cursor: pointer;
+
+  svg {
+    background: transparent;
+  }
 }
