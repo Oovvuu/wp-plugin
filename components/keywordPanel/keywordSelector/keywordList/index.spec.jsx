@@ -26,7 +26,7 @@ const mockKeywordItems = keywords.reduce((carry, keyword) => {
   };
 }, {});
 
-describe('KeywordList', () => {
+describe('GeneratedKeywordList', () => {
   it('Renders li for each available keyword', () => {
     const wrapper = shallow(<GeneratedList
       keywordItems={mockKeywordItems}
