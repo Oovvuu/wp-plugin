@@ -116,7 +116,7 @@ const KeywordSelector = () => {
   // Set the local selected keywords based on the globally selected keywords.
   React.useEffect(() => {
     setLocalSelectedKeywords(selectedKeywords);
-  }, []);
+  }, [selectedKeywords]);
 
   return (
     <div className={styles.selector}>
