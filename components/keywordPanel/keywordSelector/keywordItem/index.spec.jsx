@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import ActionButton from 'components/actionButton';
 import KeywordItem from './';
 
 const id = 'uuid';
@@ -18,5 +19,17 @@ describe('KeywordItem', () => {
 
     wrapper.find('input[type="checkbox"]').simulate('change');
     expect(toggleFn).toHaveBeenCalledWith(mockItem.id);
+  });
+
+  describe('Has optional remove ActionButton', () => {
+    it('Renders ActionButton with CloseIcon if onMutate() is defined', () => {
+      const wrapper = shallow(<KeywordItem
+        item={mockItem}
+        onMutate={jest.fn()}
+        onToggle={jest.fn()}
+      />);
+
+      expect(wrapper.find(ActionButton)).toHaveLength(1);
+    });
   });
 });
