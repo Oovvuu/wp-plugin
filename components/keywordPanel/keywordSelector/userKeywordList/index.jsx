@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import KeywordList from '../keywordList';
 
 /**
  * Stub component for the user-supplied list of keywords.
  */
 const UserList = (props) => {
-  // eslint-disable-next-line no-unused-vars
   const { keywordItems, onUpdate } = props;
 
-  return <p>Hello, world!</p>;
+  return <KeywordList keywordItems={keywordItems} onUpdate={onUpdate} />;
 };
 
 UserList.propTypes = {
