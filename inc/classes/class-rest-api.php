@@ -77,12 +77,7 @@ class REST_API {
 				'callback'            => [ $this, 'save_state' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
-					'state' => [
-						'validate_callback' => function( $value, $request, $param ) {
-							return empty( $value );
-						},
-					],
-					'id'    => [
+					'id' => [
 						'sanitize_callback' => function( $value, $request, $param ) {
 							return absint( $value );
 						},
