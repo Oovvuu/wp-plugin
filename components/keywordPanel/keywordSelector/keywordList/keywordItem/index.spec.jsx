@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ActionButton from 'components/actionButton';
+import CloseIcon from 'assets/close.svg';
 import KeywordItem from './';
 
 const id = 'uuid';
@@ -22,14 +22,15 @@ describe('KeywordItem', () => {
   });
 
   describe('Has optional remove ActionButton', () => {
-    it('Renders ActionButton with CloseIcon if onMutate() is defined', () => {
+    it('Renders button.removeKeyword with ClearIcon if onRemove() is defined', () => {
       const wrapper = shallow(<KeywordItem
         item={mockItem}
-        onMutate={jest.fn()}
+        onRemove={jest.fn()}
         onToggle={jest.fn()}
       />);
 
-      expect(wrapper.find(ActionButton)).toHaveLength(1);
+      expect(wrapper.find('button.removeKeyword')).toHaveLength(1);
+      expect(wrapper.find(CloseIcon)).toHaveLength(1);
     });
   });
 });
