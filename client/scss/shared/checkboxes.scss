@@ -1,6 +1,15 @@
 /* stylelint-disable selector-max-specificity */
 
 /**
+ * Layout for a list of keyword checkboxes.
+ */
+.keywords {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: rem(20);
+}
+
+/**
  * Styles a keyword checkbox.
  */
 .keyword {

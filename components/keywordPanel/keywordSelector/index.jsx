@@ -1,8 +1,8 @@
 import React from 'react';
 import uuid from 'react-uuid';
 import oovvuuData from 'components/app/context';
-import GeneratedList from './generatedList';
-import UserList from './userList';
+import KeywordList from './keywordList';
+import UserKeywordList from './userKeywordList';
 import styles from '../keywordPanel.scss';
 
 /**
@@ -99,12 +99,12 @@ const KeywordSelector = () => {
   return (
     <div className={styles.selector}>
       <h4>{__('Select all relevant keywords', 'oovvuu')}</h4>
-      <GeneratedList
+      <KeywordList
         keywordItems={itemsFor('generated')}
         onUpdate={handleItemUpdated}
       />
       <h4>{__('Add additional keywords here', 'oovvuu')}</h4>
-      <UserList keywordItems={itemsFor('user')} onUpdate={handleItemUpdated} />
+      <UserKeywordList keywordItems={itemsFor('user')} onUpdate={handleItemUpdated} />
     </div>
   );
 };
