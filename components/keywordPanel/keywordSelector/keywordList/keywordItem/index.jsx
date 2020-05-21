@@ -21,7 +21,6 @@ const KeywordItem = (props) => {
    * the chip.
    *
    * @param  {Event} event The keypress event.
-   * @return {[type]}       [description]
    */
   const handleKeyDown = (event) => {
     const { RETURN } = keyCodes;
