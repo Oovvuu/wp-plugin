@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import KeywordSelector from './';
-import GeneratedList from '../generatedList';
-import UserList from '../userList';
+import GeneratedList from './keywordList';
+import UserList from './userKeywordList';
 
 global.wp = { i18n: { __: () => 'translated' } };
 

@@ -85,6 +85,7 @@ module.exports = (env, argv) => {
                   'core/_a11y.scss',
                   'core/_typography.scss',
                   'core/_buttons.scss',
+                  'core/_icons.scss',
                 ].map((file) => path.resolve(`${paths.scss}`, file)),
               },
             },
