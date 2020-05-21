@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import ClearIcon from 'assets/clear.svg';
@@ -55,7 +56,7 @@ const VideoCardWrapper = (props) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={classNames(styles.wrapper, styles.addRemoveKeyword)}>
       <ActionButton
         buttonStyle="icon"
         className={styles.removeVideo}

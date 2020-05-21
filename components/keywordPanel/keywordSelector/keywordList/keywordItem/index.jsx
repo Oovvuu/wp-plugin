@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ClearIcon from 'assets/clear.svg';
-import ActionButton from 'components/actionButton';
+import ClearIcon from 'assets/close.svg';
 import checkboxes from 'shared/checkboxes.scss';
 import styles from './keywordItem.scss';
 
@@ -11,7 +10,7 @@ import styles from './keywordItem.scss';
 const KeywordItem = (props) => {
   const {
     item: { id, isSelected, keyword },
-    onMutate,
+    onRemove,
     onToggle,
   } = props;
 
@@ -24,21 +23,19 @@ const KeywordItem = (props) => {
         checked={isSelected}
         type="checkbox"
       />
-      <span>{keyword}</span>
-      {onMutate && (
-        <ActionButton
-          buttonStyle="icon"
-          className={styles.removeKeyword}
-          onClickHandler={onMutate}
-        >
+      <span>
+        {keyword}
+      </span>
+      {onRemove && typeof onRemove === 'function' && (
+        <button className={styles.removeKeyword} onClick={() => onRemove(id)} type="button">
           <ClearIcon />
-        </ActionButton>
+        </button>
       )}
     </label>
   );
 };
 
-KeywordItem.defaultProps = { onMutate: null };
+KeywordItem.defaultProps = { onRemove: null };
 
 KeywordItem.propTypes = {
   item: PropTypes.shape({
@@ -46,7 +43,7 @@ KeywordItem.propTypes = {
     isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   }).isRequired,
-  onMutate: PropTypes.func,
+  onRemove: PropTypes.func,
   onToggle: PropTypes.func.isRequired,
 };
 

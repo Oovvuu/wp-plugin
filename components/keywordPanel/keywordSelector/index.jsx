@@ -57,6 +57,19 @@ const KeywordSelector = () => {
     }
   };
 
+  const handleMutate = (type, item) => {
+    if (type === 'add') {
+      setUserKeywordItems({ ...userKeywordItems, ...{ [item.id]: item } });
+      setAllKeywordItems({ ...allKeywordItems, ...{ [item.id]: item } });
+    }
+
+    if (type === 'delete') {
+      const { id } = item;
+      setAllKeywordItems({ ...allKeywordItems, ...{ [id]: undefined } });
+      setUserKeywordItems({ ...userKeywordItems, ...{ [id]: undefined } });
+    }
+  };
+
   /**
    * Compiles a keyword item list for a given type.
    *
@@ -66,7 +79,7 @@ const KeywordSelector = () => {
    */
   const itemsFor = (type) => Object.keys(allKeywordItems)
     .reduce((carry, id) => {
-      if (allKeywordItems[id].type === type) {
+      if (allKeywordItems[id]?.type === type) {
         return { ...carry, ...{ [id]: allKeywordItems[id] } };
       }
 
@@ -104,7 +117,7 @@ const KeywordSelector = () => {
         onUpdate={handleItemUpdated}
       />
       <h4>{__('Add additional keywords here', 'oovvuu')}</h4>
-      <UserKeywordList keywordItems={itemsFor('user')} onUpdate={handleItemUpdated} />
+      <UserKeywordList keywordItems={itemsFor('user')} onMutate={handleMutate} onUpdate={handleItemUpdated} />
     </div>
   );
 };

@@ -14,7 +14,7 @@ import KeywordItem from './keywordItem';
  *     a user-defined keyword.
  */
 const KeywordList = (props) => {
-  const { keywordItems, onMutate, onUpdate } = props;
+  const { keywordItems, onRemove, onUpdate } = props;
 
   /**
    * Flips selected state of a keyword item and calls update callback.
@@ -32,14 +32,14 @@ const KeywordList = (props) => {
     <ul className={styles.keywords}>
       {Object.keys(keywordItems).map((key) => (
         <li className={styles.keyword} key={keywordItems[key].id}>
-          <KeywordItem item={keywordItems[key]} onMutate={onMutate} onToggle={handleToggle} />
+          <KeywordItem item={keywordItems[key]} onRemove={onRemove} onToggle={handleToggle} />
         </li>
       ))}
     </ul>
   );
 };
 
-KeywordList.defaultProps = { onMutate: null };
+KeywordList.defaultProps = { onRemove: null };
 
 KeywordList.propTypes = {
   keywordItems: PropTypes.objectOf(PropTypes.shape({
@@ -47,7 +47,7 @@ KeywordList.propTypes = {
     isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   })).isRequired,
-  onMutate: PropTypes.func,
+  onRemove: PropTypes.func,
   onUpdate: PropTypes.func.isRequired,
 };
 
