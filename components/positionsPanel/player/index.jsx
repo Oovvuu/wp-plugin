@@ -27,13 +27,14 @@ const PlayerWrapper = (props) => {
     }
 
     return videos.map((video) => {
-      const { preview, thumbnail: { url } } = video;
+      const { id, preview, thumbnail: { url } } = video;
       const isPreviewConfigured = preview?.brightcoveAccountId
         && preview?.brightcovePlayerId
         && preview?.brightcoveVideoId;
 
       return isPreviewConfigured ? (
         <ReactPlayerLoader
+          key={id}
           accountId={preview.brightcoveAccountId}
           playerId={preview.brightcovePlayerId}
           videoId={preview.brightcoveVideoId}

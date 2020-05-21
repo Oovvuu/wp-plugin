@@ -12,9 +12,17 @@ import styles from '../keywordPanel.scss';
  */
 const KeywordSelector = () => {
   const { i18n: { __ } } = wp;
+
+  const {
+    dispatch,
+    state: {
+      recommendedKeywords,
+      selectedKeywords = [],
+    },
+  } = React.useContext(oovvuuData);
+
   const [allKeywordItems, setAllKeywordItems] = React.useState({});
-  const [selectedKeywords, setSelectedKeywords] = React.useState([]);
-  const { dispatch, state: { recommendedKeywords } } = React.useContext(oovvuuData);
+  const [localSelectedKeywords, setLocalSelectedKeywords] = React.useState(selectedKeywords);
 
   /**
    * Need to track these separately so they are not blown away if recommendedKeywords
@@ -42,10 +50,10 @@ const KeywordSelector = () => {
     } = item;
     const updatedAllKeywordItems = { ...allKeywordItems, ...{ [id]: item } };
     const updatedSelectedKeywords = isSelected
-      ? [...selectedKeywords, keyword]
-      : selectedKeywords.filter((selected) => selected !== keyword);
+      ? [...localSelectedKeywords, keyword]
+      : localSelectedKeywords.filter((selected) => selected !== keyword);
     setAllKeywordItems(updatedAllKeywordItems);
-    setSelectedKeywords(updatedSelectedKeywords);
+    setLocalSelectedKeywords(updatedSelectedKeywords);
     dispatch({ payload: updatedSelectedKeywords, type: 'UPDATE_SELECTED_KEYWORDS' });
 
     // TODO: Refine on build-out of UserList component (OVU-9).
@@ -87,25 +95,34 @@ const KeywordSelector = () => {
     }, {});
 
   /**
+   * Updates the main list of keywords given a current selection of keywords.
+   *
+   * @param  {Array} currentSelection An array of keywords.
+   */
+  const updateAllKeywords = (currentSelection) => {
+    const indexedKeywords = recommendedKeywords.reduce((carry, keyword) => {
+      const id = uuid();
+      return {
+        ...carry,
+        ...{
+          [id]: {
+            id, isSelected: currentSelection.includes(keyword), keyword, type: 'generated',
+          },
+        },
+      };
+    }, {});
+
+    // Merge in userKeywordItems so they are not blown away on recommendedKeywords update.
+    setAllKeywordItems({ ...indexedKeywords, ...userKeywordItems });
+  };
+
+  /**
    * Builds the allKeywordItems list, with unique ID, selection state and item type,
    *   when the recommendedKeywords prop changes.
    */
   React.useEffect(() => {
     if (recommendedKeywords.length) {
-      const indexedKeywords = recommendedKeywords.reduce((carry, keyword) => {
-        const id = uuid();
-        return {
-          ...carry,
-          ...{
-            [id]: {
-              id, isSelected: false, keyword, type: 'generated',
-            },
-          },
-        };
-      }, {});
-      // Merge in userKeywordItems so they are not blown away on recommendedKeywords update.
-      const updatedAllKeywordItems = { ...indexedKeywords, ...userKeywordItems };
-      setAllKeywordItems(updatedAllKeywordItems);
+      updateAllKeywords(selectedKeywords);
     }
   }, [recommendedKeywords]);
 
