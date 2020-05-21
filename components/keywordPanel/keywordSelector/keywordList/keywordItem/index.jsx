@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ClearIcon from 'assets/close.svg';
+import CloseIcon from 'assets/close.svg';
 import checkboxes from 'shared/checkboxes.scss';
 import styles from './keywordItem.scss';
 
@@ -28,7 +28,7 @@ const KeywordItem = (props) => {
       </span>
       {onRemove && typeof onRemove === 'function' && (
         <button className={styles.removeKeyword} onClick={() => onRemove(id)} type="button">
-          <ClearIcon />
+          <CloseIcon />
         </button>
       )}
     </label>
