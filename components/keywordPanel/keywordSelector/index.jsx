@@ -21,14 +21,14 @@ const KeywordSelector = () => {
     },
   } = React.useContext(oovvuuData);
 
-  const [allKeywordItems, setAllKeywordItems] = React.useState({});
-  const [localSelectedKeywords, setLocalSelectedKeywords] = React.useState({});
+  const [allKeywordItems, setAllKeywordItems] = React.useState([]);
+  const [localSelectedKeywords, setLocalSelectedKeywords] = React.useState([]);
 
   /**
    * Need to track these separately so they are not blown away if recommendedKeywords
    *   (string list fetched via API) is refreshed.
    */
-  const [userKeywordItems, setUserKeywordItems] = React.useState({});
+  const [userKeywordItems, setUserKeywordItems] = React.useState([]);
 
   /**
    * Handles sync of all state when a keyword item is updated.
