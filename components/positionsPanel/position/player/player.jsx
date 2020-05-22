@@ -7,7 +7,7 @@ import styles from 'components/positionsPanel/position/position.scss';
  * Displays a specific Brightcove player for a given video.
  */
 const Player = (props) => {
-  const { video, position } = props;
+  const { video, position, updatePlayer } = props;
 
   const onSuccess = function (success) {
     console.log(success);
@@ -43,7 +43,15 @@ const Player = (props) => {
         onSuccess={(success) => { onSuccess(success); }}
         onFailure={(failure) => { onFailure(failure); }}
       />
-    ) : <img src={url} className={styles.brightcoveThumbnail} alt="" />;
+    ) : (
+      <button
+        type="button"
+        className={styles.brightcoveThumbnail}
+        onClick={updatePlayer}
+      >
+        <img src={url} alt="" />
+      </button>
+    );
   };
 
   return getPlayer();
@@ -61,6 +69,7 @@ Player.propTypes = {
     }).isRequired,
   }).isRequired,
   position: PropTypes.number.isRequired,
+  updatePlayer: PropTypes.func.isRequired,
 };
 
 export default Player;

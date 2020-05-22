@@ -7,6 +7,22 @@ import Player from './player';
  */
 const PlayerWrapper = (props) => {
   const { videos } = props;
+  // , setPreviewVideos
+  const [previewVideos, setPreviewVideos] = React.useState(videos);
+
+  const updatePlayer = (position) => {
+    const newPreviewVideos = [];
+    newPreviewVideos.push(previewVideos[position]);
+    for (let i = 1; i < previewVideos.length; i += 1) {
+      if (i === position) {
+        newPreviewVideos.push(previewVideos[0]);
+      } else {
+        newPreviewVideos.push(previewVideos[i]);
+      }
+    }
+
+    setPreviewVideos(newPreviewVideos);
+  };
 
   /**
    * At the moment, the player API is in flux, so this is just a stub to identify
@@ -14,11 +30,19 @@ const PlayerWrapper = (props) => {
    * @returns {null|*}
    */
   const getPlayer = () => {
-    if (!videos.length) {
+    if (!previewVideos.length) {
       return null;
     }
 
-    return videos.map((video, position) => <Player video={video} position={position} />);
+    console.log(previewVideos);
+
+    return previewVideos.map((video, position) => (
+      <Player
+        video={video}
+        position={position}
+        updatePlayer={() => { updatePlayer(position); }}
+      />
+    ));
   };
 
   return getPlayer();
