@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import keyCodes from 'utils/keyCodes';
 import buttons from './actionButton.scss';
 
 /**
@@ -27,12 +28,28 @@ const ActionButton = (props) => {
     warnLarge: buttons.buttonWarnLarge,
   };
 
+  /**
+   * Handle return key press and act like button click for accessibilty.
+   *
+   * @param {Event} event The Event object.
+   */
+  const handleKeyDown = (event) => {
+    const { RETURN } = keyCodes;
+    const { keyCode } = event;
+
+    // Trigger click handler on enter.
+    if (keyCode === RETURN) {
+      onClickHandler();
+    }
+  };
+
   return (
     <button
       className={classNames(buttonStyles[buttonStyle], className)}
       type="button"
       disabled={disabled}
       onClick={onClickHandler}
+      onKeyDown={handleKeyDown}
     >
       <span>{children}</span>
     </button>
