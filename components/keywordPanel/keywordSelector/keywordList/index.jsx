@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from 'shared/checkboxes.scss';
 import KeywordItem from './keywordItem';
+import KeywordInput from './keywordInput';
 
 /**
  * Component for showing list of keywords for the current post. This has two distinct
@@ -14,7 +15,7 @@ import KeywordItem from './keywordItem';
  *     a user-defined keyword.
  */
 const KeywordList = (props) => {
-  const { keywordItems, onMutate, onUpdate } = props;
+  const { keywordItems, onRemove, onUpdate } = props;
 
   /**
    * Flips selected state of a keyword item and calls update callback.
@@ -30,24 +31,36 @@ const KeywordList = (props) => {
 
   return (
     <ul className={styles.keywords}>
-      {Object.keys(keywordItems).map((key) => (
-        <li className={styles.keyword} key={keywordItems[key].id}>
-          <KeywordItem item={keywordItems[key]} onMutate={onMutate} onToggle={handleToggle} />
+      {Object.keys(keywordItems).map((key) => (keywordItems[key].keyword ? (
+        <li className={styles.keyword} key={keywordItems[key].keyword}>
+          <KeywordItem
+            item={keywordItems[key]}
+            onRemove={onRemove}
+            onToggle={handleToggle}
+            onUpdate={onUpdate}
+          />
         </li>
-      ))}
+      ) : (
+        <li className={styles.keywordInput} key={keywordItems[key].keyword}>
+          <KeywordInput
+            item={keywordItems[key]}
+            onRemove={onRemove}
+            onUpdate={onUpdate}
+          />
+        </li>
+      )))}
     </ul>
   );
 };
 
-KeywordList.defaultProps = { onMutate: null };
+KeywordList.defaultProps = { onRemove: null };
 
 KeywordList.propTypes = {
   keywordItems: PropTypes.objectOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
     isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   })).isRequired,
-  onMutate: PropTypes.func,
+  onRemove: PropTypes.func,
   onUpdate: PropTypes.func.isRequired,
 };
 

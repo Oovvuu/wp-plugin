@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+}
+
+.addUserKeyword {
+  @include button-base;
+  cursor: pointer;
+  height: rem(19);
+  margin-right: 12px;
+  margin-top: 10px;
+
+  svg {
+    background: transparent;
+  }
+}

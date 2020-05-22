@@ -1,10 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ActionButton from 'components/actionButton';
+import CloseIcon from 'assets/close.svg';
 import KeywordItem from './';
 
-const id = 'uuid';
-const mockItem = { id, isSelected: false, keyword: 'keyword' };
+const mockItem = { isSelected: false, keyword: 'keyword' };
 
 describe('KeywordItem', () => {
   it('Renders', () => {
@@ -18,18 +17,19 @@ describe('KeywordItem', () => {
     const wrapper = shallow(<KeywordItem item={mockItem} onToggle={toggleFn} />);
 
     wrapper.find('input[type="checkbox"]').simulate('change');
-    expect(toggleFn).toHaveBeenCalledWith(mockItem.id);
+    expect(toggleFn).toHaveBeenCalledWith(mockItem.keyword);
   });
 
   describe('Has optional remove ActionButton', () => {
-    it('Renders ActionButton with CloseIcon if onMutate() is defined', () => {
+    it('Renders button.removeKeyword with ClearIcon if onRemove() is defined', () => {
       const wrapper = shallow(<KeywordItem
         item={mockItem}
-        onMutate={jest.fn()}
+        onRemove={jest.fn()}
         onToggle={jest.fn()}
       />);
 
-      expect(wrapper.find(ActionButton)).toHaveLength(1);
+      expect(wrapper.find('button.removeKeyword')).toHaveLength(1);
+      expect(wrapper.find(CloseIcon)).toHaveLength(1);
     });
   });
 });

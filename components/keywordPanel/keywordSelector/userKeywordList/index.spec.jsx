@@ -17,6 +17,7 @@ describe('UserKeywordList', () => {
   it('Renders required child components', () => {
     const wrapper = shallow(<UserLKeywordList
       keywordItems={mockKeywordItems}
+      onMutate={jest.fn()}
       onUpdate={() => true}
     />);
 

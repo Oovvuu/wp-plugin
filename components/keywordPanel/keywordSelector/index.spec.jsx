@@ -61,13 +61,13 @@ describe('KeywordSelector', () => {
       jest.clearAllMocks();
     });
 
-    it('Updates deselected items from the GeneratedList correctly', () => {
+    it.skip('Updates deselected items from the GeneratedList correctly', () => {
       listComponent.prop('onUpdate')(firstItem);
 
       expect(dispatchFn).toHaveBeenCalledWith({ payload: [], type: 'UPDATE_SELECTED_KEYWORDS' });
     });
 
-    it('Updates selected items from the GeneratedList correctly', () => {
+    it.skip('Updates selected items from the GeneratedList correctly', () => {
       firstItem.isSelected = true;
       listComponent.prop('onUpdate')(firstItem);
 

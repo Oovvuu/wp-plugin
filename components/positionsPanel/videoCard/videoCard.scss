@@ -39,5 +39,12 @@
 }
 
 .removeVideo {
-  @include action-icon;
+  cursor: pointer;
+  position: absolute;
+  right: rem(3);
+  top: rem(3);
+
+  svg {
+    background: transparent;
+  }
 }
