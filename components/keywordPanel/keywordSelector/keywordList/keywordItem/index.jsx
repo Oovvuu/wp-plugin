@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ClearIcon from 'assets/clear.svg';
-import ActionButton from 'components/actionButton';
+import CloseIcon from 'assets/close.svg';
 import keyCodes from 'utils/keyCodes';
 import checkboxes from 'shared/checkboxes.scss';
 import styles from './keywordItem.scss';
@@ -11,10 +10,11 @@ import styles from './keywordItem.scss';
  */
 const KeywordItem = (props) => {
   const {
-    item: { id, isSelected, keyword },
-    onMutate,
+    item,
+    onRemove,
     onToggle,
   } = props;
+  const { isSelected, keyword } = item;
 
   /**
    * Allow users to press enter when the chip is active to toggle the state of
@@ -28,46 +28,43 @@ const KeywordItem = (props) => {
 
     // Enter key is pressed.
     if (RETURN === keyCode) {
-      onToggle(id);
+      onToggle(keyword);
     }
   };
 
   return (
     <label
       className={checkboxes.keyword}
-      htmlFor={id}
+      htmlFor={keyword}
       onKeyDown={handleKeyDown}
     >
       <input
-        id={id}
+        id={keyword}
         name={keyword}
-        onChange={() => onToggle(id)}
+        onChange={() => onToggle(keyword)}
         checked={isSelected}
         type="checkbox"
       />
-      <span>{keyword}</span>
-      {onMutate && (
-        <ActionButton
-          buttonStyle="icon"
-          className={styles.removeKeyword}
-          onClickHandler={onMutate}
-        >
-          <ClearIcon />
-        </ActionButton>
+      <span>
+        {keyword}
+      </span>
+      {onRemove && typeof onRemove === 'function' && (
+        <button className={styles.removeKeyword} onClick={() => onRemove(item)} type="button">
+          <CloseIcon />
+        </button>
       )}
     </label>
   );
 };
 
-KeywordItem.defaultProps = { onMutate: null };
+KeywordItem.defaultProps = { onRemove: null };
 
 KeywordItem.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.string.isRequired,
     isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   }).isRequired,
-  onMutate: PropTypes.func,
+  onRemove: PropTypes.func,
   onToggle: PropTypes.func.isRequired,
 };
 
