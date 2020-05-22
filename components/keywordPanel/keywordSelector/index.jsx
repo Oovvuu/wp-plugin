@@ -21,13 +21,13 @@ const KeywordSelector = () => {
    * Tracks master list of all current keyword items, both retrieved from API fetch
    *   and user-defined.
    */
-  const [allKeywordItems, setAllKeywordItems] = React.useState([]);
+  const [allKeywordItems, setAllKeywordItems] = React.useState({});
 
   /**
    * Need to track these separately so they are not blown away if recommendedKeywords
    *   (string list fetched via API) is refreshed.
    */
-  const [userKeywordItems, setUserKeywordItems] = React.useState([]);
+  const [userKeywordItems, setUserKeywordItems] = React.useState({});
 
   /**
    * Syncs selectedKeywords in global application state after mutation
@@ -156,7 +156,6 @@ const KeywordSelector = () => {
       compileAllKeywordItems(selectedKeywords);
     }
   }, [recommendedKeywords]);
-
 
   return (
     <div className={styles.selector}>
