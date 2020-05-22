@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import oovvuuData from 'components/app/context';
 import KeywordList from './keywordList';
 import UserKeywordList from './userKeywordList';
@@ -15,14 +14,21 @@ const KeywordSelector = () => {
 
   const {
     dispatch,
-    state: {
-      recommendedKeywords,
-      selectedKeywords = [],
-    },
+    state: { recommendedKeywords, selectedKeywords },
   } = React.useContext(oovvuuData);
 
+  /**
+   * Tracks master list of all current keyword items, both retrieved from API fetch
+   *   and user-defined.
+   */
   const [allKeywordItems, setAllKeywordItems] = React.useState({});
-  const [localSelectedKeywords, setLocalSelectedKeywords] = React.useState(selectedKeywords);
+
+  /**
+   * Tracks master list of all currently selected string keywords. This is different
+   *   than selectedKeywords from the global application state, which represents
+   *   keywords used to derive recommendedVideos.
+   */
+  // const [currentKeywords, setCurrentKeywords] = React.useState(selectedKeywords);
 
   /**
    * Need to track these separately so they are not blown away if recommendedKeywords
@@ -31,12 +37,28 @@ const KeywordSelector = () => {
   const [userKeywordItems, setUserKeywordItems] = React.useState({});
 
   /**
-   * Handles sync of all state when a keyword item is updated.
+   * Syncs selectedKeywords in global application state after mutation
+   *   or update to a keyword item. This should run after all changes
+   *   to keyword items have been resolved.
+   * @param item The mutated or updated keyword item.
+   */
+  const syncSelectedKeywords = (item) => {
+    const { isSelected, keyword } = item;
+    const updatedCurrentKeywords = isSelected
+      ? [...selectedKeywords, keyword.toLowerCase()]
+      : selectedKeywords.filter((selected) => selected !== keyword);
+
+    dispatch({ payload: updatedCurrentKeywords, type: 'UPDATE_SELECTED_KEYWORDS' });
+  };
+
+  /**
+   * Handles sync of all keyword item state on update. This is different
+   *   than an addition or removal of a keyword item, which is handled by
+   *   handleMutate().
    *   - User keyword items require extra handling as they
    *     must be maintained even when the generated recommendedKeywords list
    *     is refreshed.
    *   - Keyword item objects should have the following shape:
-   *     - id: string (UUID)
    *     - isSelected: boolean
    *     - keyword: string
    *     - type: string Token to indicate keyword item type,
@@ -45,37 +67,45 @@ const KeywordSelector = () => {
    * @param item object Update keyword item.
    */
   const handleItemUpdated = (item) => {
-    const {
-      id, isSelected, keyword, type,
-    } = item;
-    const updatedAllKeywordItems = { ...allKeywordItems, ...{ [id]: item } };
-    const updatedSelectedKeywords = isSelected
-      ? [...localSelectedKeywords, keyword]
-      : localSelectedKeywords.filter((selected) => selected !== keyword);
-    setAllKeywordItems(updatedAllKeywordItems);
-    setLocalSelectedKeywords(updatedSelectedKeywords);
-    dispatch({ payload: updatedSelectedKeywords, type: 'UPDATE_SELECTED_KEYWORDS' });
+    const { keyword, type } = item;
+    const updatedAllKeywordItems = { ...allKeywordItems, ...{ [keyword]: item } };
 
-    // TODO: Refine on build-out of UserList component (OVU-9).
+    setAllKeywordItems(updatedAllKeywordItems);
+
     if (type === 'user') {
-      const updatedUserKeywordItems = isSelected
-        ? { ...userKeywordItems, ...{ [id]: item } }
-        : { ...userKeywordItems, ...{ [id]: undefined } };
-      setUserKeywordItems(updatedUserKeywordItems);
+      setUserKeywordItems({ ...userKeywordItems, ...{ [keyword]: item } });
     }
+
+    // Run after all keyword items are updated.
+    syncSelectedKeywords(item);
   };
 
+  /**
+   * Handler for mutations to the userKeywordItems list.
+   * @param type string Key for the mutation action to perform. One of 'add' or 'delete'.
+   * @param item object Keyword item object.
+   */
   const handleMutate = (type, item) => {
-    if (type === 'add') {
-      setUserKeywordItems({ ...userKeywordItems, ...{ [item.id]: item } });
-      setAllKeywordItems({ ...allKeywordItems, ...{ [item.id]: item } });
+    const { keyword } = item;
+    const mutation = type === 'add' ? { [keyword]: item } : { [keyword]: undefined };
+
+    // Guard to prevent adding a user-defined keyword if it's identical to a recommendedKeyword.
+    if (type !== 'add' || !recommendedKeywords.includes(keyword)) {
+      setUserKeywordItems({ ...userKeywordItems, ...mutation });
+      setAllKeywordItems({ ...allKeywordItems, ...mutation });
     }
 
-    if (type === 'delete') {
-      const { id } = item;
-      setAllKeywordItems({ ...allKeywordItems, ...{ [id]: undefined } });
-      setUserKeywordItems({ ...userKeywordItems, ...{ [id]: undefined } });
+    /**
+     * If a user-defined keyword is added and is identical to a recommendedKeyword,
+     *   just set the matching item to selected.
+     */
+    if (type === 'add' && recommendedKeywords.includes(keyword)) {
+      mutation[keyword].type = 'generated';
+      setAllKeywordItems({ ...allKeywordItems, ...mutation });
     }
+
+    // Run after all keyword items are updated.
+    syncSelectedKeywords(item);
   };
 
   /**
@@ -86,31 +116,29 @@ const KeywordSelector = () => {
    * @returns object List of keyword items keyed by string UUID.
    */
   const itemsFor = (type) => Object.keys(allKeywordItems)
-    .reduce((carry, id) => {
-      if (allKeywordItems[id]?.type === type) {
-        return { ...carry, ...{ [id]: allKeywordItems[id] } };
+    .reduce((carry, keyword) => {
+      if (allKeywordItems[keyword]?.type === type) {
+        return { ...carry, ...{ [keyword]: allKeywordItems[keyword] } };
       }
 
       return carry;
     }, {});
 
   /**
-   * Updates the main list of keywords given a current selection of keywords.
+   * Side effect to compile the master index of all keyword items, used for tracking
+   *   state throughout the selector tree.
    *
-   * @param  {Array} currentSelection An array of keywords.
+   * @param  {Array} selectionList An array list of the currently selected keyword strings.
    */
-  const updateAllKeywords = (currentSelection) => {
-    const indexedKeywords = recommendedKeywords.reduce((carry, keyword) => {
-      const id = uuid();
-      return {
-        ...carry,
-        ...{
-          [id]: {
-            id, isSelected: currentSelection.includes(keyword), keyword, type: 'generated',
-          },
+  const compileAllKeywordItems = (selectionList) => {
+    const indexedKeywords = recommendedKeywords.reduce((carry, keyword) => ({
+      ...carry,
+      ...{
+        [keyword]: {
+          isSelected: selectionList.includes(keyword), keyword, type: 'generated',
         },
-      };
-    }, {});
+      },
+    }), {});
 
     // Merge in userKeywordItems so they are not blown away on recommendedKeywords update.
     setAllKeywordItems({ ...indexedKeywords, ...userKeywordItems });
@@ -122,7 +150,7 @@ const KeywordSelector = () => {
    */
   React.useEffect(() => {
     if (recommendedKeywords.length) {
-      updateAllKeywords(selectedKeywords);
+      compileAllKeywordItems(selectedKeywords);
     }
   }, [recommendedKeywords]);
 
