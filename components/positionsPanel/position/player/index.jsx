@@ -1,20 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactPlayerLoader from '@brightcove/react-player-loader';
+import Player from './player';
 
 /**
  * Displays a specific Brightcove player for a given video.
  */
 const PlayerWrapper = (props) => {
   const { videos } = props;
-
-  const onSuccess = function (success) {
-    console.log(success);
-  };
-
-  const onFailure = function (failure) {
-    console.log(failure);
-  };
 
   /**
    * At the moment, the player API is in flux, so this is just a stub to identify
@@ -26,24 +18,7 @@ const PlayerWrapper = (props) => {
       return null;
     }
 
-    return videos.map((video) => {
-      const { id, preview, thumbnail: { url } } = video;
-      const isPreviewConfigured = preview?.brightcoveAccountId
-        && preview?.brightcovePlayerId
-        && preview?.brightcoveVideoId;
-
-      return isPreviewConfigured ? (
-        <ReactPlayerLoader
-          key={id}
-          accountId={preview.brightcoveAccountId}
-          playerId={preview.brightcovePlayerId}
-          videoId={preview.brightcoveVideoId}
-          embedOptions={{ responsive: true }}
-          onSuccess={(success) => { onSuccess(success); }}
-          onFailure={(failure) => { onFailure(failure); }}
-        />
-      ) : <img src={url} alt="" />;
-    });
+    return videos.map((video, position) => <Player video={video} position={position} />);
   };
 
   return getPlayer();

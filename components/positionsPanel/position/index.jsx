@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import PlayerWrapper from 'components/positionsPanel/player';
-import PositionToggleWrapper from 'components/positionsPanel/positionToggle';
-import VideoCardWrapper from 'components/positionsPanel/videoCard';
 import theme from 'shared/theme.scss';
+import PositionToggleWrapper from './positionToggle';
+import VideoCardWrapper from './videoCard';
+import PlayerWrapper from './player';
 import styles from './position.scss';
 
 /**

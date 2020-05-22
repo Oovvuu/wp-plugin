@@ -60,7 +60,8 @@
 .playerCount4 {
   grid-template-columns: repeat(3, 1fr);
 
-  :global(.brightcove-react-player-loader) {
+  :global(.brightcove-react-player-loader),
+  .brightcoveThumbnail {
 
     &:first-of-type {
       grid-column: 1 / span 3;
