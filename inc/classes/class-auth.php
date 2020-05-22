@@ -133,7 +133,7 @@ class Auth {
 	 * @return array The audience.
 	 */
 	public function get_authentication_audience() {
-		return 'https://api.staging.oovvuu.io';
+		return 'https://api.prod.oovvuu.io';
 	}
 
 	/**
