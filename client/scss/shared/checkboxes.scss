@@ -1,5 +1,17 @@
 /* stylelint-disable selector-max-specificity */
 
+@mixin keyword-base {
+  position: relative;
+
+  &:not(:last-of-type) {
+    margin-right: rem(10);
+  }
+
+  &:focus-within span {
+    box-shadow: 0 0 1px 1px var(--color-theme);
+  }
+}
+
 /**
  * Layout for a list of keyword checkboxes.
  */
@@ -12,16 +24,35 @@
 /**
  * Styles a keyword checkbox.
  */
+.keywordInput {
+  @include keyword-base;
+  align-items: center;
+  background-color: var(--color-white);
+  border: solid 1px var(--color-decoration);
+  border-radius: rem(16);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: rem(14);
+  font-weight: 500;
+  justify-content: center;
+  line-height: 1;
+  min-width: rem(163);
+  padding: 0 rem(24);
+
+  input {
+    border: none;
+    height: rem(32);
+    outline: none;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+/**
+ * Styles a keyword input.
+ */
 .keyword {
-  position: relative;
-
-  &:not(:last-of-type) {
-    margin-right: rem(10);
-  }
-
-  &:focus-within span {
-    box-shadow: 0 0 1px 1px var(--color-theme);
-  }
+  @include keyword-base;
 
   input {
     @include screen-reader-only;
