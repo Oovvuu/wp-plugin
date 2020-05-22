@@ -209,9 +209,28 @@ class Auth {
 	 * @since 1.0.0
 	 */
 	public function oovvuu_auth0_redirect_callback() {
+		// Error.
+		if ( isset( $_GET['error'] ) ) {
+			$this->redirect_to_user_profile(
+				[
+					'oovvuu-notice' => true,
+					'message'       => __( 'Error: ', 'oovvuu' ) . sanitize_text_field( wp_unslash( $_GET['error_description'] ?? '' ) ),
+					'type'          => 'error',
+				]
+			);
+		}
+
 		// Logout.
 		if ( isset( $_GET['logout'] ) ) {
 			$this->delete_user_token( get_current_user_id() );
+
+			$this->redirect_to_user_profile(
+				[
+					'oovvuu-notice' => true,
+					'message'       => __( 'Successfully disconnected from Oovvuu.', 'oovvuu' ),
+					'type'          => 'success',
+				]
+			);
 		}
 
 		// Authorization code was found.
