@@ -24,13 +24,6 @@ const KeywordSelector = () => {
   const [allKeywordItems, setAllKeywordItems] = React.useState({});
 
   /**
-   * Tracks master list of all currently selected string keywords. This is different
-   *   than selectedKeywords from the global application state, which represents
-   *   keywords used to derive recommendedVideos.
-   */
-  // const [currentKeywords, setCurrentKeywords] = React.useState(selectedKeywords);
-
-  /**
    * Need to track these separately so they are not blown away if recommendedKeywords
    *   (string list fetched via API) is refreshed.
    */
@@ -44,8 +37,18 @@ const KeywordSelector = () => {
    */
   const syncSelectedKeywords = (item) => {
     const { isSelected, keyword } = item;
+
+    // Add to selected if it's not a duplicate.
+    const maybeAddToSelected = () => {
+      if (!selectedKeywords.includes(keyword)) {
+        return [...selectedKeywords, keyword.toLowerCase()];
+      }
+
+      return [...selectedKeywords];
+    };
+
     const updatedCurrentKeywords = isSelected
-      ? [...selectedKeywords, keyword.toLowerCase()]
+      ? maybeAddToSelected()
       : selectedKeywords.filter((selected) => selected !== keyword);
 
     dispatch({ payload: updatedCurrentKeywords, type: 'UPDATE_SELECTED_KEYWORDS' });
