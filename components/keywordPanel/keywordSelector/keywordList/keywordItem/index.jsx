@@ -28,7 +28,7 @@ const KeywordItem = (props) => {
 
     // Enter key is pressed.
     if (RETURN === keyCode) {
-      onToggle(id);
+      onToggle(keyword);
     }
   };
 
