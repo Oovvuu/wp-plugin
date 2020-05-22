@@ -29,7 +29,7 @@ class REST_API {
 	 *
 	 * @var string
 	 */
-	private $endpoint = 'https://api.staging.oovvuu.io/graphql/';
+	private $endpoint = 'https://api.oovvuu.media/graphql/';
 
 	/**
 	 * Setup the class instance.
