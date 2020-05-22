@@ -3,8 +3,7 @@ import { shallow } from 'enzyme';
 import CloseIcon from 'assets/close.svg';
 import KeywordItem from './';
 
-const id = 'uuid';
-const mockItem = { id, isSelected: false, keyword: 'keyword' };
+const mockItem = { isSelected: false, keyword: 'keyword' };
 
 describe('KeywordItem', () => {
   it('Renders', () => {
@@ -18,7 +17,7 @@ describe('KeywordItem', () => {
     const wrapper = shallow(<KeywordItem item={mockItem} onToggle={toggleFn} />);
 
     wrapper.find('input[type="checkbox"]').simulate('change');
-    expect(toggleFn).toHaveBeenCalledWith(mockItem.id);
+    expect(toggleFn).toHaveBeenCalledWith(mockItem.keyword);
   });
 
   describe('Has optional remove ActionButton', () => {

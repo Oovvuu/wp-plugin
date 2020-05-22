@@ -9,17 +9,18 @@ import styles from './keywordItem.scss';
  */
 const KeywordItem = (props) => {
   const {
-    item: { id, isSelected, keyword },
+    item,
     onRemove,
     onToggle,
   } = props;
+  const { isSelected, keyword } = item;
 
   return (
-    <label className={checkboxes.keyword} htmlFor={id}>
+    <label className={checkboxes.keyword} htmlFor={keyword}>
       <input
-        id={id}
+        id={keyword}
         name={keyword}
-        onChange={() => onToggle(id)}
+        onChange={() => onToggle(keyword)}
         checked={isSelected}
         type="checkbox"
       />
@@ -27,7 +28,7 @@ const KeywordItem = (props) => {
         {keyword}
       </span>
       {onRemove && typeof onRemove === 'function' && (
-        <button className={styles.removeKeyword} onClick={() => onRemove(id)} type="button">
+        <button className={styles.removeKeyword} onClick={() => onRemove(item)} type="button">
           <CloseIcon />
         </button>
       )}
@@ -39,7 +40,6 @@ KeywordItem.defaultProps = { onRemove: null };
 
 KeywordItem.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.string.isRequired,
     isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   }).isRequired,
