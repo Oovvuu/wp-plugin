@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactPlayerLoader from '@brightcove/react-player-loader';
 import { shallow } from 'enzyme';
+import Player from './player';
 import PlayerWrapper from './index';
 
 const mockVideos = [{
@@ -17,7 +17,6 @@ describe('PositionWrapper', () => {
     const wrapper = shallow(
       <PlayerWrapper videos={mockVideos} />,
     );
-
-    expect(wrapper.find(ReactPlayerLoader)).toHaveLength(1);
+    expect(wrapper.find(Player)).toHaveLength(1);
   });
 });
