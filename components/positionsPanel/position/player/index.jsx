@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Player from './player';
 
 /**
- * Displays a specific Brightcove player for a given video.
+ * Container component for video positions, includes player and thumbnails.
  */
 const PlayerWrapper = (props) => {
   const { videos } = props;

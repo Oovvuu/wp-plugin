@@ -18,8 +18,7 @@ const Player = (props) => {
   };
 
   /**
-   * At the moment, the player API is in flux, so this is just a stub to identify
-   *   whether we have videos and, if so, to extract the first of the list to show a player.
+   * Return brightcove player component or thumbnail for a given video.
    * @returns {null|*}
    */
   const getPlayer = () => {
@@ -45,6 +44,7 @@ const Player = (props) => {
       />
     ) : (
       <button
+        key={id}
         type="button"
         className={styles.brightcoveThumbnail}
         onClick={updatePlayer}
