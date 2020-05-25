@@ -7,21 +7,15 @@ import Player from './player';
  */
 const PlayerWrapper = (props) => {
   const { videos } = props;
-  // , setPreviewVideos
   const [previewVideos, setPreviewVideos] = React.useState(videos);
 
+  /**
+   * Swap video that is assigned to the player when clicking in one of the images.
+   * @param int position of the video in the array.
+   */
   const updatePlayer = (position) => {
-    const newPreviewVideos = [];
-    newPreviewVideos.push(previewVideos[position]);
-    for (let i = 1; i < previewVideos.length; i += 1) {
-      if (i === position) {
-        newPreviewVideos.push(previewVideos[0]);
-      } else {
-        newPreviewVideos.push(previewVideos[i]);
-      }
-    }
-
-    setPreviewVideos(newPreviewVideos);
+    [previewVideos[0], previewVideos[position]] = [previewVideos[position], previewVideos[0]];
+    setPreviewVideos([...previewVideos]);
   };
 
   /**
@@ -33,8 +27,6 @@ const PlayerWrapper = (props) => {
     if (!previewVideos.length) {
       return null;
     }
-
-    console.log(previewVideos);
 
     return previewVideos.map((video, position) => (
       <Player
