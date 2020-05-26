@@ -19,7 +19,7 @@ const UserList = () => {
   const [selfKeywordItems, setSelfKeywordItems] = React.useState({});
 
   // The current focus of the add keyword button.
-  const [focus, setFocus] = React.useState(false);
+  const [addKeywordFocus, setAddKeywordFocus] = React.useState(false);
 
   /**
    * Stubs in a user-defined keyword item for input.
@@ -37,7 +37,7 @@ const UserList = () => {
       },
     });
 
-    setFocus(false);
+    setAddKeywordFocus(false);
   };
 
   /**
@@ -49,7 +49,7 @@ const UserList = () => {
     const { keyword } = item;
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
 
-    setFocus(true);
+    setAddKeywordFocus(true);
   };
 
   /**
@@ -67,7 +67,7 @@ const UserList = () => {
 
     dispatch({ payload: [...userKeywords, keyword], type: 'UPDATE_USER_KEYWORDS' });
 
-    setFocus(true);
+    setAddKeywordFocus(true);
   };
 
   /**
@@ -99,7 +99,7 @@ const UserList = () => {
         buttonStyle="icon"
         className={styles.addUserKeyword}
         onClickHandler={handleAdd}
-        focus={focus}
+        focus={addKeywordFocus}
       >
         <AddIcon />
       </ActionButton>
