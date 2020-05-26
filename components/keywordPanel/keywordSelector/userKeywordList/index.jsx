@@ -18,6 +18,9 @@ const UserList = () => {
   // Need to keep a separate list to handle stubbing in a user-defined keyword.
   const [selfKeywordItems, setSelfKeywordItems] = React.useState({});
 
+  // The current focus of the add keyword button.
+  const [focus, setFocus] = React.useState(false);
+
   /**
    * Stubs in a user-defined keyword item for input.
    */
@@ -33,6 +36,8 @@ const UserList = () => {
         },
       },
     });
+
+    setFocus(false);
   };
 
   /**
@@ -43,6 +48,8 @@ const UserList = () => {
   const handleRemove = (item) => {
     const { keyword } = item;
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
+
+    setFocus(true);
   };
 
   /**
@@ -59,6 +66,8 @@ const UserList = () => {
     }
 
     dispatch({ payload: [...userKeywords, keyword], type: 'UPDATE_USER_KEYWORDS' });
+
+    setFocus(true);
   };
 
   /**
@@ -90,6 +99,7 @@ const UserList = () => {
         buttonStyle="icon"
         className={styles.addUserKeyword}
         onClickHandler={handleAdd}
+        focus={focus}
       >
         <AddIcon />
       </ActionButton>

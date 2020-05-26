@@ -57,30 +57,6 @@ const KeywordSelector = () => {
   };
 
   /**
-   * Handler for mutations to the userKeywordItems list.
-   * @param type string Key for the mutation action to perform. One of 'add' or 'delete'.
-   * @param item object Keyword item object.
-   */
-  // const handleMutate = (type, item) => {
-  //   const { keyword } = item;
-  //   const mutation = type === 'add' ? { [keyword]: item } : { [keyword]: undefined };
-  //
-  //   // Guard to prevent adding a user-defined keyword if it's identical to a recommendedKeyword.
-  //   if (type !== 'add' || !recommendedKeywords.includes(keyword)) {
-  //     setUserKeywordItems({ ...userKeywordItems, ...mutation });
-  //   }
-  //
-  //   /**
-  //    * If a user-defined keyword is added and is identical to a recommendedKeyword,
-  //    *   just set the matching item to selected.
-  //    */
-  //   if (type === 'add' && recommendedKeywords.includes(keyword)) {
-  //     mutation[keyword].type = 'generated';
-  //     setAllKeywordItems({ ...allKeywordItems, ...mutation });
-  //   }
-  // };
-
-  /**
    * Side effect to compile the master index of all keyword items, used for tracking
    *   state throughout the selector tree.
    *

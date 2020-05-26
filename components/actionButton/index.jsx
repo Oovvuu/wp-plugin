@@ -17,6 +17,7 @@ const ActionButton = (props) => {
     buttonStyle,
     onClickHandler,
     className,
+    focus,
   } = props;
 
   const buttonStyles = {
@@ -27,6 +28,8 @@ const ActionButton = (props) => {
     warn: buttons.buttonWarn,
     warnLarge: buttons.buttonWarnLarge,
   };
+
+  const ref = React.useRef();
 
   /**
    * Handle return key press and act like button click for accessibilty.
@@ -43,6 +46,12 @@ const ActionButton = (props) => {
     }
   };
 
+  React.useEffect(() => {
+    if (focus) {
+      ref.current.focus();
+    }
+  }, [focus]);
+
   return (
     <button
       className={classNames(buttonStyles[buttonStyle], className)}
@@ -50,6 +59,7 @@ const ActionButton = (props) => {
       disabled={disabled}
       onClick={onClickHandler}
       onKeyDown={handleKeyDown}
+      ref={ref}
     >
       <span>{children}</span>
     </button>
@@ -60,6 +70,7 @@ ActionButton.defaultProps = {
   buttonStyle: 'button',
   className: '',
   disabled: false,
+  focus: false,
 };
 
 ActionButton.propTypes = {
@@ -78,6 +89,7 @@ ActionButton.propTypes = {
   ]),
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  focus: PropTypes.bool,
 };
 
 export default ActionButton;
