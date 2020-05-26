@@ -29,6 +29,7 @@ const ActionButton = (props) => {
     warnLarge: buttons.buttonWarnLarge,
   };
 
+  // Reference to the action button.
   const ref = React.useRef();
 
   /**
@@ -46,6 +47,7 @@ const ActionButton = (props) => {
     }
   };
 
+  // Set focus to button when focus is true.
   React.useEffect(() => {
     if (focus) {
       ref.current.focus();
