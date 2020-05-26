@@ -33,7 +33,7 @@ const PositionsPanelWrapper = () => {
       <PositionWrapper
         positionKey="positionTwo"
         enabled={isPositionTwoEnabled}
-        title={__('Position Two', 'oovvuu')}
+        title={__('4th Paragraph', 'oovvuu')}
         videos={positionTwo}
       />
     </>
