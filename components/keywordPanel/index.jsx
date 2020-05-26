@@ -19,7 +19,7 @@ const KeywordPanelWrapper = () => {
   const { i18n: { __ } } = wp;
   const {
     dispatch,
-    state: { recommendedKeywords, selectedKeywords },
+    state: { recommendedKeywords, selectedKeywords, userKeywords },
   } = React.useContext(oovvuuData);
   const id = getPostAttribute('id');
 
@@ -55,7 +55,7 @@ const KeywordPanelWrapper = () => {
    */
   const handleFetchVideos = async () => {
     // TODO: Wrap with start and stop loading spinner.
-    const response = await getVideos(selectedKeywords, id);
+    const response = await getVideos([...selectedKeywords, ...userKeywords], id);
 
     if (!response.hasError) {
       const { videos } = response.data;

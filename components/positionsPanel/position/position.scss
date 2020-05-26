@@ -44,36 +44,23 @@
   padding: rem(10);
 }
 
-/* stylelint-disable selector-max-specificity */
-.playerCount1 {
-  /* tbd */
-}
-
-.playerCount2 {
-  /* tbd */
-}
-
-.playerCount3 {
-  /* tbd */
-}
-
-.playerCount4 {
+.brightcovePlayer {
   grid-template-columns: repeat(3, 1fr);
 
   :global(.brightcove-react-player-loader) {
     grid-column: 1 / span 3;
   }
+}
 
-  .brightcoveThumbnail {
-    position: relative;
+.brightcoveThumbnail {
+  @include button-base;
+  position: relative;
 
-    img {
-      height: auto;
-      width: 100%;
-    }
+  img {
+    height: auto;
+    width: 100%;
   }
 }
-/* stylelint-enable */
 
 .title {
   @include font-props(20, normal, medium);

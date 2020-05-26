@@ -15,7 +15,9 @@ import KeywordInput from './keywordInput';
  *     a user-defined keyword.
  */
 const KeywordList = (props) => {
-  const { keywordItems, onRemove, onUpdate } = props;
+  const {
+    keywordItems, onRemove, onUpdate,
+  } = props;
 
   /**
    * Flips selected state of a keyword item and calls update callback.
