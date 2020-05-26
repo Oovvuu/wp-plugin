@@ -38,6 +38,10 @@ const PlayerWrapper = (props) => {
     ));
   };
 
+  React.useEffect(() => {
+    setPreviewVideos(videos);
+  }, [videos]);
+
   return getPlayer();
 };
 

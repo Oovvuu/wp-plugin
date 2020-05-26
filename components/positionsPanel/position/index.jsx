@@ -32,7 +32,7 @@ const PositionWrapper = (props) => {
           <div className={classnames(
             styles.playerWrapper,
             theme.panel,
-            { [styles[`playerCount${videos.length}`]]: videos.length },
+            styles.brightcovePlayer,
           )}
           >
             <PlayerWrapper videos={videos} />
