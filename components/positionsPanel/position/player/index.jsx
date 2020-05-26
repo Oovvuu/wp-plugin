@@ -30,6 +30,7 @@ const PlayerWrapper = (props) => {
 
     return previewVideos.map((video, position) => (
       <Player
+        key={video.id}
         video={video}
         position={position}
         updatePlayer={() => { updatePlayer(position); }}

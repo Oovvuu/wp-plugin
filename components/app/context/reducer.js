@@ -30,6 +30,9 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_KEYWORDS':
       nextState.selectedKeywords = payload;
       return nextState;
+    case 'UPDATE_USER_KEYWORDS':
+      nextState.userKeywords = payload;
+      return nextState;
     case 'UPDATE_SELECTED_VIDEOS':
       nextState.selectedVideos = payload;
       return nextState;

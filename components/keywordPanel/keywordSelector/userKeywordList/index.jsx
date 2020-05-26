@@ -78,8 +78,9 @@ const UserList = (props) => {
 
 UserList.propTypes = {
   keywordItems: PropTypes.objectOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
     keyword: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    isSelected: PropTypes.bool.isRequired,
   })).isRequired,
   onMutate: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

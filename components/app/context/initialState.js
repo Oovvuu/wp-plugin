@@ -18,6 +18,7 @@ const initialState = {
     positionTwoSecondary: [],
   },
   selectedKeywords: [],
+  userKeywords: [],
   selectedVideos: {
     hero: [],
     heroSecondary: [],
