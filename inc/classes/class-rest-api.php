@@ -220,7 +220,7 @@ class REST_API {
 			],
 			'positionTwo' => [
 				'type'           => 'OneByThree',
-				'embed_location' => 'PositionTwo',
+				'embed_location' => 'ParagraphFour',
 			],
 		];
 
