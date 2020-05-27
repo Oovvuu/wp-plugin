@@ -43,7 +43,7 @@ const PositionsPanelWrapper = () => {
         enabled={positionTwoEmptyReason ? false : isPositionTwoEnabled}
         positionEmptyReason={positionTwoEmptyReason}
         positionKey="positionTwo"
-        title={__('Position Two', 'oovvuu')}
+        title={__('4th Paragraph', 'oovvuu')}
         videos={positionTwo}
       />
     </>

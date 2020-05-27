@@ -22,7 +22,7 @@ const Dialog = ({
    */
   const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
-  const saveButtonRef = useRef(null);
+  const backToTopButtonRef = useRef(null);
 
   /**
    * Trap key tabs within the dialog.
@@ -40,8 +40,8 @@ const Dialog = ({
          * Move back from the first interactive child element to the last
          * interactive child element
          */
-        saveButtonRef.current.focus();
-      } else if (!shiftKey && saveButtonRef.current.contains(event.target)) {
+        backToTopButtonRef.current.focus();
+      } else if (!shiftKey && backToTopButtonRef.current.contains(event.target)) {
         event.preventDefault();
         /*
          * Move forward from the last interactive child element to the first
@@ -53,23 +53,19 @@ const Dialog = ({
   };
 
   /**
-   * Closes the dialog when a user clicks outside of the modal.
-   *
-   * @param {Event} event The Event object.
+   * Sets focus on modal open to the close button.
    */
-  const closeDialogOnOutsideClick = (event) => {
-    if (!dialogRef.current.contains(event.target)) {
-      event.preventDefault();
-      closeDialog();
+  React.useEffect(() => {
+    if (isOpen) {
+      closeButtonRef.current.focus();
     }
-  };
+  }, [isOpen]);
 
   // The Dialog React element.
   const dialogElement = (
     <div
       className={styles.overlay}
       onKeyDown={onKeyPressed}
-      onClick={closeDialogOnOutsideClick}
       role="presentation"
       aria-hidden={!isOpen}
       tabIndex="-1"
@@ -104,12 +100,11 @@ const Dialog = ({
           </div>
 
           <button
-            ref={saveButtonRef}
+            className="screen-reader-shortcut"
+            ref={backToTopButtonRef}
             type="button"
-            onClick={closeDialog}
-          >
-            {__('Save', 'oovvuu')}
-          </button>
+            aria-label={__('Back to Top of Modal', 'oovvuu')}
+          />
         </div>
       </div>
     </div>

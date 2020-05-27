@@ -1,8 +1,7 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import oovvuuData from 'components/app/context';
-import GeneratedList from '../generatedList';
-import UserList from '../userList';
+import KeywordList from './keywordList';
+import UserKeywordList from './userKeywordList';
 import styles from '../keywordPanel.scss';
 
 /**
@@ -12,23 +11,25 @@ import styles from '../keywordPanel.scss';
  */
 const KeywordSelector = () => {
   const { i18n: { __ } } = wp;
-  const [allKeywordItems, setAllKeywordItems] = React.useState({});
-  const [selectedKeywords, setSelectedKeywords] = React.useState([]);
-  const { dispatch, state: { recommendedKeywords } } = React.useContext(oovvuuData);
+
+  const {
+    dispatch,
+    state: { recommendedKeywords, selectedKeywords },
+  } = React.useContext(oovvuuData);
 
   /**
-   * Need to track these separately so they are not blown away if recommendedKeywords
-   *   (string list fetched via API) is refreshed.
+   * Locally track all selected keywords.
    */
-  const [userKeywordItems, setUserKeywordItems] = React.useState({});
+  const [keywordItems, setKeywordItems] = React.useState({});
 
   /**
-   * Handles sync of all state when a keyword item is updated.
+   * Handles sync of all keyword item state on update. This is different
+   *   than an addition or removal of a keyword item, which is handled by
+   *   handleMutate().
    *   - User keyword items require extra handling as they
    *     must be maintained even when the generated recommendedKeywords list
    *     is refreshed.
    *   - Keyword item objects should have the following shape:
-   *     - id: string (UUID)
    *     - isSelected: boolean
    *     - keyword: string
    *     - type: string Token to indicate keyword item type,
@@ -37,41 +38,42 @@ const KeywordSelector = () => {
    * @param item object Update keyword item.
    */
   const handleItemUpdated = (item) => {
-    const {
-      id, isSelected, keyword, type,
-    } = item;
-    const updatedAllKeywordItems = { ...allKeywordItems, ...{ [id]: item } };
-    const updatedSelectedKeywords = isSelected
-      ? [...selectedKeywords, keyword]
-      : selectedKeywords.filter((selected) => selected !== keyword);
-    setAllKeywordItems(updatedAllKeywordItems);
-    setSelectedKeywords(updatedSelectedKeywords);
-    dispatch({ payload: updatedSelectedKeywords, type: 'UPDATE_SELECTED_KEYWORDS' });
+    const { keyword, isSelected } = item;
 
-    // TODO: Refine on build-out of UserList component (OVU-9).
-    if (type === 'user') {
-      const updatedUserKeywordItems = isSelected
-        ? { ...userKeywordItems, ...{ [id]: item } }
-        : { ...userKeywordItems, ...{ [id]: undefined } };
-      setUserKeywordItems(updatedUserKeywordItems);
-    }
+    // Add to selected if it's not a duplicate.
+    const maybeAddToSelected = () => {
+      if (!selectedKeywords.includes(keyword)) {
+        return [...selectedKeywords, keyword.toLowerCase()];
+      }
+
+      return [...selectedKeywords];
+    };
+
+    const updatedCurrentKeywords = isSelected
+      ? maybeAddToSelected()
+      : selectedKeywords.filter((selected) => selected !== keyword);
+
+    dispatch({ payload: updatedCurrentKeywords, type: 'UPDATE_SELECTED_KEYWORDS' });
   };
 
   /**
-   * Compiles a keyword item list for a given type.
+   * Side effect to compile the master index of all keyword items, used for tracking
+   *   state throughout the selector tree.
    *
-   * @param type string Token to indicate keyword item type,
-   *          one of 'generated' or 'user'.
-   * @returns object List of keyword items keyed by string UUID.
+   * @param  {Array} selectionList An array list of the currently selected keyword strings.
    */
-  const itemsFor = (type) => Object.keys(allKeywordItems)
-    .reduce((carry, id) => {
-      if (allKeywordItems[id].type === type) {
-        return { ...carry, ...{ [id]: allKeywordItems[id] } };
-      }
+  const compileAllKeywordItems = (selectionList) => {
+    const indexedKeywords = recommendedKeywords.reduce((carry, keyword) => ({
+      ...carry,
+      ...{
+        [keyword]: {
+          isSelected: selectionList.includes(keyword), keyword, type: 'generated',
+        },
+      },
+    }), {});
 
-      return carry;
-    }, {});
+    setKeywordItems({ ...indexedKeywords });
+  };
 
   /**
    * Builds the allKeywordItems list, with unique ID, selection state and item type,
@@ -79,32 +81,19 @@ const KeywordSelector = () => {
    */
   React.useEffect(() => {
     if (recommendedKeywords.length) {
-      const indexedKeywords = recommendedKeywords.reduce((carry, keyword) => {
-        const id = uuid();
-        return {
-          ...carry,
-          ...{
-            [id]: {
-              id, isSelected: false, keyword, type: 'generated',
-            },
-          },
-        };
-      }, {});
-      // Merge in userKeywordItems so they are not blown away on recommendedKeywords update.
-      const updatedAllKeywordItems = { ...indexedKeywords, ...userKeywordItems };
-      setAllKeywordItems(updatedAllKeywordItems);
+      compileAllKeywordItems(selectedKeywords);
     }
   }, [recommendedKeywords]);
 
   return (
     <div className={styles.selector}>
       <h4>{__('Select all relevant keywords', 'oovvuu')}</h4>
-      <GeneratedList
-        keywordItems={itemsFor('generated')}
+      <KeywordList
+        keywordItems={keywordItems}
         onUpdate={handleItemUpdated}
       />
       <h4>{__('Add additional keywords here', 'oovvuu')}</h4>
-      <UserList keywordItems={itemsFor('user')} onUpdate={handleItemUpdated} />
+      <UserKeywordList />
     </div>
   );
 };

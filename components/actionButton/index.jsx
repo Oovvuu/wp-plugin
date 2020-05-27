@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import keyCodes from 'utils/keyCodes';
 import buttons from './actionButton.scss';
 
 /**
@@ -16,6 +17,7 @@ const ActionButton = (props) => {
     buttonStyle,
     onClickHandler,
     className,
+    focus,
   } = props;
 
   const buttonStyles = {
@@ -27,12 +29,39 @@ const ActionButton = (props) => {
     warnLarge: buttons.buttonWarnLarge,
   };
 
+  // Reference to the action button.
+  const ref = React.useRef();
+
+  /**
+   * Handle return key press and act like button click for accessibilty.
+   *
+   * @param {Event} event The Event object.
+   */
+  const handleKeyDown = (event) => {
+    const { RETURN } = keyCodes;
+    const { keyCode } = event;
+
+    // Trigger click handler on enter.
+    if (keyCode === RETURN) {
+      onClickHandler();
+    }
+  };
+
+  // Set focus to button when focus is true.
+  React.useEffect(() => {
+    if (focus) {
+      ref.current.focus();
+    }
+  }, [focus]);
+
   return (
     <button
       className={classNames(buttonStyles[buttonStyle], className)}
       type="button"
       disabled={disabled}
       onClick={onClickHandler}
+      onKeyDown={handleKeyDown}
+      ref={ref}
     >
       <span>{children}</span>
     </button>
@@ -43,6 +72,7 @@ ActionButton.defaultProps = {
   buttonStyle: 'button',
   className: '',
   disabled: false,
+  focus: false,
 };
 
 ActionButton.propTypes = {
@@ -61,6 +91,7 @@ ActionButton.propTypes = {
   ]),
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  focus: PropTypes.bool,
 };
 
 export default ActionButton;

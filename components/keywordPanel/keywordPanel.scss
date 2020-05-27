@@ -48,24 +48,3 @@
     }
   }
 }
-
-/**
- * Styles for keywords lists, including the following components:
- *   - GeneratedList
- *   - UserList
- */
-
-.keywords {
-  display: flex;
-  flex-flow: row wrap;
-  margin-bottom: rem(20);
-}
-
-.keyword {
-  margin: 0;
-  margin-bottom: rem(10);
-
-  &:not(:last-of-type) {
-    margin-right: 10px;
-  }
-}

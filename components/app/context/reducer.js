@@ -19,6 +19,8 @@ const reducer = (state, action) => {
   const nextState = { ...state, lastActionType: type };
 
   switch (type) {
+    case 'RESET_STATE':
+      return { ...nextState, ...payload };
     case 'UPDATE_RECOMMENDED_KEYWORDS':
       nextState.recommendedKeywords = payload;
       return nextState;
@@ -27,6 +29,9 @@ const reducer = (state, action) => {
       return nextState;
     case 'UPDATE_SELECTED_KEYWORDS':
       nextState.selectedKeywords = payload;
+      return nextState;
+    case 'UPDATE_USER_KEYWORDS':
+      nextState.userKeywords = payload;
       return nextState;
     case 'UPDATE_SELECTED_VIDEOS':
       nextState.selectedVideos = payload;

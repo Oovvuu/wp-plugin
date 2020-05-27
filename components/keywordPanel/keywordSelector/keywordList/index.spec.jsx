@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import uuid from 'react-uuid';
 import GeneratedList from './';
-import KeywordItem from '../keywordItem';
+import KeywordItem from './keywordItem';
 
 const keywords = [
   'coronavirus',
@@ -26,7 +26,7 @@ const mockKeywordItems = keywords.reduce((carry, keyword) => {
   };
 }, {});
 
-describe('KeywordList', () => {
+describe('GeneratedKeywordList', () => {
   it('Renders li for each available keyword', () => {
     const wrapper = shallow(<GeneratedList
       keywordItems={mockKeywordItems}

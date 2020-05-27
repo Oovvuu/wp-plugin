@@ -29,7 +29,7 @@ class REST_API {
 	 *
 	 * @var string
 	 */
-	private $endpoint = 'https://api.staging.oovvuu.io/graphql/';
+	private $endpoint = 'https://api.oovvuu.media/v1/graphql/';
 
 	/**
 	 * Setup the class instance.
@@ -65,6 +65,42 @@ class REST_API {
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'get_videos' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
+			]
+		);
+
+		// Save state.
+		register_rest_route(
+			$this->namespace,
+			'/saveState',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'save_state' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
+				'args'                => [
+					'id' => [
+						'sanitize_callback' => function( $value, $request, $param ) {
+							return absint( $value );
+						},
+					],
+				],
+			]
+		);
+
+		// Get state.
+		register_rest_route(
+			$this->namespace,
+			'/getState',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'get_state' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
+				'args'                => [
+					'id' => [
+						'sanitize_callback' => function( $value, $request, $param ) {
+							return absint( $value );
+						},
+					],
+				],
 			]
 		);
 	}
@@ -168,6 +204,137 @@ class REST_API {
 	}
 
 	/**
+	 * Save the keywords and videos state.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function save_state( $request ) {
+
+		$positions = [
+			'hero'        => [
+				'type'           => 'Single',
+				'embed_location' => 'Hero',
+			],
+			'positionTwo' => [
+				'type'           => 'OneByThree',
+				'embed_location' => 'PositionTwo',
+			],
+		];
+
+		// Save the state to post meta.
+		update_post_meta( $request['id'], 'oovvuu_state', $request['state'] );
+
+		// Create the embeds.
+		$embeds = [];
+		foreach ( $positions as $position => $data ) {
+
+			// Position is empty.
+			if ( empty( $request['state']['selectedVideos'][ $position ] ) ) {
+				continue;
+			}
+
+			// Create the embed.
+			$embeds[ $position ] = $this->create_embed(
+				[
+					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
+					'video_ids'      => $request['state']['selectedVideos'][ $position ],
+					'type'           => $data['type'],
+					'keywords'       => $request['state']['selectedKeywords'],
+					'post_id'        => $request['id'],
+					'embed_location' => $data['embed_location'],
+				]
+			);
+		}
+
+		// Save the embed code if it is valid.
+		if ( ! empty( $embeds ) ) {
+			update_post_meta( $request['id'], 'oovvuu_embeds', $embeds );
+		}
+
+		return rest_ensure_response(
+			[
+				'success' => true,
+				'embeds'  => $embeds,
+			]
+		);
+	}
+
+	/**
+	 * Get the keywords and videos state.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function get_state( $request ) {
+		$state = get_post_meta( $request['id'], 'oovvuu_state', true );
+
+		return rest_ensure_response(
+			[
+				'success' => false !== $state,
+				'state'   => $state,
+			]
+		);
+	}
+
+	/**
+	 * Creates a brightcove video embed given a set of videos and a position.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  array $payload {
+	 *     The payload data.
+	 *
+	 *     @type string $user_id        The current Oovvuu publisher ID.
+	 *     @type array  $video_ids      The array of videos ids.
+	 *     @type string $type           The player type (Single|OneByThree)
+	 *     @type array  $keywords       The keywords used to get the videos.
+	 *     @type string $post_id        The current post ID.
+	 *     @type string $embed_location The embed location (Hero|PositionTwo)
+	 * }
+	 * @return mixed The HTTP response body or a WP_Error object.
+	 */
+	public function create_embed( $payload = [] ) {
+		return $this->request(
+			'mutation CreateEmbed($input: CreateEmbedInput!) {
+				createEmbed(input: $input) {
+					id
+					snippet
+				}
+			}',
+			[
+				'userId'   => (string) $payload['user_id'] ?? '0',
+				'videoIds' => array_values(
+					array_filter(
+						array_map(
+							function ( $video ) {
+								return $video['id'] ?? null;
+							},
+							(array) $payload['video_ids'] ?? []
+						)
+					)
+				),
+				'metadata' => [
+					'type'     => $payload['type'] ?? 'Single',
+					'keywords' => $payload['keywords'] ?? [],
+					'article'  => [
+						'publisherId'   => (string) $payload['user_id'] ?? '0',
+						'cmsArticleId'  => (string) $payload['post_id'] ?? '0',
+						'embedLocation' => (string) $payload['embed_location'] ?? 'Hero',
+						'masthead'      => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+					],
+				],
+			],
+			$payload['post_id'] ?? 0,
+			true
+		);
+	}
+
+	/**
 	 * Gets the current user from the Oovvuu API.
 	 *
 	 * @since 1.0.0
@@ -261,9 +428,10 @@ class REST_API {
 	 * @param  string $query GraphQL query.
 	 * @param  array  $input Input variables.
 	 * @param  int    $post_id The current post ID relating to the request.
+	 * @param  bool   $remove_article_metadata Whether or not to remove the article metadata input.
 	 * @return mixed The HTTP response body or a WP_Error object.
 	 */
-	public function request( $query, $input, $post_id = 0 ) {
+	public function request( $query, $input, $post_id = 0, $remove_article_metadata = false ) {
 		$current_user_id = get_current_user_id();
 
 		// No user.
@@ -296,6 +464,11 @@ class REST_API {
 					],
 				]
 			);
+		}
+
+		// Remove the default article metadata.
+		if ( true === $remove_article_metadata ) {
+			unset( $payload['variables']['input']['articleMetadata'] );
 		}
 
 		// Perform the request.
