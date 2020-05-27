@@ -16,7 +16,7 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
-  const { state, state: { isLoading } } = React.useContext(oovvuuData);
+  const { state, state: { isLoading }, dispatch } = React.useContext(oovvuuData);
 
   /**
    * Open the dialog.
@@ -45,11 +45,13 @@ const DialogWrapper = () => {
       if (body && body.classList.contains('modal-open')) {
         body.classList.remove('modal-open');
       }
+
+      dispatch({ type: 'CLEAR_LOADING_STATE' });
     };
 
     // Prompt the user with a confirm message if they are closing without saving.
     if (prompt) {
-      const confirmDialog = confirm( // eslint-disable-line no-restricted-globals
+      const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
         __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu'),
       );
 
