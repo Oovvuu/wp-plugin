@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import getHumanReadableEmptyReason from 'services/getHumanReadableEmptyReason';
 import classnames from 'classnames';
 import theme from 'shared/theme.scss';
 import Notice from './notice';
@@ -10,8 +11,6 @@ import styles from './position.scss';
 
 /**
  * Handles logic for displaying a specific position.
- *
- * @todo add mapping for empty reason to plain english as service function.
  */
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
@@ -29,7 +28,7 @@ const PositionWrapper = (props) => {
           </h3>
           <PositionToggleWrapper
             positionKey={positionKey}
-            positionEmptyReason={positionEmptyReason}
+            positionEmptyReason={getHumanReadableEmptyReason(positionEmptyReason)}
           />
         </header>
         <div className={styles.content}>
