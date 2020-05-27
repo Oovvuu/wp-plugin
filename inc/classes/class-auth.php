@@ -94,6 +94,13 @@ class Auth {
 		$this->domain        = get_option( 'oovvuu_auth0_domain', '' );
 		$this->client_id     = get_option( 'oovvuu_auth0_client_id', '' );
 		$this->client_secret = get_option( 'oovvuu_auth0_client_secret', '' );
+
+		// Schedule refresh token cron job.
+		if ( ! wp_next_scheduled( 'oovvuu_auth0_user_refresh_cron' ) ) {
+			wp_schedule_event( time(), 'daily', 'oovvuu_auth0_user_refresh_cron' );
+		}
+
+		add_action( 'oovvuu_auth0_user_refresh_cron', [ $this, 'refresh_user_tokens_cron' ] );
 	}
 
 	/**
@@ -427,6 +434,9 @@ class Auth {
 		// Set the token.
 		update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
 
+		// Add this user to the cron job to re-authenticate.
+		$this->add_user_to_refresh_cron( $user_id );
+
 		return $token;
 	}
 
@@ -448,6 +458,80 @@ class Auth {
 
 		// Log when token was deleted.
 		update_user_meta( $user_id, 'oovvuu_auth0_token_last_deleted_at', time() );
+	}
+
+	/**
+	 * Add user to refresh cron job queue.
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	public function add_user_to_refresh_cron( $user_id ) {
+		$current_user_ids = get_option( 'oovvuu_auth0_cron_refresh_user_ids', [] );
+		$new_user_ids     = $current_user_ids;
+
+		if ( ! in_array( $user_id, $current_user_ids, true ) ) {
+			$new_user_ids[] = $user_id;
+		}
+
+		// Sanitize.
+		$new_user_ids = array_values( array_filter( array_unique( $new_user_ids ) ) );
+
+		// Update the option.
+		if ( $new_user_ids !== $current_user_ids ) {
+			update_option( 'oovvuu_auth0_cron_refresh_user_ids', $new_user_ids );
+		}
+	}
+
+	/**
+	 * Remove user from refresh cron job queue.
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	public function remove_user_from_refresh_cron( $user_id ) {
+		$current_user_ids = get_option( 'oovvuu_auth0_cron_refresh_user_ids', [] );
+
+		// Only remove this user ID if it already in the array.
+		if ( in_array( $user_id, $current_user_ids, true ) ) {
+			$new_user_ids = array_diff( $current_user_ids, [ $user_id ] );
+
+			// Update the option.
+			update_option( 'oovvuu_auth0_cron_refresh_user_ids', $new_user_ids, false );
+		}
+	}
+
+	/**
+	 * Refreshes all user tokens that have expired.
+	 */
+	public function refresh_user_tokens_cron() {
+		$user_ids = get_option( 'oovvuu_auth0_cron_refresh_user_ids', [] );
+		$remove_user_ids = [];
+
+		// No users to refresh.
+		if ( empty( $user_ids ) ) {
+			return;
+		}
+
+		foreach ( $user_ids as $user_id ) {
+			$user_id = absint( $user_id );
+
+			// Invalid user ID.
+			if ( empty( $user_id ) ) {
+				continue;
+			}
+
+			// Perform the refresh.
+			$new_token = $this->get_user_token_with_refresh( $user_id, true );
+
+			// Invalid token so remove this user from the queue.
+			if ( ! $this->is_token_valid( $new_token ) ) {
+				$remove_user_ids[] = $user_id;
+			}
+		}
+
+		// Remove users from the queue.
+		if ( ! empty( $remove_user_ids ) ) {
+			update_option( 'oovvuu_auth0_cron_refresh_user_ids', array_diff( $user_ids, $remove_user_ids ), false );
+		}
 	}
 
 	/**
