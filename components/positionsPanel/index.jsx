@@ -30,7 +30,7 @@ const PositionsPanelWrapper = () => {
    *       panels don't show before getVideos response. maybe utilize
    *       local component state.
    */
-  const positionPanel = hero.length || positionTwo.length ? (
+  return (
     <>
       <PositionWrapper
         enabled={positionHeroEmptyReason ? false : isHeroEnabled}
@@ -47,9 +47,7 @@ const PositionsPanelWrapper = () => {
         videos={positionTwo}
       />
     </>
-  ) : '';
-
-  return positionPanel;
+  );
 };
 
 export default PositionsPanelWrapper;

@@ -28,12 +28,12 @@ const PositionWrapper = (props) => {
           </h3>
           <PositionToggleWrapper
             positionKey={positionKey}
-            positionEmptyReason={getHumanReadableEmptyReason(positionEmptyReason)}
+            positionEmptyReason={positionEmptyReason}
           />
         </header>
         <div className={styles.content}>
           <Notice
-            content={positionEmptyReason}
+            content={getHumanReadableEmptyReason(positionEmptyReason)}
           />
           <div className={classnames(
             styles.playerWrapper,
