@@ -489,18 +489,13 @@ class Auth {
 	 */
 	public function remove_user_from_refresh_cron( $user_id ) {
 		$current_user_ids = get_option( 'oovvuu_auth0_cron_refresh_user_ids', [] );
-		$new_user_ids     = $current_user_ids;
 
+		// Only remove this user ID if it already in the array.
 		if ( in_array( $user_id, $current_user_ids, true ) ) {
 			$new_user_ids = array_diff( $current_user_ids, [ $user_id ] );
-		}
 
-		// Sanitize.
-		$new_user_ids = array_values( array_filter( array_unique( $new_user_ids ) ) );
-
-		// Update the option.
-		if ( $new_user_ids !== $current_user_ids ) {
-			update_option( 'oovvuu_auth0_cron_refresh_user_ids', $new_user_ids );
+			// Update the option.
+			update_option( 'oovvuu_auth0_cron_refresh_user_ids', $new_user_ids, false );
 		}
 	}
 
@@ -535,7 +530,7 @@ class Auth {
 
 		// Remove users from the queue.
 		if ( ! empty( $remove_user_ids ) ) {
-			update_option( 'oovvuu_auth0_cron_refresh_user_ids', array_diff( $user_ids, $remove_user_ids ) );
+			update_option( 'oovvuu_auth0_cron_refresh_user_ids', array_diff( $user_ids, $remove_user_ids ), false );
 		}
 	}
 
