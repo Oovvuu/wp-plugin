@@ -9,11 +9,14 @@ import styles from './position.scss';
 
 /**
  * Handles logic for displaying a specific position.
+ *
+ * @todo add display component for position empty and
+ *       add mapping for empty reason to plain english as service function.
  */
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
   const {
-    positionKey, title, videos, enabled,
+    enabled, positionEmptyReason, positionKey, title, videos,
   } = props;
 
   return (
@@ -26,6 +29,7 @@ const PositionWrapper = (props) => {
           </h3>
           <PositionToggleWrapper
             positionKey={positionKey}
+            positionEmptyReason={positionEmptyReason}
           />
         </header>
         <div className={styles.content}>
@@ -40,8 +44,8 @@ const PositionWrapper = (props) => {
           <div className={styles.cardsWrapper}>
             {videos.map((video) => (
               <VideoCardWrapper
-                positionKey={positionKey}
                 key={video.id}
+                positionKey={positionKey}
                 video={video}
               />
             ))}
@@ -53,14 +57,16 @@ const PositionWrapper = (props) => {
 };
 
 PositionWrapper.defaultProps = {
-  title: '',
   enabled: true,
+  positionEmptyReason: null,
+  title: '',
 };
 
 PositionWrapper.propTypes = {
-  positionKey: PropTypes.string.isRequired,
-  title: PropTypes.string,
   enabled: PropTypes.bool,
+  positionKey: PropTypes.string.isRequired,
+  positionEmptyReason: PropTypes.string,
+  title: PropTypes.string,
   videos: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
   })).isRequired,
