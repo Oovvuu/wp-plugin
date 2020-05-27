@@ -12,6 +12,10 @@ const PositionsPanelWrapper = () => {
     state: {
       isHeroEnabled,
       isPositionTwoEnabled,
+      recommendedVideos: {
+        positionHeroEmptyReason,
+        positionTwoEmptyReason,
+      },
       selectedVideos: {
         hero,
         positionTwo,
@@ -21,18 +25,24 @@ const PositionsPanelWrapper = () => {
 
   /**
    * Load the positions panel when any of the positions have a video.
+   *
+   * @todo refactor this so that panels always show and make sure
+   *       panels don't show before getVideos response. maybe utilize
+   *       local component state.
    */
   const positionPanel = hero.length || positionTwo.length ? (
     <>
       <PositionWrapper
+        enabled={positionHeroEmptyReason ? false : isHeroEnabled}
+        positionEmptyReason={positionHeroEmptyReason}
         positionKey="hero"
-        enabled={isHeroEnabled}
         title={__('Hero', 'oovvuu')}
         videos={hero}
       />
       <PositionWrapper
+        enabled={positionTwoEmptyReason ? false : isPositionTwoEnabled}
+        positionEmptyReason={positionTwoEmptyReason}
         positionKey="positionTwo"
-        enabled={isPositionTwoEnabled}
         title={__('Position Two', 'oovvuu')}
         videos={positionTwo}
       />
