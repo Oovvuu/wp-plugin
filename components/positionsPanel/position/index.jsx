@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import theme from 'shared/theme.scss';
+import Notice from './notice';
 import PositionToggleWrapper from './positionToggle';
 import VideoCardWrapper from './videoCard';
 import PlayerWrapper from './player';
@@ -10,8 +11,7 @@ import styles from './position.scss';
 /**
  * Handles logic for displaying a specific position.
  *
- * @todo add display component for position empty and
- *       add mapping for empty reason to plain english as service function.
+ * @todo add mapping for empty reason to plain english as service function.
  */
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
@@ -33,6 +33,9 @@ const PositionWrapper = (props) => {
           />
         </header>
         <div className={styles.content}>
+          <Notice
+            content={positionEmptyReason}
+          />
           <div className={classnames(
             styles.playerWrapper,
             theme.panel,
