@@ -47,8 +47,9 @@ const KeywordPanelWrapper = () => {
     if (!response.hasError) {
       const { keywords } = response.data;
       dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
-      dispatch({ type: 'CLEAR_LOADING_STATE' });
     } // @todo else, set error state.
+
+    dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
 
@@ -73,8 +74,9 @@ const KeywordPanelWrapper = () => {
     if (!response.hasError) {
       const { videos } = response.data;
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
-      dispatch({ type: 'CLEAR_LOADING_STATE' });
     } // @todo else, set error state.
+
+    dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
   return (
