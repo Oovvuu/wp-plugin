@@ -15,10 +15,11 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
-  const { state } = React.useContext(oovvuuData);
+  const { dispatch, state, state: { recommendedKeywords } } = React.useContext(oovvuuData);
 
   /**
-   * Open the dialog.
+   * Open the dialog. If no recommendedKeywords exist, dispatches
+   *   FETCH_KEYWORDS action to trigger effect.
    */
   const openDialog = () => {
     setIsOpen(true);
@@ -28,6 +29,10 @@ const DialogWrapper = () => {
 
     if (body && !body.classList.contains('modal-open')) {
       body.classList.add('modal-open');
+    }
+
+    if (!recommendedKeywords.length) {
+      dispatch({ type: 'FETCH_KEYWORDS' });
     }
   };
 
