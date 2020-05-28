@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import portalId from 'services/portalId';
 import keyCodes from 'utils/keyCodes';
+import LoadingWrapper from 'components/dialog/loading';
 import OovvuuSVGLogo from 'assets/oovvuu-logo.svg';
 import WPVIPSVGLogo from 'assets/wp-vip-logo.svg';
 import CloseSVG from 'assets/close.svg';
@@ -15,6 +16,7 @@ const Dialog = ({
   isOpen,
   closeDialog,
   children,
+  isLoading,
 }) => {
   const { __ } = wp.i18n;
   /**
@@ -106,6 +108,7 @@ const Dialog = ({
             aria-label={__('Back to Top of Modal', 'oovvuu')}
           />
         </div>
+        {isLoading && <LoadingWrapper />}
       </div>
     </div>
   );
@@ -124,6 +127,7 @@ Dialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default Dialog;

@@ -5,7 +5,6 @@ import ActionButton from 'components/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
 import oovvuuData from 'components/app/context';
-import LoadingWrapper from 'components/dialog/loading';
 import SaveSVG from 'assets/save.svg';
 import Dialog from './dialog';
 import styles from './dialog.scss';
@@ -96,6 +95,7 @@ const DialogWrapper = () => {
       </button>
       <Dialog
         isOpen={isOpen}
+        isLoading={isLoading}
         closeDialog={() => { closeDialog(true); }}
       >
         <h2 className={styles.postTitle}>
@@ -111,7 +111,6 @@ const DialogWrapper = () => {
         </h2>
         <KeywordPanel />
         <PositionsPanelWrapper />
-        {isLoading && <LoadingWrapper />}
       </Dialog>
     </>
   );
