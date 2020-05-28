@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import OovvuuDataContext from 'components/app/context';
 import PositionWrapper from './position';
 
@@ -6,14 +7,15 @@ import PositionWrapper from './position';
  * The position panel container component that wraps all logic for the positions
  * display.
  */
-const PositionsPanelWrapper = () => {
+const PositionsPanelWrapper = (props) => {
+  const { displayPanels } = props;
   const { i18n: { __ } } = wp;
   const {
     state: {
       isHeroEnabled,
       isPositionTwoEnabled,
       recommendedVideos: {
-        positionHeroEmptyReason,
+        heroEmptyReason,
         positionTwoEmptyReason,
       },
       selectedVideos: {
@@ -30,11 +32,11 @@ const PositionsPanelWrapper = () => {
    *       panels don't show before getVideos response. maybe utilize
    *       local component state.
    */
-  return (
+  const positionPanels = displayPanels ? (
     <>
       <PositionWrapper
-        enabled={positionHeroEmptyReason ? false : isHeroEnabled}
-        positionEmptyReason={positionHeroEmptyReason}
+        enabled={heroEmptyReason ? false : isHeroEnabled}
+        positionEmptyReason={heroEmptyReason}
         positionKey="hero"
         title={__('Hero', 'oovvuu')}
         videos={hero}
@@ -47,7 +49,13 @@ const PositionsPanelWrapper = () => {
         videos={positionTwo}
       />
     </>
-  );
+  ) : '';
+
+  return positionPanels;
+};
+
+PositionsPanelWrapper.propTypes = {
+  displayPanels: PropTypes.bool.isRequired,
 };
 
 export default PositionsPanelWrapper;

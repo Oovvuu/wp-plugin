@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import getKeywords from 'services/getKeywords';
+import getPositionKeys from 'services/getPositionKeys';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
 import theme from 'shared/theme.scss';
@@ -15,7 +17,8 @@ import styles from './keywordPanel.scss';
  * Wrapper component for the keyword selector panel. Includes generated
  *   and user-supplied keywords.
  */
-const KeywordPanelWrapper = () => {
+const KeywordPanelWrapper = (props) => {
+  const { onHandleDisplayPanels } = props;
   const { i18n: { __ } } = wp;
   const {
     dispatch,
@@ -60,7 +63,23 @@ const KeywordPanelWrapper = () => {
     if (!response.hasError) {
       const { videos } = response.data;
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
+
+      /*
+       * Each position is enabled by default, but the API may disable a position.
+       * Ensure that each position's state is consistent with the getVideos response.
+       */
+      getPositionKeys().forEach((positionKey) => {
+        // check empty reason here.
+        console.log(videos[`${positionKey}EmptyReason`]);
+        if (videos[`${positionKey}EmptyReason`] != null) {
+          dispatch({ payload: { position: positionKey }, type: 'TOGGLE_POSITION_ENABLED' });
+        }
+      });
     }
+
+    // Display panels.
+    onHandleDisplayPanels(true);
+    console.log(response);
   };
 
   return (
@@ -110,6 +129,10 @@ const KeywordPanelWrapper = () => {
       </div>
     </div>
   );
+};
+
+KeywordPanelWrapper.propTypes = {
+  onHandleDisplayPanels: PropTypes.func.isRequired,
 };
 
 export default KeywordPanelWrapper;
