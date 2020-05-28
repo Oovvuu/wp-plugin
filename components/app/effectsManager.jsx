@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import getKeywords from 'services/getKeywords';
+import getPostAttribute from 'services/getPostAttribute';
 
 /**
  * Container component to manage side effects related to dispatched context actions. Discrete
@@ -12,8 +14,31 @@ import PropTypes from 'prop-types';
  */
 const EffectsManager = (props) => {
   const {
-    actionType, children, dispatch, state,
+    actionType,
+    children,
+    dispatch,
+    state: { recommendedVideos },
   } = props;
+
+  /**
+   * Calls the getKeywords service with details on the current post. On successful response,
+   *   dispatches an update to application state to set the recommendedKeywords
+   *   from the Oovvuu API.
+   */
+  const fetchKeywords = async () => {
+    const id = getPostAttribute('id');
+    const title = getPostAttribute('title');
+    const content = getPostAttribute('content');
+
+    // TODO: Wrap with start and stop loading spinner.
+    const response = await getKeywords(title, content, id);
+
+    if (!response.hasError) {
+      const { keywords } = response.data;
+      dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
+    }
+  };
+
 
   /**
    * For a new batch of recommendedVideos, reset selectedVideos on all positions.
@@ -23,7 +48,7 @@ const EffectsManager = (props) => {
   const syncSelectedToRecommendedVideos = () => {
     const {
       hero, heroSecondary, positionTwo, positionTwoSecondary,
-    } = state.recommendedVideos;
+    } = recommendedVideos;
     dispatch({
       payload: {
         hero: hero.map((video) => ({ ...video, position: 'hero' })),
@@ -39,6 +64,10 @@ const EffectsManager = (props) => {
    * Listens for action types that require additional state updates.
    */
   React.useEffect(() => {
+    if (actionType === 'FETCH_KEYWORDS') {
+      fetchKeywords();
+    }
+
     if (actionType === 'UPDATE_RECOMMENDED_VIDEOS') {
       syncSelectedToRecommendedVideos();
     }
@@ -57,6 +86,7 @@ EffectsManager.propTypes = {
   ]).isRequired,
   dispatch: PropTypes.func.isRequired,
   state: PropTypes.shape({
+    recommendedKeywords: PropTypes.arrayOf(PropTypes.string),
     recommendedVideos: PropTypes.shape({
       hero: PropTypes.arrayOf(PropTypes.object).isRequired,
       heroSecondary: PropTypes.arrayOf(PropTypes.object).isRequired,
