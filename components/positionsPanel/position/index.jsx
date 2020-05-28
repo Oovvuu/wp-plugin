@@ -32,26 +32,33 @@ const PositionWrapper = (props) => {
           />
         </header>
         <div className={styles.content}>
-          <Notice
-            content={getHumanReadableEmptyReason(positionEmptyReason)}
-          />
-          <div className={classnames(
-            styles.playerWrapper,
-            theme.panel,
-            styles.brightcovePlayer,
-          )}
-          >
-            <PlayerWrapper videos={videos} />
-          </div>
-          <div className={styles.cardsWrapper}>
-            {videos.map((video) => (
-              <VideoCardWrapper
-                key={video.id}
-                positionKey={positionKey}
-                video={video}
+          {positionEmptyReason
+            ? (
+              <Notice
+                content={getHumanReadableEmptyReason(positionEmptyReason)}
               />
-            ))}
-          </div>
+            )
+            : (
+              <>
+                <div className={classnames(
+                  styles.playerWrapper,
+                  theme.panel,
+                  styles.brightcovePlayer,
+                )}
+                >
+                  <PlayerWrapper videos={videos} />
+                </div>
+                <div className={styles.cardsWrapper}>
+                  {videos.map((video) => (
+                    <VideoCardWrapper
+                      key={video.id}
+                      positionKey={positionKey}
+                      video={video}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
         </div>
       </div>
     </div>
