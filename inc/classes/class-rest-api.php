@@ -272,11 +272,13 @@ class REST_API {
 	 */
 	public function get_state( $request ) {
 		$state = get_post_meta( $request['id'], 'oovvuu_state', true );
+		$embeds = get_post_meta( $request['id'], 'oovvuu_embeds', true );
 
 		return rest_ensure_response(
 			[
 				'success' => false !== $state,
 				'state'   => $state,
+				'embeds'   => ! empty( $embeds ) ? (object) $embeds : (object) [],
 			]
 		);
 	}
