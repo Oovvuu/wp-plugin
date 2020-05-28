@@ -27,10 +27,6 @@ const PositionsPanelWrapper = (props) => {
 
   /**
    * Load the positions panel when any of the positions have a video.
-   *
-   * @todo refactor this so that panels always show and make sure
-   *       panels don't show before getVideos response. maybe utilize
-   *       local component state.
    */
   const positionPanels = displayPanels ? (
     <>
