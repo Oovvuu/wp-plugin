@@ -23,7 +23,10 @@ const LoadingWrapper = () => {
   })(CircularProgress);
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={styles.wrapper}
+      role="alert"
+    >
       <div className={styles.popup}>
         <ColorCircularProgress className={styles.spinner} size={38} thickness={3} />
         {message && <p className={styles.message}>{message}</p>}

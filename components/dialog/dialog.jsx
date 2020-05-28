@@ -76,8 +76,13 @@ const Dialog = ({
       <div
         ref={dialogRef}
         className={styles.dialog}
+        aria-live="polite"
+        aria-busy={isLoading}
       >
-        <div className={styles.container}>
+        <div
+          className={styles.container}
+          aria-hidden={isLoading}
+        >
           <div className={styles.header}>
             <span className={styles.oovvuuLogo}>
               <OovvuuSVGLogo />
