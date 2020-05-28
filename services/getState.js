@@ -12,14 +12,17 @@ const getState = (id) => {
     method: 'POST',
     data: { id },
   })
-    .then((value) => (value.success
-      ? {
-        hasError: false,
-        data: value.state,
-      } : {
-        hasError: true,
-        message: __('Malformed response data.', 'oovvuu'),
-      }))
+    .then((value) => {
+      const { embeds, state, success } = value;
+      return success
+        ? {
+          hasError: false,
+          data: { ...state, embeds },
+        } : {
+          hasError: true,
+          message: __('Malformed response data.', 'oovvuu'),
+        };
+    })
     .catch((error) => {
       const { message } = error;
       // TODO: Perform error handling.
