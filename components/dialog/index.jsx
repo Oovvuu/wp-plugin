@@ -15,7 +15,9 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
-  const { state } = React.useContext(oovvuuData);
+  const { state, state: { selectedVideos } } = React.useContext(oovvuuData);
+  // Set default panel display state.
+  const [displayPanels, setDisplayPanels] = React.useState(false);
 
   /**
    * Open the dialog.
@@ -72,6 +74,12 @@ const DialogWrapper = () => {
     }
   };
 
+  // Determine if the the panels should display. Accounts for saved videos and fetched videos.
+  React.useEffect(() => {
+    setDisplayPanels(selectedVideos.hero.length
+      || selectedVideos.positionTwo.length);
+  }, [selectedVideos]);
+
   return (
     <>
       <button
@@ -99,8 +107,12 @@ const DialogWrapper = () => {
             <>{__('Save and Close', 'oovvuu')}</>
           </ActionButton>
         </h2>
-        <KeywordPanel />
-        <PositionsPanelWrapper />
+        <KeywordPanel
+          onHandleDisplayPanels={setDisplayPanels}
+        />
+        <PositionsPanelWrapper
+          displayPanels={displayPanels}
+        />
       </Dialog>
     </>
   );
