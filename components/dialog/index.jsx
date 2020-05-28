@@ -18,8 +18,7 @@ const DialogWrapper = () => {
   const { dispatch, state, state: { embeds } } = React.useContext(oovvuuData);
 
   /**
-   * Open the dialog. If no recommendedKeywords exist, dispatches
-   *   FETCH_KEYWORDS action to trigger effect.
+   * Open the dialog. If no embeds exist, dispatch FETCH_KEYWORDS action to trigger effect.
    */
   const openDialog = () => {
     setIsOpen(true);
