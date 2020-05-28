@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
-import getKeywords from 'services/getKeywords';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
 import theme from 'shared/theme.scss';
@@ -22,28 +21,6 @@ const KeywordPanelWrapper = () => {
     state: { recommendedKeywords, selectedKeywords, userKeywords },
   } = React.useContext(oovvuuData);
   const id = getPostAttribute('id');
-
-  /**
-   * onClick handler for the "Get new Keywords" button. Calls the getKeywords
-   *   service with details on the current post. On successful response,
-   *   dispatches an update to application state to set the recommendedKeywords
-   *   from the Oovvuu API.
-   *
-   * @returns {Promise<void>} Future for response data or error object.
-   */
-  const handleFetchKeywords = async () => {
-    const title = getPostAttribute('title');
-    const content = getPostAttribute('content');
-
-    // TODO: Wrap with start and stop loading spinner.
-    const response = await getKeywords(title, content, id);
-
-    if (!response.hasError) {
-      const { keywords } = response.data;
-      dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
-    }
-  };
-
 
   /**
    * onClick handler for the "Fetch Videos" button. Calls the getVideos
@@ -93,7 +70,7 @@ const KeywordPanelWrapper = () => {
           && (
             <ActionButton
               buttonStyle="primary"
-              onClickHandler={handleFetchKeywords}
+              onClickHandler={() => dispatch({ type: 'FETCH_KEYWORDS' })}
             >
               <>{__('Get Keywords', 'oovvuu')}</>
             </ActionButton>
