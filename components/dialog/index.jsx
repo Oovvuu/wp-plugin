@@ -15,7 +15,7 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
-  const { dispatch, state, state: { recommendedKeywords } } = React.useContext(oovvuuData);
+  const { dispatch, state, state: { embeds } } = React.useContext(oovvuuData);
 
   /**
    * Open the dialog. If no recommendedKeywords exist, dispatches
@@ -31,7 +31,7 @@ const DialogWrapper = () => {
       body.classList.add('modal-open');
     }
 
-    if (!recommendedKeywords.length) {
+    if (!embeds.hero?.length && !embeds.positionTwo?.length) {
       dispatch({ type: 'FETCH_KEYWORDS' });
     }
   };
