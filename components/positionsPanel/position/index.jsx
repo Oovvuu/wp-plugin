@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import getHumanReadableEmptyReason from 'services/getHumanReadableEmptyReason';
 import classnames from 'classnames';
 import theme from 'shared/theme.scss';
+import Notice from './notice';
 import PositionToggleWrapper from './positionToggle';
 import VideoCardWrapper from './videoCard';
 import PlayerWrapper from './player';
@@ -13,7 +15,7 @@ import styles from './position.scss';
 const PositionWrapper = (props) => {
   const { i18n: { __ } } = wp;
   const {
-    positionKey, title, videos, enabled,
+    enabled, positionEmptyReason, positionKey, title, videos,
   } = props;
 
   return (
@@ -26,26 +28,37 @@ const PositionWrapper = (props) => {
           </h3>
           <PositionToggleWrapper
             positionKey={positionKey}
+            positionEmptyReason={positionEmptyReason}
           />
         </header>
         <div className={styles.content}>
-          <div className={classnames(
-            styles.playerWrapper,
-            theme.panel,
-            styles.brightcovePlayer,
-          )}
-          >
-            <PlayerWrapper videos={videos} />
-          </div>
-          <div className={styles.cardsWrapper}>
-            {videos.map((video) => (
-              <VideoCardWrapper
-                positionKey={positionKey}
-                key={video.id}
-                video={video}
+          {positionEmptyReason
+            ? (
+              <Notice
+                content={getHumanReadableEmptyReason(positionEmptyReason)}
               />
-            ))}
-          </div>
+            )
+            : (
+              <>
+                <div className={classnames(
+                  styles.playerWrapper,
+                  theme.panel,
+                  styles.brightcovePlayer,
+                )}
+                >
+                  <PlayerWrapper videos={videos} />
+                </div>
+                <div className={styles.cardsWrapper}>
+                  {videos.map((video) => (
+                    <VideoCardWrapper
+                      key={video.id}
+                      positionKey={positionKey}
+                      video={video}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
         </div>
       </div>
     </div>
@@ -53,14 +66,16 @@ const PositionWrapper = (props) => {
 };
 
 PositionWrapper.defaultProps = {
-  title: '',
   enabled: true,
+  positionEmptyReason: null,
+  title: '',
 };
 
 PositionWrapper.propTypes = {
-  positionKey: PropTypes.string.isRequired,
-  title: PropTypes.string,
   enabled: PropTypes.bool,
+  positionKey: PropTypes.string.isRequired,
+  positionEmptyReason: PropTypes.string,
+  title: PropTypes.string,
   videos: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
   })).isRequired,
