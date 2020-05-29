@@ -85,6 +85,15 @@ const KeywordSelector = () => {
     }
   }, [recommendedKeywords]);
 
+  /**
+   * Deselect keywords when state.selectedKeywords is cleared.
+   */
+  React.useEffect(() => {
+    if (selectedKeywords.length === 0) {
+      compileAllKeywordItems([]);
+    }
+  }, [selectedKeywords]);
+
   return (
     <div className={styles.selector}>
       <h4>{__('Select all relevant keywords', 'oovvuu')}</h4>
