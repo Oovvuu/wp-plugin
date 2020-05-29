@@ -14,12 +14,12 @@ describe('DialogWrapper', () => {
     dispatchFn.mockClear();
   });
 
-  it('Dispatches FETCH_KEYWORDS action when button is clicked and no embeds exist', () => {
+  it('Dispatches FETCH_KEYWORDS action when button is clicked and isLoadedFromMeta is false', () => {
     jest.spyOn(React, 'useContext')
       .mockImplementation(() => ({
         dispatch: dispatchFn,
         state: {
-          embeds: { hero: null, positionTwo: null },
+          isLoadedFromMeta: false,
           recommendedKeywords: ['keyword'],
           isLoading: false,
         },
@@ -33,12 +33,12 @@ describe('DialogWrapper', () => {
     expect(dispatchFn).toHaveBeenCalledWith({ type: 'FETCH_KEYWORDS' });
   });
 
-  it("Doesn't dispatch FETCH_KEYWORDS if embeds exist", () => {
+  it("Doesn't dispatch FETCH_KEYWORDS if isLoadedFromMeta is true", () => {
     jest.spyOn(React, 'useContext')
       .mockImplementation(() => ({
         dispatch: dispatchFn,
         state: {
-          embeds: { hero: 'exists', positionTwo: 'exists' },
+          isLoadedFromMeta: true,
           recommendedKeywords: ['keyword'],
           isLoading: false,
         },

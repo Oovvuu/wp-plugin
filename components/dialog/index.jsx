@@ -18,7 +18,7 @@ const DialogWrapper = () => {
   const {
     state,
     state: {
-      embeds,
+      isLoadedFromMeta,
       selectedVideos,
       isLoading,
     },
@@ -40,7 +40,7 @@ const DialogWrapper = () => {
       body.classList.add('modal-open');
     }
 
-    if (!embeds.hero && !embeds.positionTwo) {
+    if (!isLoadedFromMeta) {
       dispatch({ type: 'FETCH_KEYWORDS' });
     }
   };
