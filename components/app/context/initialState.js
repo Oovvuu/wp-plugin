@@ -26,6 +26,10 @@ const initialState = {
     positionTwo: [],
     positionTwoSecondary: [],
   },
+  isLoading: false,
+  loadingAttributes: {
+    message: '',
+  },
 };
 
 export default initialState;

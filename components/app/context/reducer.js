@@ -36,6 +36,20 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_VIDEOS':
       nextState.selectedVideos = payload;
       return nextState;
+    case 'DISABLE_POSITION':
+      if (payload.position === 'hero') {
+        nextState.isHeroEnabled = false;
+      } else if (payload.position === 'positionTwo') {
+        nextState.isPositionTwoEnabled = false;
+      }
+      return nextState;
+    case 'ENABLE_POSITION':
+      if (payload.position === 'hero') {
+        nextState.isHeroEnabled = true;
+      } else if (payload.position === 'positionTwo') {
+        nextState.isPositionTwoEnabled = true;
+      }
+      return nextState;
     case 'TOGGLE_POSITION_ENABLED':
       if (payload.position === 'hero') {
         nextState.isHeroEnabled = !nextState.isHeroEnabled;
@@ -48,6 +62,19 @@ const reducer = (state, action) => {
     }
     case 'UPDATE_EMBEDS': {
       return { ...nextState, embeds: payload };
+    }
+    case 'SET_LOADING_STATE':
+      return {
+        ...nextState,
+        isLoading: true,
+        loadingAttributes: payload,
+      };
+    case 'CLEAR_LOADING_STATE': {
+      return {
+        ...nextState,
+        isLoading: false,
+        loadingAttributes: { message: '' },
+      };
     }
     default:
       return nextState;

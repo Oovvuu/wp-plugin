@@ -9,7 +9,7 @@ import checkboxes from 'shared/checkboxes.scss';
 const PositionToggle = (props) => {
   const id = uuid();
   const { i18n: { __ } } = wp;
-  const { togglePosition, enabled } = props;
+  const { enabled, onTogglePosition } = props;
 
   return (
     <span className={checkboxes.toggle}>
@@ -21,7 +21,7 @@ const PositionToggle = (props) => {
           id={id}
           checked={enabled}
           type="checkbox"
-          onChange={togglePosition}
+          onChange={onTogglePosition}
         />
       </label>
     </span>
@@ -29,7 +29,7 @@ const PositionToggle = (props) => {
 };
 
 PositionToggle.propTypes = {
-  togglePosition: PropTypes.func.isRequired,
+  onTogglePosition: PropTypes.func.isRequired,
   enabled: PropTypes.bool.isRequired,
 };
 

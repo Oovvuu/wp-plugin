@@ -15,7 +15,17 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
-  const { dispatch, state, state: { embeds } } = React.useContext(oovvuuData);
+  const {
+    state,
+    state: {
+      embeds,
+      selectedVideos,
+      isLoading,
+    },
+    dispatch,
+  } = React.useContext(oovvuuData);
+  // Set default panel display state.
+  const [displayPanels, setDisplayPanels] = React.useState(false);
 
   /**
    * Open the dialog. If no embeds exist, dispatch FETCH_KEYWORDS action to trigger effect.
@@ -48,11 +58,13 @@ const DialogWrapper = () => {
       if (body && body.classList.contains('modal-open')) {
         body.classList.remove('modal-open');
       }
+
+      dispatch({ type: 'CLEAR_LOADING_STATE' });
     };
 
     // Prompt the user with a confirm message if they are closing without saving.
     if (prompt) {
-      const confirmDialog = confirm( // eslint-disable-line no-restricted-globals
+      const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
         __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu'),
       );
 
@@ -68,6 +80,13 @@ const DialogWrapper = () => {
    * Handles the save action when a user clicks the save button.
    */
   const handleSave = async () => {
+    dispatch({
+      type: 'SET_LOADING_STATE',
+      payload: {
+        message: __("Hang tight, we're saving your settings", 'oovvuu'),
+      },
+    });
+
     const response = await saveState(state, getPostAttribute('id'));
 
     if (!response.hasError) {
@@ -78,6 +97,13 @@ const DialogWrapper = () => {
       closeDialog(false);
     }
   };
+
+  // Determine if the the panels should display. Accounts for saved videos and fetched videos.
+  // @todo This should also check whether or not state data was loaded from post meta.
+  React.useEffect(() => {
+    setDisplayPanels(selectedVideos.hero.length
+      || selectedVideos.positionTwo.length);
+  }, [selectedVideos]);
 
   return (
     <>
@@ -93,6 +119,7 @@ const DialogWrapper = () => {
       </button>
       <Dialog
         isOpen={isOpen}
+        isLoading={isLoading}
         closeDialog={() => { closeDialog(true); }}
       >
         <h2 className={styles.postTitle}>
@@ -106,8 +133,12 @@ const DialogWrapper = () => {
             <>{__('Save and Close', 'oovvuu')}</>
           </ActionButton>
         </h2>
-        <KeywordPanel />
-        <PositionsPanelWrapper />
+        <KeywordPanel
+          onHandleDisplayPanels={setDisplayPanels}
+        />
+        <PositionsPanelWrapper
+          displayPanels={displayPanels}
+        />
       </Dialog>
     </>
   );
