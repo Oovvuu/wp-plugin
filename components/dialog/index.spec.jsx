@@ -21,6 +21,7 @@ describe('DialogWrapper', () => {
         state: {
           embeds: { hero: null, positionTwo: null },
           recommendedKeywords: ['keyword'],
+          isLoading: false,
         },
       }));
 
@@ -39,6 +40,7 @@ describe('DialogWrapper', () => {
         state: {
           embeds: { hero: 'exists', positionTwo: 'exists' },
           recommendedKeywords: ['keyword'],
+          isLoading: false,
         },
       }));
 

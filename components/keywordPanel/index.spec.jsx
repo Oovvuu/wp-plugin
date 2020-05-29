@@ -30,7 +30,7 @@ describe('KeywordPanelWrapper', () => {
 
   it('Renders KeywordSelector', () => {
     const wrapper = shallow(
-      <KeywordPanelWrapper />,
+      <KeywordPanelWrapper onHandleDisplayPanels={() => true} />,
     );
 
     expect(wrapper.find(KeywordSelector)).toHaveLength(1);
@@ -38,7 +38,7 @@ describe('KeywordPanelWrapper', () => {
 
   it('Renders ActionButtons', () => {
     const wrapper = shallow(
-      <KeywordPanelWrapper />,
+      <KeywordPanelWrapper onHandleDisplayPanels={() => true} />,
     );
 
     expect(wrapper.find(ActionButton)).toHaveLength(2);
@@ -69,7 +69,7 @@ describe('KeywordPanelWrapper', () => {
 
     it('Dispatches FETCH_KEYWORDS action when button is clicked', () => {
       const wrapper = shallow(
-        <KeywordPanelWrapper />,
+        <KeywordPanelWrapper onHandleDisplayPanels={() => true} />,
       );
 
       wrapper.find(ActionButton).first().prop('onClickHandler')();
