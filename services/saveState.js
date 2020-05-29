@@ -5,31 +5,41 @@
  * @param   {int}    id    The post ID.
  * @returns {Promise}      Future object for API response data.
  */
+import transform from 'transforms/embeds';
+
 const saveState = (state, id) => {
   const { apiFetch, i18n: { __ } } = wp;
-
-  // Override state properties we don't want to save to post meta.
-  const localState = {
-    ...state,
-    isLoading: false,
-    loadingAttributes: {
-      message: '',
-    },
-  };
 
   return apiFetch({
     path: '/oovvuu/v1/saveState/',
     method: 'POST',
-    data: { localState, id },
-  })
-    .then((value) => (value.success
+    data: {
+      id,
+      // Filter out properties we don't want in post meta.
+      state: Object.keys(state).reduce((carry, key) => {
+        // Excluded from post meta.
+        const filter = [
+          'embeds',
+          'isLoading',
+          'lastActionType',
+          'loadingAttributes',
+        ];
+
+        return !filter.includes(key) ? { ...carry, ...{ [key]: state[key] } } : carry;
+      }, {}),
+    },
+  }).then((value) => {
+    const { embeds, success } = value;
+
+    return success
       ? {
         hasError: false,
-        data: value,
+        data: transform(embeds),
       } : {
         hasError: true,
         message: __('Malformed response data.', 'oovvuu'),
-      }))
+      };
+  })
     .catch((error) => {
       const { message } = error;
       // TODO: Perform error handling.

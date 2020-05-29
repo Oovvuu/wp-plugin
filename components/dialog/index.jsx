@@ -18,6 +18,7 @@ const DialogWrapper = () => {
   const {
     state,
     state: {
+      isLoadedFromMeta,
       selectedVideos,
       isLoading,
     },
@@ -27,7 +28,7 @@ const DialogWrapper = () => {
   const [displayPanels, setDisplayPanels] = React.useState(false);
 
   /**
-   * Open the dialog.
+   * Open the dialog. If no embeds exist, dispatch FETCH_KEYWORDS action to trigger effect.
    */
   const openDialog = () => {
     setIsOpen(true);
@@ -37,6 +38,10 @@ const DialogWrapper = () => {
 
     if (body && !body.classList.contains('modal-open')) {
       body.classList.add('modal-open');
+    }
+
+    if (!isLoadedFromMeta) {
+      dispatch({ type: 'FETCH_KEYWORDS' });
     }
   };
 
@@ -86,6 +91,9 @@ const DialogWrapper = () => {
     const response = await saveState(state, getPostAttribute('id'));
 
     if (!response.hasError) {
+      const { data } = response;
+
+      dispatch({ type: 'UPDATE_EMBEDS', payload: data });
       // Close the Dialog.
       closeDialog(false);
     }
