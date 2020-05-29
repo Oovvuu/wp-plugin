@@ -42,6 +42,16 @@ const EffectsManager = (props) => {
     if (actionType === 'UPDATE_RECOMMENDED_VIDEOS') {
       syncSelectedToRecommendedVideos();
     }
+
+    // Actions for which the loading state should be cleared.
+    const loadingActions = [
+      'UPDATE_RECOMMENDED_KEYWORDS',
+      'UPDATE_RECOMMENDED_VIDEOS',
+    ];
+
+    if (loadingActions.includes(actionType)) {
+      dispatch({ type: 'CLEAR_LOADING_STATE' });
+    }
   }, [actionType]);
 
   return <>{ children }</>;

@@ -51,8 +51,6 @@ const KeywordPanelWrapper = (props) => {
       const { keywords } = response.data;
       dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
     } // @todo else, set error state.
-
-    dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
 
@@ -91,8 +89,6 @@ const KeywordPanelWrapper = (props) => {
         }
       });
     } // @todo else, set error state.
-
-    dispatch({ type: 'CLEAR_LOADING_STATE' });
 
     // Component state change to display panels.
     onHandleDisplayPanels(true);
