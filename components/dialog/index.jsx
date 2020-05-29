@@ -87,6 +87,7 @@ const DialogWrapper = () => {
       },
     });
 
+    // Note: Loading state is cleared within the `saveState` service.
     const response = await saveState(state, getPostAttribute('id'));
 
     if (!response.hasError) {

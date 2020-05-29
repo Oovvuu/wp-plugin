@@ -29,8 +29,9 @@ describe('KeywordPanelWrapper', () => {
   });
 
   it('Renders KeywordSelector', () => {
+    const mockOnHandleDisplayPanels = jest.fn();
     const wrapper = shallow(
-      <KeywordPanelWrapper onHandleDisplayPanels={() => true} />,
+      <KeywordPanelWrapper onHandleDisplayPanels={mockOnHandleDisplayPanels} />,
     );
 
     expect(wrapper.find(KeywordSelector)).toHaveLength(1);
