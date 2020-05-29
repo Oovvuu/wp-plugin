@@ -1,6 +1,7 @@
 /* stylelint-disable selector-max-specificity */
 
 @mixin keyword-base {
+  @include container-box-sizing;
   position: relative;
 
   &:not(:last-of-type) {
@@ -80,10 +81,14 @@
     height: rem(32);
     justify-content: center;
     line-height: 1;
-    min-width: rem(163);
+    min-width: rem(120);
     padding: 0 rem(24);
     text-align: center;
     text-transform: uppercase;
+
+    @media (min(md)) {
+      min-width: rem(163);
+    }
   }
 }
 
@@ -92,6 +97,7 @@
  */
 .toggle {
   display: inline-block;
+  margin-left: auto;
 
   &:focus-within {
     text-decoration: underline;

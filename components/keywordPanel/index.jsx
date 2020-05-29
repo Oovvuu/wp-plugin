@@ -125,6 +125,7 @@ const KeywordPanelWrapper = (props) => {
             <ActionButton
               buttonStyle="primary"
               onClickHandler={clearSelectedKeywords}
+              className={styles.clearSelection}
             >
               <CloseIcon />
               {__('Clear Selection', 'oovvuu')}
@@ -135,6 +136,7 @@ const KeywordPanelWrapper = (props) => {
           && (
             <ActionButton
               buttonStyle="primary"
+              className={styles.getKeywords}
               onClickHandler={handleFetchKeywords}
             >
               <>{__('Get Keywords', 'oovvuu')}</>
@@ -145,6 +147,7 @@ const KeywordPanelWrapper = (props) => {
           buttonStyle="primary"
           onClickHandler={handleFetchVideos}
           disabled={!recommendedKeywords.length}
+          className={styles.getVideos}
         >
           <SearchIcon />
           {__('Recommend Videos', 'oovvuu')}

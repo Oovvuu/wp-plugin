@@ -37,13 +37,26 @@
 }
 
 .buttonWrapper {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  grid-gap: rem(20);
+  justify-content: end;
 
-  button {
+  @media (min(lg)) {
+    grid-template-columns: repeat(2, fit-content);
+  }
+}
 
-    &:not(:last-of-type) {
-      margin-right: rem(20);
-    }
+.getKeywords,
+.clearSelection {
+  margin-left: auto;
+
+  @media (min(lg)) {
+    grid-column: 1;
+  }
+}
+
+.getVideos {
+  @media (min(lg)) {
+    grid-column: 2;
   }
 }
