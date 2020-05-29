@@ -5,6 +5,7 @@
  * @type {{object}}
  */
 const initialState = {
+  embeds: { hero: null, positionTwo: null },
   isHeroEnabled: true,
   isPositionTwoEnabled: true,
   lastActionType: null,
@@ -29,6 +30,7 @@ const initialState = {
   loadingAttributes: {
     message: '',
   },
+  isLoadedFromMeta: false,
 };
 
 export default initialState;

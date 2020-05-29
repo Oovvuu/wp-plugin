@@ -66,6 +66,9 @@ const reducer = (state, action) => {
     case 'SWAP_VIDEOS': {
       return swapVideos(nextState, payload);
     }
+    case 'UPDATE_EMBEDS': {
+      return { ...nextState, embeds: payload };
+    }
     case 'SET_LOADING_STATE':
       return {
         ...nextState,

@@ -1,3 +1,6 @@
+import initialState from 'components/app/context/initialState';
+import embedsTransformer from 'transforms/embeds';
+
 /**
  * Performs an API request to get the current state.
  *
@@ -12,14 +15,25 @@ const getState = (id) => {
     method: 'POST',
     data: { id },
   })
-    .then((value) => (value.success
-      ? {
-        hasError: false,
-        data: value.state,
-      } : {
-        hasError: true,
-        message: __('Malformed response data.', 'oovvuu'),
-      }))
+    .then((value) => {
+      const { embeds, state, success } = value;
+
+      return success
+        ? {
+          hasError: false,
+          data: {
+            ...initialState,
+            ...state,
+            embeds: {
+              ...initialState.embeds,
+              ...embedsTransformer(embeds),
+            },
+          },
+        } : {
+          hasError: true,
+          message: __('Malformed response data.', 'oovvuu'),
+        };
+    })
     .catch((error) => {
       const { message } = error;
       // TODO: Perform error handling.
