@@ -56,16 +56,38 @@ const VideoCardWrapper = (props) => {
     }
   };
 
+  /**
+   * Creates a JSON object used for the drag and drop event.
+   *
+   * @return {object} Video data.
+   */
   const getDragAndDropData = () => JSON.stringify({ positionKey, index, videoId: id });
 
+  /**
+   * Ensure that the default behavior of the drop is ignored in favor of our custom
+   * solution.
+   *
+   * @param {Event} event The drop event.
+   */
   const allowDrop = (event) => {
     event.preventDefault();
   };
 
+  /**
+   * Handle the drag start event to get the relevant video data from the source
+   * video.
+   *
+   * @param {Event} event The drag start event.
+   */
   const handleDragStart = (event) => {
     event.dataTransfer.setData('text', getDragAndDropData());
   };
 
+  /**
+   * Handle the drag drop event on the destination video and perform the swap.
+   *
+   * @param {Event} event The drag drop event.
+   */
   const handleDrop = (event) => {
     event.preventDefault();
     const data = event.dataTransfer.getData('text');
