@@ -35,7 +35,7 @@
   grid-row-gap: rem(20);
   padding: 0 rem(16) rem(14) rem(16);
 
-  @media (min-width: 48rem) {
+  @media (min(lg)) {
     grid-gap: 0 rem(20);
     grid-template-columns: minmax(auto, rem(500)) 1fr;
     padding: 0 rem(28) rem(14) rem(16);
