@@ -15,6 +15,7 @@ const VideoCardWrapper = (props) => {
   const { i18n: { __ } } = wp;
   const {
     positionKey,
+    video,
     video: {
       collection: {
         provider: {
@@ -55,8 +56,44 @@ const VideoCardWrapper = (props) => {
     }
   };
 
+  const getDragAndDropData = () => JSON.stringify({ positionKey, videoId: video.id });
+
+  const handleDragStart = (event) => {
+    event.dataTransfer.setData('text', getDragAndDropData());
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const data = event.dataTransfer.getData('text');
+
+    // No data found.
+    if (!data) {
+      return;
+    }
+
+    // Invalid data.
+    const parsedData = JSON.parse(data);
+    if (!parsedData.positionKey || !parsedData.videoId) {
+      return;
+    }
+
+    // Perform the swap.
+    dispatch({
+      type: 'SWAP_VIDEOS',
+      payload: {
+        videoA: parsedData,
+        videoB: JSON.parse(getDragAndDropData()),
+      },
+    });
+  };
+
   return (
-    <div className={classNames(styles.wrapper, styles.addRemoveKeyword)}>
+    <div
+      className={classNames(styles.wrapper, styles.addRemoveKeyword)}
+      draggable
+      onDragStart={handleDragStart}
+      onDrop={handleDrop}
+    >
       <ActionButton
         buttonStyle="icon"
         className={styles.removeVideo}
