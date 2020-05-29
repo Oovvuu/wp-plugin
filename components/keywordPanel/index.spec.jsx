@@ -6,7 +6,7 @@ import KeywordPanelWrapper from './index';
 jest.spyOn(React, 'useContext')
   .mockImplementation(() => ({
     dispatch: jest.fn(),
-    state: { recommendedKeywords: [] },
+    state: { recommendedKeywords: [], selectedKeywords: [], userKeywords: [] },
   }));
 
 /**
