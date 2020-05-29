@@ -9,40 +9,28 @@
 const swapVideos = (state, payload) => {
   const newState = state;
 
-  // Get the video indexes based on their IDs.
-  const getVideoIndex = (videos, videoId) => {
-    let videoIndex = null;
-
-    videos.filter((value, index) => {
-      if (value.id === videoId.toString()) {
-        videoIndex = index;
-      }
-
-      return value;
-    });
-
-    return videoIndex;
-  };
-
-  const videoAIndex = getVideoIndex(
-    newState.selectedVideos[payload.videoA.positionKey],
-    payload.videoA.videoId,
-  );
-  const videoBIndex = getVideoIndex(
-    newState.selectedVideos[payload.videoB.positionKey],
-    payload.videoB.videoId,
-  );
+  // Bail if the videos are already swapped.
+  if (
+    (
+      newState.selectedVideos[payload.videoA.positionKey][payload.videoA.index].id
+      === payload.videoB.videoId
+    )
+    && (
+      newState.selectedVideos[payload.videoB.positionKey][payload.videoB.index].id
+      === payload.videoA.videoId
+    )
+  ) {
+    return newState;
+  }
 
   // Swap the videos.
-  if (videoAIndex !== null && videoBIndex !== null) {
-    [
-      newState.selectedVideos[payload.videoA.positionKey][videoAIndex],
-      newState.selectedVideos[payload.videoB.positionKey][videoBIndex],
-    ] = [
-      newState.selectedVideos[payload.videoB.positionKey][videoBIndex],
-      newState.selectedVideos[payload.videoA.positionKey][videoAIndex],
-    ];
-  }
+  [
+    newState.selectedVideos[payload.videoA.positionKey][payload.videoA.index],
+    newState.selectedVideos[payload.videoB.positionKey][payload.videoB.index],
+  ] = [
+    newState.selectedVideos[payload.videoB.positionKey][payload.videoB.index],
+    newState.selectedVideos[payload.videoA.positionKey][payload.videoA.index],
+  ];
 
   return { ...newState };
 };

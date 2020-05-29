@@ -15,6 +15,7 @@ const VideoCardWrapper = (props) => {
   const { i18n: { __ } } = wp;
   const {
     positionKey,
+    index,
     video: {
       collection: {
         provider: {
@@ -55,7 +56,7 @@ const VideoCardWrapper = (props) => {
     }
   };
 
-  const getDragAndDropData = () => JSON.stringify({ positionKey, videoId: id });
+  const getDragAndDropData = () => JSON.stringify({ positionKey, index, videoId: id });
 
   const allowDrop = (event) => {
     event.preventDefault();
@@ -122,6 +123,7 @@ const VideoCardWrapper = (props) => {
 
 VideoCardWrapper.propTypes = {
   positionKey: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
   video: PropTypes.shape({
     collection: PropTypes.shape({
       provider: PropTypes.shape({
