@@ -41,7 +41,7 @@
   padding: 0 rem(24);
 
   input {
-    border: none;
+    @include input-reset;
     height: rem(32);
     outline: none;
     text-align: center;
