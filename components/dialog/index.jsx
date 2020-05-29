@@ -30,7 +30,7 @@ const DialogWrapper = () => {
       body.classList.add('modal-open');
     }
 
-    if (!embeds.hero?.length && !embeds.positionTwo?.length) {
+    if (!embeds.hero && !embeds.positionTwo) {
       dispatch({ type: 'FETCH_KEYWORDS' });
     }
   };

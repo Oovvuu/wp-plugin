@@ -11,7 +11,7 @@ describe('DialogWrapper', () => {
       .mockImplementation(() => ({
         dispatch: dispatchFn,
         state: {
-          embeds: {},
+          embeds: { hero: null, positionTwo: null },
           recommendedKeywords: ['keyword'],
         },
       }));
@@ -30,7 +30,7 @@ describe('DialogWrapper', () => {
       .mockImplementation(() => ({
         dispatch: dispatchFn,
         state: {
-          embeds: { hero: ['embed'], positionTwo: ['embed'] },
+          embeds: { hero: 'exists', positionTwo: 'exists' },
           recommendedKeywords: ['keyword'],
         },
       }));
