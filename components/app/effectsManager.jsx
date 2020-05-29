@@ -13,6 +13,7 @@ import getPostAttribute from 'services/getPostAttribute';
  * @link https://github.com/reduxjs/redux-thunk
  */
 const EffectsManager = (props) => {
+  const { i18n: { __ } } = wp;
   const {
     actionType,
     children,
@@ -29,9 +30,16 @@ const EffectsManager = (props) => {
     const id = getPostAttribute('id');
     const title = getPostAttribute('title');
     const content = getPostAttribute('content');
+    dispatch({
+      type: 'SET_LOADING_STATE',
+      payload: {
+        message: __("Hang tight, we're fetching keywords", 'oovvuu'),
+      },
+    });
 
-    // TODO: Wrap with start and stop loading spinner.
     const response = await getKeywords(title, content, id);
+
+    dispatch({ type: 'CLEAR_LOADING_STATE' });
 
     if (!response.hasError) {
       const { keywords } = response.data;

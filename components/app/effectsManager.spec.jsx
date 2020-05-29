@@ -43,7 +43,7 @@ describe('EffectsManager', () => {
             .mockReturnValueOnce('content'),
         }),
       },
-      i18n: { __: jest.fn() },
+      i18n: { __: jest.fn(() => 'translated') },
     };
     const wrapper = shallow(
       <EffectsManager
@@ -55,8 +55,13 @@ describe('EffectsManager', () => {
     );
 
     wrapper.setProps({ actionType: 'FETCH_KEYWORDS' });
-    expect(apiFetchFn).toHaveBeenCalledTimes(1);
     return new Promise((resolve) => setImmediate(resolve)).then(() => {
+      expect(dispatchFn).toHaveBeenCalledWith({
+        type: 'SET_LOADING_STATE',
+        payload: { message: 'translated' },
+      });
+      expect(apiFetchFn).toHaveBeenCalledTimes(1);
+      expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_LOADING_STATE' });
       expect(dispatchFn).toHaveBeenCalledWith({
         payload: ['keyword'],
         type: 'UPDATE_RECOMMENDED_KEYWORDS',
