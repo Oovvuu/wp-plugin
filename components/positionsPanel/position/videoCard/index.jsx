@@ -58,6 +58,10 @@ const VideoCardWrapper = (props) => {
 
   const getDragAndDropData = () => JSON.stringify({ positionKey, videoId: video.id });
 
+  const allowDrop = (event) => {
+    event.preventDefault();
+  };
+
   const handleDragStart = (event) => {
     event.dataTransfer.setData('text', getDragAndDropData());
   };
@@ -89,9 +93,11 @@ const VideoCardWrapper = (props) => {
 
   return (
     <div
+      key={video.id}
       className={classNames(styles.wrapper, styles.addRemoveKeyword)}
       draggable
       onDragStart={handleDragStart}
+      onDragOver={allowDrop}
       onDrop={handleDrop}
     >
       <ActionButton
