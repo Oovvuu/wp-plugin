@@ -42,6 +42,19 @@
 }
 
 /**
+ * Sets box-sizing for a container and its children.
+ */
+@mixin container-box-sizing {
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+}
+
+/**
  * Remove browser default form element styles.
  */
 @mixin form-element-reset {
