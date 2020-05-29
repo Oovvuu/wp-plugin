@@ -78,7 +78,7 @@ const KeywordPanelWrapper = (props) => {
       });
     }
 
-    // Display panels.
+    // Component state change to display panels.
     onHandleDisplayPanels(true);
   };
 

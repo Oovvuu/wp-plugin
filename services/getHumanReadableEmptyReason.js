@@ -6,7 +6,7 @@
  */
 const getHumanReadableEmptyReason = (positionEmptyReason) => {
   const { i18n: { __ } } = wp;
-  let humanReadable = '';
+  let humanReadable = __('This position cannot be displayed.', 'oovvuu');
   const reasons = {
     NoRelevantVideos: __('No relevant videos were found for this position.', 'oovvuu'),
   };
