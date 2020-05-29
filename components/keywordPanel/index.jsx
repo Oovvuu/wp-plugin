@@ -80,7 +80,6 @@ const KeywordPanelWrapper = (props) => {
 
     // Display panels.
     onHandleDisplayPanels(true);
-    console.log(response);
   };
 
   return (
