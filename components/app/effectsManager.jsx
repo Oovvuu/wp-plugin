@@ -27,18 +27,15 @@ const EffectsManager = (props) => {
    */
   const fetchKeywords = async () => {
     const id = getPostAttribute('id');
+    const title = getPostAttribute('title');
+    const content = getPostAttribute('content');
 
-    if (id) {
-      const title = getPostAttribute('title');
-      const content = getPostAttribute('content');
+    // TODO: Wrap with start and stop loading spinner.
+    const response = await getKeywords(title, content, id);
 
-      // TODO: Wrap with start and stop loading spinner.
-      const response = await getKeywords(title, content, id);
-
-      if (!response.hasError) {
-        const { keywords } = response.data;
-        dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
-      }
+    if (!response.hasError) {
+      const { keywords } = response.data;
+      dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
     }
   };
 
