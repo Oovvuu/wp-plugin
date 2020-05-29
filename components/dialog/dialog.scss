@@ -60,6 +60,8 @@
 }
 
 .content {
+  display: grid;
+  grid-row-gap: rem(20);
   padding: rem(55) rem(32) rem(32) rem(32);
 }
 
