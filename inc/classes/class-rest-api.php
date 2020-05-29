@@ -225,7 +225,8 @@ class REST_API {
 		];
 
 		// Save the state to post meta.
-		update_post_meta( $request['id'], 'oovvuu_state', $request['state'] );
+		$state = array_merge( $request['state'], [ 'isLoadedFromMeta' => true ] );
+		update_post_meta($request['id'], 'oovvuu_state', $state );
 
 		// Create the embeds.
 		$embeds = [];
@@ -258,6 +259,7 @@ class REST_API {
 			[
 				'success' => true,
 				'embeds'  => $embeds,
+				'state' => $state,
 			]
 		);
 	}
