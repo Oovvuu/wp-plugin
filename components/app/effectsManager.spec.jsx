@@ -6,13 +6,24 @@ jest.spyOn(React, 'useEffect')
   .mockImplementation((effect) => effect());
 
 describe('EffectsManager', () => {
-  it('Fetches keywords on FETCH_KEYWORDS action', async () => {
-    const apiFetchFn = jest.fn(() => Promise.resolve({
+  let apiFetchFn;
+  let dispatchFn;
+
+  beforeEach(() => {
+    apiFetchFn = jest.fn(() => Promise.resolve({
       data: {
         analyseText: { wordings: ['keyword'] },
       },
     }));
-    const dispatchFn = jest.fn();
+    dispatchFn = jest.fn();
+  });
+
+  afterEach(() => {
+    apiFetchFn.mockClear();
+    dispatchFn.mockClear();
+  });
+
+  it('Fetches keywords on FETCH_KEYWORDS action', async () => {
     const mockState = {
       recommendedKeywords: [],
       recommendedVideos: {
@@ -25,7 +36,12 @@ describe('EffectsManager', () => {
     global.wp = {
       apiFetch: apiFetchFn,
       data: {
-        select: () => ({ getEditedPostAttribute: jest.fn() }),
+        select: () => ({
+          getEditedPostAttribute: jest.fn()
+            .mockReturnValueOnce(1)
+            .mockReturnValueOnce('title')
+            .mockReturnValueOnce('content'),
+        }),
       },
       i18n: { __: jest.fn() },
     };
