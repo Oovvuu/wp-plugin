@@ -13,11 +13,24 @@ const getState = (id) => {
     data: { id },
   })
     .then((value) => {
-      const { embeds, state, success } = value;
+      const { embeds: { hero, positionTwo }, state, success } = value;
+      // Unwraps buried data in embed for convenience in this app.
+      const exractEmbedDataFor = (embed) => {
+        const { id: embedId, snippet } = embed?.data?.createEmbed ?? {};
+
+        return embedId && snippet ? { id: embedId, snippet } : null;
+      };
+
       return success
         ? {
           hasError: false,
-          data: { ...state, embeds },
+          data: {
+            ...state,
+            embeds: {
+              hero: hero ? exractEmbedDataFor(hero) : null,
+              positionTwo: positionTwo ? exractEmbedDataFor(positionTwo) : null,
+            },
+          },
         } : {
           hasError: true,
           message: __('Malformed response data.', 'oovvuu'),
