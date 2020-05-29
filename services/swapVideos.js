@@ -10,24 +10,28 @@ const swapVideos = (state, payload) => {
   const newState = state;
 
   // Get the video indexes based on their IDs.
-  let videoAIndex = null;
-  let videoBIndex = null;
+  const getVideoIndex = (videos, videoId) => {
+    let videoIndex = null;
 
-  newState.selectedVideos[payload.videoA.positionKey].filter((value, index) => {
-    if (value.id === payload.videoA.videoId.toString()) {
-      videoAIndex = index;
-    }
+    videos.filter((value, index) => {
+      if (value.id === videoId.toString()) {
+        videoIndex = index;
+      }
 
-    return value;
-  });
+      return value;
+    });
 
-  newState.selectedVideos[payload.videoB.positionKey].filter((value, index) => {
-    if (value.id === payload.videoB.videoId.toString()) {
-      videoBIndex = index;
-    }
+    return videoIndex;
+  };
 
-    return value;
-  });
+  const videoAIndex = getVideoIndex(
+    newState.selectedVideos[payload.videoA.positionKey],
+    payload.videoA.videoId,
+  );
+  const videoBIndex = getVideoIndex(
+    newState.selectedVideos[payload.videoB.positionKey],
+    payload.videoB.videoId,
+  );
 
   // Swap the videos.
   if (videoAIndex !== null && videoBIndex !== null) {
@@ -40,7 +44,7 @@ const swapVideos = (state, payload) => {
     ];
   }
 
-  return newState;
+  return { ...newState };
 };
 
 export default swapVideos;

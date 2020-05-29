@@ -15,7 +15,6 @@ const VideoCardWrapper = (props) => {
   const { i18n: { __ } } = wp;
   const {
     positionKey,
-    video,
     video: {
       collection: {
         provider: {
@@ -56,7 +55,7 @@ const VideoCardWrapper = (props) => {
     }
   };
 
-  const getDragAndDropData = () => JSON.stringify({ positionKey, videoId: video.id });
+  const getDragAndDropData = () => JSON.stringify({ positionKey, videoId: id });
 
   const allowDrop = (event) => {
     event.preventDefault();
@@ -93,7 +92,7 @@ const VideoCardWrapper = (props) => {
 
   return (
     <div
-      key={video.id}
+      key={id}
       className={classNames(styles.wrapper, styles.addRemoveKeyword)}
       draggable
       onDragStart={handleDragStart}
