@@ -30,6 +30,7 @@ const initialState = {
   loadingAttributes: {
     message: '',
   },
+  isLoadedFromMeta: false,
 };
 
 export default initialState;
