@@ -15,7 +15,16 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
-  const { state, state: { isLoading }, dispatch } = React.useContext(oovvuuData);
+  const {
+    state,
+    state: {
+      selectedVideos,
+      isLoading,
+    },
+    dispatch,
+  } = React.useContext(oovvuuData);
+  // Set default panel display state.
+  const [displayPanels, setDisplayPanels] = React.useState(false);
 
   /**
    * Open the dialog.
@@ -81,6 +90,13 @@ const DialogWrapper = () => {
     }
   };
 
+  // Determine if the the panels should display. Accounts for saved videos and fetched videos.
+  // @todo This should also check whether or not state data was loaded from post meta.
+  React.useEffect(() => {
+    setDisplayPanels(selectedVideos.hero.length
+      || selectedVideos.positionTwo.length);
+  }, [selectedVideos]);
+
   return (
     <>
       <button
@@ -109,8 +125,12 @@ const DialogWrapper = () => {
             <>{__('Save and Close', 'oovvuu')}</>
           </ActionButton>
         </h2>
-        <KeywordPanel />
-        <PositionsPanelWrapper />
+        <KeywordPanel
+          onHandleDisplayPanels={setDisplayPanels}
+        />
+        <PositionsPanelWrapper
+          displayPanels={displayPanels}
+        />
       </Dialog>
     </>
   );
