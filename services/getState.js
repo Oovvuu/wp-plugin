@@ -1,3 +1,5 @@
+import initialState from 'components/app/context/initialState';
+
 /**
  * Performs an API request to get the current state.
  *
@@ -20,16 +22,19 @@ const getState = (id) => {
 
         return embedId && snippet ? { id: embedId, snippet } : null;
       };
+      const heroData = exractEmbedDataFor(hero);
+      const positionTwoData = exractEmbedDataFor(positionTwo);
+      const embedsData = heroData && positionTwoData
+        ? { hero: heroData, positionTwo: positionTwoData }
+        : null;
 
       return success
         ? {
           hasError: false,
           data: {
+            ...initialState,
             ...state,
-            embeds: {
-              hero: hero ? exractEmbedDataFor(hero) : null,
-              positionTwo: positionTwo ? exractEmbedDataFor(positionTwo) : null,
-            },
+            embeds: embedsData ? { ...embedsData } : { ...initialState.embeds },
           },
         } : {
           hasError: true,
