@@ -75,6 +75,7 @@ const DialogWrapper = () => {
   };
 
   // Determine if the the panels should display. Accounts for saved videos and fetched videos.
+  // @todo This should also check whether or not state data was loaded from post meta.
   React.useEffect(() => {
     setDisplayPanels(selectedVideos.hero.length
       || selectedVideos.positionTwo.length);

@@ -69,10 +69,11 @@ const KeywordPanelWrapper = (props) => {
        * Ensure that each position's state is consistent with the getVideos response.
        */
       getPositionKeys().forEach((positionKey) => {
-        // check empty reason here.
-        console.log(videos[`${positionKey}EmptyReason`]);
+        // Disable a position if the API sends back a positionEmptyReason.
         if (videos[`${positionKey}EmptyReason`] != null) {
-          dispatch({ payload: { position: positionKey }, type: 'TOGGLE_POSITION_ENABLED' });
+          dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
+        } else {
+          dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
         }
       });
     }
