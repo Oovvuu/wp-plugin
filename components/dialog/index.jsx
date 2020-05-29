@@ -71,6 +71,9 @@ const DialogWrapper = () => {
     const response = await saveState(state, getPostAttribute('id'));
 
     if (!response.hasError) {
+      const { data } = response;
+
+      dispatch({ type: 'UPDATE_EMBEDS', payload: data });
       // Close the Dialog.
       closeDialog(false);
     }
