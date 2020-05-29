@@ -6,7 +6,7 @@ import KeywordPanelWrapper from './index';
 jest.spyOn(React, 'useContext')
   .mockImplementation(() => ({
     dispatch: jest.fn(),
-    state: { recommendedKeywords: [] },
+    state: { recommendedKeywords: [], selectedKeywords: [], userKeywords: [] },
   }));
 
 /**
@@ -26,8 +26,9 @@ global.wp = {
 
 describe('KeywordPanelWrapper', () => {
   it('Renders KeywordSelector', () => {
+    const mockOnHandleDisplayPanels = jest.fn();
     const wrapper = shallow(
-      <KeywordPanelWrapper />,
+      <KeywordPanelWrapper onHandleDisplayPanels={mockOnHandleDisplayPanels} />,
     );
 
     expect(wrapper.find(KeywordSelector)).toHaveLength(1);
