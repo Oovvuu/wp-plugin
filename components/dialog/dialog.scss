@@ -63,14 +63,17 @@
   padding: rem(55) rem(32) rem(32) rem(32);
 }
 
+.titleWrapper {
+  display: grid;
+  grid-column-gap: rem(20);
+  grid-template-columns: 1fr minmax(rem(170), max-content);
+  margin-bottom: rem(40);
+}
+
 .postTitle {
   @include font-props(29, 32, medium);
   display: flex;
-  margin: 0 0 rem(40) 0; // Zeros out WP styles.
-
-  > span {
-    max-width: calc(100% - 400px);
-  }
+  margin: 0; // Zeros out WP styles.
 }
 
 .saveButton {
