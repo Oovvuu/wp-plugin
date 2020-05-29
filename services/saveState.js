@@ -5,6 +5,8 @@
  * @param   {int}    id    The post ID.
  * @returns {Promise}      Future object for API response data.
  */
+import transform from 'transforms/embeds';
+
 const saveState = (state, id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
@@ -13,14 +15,18 @@ const saveState = (state, id) => {
     method: 'POST',
     data: { state, id },
   })
-    .then((value) => (value.success
-      ? {
-        hasError: false,
-        data: value,
-      } : {
-        hasError: true,
-        message: __('Malformed response data.', 'oovvuu'),
-      }))
+    .then((value) => {
+      const { embeds, success } = value;
+
+      return success
+        ? {
+          hasError: false,
+          data: transform(embeds),
+        } : {
+          hasError: true,
+          message: __('Malformed response data.', 'oovvuu'),
+        };
+    })
     .catch((error) => {
       const { message } = error;
       // TODO: Perform error handling.

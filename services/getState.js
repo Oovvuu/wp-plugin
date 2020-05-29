@@ -1,4 +1,5 @@
 import initialState from 'components/app/context/initialState';
+import embedsTransformer from 'transforms/embeds';
 
 /**
  * Performs an API request to get the current state.
@@ -15,18 +16,7 @@ const getState = (id) => {
     data: { id },
   })
     .then((value) => {
-      const { embeds: { hero, positionTwo }, state, success } = value;
-      // Unwraps buried data in embed for convenience in this app.
-      const exractEmbedDataFor = (embed) => {
-        const { id: embedId, snippet } = embed?.data?.createEmbed ?? {};
-
-        return embedId && snippet ? { id: embedId, snippet } : null;
-      };
-      const heroData = exractEmbedDataFor(hero);
-      const positionTwoData = exractEmbedDataFor(positionTwo);
-      const embedsData = heroData && positionTwoData
-        ? { hero: heroData, positionTwo: positionTwoData }
-        : null;
+      const { embeds, state, success } = value;
 
       return success
         ? {
@@ -34,7 +24,10 @@ const getState = (id) => {
           data: {
             ...initialState,
             ...state,
-            embeds: embedsData ? { ...embedsData } : { ...initialState.embeds },
+            embeds: {
+              ...initialState.embeds,
+              ...embedsTransformer(embeds),
+            },
           },
         } : {
           hasError: true,
