@@ -71,6 +71,15 @@ function action_enqueue_block_editor_assets() {
 	);
 	inline_locale_data( 'oovvuu-app' );
 
+	wp_enqueue_script(
+		'oovvuu-embed-block-js',
+		get_versioned_asset_path( 'embedBlock.js' ),
+		[ 'wp-i18n', 'wp-blocks' ],
+		'1.0.0',
+		true
+	);
+	inline_locale_data( 'oovvuu-app' );
+
 	wp_enqueue_style(
 		'oovvuu-fonts-css',
 		get_versioned_asset_path( 'fonts.css' ),
