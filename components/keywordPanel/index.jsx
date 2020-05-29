@@ -55,6 +55,18 @@ const KeywordPanelWrapper = (props) => {
     dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
+  /**
+   * onClick handler for Clear Selection button to clear selected keywords.
+   */
+  const clearSelectedKeywords = () => {
+    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
+      __('Are you sure you want to clear your selected keywords?', 'oovvuu'),
+    );
+
+    if (confirmDialog === true) {
+      dispatch({ type: 'CLEAR_SELECTED_KEYWORDS' });
+    }
+  };
 
   /**
    * onClick handler for the "Fetch Videos" button. Calls the getVideos
@@ -112,12 +124,11 @@ const KeywordPanelWrapper = (props) => {
         )}
 
       <div className={styles.buttonWrapper}>
-        {selectedKeywords && selectedKeywords.length > 0
+        {(selectedKeywords.length > 0 || userKeywords.length > 0)
           && (
             <ActionButton
               buttonStyle="primary"
-              // TODO: Add actual clear functionality.
-              onClickHandler={() => {}}
+              onClickHandler={clearSelectedKeywords}
             >
               <CloseIcon />
               {__('Clear Selection', 'oovvuu')}
