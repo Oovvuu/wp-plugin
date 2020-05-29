@@ -8,10 +8,19 @@
 const saveState = (state, id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
+  // Override state properties we don't want to save to post meta.
+  const localState = {
+    ...state,
+    isLoading: false,
+    loadingAttributes: {
+      message: '',
+    },
+  };
+
   return apiFetch({
     path: '/oovvuu/v1/saveState/',
     method: 'POST',
-    data: { state, id },
+    data: { localState, id },
   })
     .then((value) => (value.success
       ? {

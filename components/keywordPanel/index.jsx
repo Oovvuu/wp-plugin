@@ -35,16 +35,24 @@ const KeywordPanelWrapper = (props) => {
    * @returns {Promise<void>} Future for response data or error object.
    */
   const handleFetchKeywords = async () => {
+    dispatch({
+      type: 'SET_LOADING_STATE',
+      payload: {
+        message: __("Hang tight, we're fetching keywords", 'oovvuu'),
+      },
+    });
+
     const title = getPostAttribute('title');
     const content = getPostAttribute('content');
 
-    // TODO: Wrap with start and stop loading spinner.
     const response = await getKeywords(title, content, id);
 
     if (!response.hasError) {
       const { keywords } = response.data;
       dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
-    }
+    } // @todo else, set error state.
+
+    dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
 
@@ -57,7 +65,13 @@ const KeywordPanelWrapper = (props) => {
    * @returns {Promise<void>} Future for response data or error object.
    */
   const handleFetchVideos = async () => {
-    // TODO: Wrap with start and stop loading spinner.
+    dispatch({
+      type: 'SET_LOADING_STATE',
+      payload: {
+        message: __('Fetching videos based on selected keywords', 'oovvuu'),
+      },
+    });
+
     const response = await getVideos([...selectedKeywords, ...userKeywords], id);
 
     if (!response.hasError) {
@@ -76,7 +90,9 @@ const KeywordPanelWrapper = (props) => {
           dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
         }
       });
-    }
+    } // @todo else, set error state.
+
+    dispatch({ type: 'CLEAR_LOADING_STATE' });
 
     // Component state change to display panels.
     onHandleDisplayPanels(true);

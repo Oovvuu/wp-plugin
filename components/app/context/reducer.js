@@ -60,6 +60,20 @@ const reducer = (state, action) => {
     case 'REMOVE_VIDEO': {
       return removeVideo(nextState, payload.position, payload.videoId);
     }
+    case 'SET_LOADING_STATE':
+      return {
+        ...nextState,
+        isLoading: true,
+        loadingAttributes: payload,
+      };
+    case 'CLEAR_LOADING_STATE': {
+      return {
+        ...nextState,
+        isLoading: false,
+        loadingAttributes: { message: '' },
+      };
+    }
+
     default:
       return nextState;
   }

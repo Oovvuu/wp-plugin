@@ -15,7 +15,14 @@ import styles from './dialog.scss';
 const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
-  const { state, state: { selectedVideos } } = React.useContext(oovvuuData);
+  const {
+    state,
+    state: {
+      selectedVideos,
+      isLoading,
+    },
+    dispatch,
+  } = React.useContext(oovvuuData);
   // Set default panel display state.
   const [displayPanels, setDisplayPanels] = React.useState(false);
 
@@ -46,11 +53,13 @@ const DialogWrapper = () => {
       if (body && body.classList.contains('modal-open')) {
         body.classList.remove('modal-open');
       }
+
+      dispatch({ type: 'CLEAR_LOADING_STATE' });
     };
 
     // Prompt the user with a confirm message if they are closing without saving.
     if (prompt) {
-      const confirmDialog = confirm( // eslint-disable-line no-restricted-globals
+      const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
         __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu'),
       );
 
@@ -66,6 +75,13 @@ const DialogWrapper = () => {
    * Handles the save action when a user clicks the save button.
    */
   const handleSave = async () => {
+    dispatch({
+      type: 'SET_LOADING_STATE',
+      payload: {
+        message: __("Hang tight, we're saving your settings", 'oovvuu'),
+      },
+    });
+
     const response = await saveState(state, getPostAttribute('id'));
 
     if (!response.hasError) {
@@ -95,6 +111,7 @@ const DialogWrapper = () => {
       </button>
       <Dialog
         isOpen={isOpen}
+        isLoading={isLoading}
         closeDialog={() => { closeDialog(true); }}
       >
         <h2 className={styles.postTitle}>
