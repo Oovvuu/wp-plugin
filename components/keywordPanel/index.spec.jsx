@@ -20,7 +20,7 @@ describe('KeywordPanelWrapper', () => {
     jest.spyOn(React, 'useContext')
       .mockImplementation(() => ({
         dispatch: dispatchFn,
-        state: { recommendedKeywords: [] },
+        state: { recommendedKeywords: [], selectedKeywords: [], userKeywords: [] },
       }));
   });
 
@@ -60,12 +60,6 @@ describe('KeywordPanelWrapper', () => {
         },
         i18n: { __: jest.fn() },
       };
-
-      jest.spyOn(React, 'useContext')
-        .mockImplementation(() => ({
-          dispatch: dispatchFn,
-          state: { recommendedKeywords: [] },
-        }));
     });
 
     it('Dispatches FETCH_KEYWORDS action when button is clicked', () => {
