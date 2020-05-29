@@ -46,6 +46,9 @@ const reducer = (state, action) => {
     case 'REMOVE_VIDEO': {
       return removeVideo(nextState, payload.position, payload.videoId);
     }
+    case 'UPDATE_EMBEDS': {
+      return { ...nextState, embeds: payload };
+    }
     default:
       return nextState;
   }
