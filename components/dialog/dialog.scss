@@ -80,8 +80,10 @@
 }
 
 .postTitle {
-  @include font-props(29, 32, medium);
   display: flex;
+  font-size: clamp(rem(24), 3.5vw, rem(32));
+  font-weight: $weight-medium;
+  line-height: (32/29);
   margin: 0; // Zeros out WP styles.
 }
 
