@@ -93,7 +93,12 @@ const DialogWrapper = () => {
     if (!response.hasError) {
       const { data } = response;
 
-      dispatch({ type: 'UPDATE_EMBEDS', payload: data });
+      /**
+       * saveState() returns updated state, with flag that data has been loaded
+       *   from meta. This needs to be sync'd back to state.
+       */
+      dispatch({ type: 'RESET_STATE', payload: data });
+
       // Close the Dialog.
       closeDialog(false);
     }
