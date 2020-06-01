@@ -19,7 +19,7 @@ addModalDivEl(portalId);
  *   of keywords and videos recommendations from the Oovvuu API.
  */
 const App = () => {
-  const { editProfileLink } = window.appUserData ?? '';
+  const { editProfileLink } = window.oovvuuAppUserData ?? '';
   const { i18n: { __ } } = wp;
   const { dispatch, state } = React.useContext(OovvuuDataContext);
   const { lastActionType: actionType, isUserAuthenticated } = state;

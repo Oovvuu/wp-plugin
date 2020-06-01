@@ -79,7 +79,7 @@ function action_enqueue_block_editor_assets() {
 	);
 
 	// Send edit profile link to JS.
-	wp_localize_script( 'oovvuu-app-js', 'appUserData', [
+	wp_localize_script( 'oovvuu-app-js', 'oovvuuAppUserData', [
 		'editProfileLink' => get_edit_user_link(),
 	] );
 }
