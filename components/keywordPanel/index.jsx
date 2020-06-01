@@ -108,7 +108,7 @@ const KeywordPanelWrapper = (props) => {
 
   return (
     <div className={classnames(styles.panel, theme.panel)}>
-      <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
+      <h3 className={styles.panelHeading}>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector />
 
       {recommendedKeywords.length > 0
