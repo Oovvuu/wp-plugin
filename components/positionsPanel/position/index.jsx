@@ -49,9 +49,10 @@ const PositionWrapper = (props) => {
                   <PlayerWrapper videos={videos} />
                 </div>
                 <div className={styles.cardsWrapper}>
-                  {videos.map((video) => (
+                  {videos.map((video, index) => (
                     <VideoCardWrapper
                       key={video.id}
+                      index={index}
                       positionKey={positionKey}
                       video={video}
                     />

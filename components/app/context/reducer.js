@@ -1,4 +1,5 @@
 import removeVideo from 'services/removeVideo';
+import swapVideos from 'services/swapVideos';
 
 /**
  * Reducer function passed with initialState to a useReducer hook to create
@@ -61,6 +62,9 @@ const reducer = (state, action) => {
       return nextState;
     case 'REMOVE_VIDEO': {
       return removeVideo(nextState, payload.position, payload.videoId);
+    }
+    case 'SWAP_VIDEOS': {
+      return swapVideos(nextState, payload);
     }
     case 'UPDATE_EMBEDS': {
       return { ...nextState, embeds: payload };
