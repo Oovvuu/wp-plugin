@@ -21,6 +21,7 @@ const saveState = (state, id) => {
         const filter = [
           'embeds',
           'isLoading',
+          'isUserAuthenticated',
           'lastActionType',
           'loadingAttributes',
         ];
