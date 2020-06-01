@@ -290,7 +290,7 @@ class REST_API {
 
 		return rest_ensure_response(
 			[
-				'success' => false !== $state,
+				'success' => ! empty( $state ),
 				'state'   => $state,
 				'embeds'   => ! empty( $embeds ) ? (object) $embeds : (object) [],
 			]
