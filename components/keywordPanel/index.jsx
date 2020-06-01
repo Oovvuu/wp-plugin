@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
-import getKeywords from 'services/getKeywords';
-import getPositionKeys from 'services/getPositionKeys';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
+import getPositionKeys from 'services/getPositionKeys';
 import theme from 'shared/theme.scss';
 import SearchIcon from 'assets/search.svg';
 import CloseIcon from 'assets/close.svg';
@@ -27,34 +26,17 @@ const KeywordPanelWrapper = (props) => {
   const id = getPostAttribute('id');
 
   /**
-   * onClick handler for the "Get new Keywords" button. Calls the getKeywords
-   *   service with details on the current post. On successful response,
-   *   dispatches an update to application state to set the recommendedKeywords
-   *   from the Oovvuu API.
-   *
-   * @returns {Promise<void>} Future for response data or error object.
+   * onClick handler for Clear Selection button to clear selected keywords.
    */
-  const handleFetchKeywords = async () => {
-    dispatch({
-      type: 'SET_LOADING_STATE',
-      payload: {
-        message: __("Hang tight, we're fetching keywords", 'oovvuu'),
-      },
-    });
+  const clearSelectedKeywords = () => {
+    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
+      __('Are you sure you want to clear your selected keywords?', 'oovvuu'),
+    );
 
-    const title = getPostAttribute('title');
-    const content = getPostAttribute('content');
-
-    const response = await getKeywords(title, content, id);
-
-    if (!response.hasError) {
-      const { keywords } = response.data;
-      dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
-    } // @todo else, set error state.
-
-    dispatch({ type: 'CLEAR_LOADING_STATE' });
+    if (confirmDialog === true) {
+      dispatch({ type: 'CLEAR_SELECTED_KEYWORDS' });
+    }
   };
-
 
   /**
    * onClick handler for the "Fetch Videos" button. Calls the getVideos
@@ -92,15 +74,13 @@ const KeywordPanelWrapper = (props) => {
       });
     } // @todo else, set error state.
 
-    dispatch({ type: 'CLEAR_LOADING_STATE' });
-
     // Component state change to display panels.
     onHandleDisplayPanels(true);
   };
 
   return (
     <div className={classnames(styles.panel, theme.panel)}>
-      <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
+      <h3 className={styles.panelHeading}>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector />
 
       {recommendedKeywords.length > 0
@@ -112,12 +92,12 @@ const KeywordPanelWrapper = (props) => {
         )}
 
       <div className={styles.buttonWrapper}>
-        {selectedKeywords && selectedKeywords.length > 0
+        {(selectedKeywords.length > 0 || userKeywords.length > 0)
           && (
             <ActionButton
               buttonStyle="primary"
-              // TODO: Add actual clear functionality.
-              onClickHandler={() => {}}
+              onClickHandler={clearSelectedKeywords}
+              className={styles.clearSelection}
             >
               <CloseIcon />
               {__('Clear Selection', 'oovvuu')}
@@ -128,7 +108,8 @@ const KeywordPanelWrapper = (props) => {
           && (
             <ActionButton
               buttonStyle="primary"
-              onClickHandler={handleFetchKeywords}
+              className={styles.getKeywords}
+              onClickHandler={() => dispatch({ type: 'FETCH_KEYWORDS' })}
             >
               <>{__('Get Keywords', 'oovvuu')}</>
             </ActionButton>
@@ -138,6 +119,7 @@ const KeywordPanelWrapper = (props) => {
           buttonStyle="primary"
           onClickHandler={handleFetchVideos}
           disabled={!recommendedKeywords.length}
+          className={styles.getVideos}
         >
           <SearchIcon />
           {__('Recommend Videos', 'oovvuu')}

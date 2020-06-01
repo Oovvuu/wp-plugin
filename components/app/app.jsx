@@ -25,7 +25,8 @@ const App = () => {
   const { lastActionType: actionType, isUserAuthenticated } = state;
 
   /**
-   * Load state from post meta and update the current state.
+   * Load state from post meta and update the current state. Note: This fires
+   * on page load for both the add and edit post views and before the dialog is opened.
    *
    * @return {Promise}
    */

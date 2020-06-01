@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import getKeywords from 'services/getKeywords';
+import getPostAttribute from 'services/getPostAttribute';
 
 /**
  * Container component to manage side effects related to dispatched context actions. Discrete
@@ -11,9 +13,40 @@ import PropTypes from 'prop-types';
  * @link https://github.com/reduxjs/redux-thunk
  */
 const EffectsManager = (props) => {
+  const { i18n: { __ } } = wp;
   const {
-    actionType, children, dispatch, state,
+    actionType,
+    children,
+    dispatch,
+    state: { recommendedVideos },
   } = props;
+
+  /**
+   * Calls the getKeywords service with details on the current post. On successful response,
+   *   dispatches an update to application state to set the recommendedKeywords
+   *   from the Oovvuu API.
+   */
+  const fetchKeywords = async () => {
+    const id = getPostAttribute('id');
+    const title = getPostAttribute('title');
+    const content = getPostAttribute('content');
+    dispatch({
+      type: 'SET_LOADING_STATE',
+      payload: {
+        message: __("Hang tight, we're fetching keywords", 'oovvuu'),
+      },
+    });
+
+    const response = await getKeywords(title, content, id);
+
+    dispatch({ type: 'CLEAR_LOADING_STATE' });
+
+    if (!response.hasError) {
+      const { keywords } = response.data;
+      dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
+    }
+  };
+
 
   /**
    * For a new batch of recommendedVideos, reset selectedVideos on all positions.
@@ -23,7 +56,7 @@ const EffectsManager = (props) => {
   const syncSelectedToRecommendedVideos = () => {
     const {
       hero, heroSecondary, positionTwo, positionTwoSecondary,
-    } = state.recommendedVideos;
+    } = recommendedVideos;
     dispatch({
       payload: {
         hero: hero.map((video) => ({ ...video, position: 'hero' })),
@@ -39,8 +72,22 @@ const EffectsManager = (props) => {
    * Listens for action types that require additional state updates.
    */
   React.useEffect(() => {
+    if (actionType === 'FETCH_KEYWORDS') {
+      fetchKeywords();
+    }
+
     if (actionType === 'UPDATE_RECOMMENDED_VIDEOS') {
       syncSelectedToRecommendedVideos();
+    }
+
+    // Actions for which the loading state should be cleared.
+    const loadingActions = [
+      'UPDATE_RECOMMENDED_KEYWORDS',
+      'UPDATE_RECOMMENDED_VIDEOS',
+    ];
+
+    if (loadingActions.includes(actionType)) {
+      dispatch({ type: 'CLEAR_LOADING_STATE' });
     }
   }, [actionType]);
 
@@ -57,6 +104,7 @@ EffectsManager.propTypes = {
   ]).isRequired,
   dispatch: PropTypes.func.isRequired,
   state: PropTypes.shape({
+    recommendedKeywords: PropTypes.arrayOf(PropTypes.string),
     recommendedVideos: PropTypes.shape({
       hero: PropTypes.arrayOf(PropTypes.object).isRequired,
       heroSecondary: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -33,6 +33,7 @@ describe('KeywordSelector', () => {
 
   describe('Builds and updates items correctly', () => {
     let dispatchFn;
+    const keyword = 'keyword';
     let wrapper;
     let listComponent;
     let items;
@@ -43,7 +44,7 @@ describe('KeywordSelector', () => {
       jest.spyOn(React, 'useContext')
         .mockImplementation(() => ({
           dispatch: dispatchFn,
-          state: { recommendedKeywords: ['keyword'] },
+          state: { recommendedKeywords: [keyword], selectedKeywords: [keyword] },
         }));
       jest.spyOn(React, 'useEffect')
         .mockImplementationOnce((effect) => effect());
@@ -53,21 +54,21 @@ describe('KeywordSelector', () => {
       // Find and select keyword item.
       listComponent = wrapper.find(GeneratedList);
       items = listComponent.prop('keywordItems');
-      const [firstKey] = Object.keys(items);
-      firstItem = items[firstKey];
+      firstItem = items[keyword];
     });
 
     afterEach(() => {
       jest.clearAllMocks();
     });
 
-    it.skip('Updates deselected items from the GeneratedList correctly', () => {
-      listComponent.prop('onUpdate')(firstItem);
+    it('Updates deselected items from the GeneratedList correctly', () => {
+      const deselected = { ...firstItem, isSelected: false };
+      listComponent.prop('onUpdate')(deselected);
 
       expect(dispatchFn).toHaveBeenCalledWith({ payload: [], type: 'UPDATE_SELECTED_KEYWORDS' });
     });
 
-    it.skip('Updates selected items from the GeneratedList correctly', () => {
+    it('Updates selected items from the GeneratedList correctly', () => {
       firstItem.isSelected = true;
       listComponent.prop('onUpdate')(firstItem);
 

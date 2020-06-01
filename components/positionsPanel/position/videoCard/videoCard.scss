@@ -3,11 +3,19 @@
   display: grid;
   grid-gap: rem(10) rem(20);
   grid-template-areas:
-    'logo title'
-    'logo meta'
-    'logo description';
+    'logo logo'
+    'title title'
+    'meta meta'
+    'description description';
   padding: rem(10) rem(26) rem(10) rem(10);
   position: relative;
+
+  @media (min(lg)) {
+    grid-template-areas:
+      'logo title'
+      'logo meta'
+      'logo description';
+  }
 }
 
 .logo {
@@ -28,8 +36,17 @@
 }
 
 .meta {
-  align-items: center;
-  display: flex;
+  display: grid;
+  grid-area: meta;
+  grid-gap: rem(10);
+
+  @media (min(450)) {
+    grid-template: auto / repeat(2, 1fr);
+  }
+
+  @media (min(500)) {
+    grid-template: none / repeat(3, max-content);
+  }
 }
 
 .description {

@@ -1,4 +1,5 @@
 import removeVideo from 'services/removeVideo';
+import swapVideos from 'services/swapVideos';
 
 /**
  * Reducer function passed with initialState to a useReducer hook to create
@@ -30,6 +31,8 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_KEYWORDS':
       nextState.selectedKeywords = payload;
       return nextState;
+    case 'CLEAR_SELECTED_KEYWORDS':
+      return { ...nextState, selectedKeywords: [], userKeywords: [] };
     case 'UPDATE_USER_KEYWORDS':
       nextState.userKeywords = payload;
       return nextState;
@@ -59,6 +62,12 @@ const reducer = (state, action) => {
       return nextState;
     case 'REMOVE_VIDEO': {
       return removeVideo(nextState, payload.position, payload.videoId);
+    }
+    case 'SWAP_VIDEOS': {
+      return swapVideos(nextState, payload);
+    }
+    case 'UPDATE_EMBEDS': {
+      return { ...nextState, embeds: payload };
     }
     case 'SET_LOADING_STATE':
       return {

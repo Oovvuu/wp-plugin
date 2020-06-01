@@ -25,6 +25,7 @@
 .button {
   composes: buttonAction;
   height: rem(36);
+  width: fit-content;
 
   svg {
     margin-right: rem(8);

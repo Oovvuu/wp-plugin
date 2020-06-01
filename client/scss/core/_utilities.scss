@@ -64,6 +64,7 @@
   box-sizing: border-box;
   font: inherit;
   margin: 0;
+  padding: 0;
 }
 
 /**
@@ -94,7 +95,6 @@
 @mixin button-reset {
   @include form-element-reset;
   background-color: transparent;
-  padding: 0;
 }
 
 /**

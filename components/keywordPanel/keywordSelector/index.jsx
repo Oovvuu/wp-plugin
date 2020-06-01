@@ -85,14 +85,23 @@ const KeywordSelector = () => {
     }
   }, [recommendedKeywords]);
 
+  /**
+   * Deselect keywords when state.selectedKeywords is cleared.
+   */
+  React.useEffect(() => {
+    if (selectedKeywords.length === 0) {
+      compileAllKeywordItems([]);
+    }
+  }, [selectedKeywords]);
+
   return (
     <div className={styles.selector}>
-      <h4>{__('Select all relevant keywords', 'oovvuu')}</h4>
+      <h4 className={styles.keywordsHeading}>{__('Select all relevant keywords', 'oovvuu')}</h4>
       <KeywordList
         keywordItems={keywordItems}
         onUpdate={handleItemUpdated}
       />
-      <h4>{__('Add additional keywords here', 'oovvuu')}</h4>
+      <h4 className={styles.keywordsHeading}>{__('Add additional keywords here', 'oovvuu')}</h4>
       <UserKeywordList />
     </div>
   );

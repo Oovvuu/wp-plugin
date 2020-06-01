@@ -18,6 +18,7 @@ const DialogWrapper = () => {
   const {
     state,
     state: {
+      isLoadedFromMeta,
       selectedVideos,
       isLoading,
     },
@@ -27,7 +28,7 @@ const DialogWrapper = () => {
   const [displayPanels, setDisplayPanels] = React.useState(false);
 
   /**
-   * Open the dialog.
+   * Open the dialog. If no embeds exist, dispatch FETCH_KEYWORDS action to trigger effect.
    */
   const openDialog = () => {
     setIsOpen(true);
@@ -37,6 +38,10 @@ const DialogWrapper = () => {
 
     if (body && !body.classList.contains('modal-open')) {
       body.classList.add('modal-open');
+    }
+
+    if (!isLoadedFromMeta) {
+      dispatch({ type: 'FETCH_KEYWORDS' });
     }
   };
 
@@ -82,9 +87,18 @@ const DialogWrapper = () => {
       },
     });
 
+    // Note: Loading state is cleared within the `saveState` service.
     const response = await saveState(state, getPostAttribute('id'));
 
     if (!response.hasError) {
+      const { data } = response;
+
+      /**
+       * saveState() returns updated state, with flag that data has been loaded
+       *   from meta. This needs to be sync'd back to state.
+       */
+      dispatch({ type: 'RESET_STATE', payload: data });
+
       // Close the Dialog.
       closeDialog(false);
     }
@@ -114,8 +128,11 @@ const DialogWrapper = () => {
         isLoading={isLoading}
         closeDialog={() => { closeDialog(true); }}
       >
-        <h2 className={styles.postTitle}>
-          <span>{getPostAttribute('title')}</span>
+        <header className={styles.titleWrapper}>
+          <h2 className={styles.postTitle}>
+            {getPostAttribute('title')}
+          </h2>
+
           <ActionButton
             className={styles.saveButton}
             buttonStyle="primary"
@@ -124,7 +141,7 @@ const DialogWrapper = () => {
             <SaveSVG />
             <>{__('Save and Close', 'oovvuu')}</>
           </ActionButton>
-        </h2>
+        </header>
         <KeywordPanel
           onHandleDisplayPanels={setDisplayPanels}
         />
