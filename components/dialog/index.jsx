@@ -6,6 +6,7 @@ import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
 import oovvuuData from 'components/app/context';
 import SaveSVG from 'assets/save.svg';
+import insertEmbed from 'services/insertEmbed';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 
@@ -94,6 +95,13 @@ const DialogWrapper = () => {
       const { data } = response;
 
       dispatch({ type: 'UPDATE_EMBEDS', payload: data });
+
+      const positionTwoEmbedId = data?.positionTwo?.id || null;
+
+      if (positionTwoEmbedId) {
+        insertEmbed(positionTwoEmbedId);
+      }
+
       // Close the Dialog.
       closeDialog(false);
     }
