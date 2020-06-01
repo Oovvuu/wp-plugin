@@ -23,6 +23,7 @@ const App = () => {
   const { i18n: { __ } } = wp;
   const { dispatch, state } = React.useContext(OovvuuDataContext);
   const { lastActionType: actionType, isUserAuthenticated } = state;
+  const [isLoadingAuth, setIsLoadingAuth] = React.useState(false);
 
   /**
    * Load state from post meta and update the current state. Note: This fires
@@ -48,7 +49,9 @@ const App = () => {
    * @return {Promise}
    */
   const getUserAuthentication = async () => {
+    setIsLoadingAuth(true);
     const isAuthenticated = await userAuthenticated();
+    setIsLoadingAuth(false);
 
     // Reset the state based on the state that was saved to post meta.
     if (!isAuthenticated.hasError && isAuthenticated.data === true) {
@@ -59,7 +62,9 @@ const App = () => {
     }
   };
 
-  // App elements to show when user is authenticated.
+  /**
+   * App elements to show when user is authenticated.
+   */
   const authenticatedApp = (
     <>
       <p>{ __('This is where you will launch the Oovvuu modal.', 'oovvuu') }</p>
@@ -67,13 +72,30 @@ const App = () => {
     </>
   );
 
-  // App elements to show when user is not authenticated.
+  /**
+   * App elements to show when user is not authenticated.
+   */
   const unauthenticatedApp = (
     <>
       <p>{ __('You must be authenticated to use this service.', 'oovvuu') }</p>
       <a href={editProfileLink}>{__('Please authenticate from your user profile page.', 'oovvuu')}</a>
     </>
   );
+
+  /**
+   * Initial "loading state" of the application.
+   * Shows before authentication has run.
+   */
+  const initialLoadingApp = (
+    <>
+      <p>{ __('Loading app data...', 'oovvuu') }</p>
+    </>
+  );
+
+  /**
+   * Shows the loaded app state after user auth has run.
+   */
+  const loadedApp = isUserAuthenticated ? authenticatedApp : unauthenticatedApp;
 
   /**
    * Populate the state from post meta if any previous state was saved.
@@ -84,7 +106,7 @@ const App = () => {
 
   return (
     <EffectsManager actionType={actionType} dispatch={dispatch} state={state}>
-      {isUserAuthenticated ? authenticatedApp : unauthenticatedApp}
+      { isLoadingAuth ? initialLoadingApp : loadedApp}
     </EffectsManager>
   );
 };
