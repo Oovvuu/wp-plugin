@@ -14,7 +14,7 @@ registerBlockType(
       'oovvuu-app',
     ),
     edit: EmbedEdit,
-    icon: 'editor-insertmore',
+    icon: 'video-alt2',
     keywords: [
       __('oovvuu', 'oovvuu-app'),
     ],
