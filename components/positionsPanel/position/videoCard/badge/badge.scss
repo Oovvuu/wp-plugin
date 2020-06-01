@@ -10,15 +10,19 @@
   line-height: 1;
   min-width: rem(58);
   padding: 0 rem(10);
-
-  &:not(:last-of-type) {
-    margin-right: rem(10);
-  }
 }
 
 .embed {
-  background-color: #b0c738;
+  background-color: #B0C738;
   color: white;
+
+  @media (min(450)) {
+    grid-column: 1 / span 2;
+  }
+
+  @media (min(500)) {
+    grid-column: auto;
+  }
 
   svg {
     margin-right: rem(6);
