@@ -1,4 +1,5 @@
 import removeVideo from 'services/removeVideo';
+import swapVideos from 'services/swapVideos';
 
 /**
  * Reducer function passed with initialState to a useReducer hook to create
@@ -30,11 +31,27 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_KEYWORDS':
       nextState.selectedKeywords = payload;
       return nextState;
+    case 'CLEAR_SELECTED_KEYWORDS':
+      return { ...nextState, selectedKeywords: [], userKeywords: [] };
     case 'UPDATE_USER_KEYWORDS':
       nextState.userKeywords = payload;
       return nextState;
     case 'UPDATE_SELECTED_VIDEOS':
       nextState.selectedVideos = payload;
+      return nextState;
+    case 'DISABLE_POSITION':
+      if (payload.position === 'hero') {
+        nextState.isHeroEnabled = false;
+      } else if (payload.position === 'positionTwo') {
+        nextState.isPositionTwoEnabled = false;
+      }
+      return nextState;
+    case 'ENABLE_POSITION':
+      if (payload.position === 'hero') {
+        nextState.isHeroEnabled = true;
+      } else if (payload.position === 'positionTwo') {
+        nextState.isPositionTwoEnabled = true;
+      }
       return nextState;
     case 'TOGGLE_POSITION_ENABLED':
       if (payload.position === 'hero') {
@@ -45,6 +62,25 @@ const reducer = (state, action) => {
       return nextState;
     case 'REMOVE_VIDEO': {
       return removeVideo(nextState, payload.position, payload.videoId);
+    }
+    case 'SWAP_VIDEOS': {
+      return swapVideos(nextState, payload);
+    }
+    case 'UPDATE_EMBEDS': {
+      return { ...nextState, embeds: payload };
+    }
+    case 'SET_LOADING_STATE':
+      return {
+        ...nextState,
+        isLoading: true,
+        loadingAttributes: payload,
+      };
+    case 'CLEAR_LOADING_STATE': {
+      return {
+        ...nextState,
+        isLoading: false,
+        loadingAttributes: { message: '' },
+      };
     }
     default:
       return nextState;

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
-import getKeywords from 'services/getKeywords';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
+import getPositionKeys from 'services/getPositionKeys';
 import theme from 'shared/theme.scss';
 import SearchIcon from 'assets/search.svg';
 import CloseIcon from 'assets/close.svg';
@@ -15,7 +16,8 @@ import styles from './keywordPanel.scss';
  * Wrapper component for the keyword selector panel. Includes generated
  *   and user-supplied keywords.
  */
-const KeywordPanelWrapper = () => {
+const KeywordPanelWrapper = (props) => {
+  const { onHandleDisplayPanels } = props;
   const { i18n: { __ } } = wp;
   const {
     dispatch,
@@ -24,26 +26,17 @@ const KeywordPanelWrapper = () => {
   const id = getPostAttribute('id');
 
   /**
-   * onClick handler for the "Get new Keywords" button. Calls the getKeywords
-   *   service with details on the current post. On successful response,
-   *   dispatches an update to application state to set the recommendedKeywords
-   *   from the Oovvuu API.
-   *
-   * @returns {Promise<void>} Future for response data or error object.
+   * onClick handler for Clear Selection button to clear selected keywords.
    */
-  const handleFetchKeywords = async () => {
-    const title = getPostAttribute('title');
-    const content = getPostAttribute('content');
+  const clearSelectedKeywords = () => {
+    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
+      __('Are you sure you want to clear your selected keywords?', 'oovvuu'),
+    );
 
-    // TODO: Wrap with start and stop loading spinner.
-    const response = await getKeywords(title, content, id);
-
-    if (!response.hasError) {
-      const { keywords } = response.data;
-      dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
+    if (confirmDialog === true) {
+      dispatch({ type: 'CLEAR_SELECTED_KEYWORDS' });
     }
   };
-
 
   /**
    * onClick handler for the "Fetch Videos" button. Calls the getVideos
@@ -54,13 +47,35 @@ const KeywordPanelWrapper = () => {
    * @returns {Promise<void>} Future for response data or error object.
    */
   const handleFetchVideos = async () => {
-    // TODO: Wrap with start and stop loading spinner.
+    dispatch({
+      type: 'SET_LOADING_STATE',
+      payload: {
+        message: __('Fetching videos based on selected keywords', 'oovvuu'),
+      },
+    });
+
     const response = await getVideos([...selectedKeywords, ...userKeywords], id);
 
     if (!response.hasError) {
       const { videos } = response.data;
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
-    }
+
+      /*
+       * Each position is enabled by default, but the API may disable a position.
+       * Ensure that each position's state is consistent with the getVideos response.
+       */
+      getPositionKeys().forEach((positionKey) => {
+        // Disable a position if the API sends back a positionEmptyReason.
+        if (videos[`${positionKey}EmptyReason`] != null) {
+          dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
+        } else {
+          dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
+        }
+      });
+    } // @todo else, set error state.
+
+    // Component state change to display panels.
+    onHandleDisplayPanels(true);
   };
 
   return (
@@ -77,12 +92,11 @@ const KeywordPanelWrapper = () => {
         )}
 
       <div className={styles.buttonWrapper}>
-        {selectedKeywords && selectedKeywords.length > 0
+        {(selectedKeywords.length > 0 || userKeywords.length > 0)
           && (
             <ActionButton
               buttonStyle="primary"
-              // TODO: Add actual clear functionality.
-              onClickHandler={() => {}}
+              onClickHandler={clearSelectedKeywords}
             >
               <CloseIcon />
               {__('Clear Selection', 'oovvuu')}
@@ -93,7 +107,7 @@ const KeywordPanelWrapper = () => {
           && (
             <ActionButton
               buttonStyle="primary"
-              onClickHandler={handleFetchKeywords}
+              onClickHandler={() => dispatch({ type: 'FETCH_KEYWORDS' })}
             >
               <>{__('Get Keywords', 'oovvuu')}</>
             </ActionButton>
@@ -110,6 +124,10 @@ const KeywordPanelWrapper = () => {
       </div>
     </div>
   );
+};
+
+KeywordPanelWrapper.propTypes = {
+  onHandleDisplayPanels: PropTypes.func.isRequired,
 };
 
 export default KeywordPanelWrapper;
