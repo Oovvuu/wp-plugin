@@ -46,6 +46,18 @@ class REST_API {
 	 * @since 1.0.0
 	 */
 	public function add_routes() {
+		// User Authentication.
+		register_rest_route(
+			$this->namespace,
+			'/userAuthenticated',
+			[
+				'methods'             => \WP_REST_Server::READABLE,
+				// Authentication logic happening in permission callback, so this can return true if callback is needed.
+				'callback'            => '__return_true',
+				'permission_callback' => [ $this, 'permission_callback' ],
+			]
+		);
+
 		// Keywords.
 		register_rest_route(
 			$this->namespace,
