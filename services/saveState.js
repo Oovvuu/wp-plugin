@@ -29,12 +29,12 @@ const saveState = (state, id) => {
       }, {}),
     },
   }).then((value) => {
-    const { embeds, success } = value;
+    const { embeds, state: updatedState, success } = value;
 
     return success
       ? {
         hasError: false,
-        data: transform(embeds),
+        data: { ...updatedState, embeds: transform(embeds) },
       } : {
         hasError: true,
         message: __('Malformed response data.', 'oovvuu'),
