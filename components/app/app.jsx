@@ -68,7 +68,6 @@ const App = () => {
   );
 
   // App elements to show when user is not authenticated.
-  // @todo Can we get user profile URL from the wp object here?
   const unauthenticatedApp = (
     <>
       <p>{ __('You must be authenticated to use this service.', 'oovvuu') }</p>
