@@ -19,12 +19,15 @@ const EmbedEdit = (props) => {
   } = wp;
   const {
     attributes: {
-      id = '6ec9b090-41a0-4782-998a-f1c59bae6ac0',
+      id = '',
     } = {},
   } = props;
 
   const divRef = React.useRef();
 
+  /**
+   * Add script to render embed.
+   */
   React.useEffect(() => {
     const script = document.createElement('script');
     script.innerHTML = '!function(e,t,o){let n;const r=e.getElementsByTagName("script")[0];e.getElementById(o)||(n=e.createElement("script"),n.id=o,n.onload=()=>{},n.src="https://playback.prod.oovvuu.io/player/bundle.js",r.parentNode.insertBefore(n,r))}(document,0,"oovvuu-player-sdk");';

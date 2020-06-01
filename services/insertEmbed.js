@@ -9,20 +9,23 @@ const insertEmbed = (id) => {
     return false;
   }
 
-  const { data: { dispatch }, blocks: { createBlock } } = wp;
+  const {
+    data: { dispatch },
+    blocks: { createBlock },
+  } = wp;
 
   const {
     insertBlocks,
   } = dispatch('core/block-editor');
 
-  // create new embed block.
+  // Create new embed block.
   const newBlock = createBlock(
     'oovvuu/embed-block', {
       id,
     },
   );
 
-  // insert block after 3rd paragraph.
+  // Insert block after 3rd paragraph.
   insertBlocks(newBlock, 3);
 
   return true;

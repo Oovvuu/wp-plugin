@@ -96,6 +96,7 @@ const DialogWrapper = () => {
 
       dispatch({ type: 'UPDATE_EMBEDS', payload: data });
 
+      // Embed id.
       const positionTwoEmbedId = data?.positionTwo?.id || null;
 
       if (positionTwoEmbedId) {
