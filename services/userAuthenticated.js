@@ -1,30 +1,27 @@
 /**
- * Performs an API request to get the current state.
+ * Performs an API request to get the current state of user authentication.
  *
- * @param   {int}    id    The post ID.
  * @returns {Promise}      Future object for API response data.
  */
-const getState = (id) => {
+const userAuthenticated = () => {
   const { apiFetch, i18n: { __ } } = wp;
 
   return apiFetch({
-    path: '/oovvuu/v1/getState/',
-    method: 'POST',
-    data: { id },
+    path: '/oovvuu/v1/userAuthenticated/',
+    method: 'GET',
   })
-    .then((value) => (value.success
+    .then((value) => (value
       ? {
         hasError: false,
-        data: value.state,
+        data: value,
       } : {
         hasError: true,
-        message: __('Malformed response data.', 'oovvuu'),
+        message: __('Authentication failed.', 'oovvuu'),
       }))
     .catch((error) => {
       const { message } = error;
-      // TODO: Perform error handling.
+      // TODO: Perform error handling - user is not auth'd.
       console.error(error);
-
       return {
         hasError: true,
         error: { message },
@@ -32,4 +29,4 @@ const getState = (id) => {
     });
 };
 
-export default getState;
+export default userAuthenticated;
