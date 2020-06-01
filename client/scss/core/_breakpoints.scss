@@ -46,10 +46,14 @@ $media-queries: _create-breakpoints();
  * Retrive prepared min-width media query.
  * Ex. @media min(lg) {}
  *
- * @param  {String} $key Key to access in the $media-queries map.
+ * @param  {String|Number} $key Key to access in the $media-queries map or raw length value.
  * @return {String|Boolean} The media query string or false if the key doesn't exist.
  */
 @function min($key) {
+  @if ('number' == type-of($key)) {
+    @return 'min-width: #{$key / 16}rem';
+  }
+
   @return media(#{$key}-min);
 }
 
@@ -57,9 +61,13 @@ $media-queries: _create-breakpoints();
  * Retrive prepared max-width media query based on a given breakpoint minus 1px.
  * Ex. @media max(lg) {}
  *
- * @param  {String} $key Key to access in the $media-queries map.
+ * @param  {String|Number} $key Key to access in the $media-queries map or raw length value.
  * @return {String|Boolean} The media query string or false if the key doesn't exist.
  */
 @function max($key) {
+  @if ('number' == type-of($key)) {
+    @return 'max-width: #{($key - 1) / 16}rem';
+  }
+
   @return media(#{$key}-max);
 }
