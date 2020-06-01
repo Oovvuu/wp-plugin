@@ -130,7 +130,7 @@ const VideoCardWrapper = (props) => {
         <ClearIcon />
       </ActionButton>
       <div className={styles.logo}>
-        <img src={url} alt={legalName} />
+        <img src={url} alt={legalName} draggable="false" />
       </div>
       <h4 className={styles.title}>{title}</h4>
       <div className={styles.meta}>
