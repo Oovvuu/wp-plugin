@@ -123,8 +123,11 @@ const DialogWrapper = () => {
         isLoading={isLoading}
         closeDialog={() => { closeDialog(true); }}
       >
-        <h2 className={styles.postTitle}>
-          <span>{getPostAttribute('title')}</span>
+        <header className={styles.titleWrapper}>
+          <h2 className={styles.postTitle}>
+            {getPostAttribute('title')}
+          </h2>
+
           <ActionButton
             className={styles.saveButton}
             buttonStyle="primary"
@@ -133,7 +136,7 @@ const DialogWrapper = () => {
             <SaveSVG />
             <>{__('Save and Close', 'oovvuu')}</>
           </ActionButton>
-        </h2>
+        </header>
         <KeywordPanel
           onHandleDisplayPanels={setDisplayPanels}
         />

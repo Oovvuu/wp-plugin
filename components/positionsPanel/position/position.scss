@@ -1,5 +1,4 @@
 .panel {
-  margin-bottom: rem(20);
   padding: rem(20);
 }
 
@@ -14,15 +13,22 @@
 }
 
 .positionHeader {
-  align-items: center;
   background-color: var(--color-theme-faded);
   border-bottom: 1px solid var(--color-theme);
-  display: flex;
-  height: rem(40);
-  justify-content: space-between;
+  display: grid;
+  flex-direction: column;
+  grid-gap: 10px;
   margin-bottom: rem(20);
-  padding: 0 rem(26) 0 rem(8);
+  padding: rem(8);
   transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out;
+
+  @media (min(md)) {
+    align-items: center;
+    flex-direction: row;
+    grid-template-columns: 1fr max-content;
+    height: rem(40);
+    padding: 0 rem(26) 0 rem(8);
+  }
 
   .disabled & {
     background-color: rgba(56, 56, 56, 0.2);
@@ -35,7 +41,7 @@
   grid-row-gap: rem(20);
   padding: 0 rem(16) rem(14) rem(16);
 
-  @media (min-width: 48rem) {
+  @media (min(lg)) {
     grid-gap: 0 rem(20);
     grid-template-columns: minmax(auto, rem(500)) 1fr;
     padding: 0 rem(28) rem(14) rem(16);

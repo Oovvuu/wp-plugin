@@ -82,6 +82,7 @@ module.exports = (env, argv) => {
               options: {
                 resources: [
                   'core/_utilities.scss',
+                  'core/_breakpoints.scss',
                   'core/_a11y.scss',
                   'core/_typography.scss',
                   'core/_buttons.scss',

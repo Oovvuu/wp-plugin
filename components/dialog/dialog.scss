@@ -60,17 +60,31 @@
 }
 
 .content {
-  padding: rem(55) rem(32) rem(32) rem(32);
+  display: grid;
+  grid-row-gap: rem(20);
+  padding: rem(55) rem(20) rem(32) rem(20);
+
+  @media (min(md)) {
+    padding: rem(55) rem(32) rem(32) rem(32);
+  }
+}
+
+.titleWrapper {
+  display: grid;
+  grid-gap: rem(20);
+  margin-bottom: rem(20);
+
+  @media (min(xl)) {
+    grid-template-columns: 1fr minmax(rem(170), max-content);
+  }
 }
 
 .postTitle {
-  @include font-props(29, 32, medium);
   display: flex;
-  margin: 0 0 rem(40) 0; // Zeros out WP styles.
-
-  > span {
-    max-width: calc(100% - 400px);
-  }
+  font-size: clamp(rem(24), 3.5vw, rem(32));
+  font-weight: $weight-medium;
+  line-height: (32/29);
+  margin: 0; // Zeros out WP styles.
 }
 
 .saveButton {
