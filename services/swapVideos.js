@@ -3,7 +3,18 @@
  * video if one exists.
  *
  * @param  {object} state   The current state array.
- * @param  {object} payload The videos to swap.
+ * @param  {object} payload {
+ *   @type {object} videoA {
+ *     @type {string} positionKey The position where the video is from.
+ *     @type {int}    index       The video index.
+ *     @type {int}    videoId     The video ID.
+ *   }
+ *   @type {object} videoB {
+ *     @type {string} positionKey The position where the video is from.
+ *     @type {int}    index       The video index.
+ *     @type {int}    videoId     The video ID.
+ *   }
+ * }
  * @return {object} state   The new state.
  */
 const swapVideos = (state, payload) => {
