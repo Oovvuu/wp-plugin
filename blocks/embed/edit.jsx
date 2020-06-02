@@ -6,12 +6,8 @@ import PropTypes from 'prop-types';
  */
 const EmbedEdit = (props) => {
   const {
-    blockEditor: {
-      InspectorControls,
-    },
     components: {
       TextControl,
-      PanelBody,
     },
     i18n: {
       __,
@@ -36,18 +32,11 @@ const EmbedEdit = (props) => {
 
   return (
     <>
-      <InspectorControls key="inspector">
-        <PanelBody
-          initialOpen
-          title={__('Oovvuu Embed', 'oovvuu-app')}
-        >
-          <TextControl
-            label={__('Embed ID', 'oovvuu-app')}
-            value={id}
-            readOnly="readonly"
-          />
-        </PanelBody>
-      </InspectorControls>
+      <TextControl
+        label={__('Oovvuu Embed ID', 'oovvuu-app')}
+        value={id}
+        readOnly="readonly"
+      />
 
       <div ref={divRef}>
         <div data-oovvuu-embed={id} />
