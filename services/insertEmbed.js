@@ -10,12 +10,17 @@ const insertEmbed = (id) => {
   }
 
   const {
-    data: { dispatch },
+    data: { dispatch, select },
     blocks: { createBlock },
   } = wp;
 
   const {
+    getBlocks,
+  } = select('core/block-editor');
+
+  const {
     insertBlocks,
+    removeBlocks,
   } = dispatch('core/block-editor');
 
   // Create new embed block.
@@ -24,6 +29,13 @@ const insertEmbed = (id) => {
       id,
     },
   );
+
+  const blocks = getBlocks();
+  const oovvuuEmbedBlocks = blocks.filter((value) => value.name === 'oovvuu/embed');
+  const clientIds = oovvuuEmbedBlocks.map((block) => block.clientId);
+
+  // Remove all current oovvuu embeds.
+  removeBlocks(clientIds);
 
   // Insert block after 3rd paragraph.
   insertBlocks(newBlock, 3);
