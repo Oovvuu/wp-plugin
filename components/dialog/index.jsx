@@ -6,6 +6,7 @@ import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
 import oovvuuData from 'components/app/context';
 import SaveSVG from 'assets/save.svg';
+import insertEmbed from 'services/insertEmbed';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 
@@ -93,6 +94,14 @@ const DialogWrapper = () => {
     if (!response.hasError) {
       const { data } = response;
 
+      // Embed id.
+      const positionTwoEmbedId = data?.embeds?.positionTwo?.id || null;
+
+      // Insert a new Oovvuu embed to the editor.
+      if (positionTwoEmbedId) {
+        insertEmbed(positionTwoEmbedId);
+      }
+
       /**
        * saveState() returns updated state, with flag that data has been loaded
        *   from meta. This needs to be sync'd back to state.
@@ -107,8 +116,8 @@ const DialogWrapper = () => {
   // Determine if the the panels should display. Accounts for saved videos and fetched videos.
   // @todo This should also check whether or not state data was loaded from post meta.
   React.useEffect(() => {
-    setDisplayPanels(selectedVideos.hero.length
-      || selectedVideos.positionTwo.length);
+    setDisplayPanels(selectedVideos.hero.length > 0
+      || selectedVideos.positionTwo.length > 0);
   }, [selectedVideos]);
 
   return (

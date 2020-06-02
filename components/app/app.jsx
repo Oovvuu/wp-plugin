@@ -19,10 +19,16 @@ addModalDivEl(portalId);
  *   of keywords and videos recommendations from the Oovvuu API.
  */
 const App = () => {
-  const { editProfileLink } = window.oovvuuAppUserData ?? '';
+  const { editProfileLink } = window.oovvuuAppUserData || '';
   const { i18n: { __ } } = wp;
-  const { dispatch, state } = React.useContext(OovvuuDataContext);
-  const { lastActionType: actionType, isUserAuthenticated } = state;
+  const {
+    dispatch,
+    state,
+    state: {
+      lastActionType: actionType,
+      isUserAuthenticated,
+    },
+  } = React.useContext(OovvuuDataContext);
   const [isLoadingAuth, setIsLoadingAuth] = React.useState(false);
 
   /**
@@ -51,15 +57,19 @@ const App = () => {
   const getUserAuthentication = async () => {
     setIsLoadingAuth(true);
     const isAuthenticated = await userAuthenticated();
-    setIsLoadingAuth(false);
 
-    // Reset the state based on the state that was saved to post meta.
     if (!isAuthenticated.hasError && isAuthenticated.data === true) {
-      dispatch({ type: 'SET_USER_IS_AUTHENTICATED' });
+      // Get the current state from post meta.
       await loadStateFromPostMeta();
+
+      // Set the user as authenticated.
+      dispatch({ type: 'SET_USER_IS_AUTHENTICATED' });
     } else {
       // @todo OVU-34 - do we need to account for removing user authentication state?
     }
+
+    // Finished loading.
+    setIsLoadingAuth(false);
   };
 
   /**

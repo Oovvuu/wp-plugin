@@ -27,6 +27,7 @@ module.exports = (env, argv) => {
     app: './components/app',
     appClassic: './components/appClassic',
     fonts: './client/fonts/fonts.scss',
+    embedBlock: './blocks/embed',
   };
 
   return {

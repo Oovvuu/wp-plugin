@@ -80,3 +80,6 @@ require_once OOVVUU_PATH . '/inc/assets.php';
 
 // Metaboxes.
 require_once OOVVUU_PATH . '/inc/meta-boxes.php';
+
+// Blocks.
+require_once OOVVUU_PATH . '/inc/blocks.php';

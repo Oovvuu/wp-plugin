@@ -71,6 +71,15 @@ function action_enqueue_block_editor_assets() {
 	);
 	inline_locale_data( 'oovvuu-app' );
 
+	wp_enqueue_script(
+		'oovvuu-embed-block-js',
+		get_versioned_asset_path( 'embedBlock.js' ),
+		[ 'wp-i18n', 'wp-blocks' ],
+		'1.0.0',
+		true
+	);
+	inline_locale_data( 'oovvuu-app' );
+
 	wp_enqueue_style(
 		'oovvuu-fonts-css',
 		get_versioned_asset_path( 'fonts.css' ),
@@ -79,9 +88,13 @@ function action_enqueue_block_editor_assets() {
 	);
 
 	// Send edit profile link to JS.
-	wp_localize_script( 'oovvuu-app-js', 'oovvuuAppUserData', [
-		'editProfileLink' => get_edit_user_link(),
-	] );
+	wp_localize_script(
+		'oovvuu-app-js',
+		'oovvuuAppUserData',
+		[
+			'editProfileLink' => get_edit_user_link(),
+		]
+	);
 }
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\action_enqueue_block_editor_assets' );
 
