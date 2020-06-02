@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from 'shared/checkboxes.scss';
 import KeywordItem from './keywordItem';
-import KeywordInput from './keywordInput';
+import KeywordInput from '../userKeywordList/keywordInput';
 
 /**
  * Component for showing list of keywords for the current post. This has two distinct
