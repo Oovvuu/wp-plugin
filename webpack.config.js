@@ -27,7 +27,7 @@ module.exports = (env, argv) => {
     app: './components/app',
     appClassic: './components/appClassic',
     fonts: './client/fonts/fonts.scss',
-    embedBlock: './blocks/embedBlock',
+    embedBlock: './blocks/embed',
   };
 
   return {
@@ -83,6 +83,7 @@ module.exports = (env, argv) => {
               options: {
                 resources: [
                   'core/_utilities.scss',
+                  'core/_breakpoints.scss',
                   'core/_a11y.scss',
                   'core/_typography.scss',
                   'core/_buttons.scss',

@@ -82,6 +82,13 @@ const reducer = (state, action) => {
         loadingAttributes: { message: '' },
       };
     }
+    case 'SET_USER_IS_AUTHENTICATED': {
+      return {
+        ...nextState,
+        isUserAuthenticated: true,
+      };
+    }
+
     default:
       return nextState;
   }

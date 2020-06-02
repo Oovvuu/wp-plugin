@@ -94,15 +94,19 @@ const DialogWrapper = () => {
     if (!response.hasError) {
       const { data } = response;
 
-      dispatch({ type: 'UPDATE_EMBEDS', payload: data });
-
       // Embed id.
-      const positionTwoEmbedId = data?.positionTwo?.id || null;
+      const positionTwoEmbedId = data?.embeds?.positionTwo?.id || null;
 
       // Insert a new Oovvuu embed to the editor.
       if (positionTwoEmbedId) {
         insertEmbed(positionTwoEmbedId);
       }
+
+      /**
+       * saveState() returns updated state, with flag that data has been loaded
+       *   from meta. This needs to be sync'd back to state.
+       */
+      dispatch({ type: 'RESET_STATE', payload: data });
 
       // Close the Dialog.
       closeDialog(false);
@@ -112,8 +116,8 @@ const DialogWrapper = () => {
   // Determine if the the panels should display. Accounts for saved videos and fetched videos.
   // @todo This should also check whether or not state data was loaded from post meta.
   React.useEffect(() => {
-    setDisplayPanels(selectedVideos.hero.length
-      || selectedVideos.positionTwo.length);
+    setDisplayPanels(selectedVideos.hero.length > 0
+      || selectedVideos.positionTwo.length > 0);
   }, [selectedVideos]);
 
   return (
@@ -133,8 +137,11 @@ const DialogWrapper = () => {
         isLoading={isLoading}
         closeDialog={() => { closeDialog(true); }}
       >
-        <h2 className={styles.postTitle}>
-          <span>{getPostAttribute('title')}</span>
+        <header className={styles.titleWrapper}>
+          <h2 className={styles.postTitle}>
+            {getPostAttribute('title')}
+          </h2>
+
           <ActionButton
             className={styles.saveButton}
             buttonStyle="primary"
@@ -143,7 +150,7 @@ const DialogWrapper = () => {
             <SaveSVG />
             <>{__('Save and Close', 'oovvuu')}</>
           </ActionButton>
-        </h2>
+        </header>
         <KeywordPanel
           onHandleDisplayPanels={setDisplayPanels}
         />

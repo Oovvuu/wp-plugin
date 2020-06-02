@@ -20,7 +20,7 @@ const insertEmbed = (id) => {
 
   // Create new embed block.
   const newBlock = createBlock(
-    'oovvuu/embed-block', {
+    'oovvuu/embed', {
       id,
     },
   );

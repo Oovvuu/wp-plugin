@@ -3,6 +3,7 @@ import React from 'react';
 import DialogWrapper from 'components/dialog';
 import portalId from 'services/portalId';
 import addModalDivEl from 'services/addModalDivEl';
+import userAuthenticated from 'services/userAuthenticated';
 import getState from 'services/getState';
 import getPostAttribute from 'services/getPostAttribute';
 import 'scss/global/vars.scss';
@@ -18,8 +19,17 @@ addModalDivEl(portalId);
  *   of keywords and videos recommendations from the Oovvuu API.
  */
 const App = () => {
-  const { dispatch, state } = React.useContext(OovvuuDataContext);
-  const { lastActionType: actionType } = state;
+  const { editProfileLink } = window.oovvuuAppUserData || '';
+  const { i18n: { __ } } = wp;
+  const {
+    dispatch,
+    state,
+    state: {
+      lastActionType: actionType,
+      isUserAuthenticated,
+    },
+  } = React.useContext(OovvuuDataContext);
+  const [isLoadingAuth, setIsLoadingAuth] = React.useState(false);
 
   /**
    * Load state from post meta and update the current state. Note: This fires
@@ -40,16 +50,73 @@ const App = () => {
   };
 
   /**
+   * Get user auth state and update the current state.
+   *
+   * @return {Promise}
+   */
+  const getUserAuthentication = async () => {
+    setIsLoadingAuth(true);
+    const isAuthenticated = await userAuthenticated();
+
+    if (!isAuthenticated.hasError && isAuthenticated.data === true) {
+      // Get the current state from post meta.
+      await loadStateFromPostMeta();
+
+      // Set the user as authenticated.
+      dispatch({ type: 'SET_USER_IS_AUTHENTICATED' });
+    } else {
+      // @todo OVU-34 - do we need to account for removing user authentication state?
+    }
+
+    // Finished loading.
+    setIsLoadingAuth(false);
+  };
+
+  /**
+   * App elements to show when user is authenticated.
+   */
+  const authenticatedApp = (
+    <>
+      <p>{ __('This is where you will launch the Oovvuu modal.', 'oovvuu') }</p>
+      <DialogWrapper />
+    </>
+  );
+
+  /**
+   * App elements to show when user is not authenticated.
+   */
+  const unauthenticatedApp = (
+    <>
+      <p>{ __('You must be authenticated to use this service.', 'oovvuu') }</p>
+      <a href={editProfileLink}>{__('Please authenticate from your user profile page.', 'oovvuu')}</a>
+    </>
+  );
+
+  /**
+   * Initial "loading state" of the application.
+   * Shows before authentication has run.
+   */
+  const initialLoadingApp = (
+    <>
+      <p>{ __('Loading app data...', 'oovvuu') }</p>
+    </>
+  );
+
+  /**
+   * Shows the loaded app state after user auth has run.
+   */
+  const loadedApp = isUserAuthenticated ? authenticatedApp : unauthenticatedApp;
+
+  /**
    * Populate the state from post meta if any previous state was saved.
    */
   React.useEffect(() => {
-    loadStateFromPostMeta();
+    getUserAuthentication();
   }, []);
 
   return (
     <EffectsManager actionType={actionType} dispatch={dispatch} state={state}>
-      <p>This is where you will launch the Oovvuu modal.</p>
-      <DialogWrapper />
+      { isLoadingAuth ? initialLoadingApp : loadedApp}
     </EffectsManager>
   );
 };

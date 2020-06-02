@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import ActionButton from 'components/actionButton';
+import * as saveState from 'services/saveState';
 import DialogWrapper from './index';
 
 describe('DialogWrapper', () => {
@@ -52,14 +53,16 @@ describe('DialogWrapper', () => {
     expect(dispatchFn).not.toHaveBeenCalled();
   });
 
-  describe('Close modal behavior', () => {
-    const apiFetchFn = jest.fn(() => Promise.resolve({
-      success: true,
-      embeds: {},
-    }));
+  describe('Save and close behavior', () => {
+    let saveStateSpy;
 
     beforeEach(() => {
-      global.wp = { apiFetch: apiFetchFn, i18n: { __: jest.fn() } };
+      saveStateSpy = jest.spyOn(saveState, 'default')
+        .mockImplementationOnce(() => Promise.resolve({ data: 'state' }));
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
     it('Makes API call to save state', () => {
@@ -68,18 +71,19 @@ describe('DialogWrapper', () => {
       );
 
       wrapper.find(ActionButton).prop('onClickHandler')();
-      expect(apiFetchFn).toHaveBeenCalled();
+      return new Promise((resolve) => setImmediate(resolve)).then(() => {
+        expect(saveStateSpy).toHaveBeenCalled();
+      });
     });
 
-    it('Dispatches UPDATE_EMBEDS action', () => {
+    it('Dispatches RESET_STATE action', () => {
       const wrapper = shallow(<DialogWrapper />);
 
       wrapper.find(ActionButton).prop('onClickHandler')();
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
-        // Payload is transformed result.
         expect(dispatchFn).toHaveBeenCalledWith({
-          type: 'UPDATE_EMBEDS',
-          payload: { hero: null, positionTwo: null },
+          type: 'RESET_STATE',
+          payload: 'state',
         });
       });
     });

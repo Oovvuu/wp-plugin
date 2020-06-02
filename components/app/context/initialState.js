@@ -27,6 +27,7 @@ const initialState = {
     positionTwoSecondary: [],
   },
   isLoading: false,
+  isUserAuthenticated: false,
   loadingAttributes: {
     message: '',
   },

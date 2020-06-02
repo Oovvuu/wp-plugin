@@ -5,7 +5,7 @@ import EmbedEdit from './edit';
 const { registerBlockType } = wp.blocks;
 
 registerBlockType(
-  'oovvuu/embed-block',
+  'oovvuu/embed',
   {
     attributes,
     category: 'embed',
@@ -20,7 +20,14 @@ registerBlockType(
     ],
     save: () => null,
     supports: {
+      // Remove support for an HTML mode
       html: false,
+      // Hide this block from the inserter.
+      inserter: false,
+      // Use the block just once per post
+      multiple: false,
+      // Don't allow the block to be converted into a reusable block.
+      reusable: false,
     },
     title: __('Oovvuu Embed', 'oovvuu-app'),
   },

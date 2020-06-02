@@ -80,7 +80,7 @@ const KeywordPanelWrapper = (props) => {
 
   return (
     <div className={classnames(styles.panel, theme.panel)}>
-      <h3>{__('Recommended Keywords', 'oovvuu')}</h3>
+      <h3 className={styles.panelHeading}>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector />
 
       {recommendedKeywords.length > 0
@@ -97,6 +97,7 @@ const KeywordPanelWrapper = (props) => {
             <ActionButton
               buttonStyle="primary"
               onClickHandler={clearSelectedKeywords}
+              className={styles.clearSelection}
             >
               <CloseIcon />
               {__('Clear Selection', 'oovvuu')}
@@ -107,6 +108,7 @@ const KeywordPanelWrapper = (props) => {
           && (
             <ActionButton
               buttonStyle="primary"
+              className={styles.getKeywords}
               onClickHandler={() => dispatch({ type: 'FETCH_KEYWORDS' })}
             >
               <>{__('Get Keywords', 'oovvuu')}</>
@@ -117,6 +119,7 @@ const KeywordPanelWrapper = (props) => {
           buttonStyle="primary"
           onClickHandler={handleFetchVideos}
           disabled={!recommendedKeywords.length}
+          className={styles.getVideos}
         >
           <SearchIcon />
           {__('Recommend Videos', 'oovvuu')}

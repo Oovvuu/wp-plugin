@@ -44,7 +44,7 @@ const EmbedEdit = (props) => {
           <TextControl
             label={__('Embed ID', 'oovvuu-app')}
             value={id}
-            readonly="readonly"
+            readOnly="readonly"
           />
         </PanelBody>
       </InspectorControls>
@@ -66,7 +66,7 @@ EmbedEdit.defaultProps = {
 // Set PropTypes for this component.
 EmbedEdit.propTypes = {
   attributes: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
   }),
 };
 
