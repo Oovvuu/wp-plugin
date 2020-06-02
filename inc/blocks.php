@@ -7,8 +7,6 @@
 
 namespace Oovvuu;
 
-echo 'blap';
-
 // Embed Block.
 register_block_type(
 	'oovvuu/embed-block',
