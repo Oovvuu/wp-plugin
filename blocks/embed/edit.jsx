@@ -6,9 +6,6 @@ import PropTypes from 'prop-types';
  */
 const EmbedEdit = (props) => {
   const {
-    // blockEditor: {
-    //   InspectorControls,
-    // },
     components: {
       TextControl,
     },
