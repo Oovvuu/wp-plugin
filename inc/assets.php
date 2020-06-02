@@ -88,9 +88,13 @@ function action_enqueue_block_editor_assets() {
 	);
 
 	// Send edit profile link to JS.
-	wp_localize_script( 'oovvuu-app-js', 'oovvuuAppUserData', [
-		'editProfileLink' => get_edit_user_link(),
-	] );
+	wp_localize_script(
+		'oovvuu-app-js',
+		'oovvuuAppUserData',
+		[
+			'editProfileLink' => get_edit_user_link(),
+		]
+	);
 }
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\action_enqueue_block_editor_assets' );
 
@@ -231,12 +235,3 @@ function set_dev_cookie() {
 }
 
 add_action( 'admin_init', __NAMESPACE__ . '\set_dev_cookie' );
-
-/**
- * Enqueue scripts.
- */
-function enqueue_scripts() {
-	wp_enqueue_script( 'embed',  plugin_dir_url( __DIR__ ) . 'client/assets/js/embed.js', [], '1.0.0' );
-}
-
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
