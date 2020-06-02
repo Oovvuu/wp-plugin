@@ -48,11 +48,9 @@ const UserKeywordItem = (props) => {
       <span>
         {keyword}
       </span>
-      {onRemove && typeof onRemove === 'function' && (
-        <button className={styles.removeKeyword} onClick={() => onRemove(item)} type="button">
-          <CloseIcon />
-        </button>
-      )}
+      <button className={styles.removeKeyword} onClick={() => onRemove(item)} type="button">
+        <CloseIcon />
+      </button>
     </label>
   );
 };

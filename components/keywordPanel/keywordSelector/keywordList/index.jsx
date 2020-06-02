@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from 'shared/checkboxes.scss';
 import KeywordItem from './keywordItem';
-import KeywordInput from '../userKeywordList/keywordInput';
 
 /**
  * Component for showing list of keywords for the current post. This has two distinct
@@ -33,7 +32,7 @@ const KeywordList = (props) => {
 
   return (
     <ul className={styles.keywords}>
-      {Object.keys(keywordItems).map((key) => (keywordItems[key].keyword ? (
+      {Object.keys(keywordItems).map((key) => (
         <li className={styles.keyword} key={keywordItems[key].keyword}>
           <KeywordItem
             item={keywordItems[key]}
@@ -42,15 +41,7 @@ const KeywordList = (props) => {
             onUpdate={onUpdate}
           />
         </li>
-      ) : (
-        <li className={styles.keywordInput} key={keywordItems[key].keyword}>
-          <KeywordInput
-            item={keywordItems[key]}
-            onRemove={onRemove}
-            onUpdate={onUpdate}
-          />
-        </li>
-      )))}
+      ))}
     </ul>
   );
 };

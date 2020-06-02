@@ -31,12 +31,16 @@ const KeywordInput = (props) => {
         updated.isSelected = true;
       }
 
+      // Clear the input.
+      setKeyword('');
+
       callback(updated);
     }
   };
 
   /**
    * Handles updating internal state for user input.
+   *
    * @param event Event Event object.
    */
   const handleChange = (event) => {

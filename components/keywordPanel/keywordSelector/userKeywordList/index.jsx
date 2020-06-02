@@ -108,7 +108,7 @@ const UserList = () => {
       </ActionButton>
 
       <ul className={styles.keywords}>
-        {Object.keys(selfKeywordItems).map((key) => (selfKeywordItems[key].keyword ? (
+        {Object.keys(selfKeywordItems).map((key) => (
           <li className={styles.keyword} key={selfKeywordItems[key].keyword}>
             <UserKeywordItem
               item={selfKeywordItems[key]}
@@ -116,15 +116,15 @@ const UserList = () => {
               onUpdate={handleUpdate}
             />
           </li>
-        ) : (
-          <li className={styles.keywordInput} key={selfKeywordItems[key].keyword}>
-            <KeywordInput
-              item={selfKeywordItems[key]}
-              onRemove={handleRemove}
-              onUpdate={handleUpdate}
-            />
-          </li>
-        )))}
+        ))}
+
+        <li className={styles.keywordInput} key="user-keyword-input">
+          <KeywordInput
+            item=""
+            onRemove={handleRemove}
+            onUpdate={handleUpdate}
+          />
+        </li>
       </ul>
     </div>
   );
