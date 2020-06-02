@@ -10,8 +10,10 @@
 
 namespace Oovvuu;
 
-if ( empty( $attributes ) ) {
+if ( empty( $attributes ) || empty( $attributes['id'] ) ) {
 	return;
 }
 
-echo wp_json_encode( $attributes );
+?>
+
+<div data-oovvuu-embed='<?php echo esc_attr( $attributes['id'] ); ?>'></div>

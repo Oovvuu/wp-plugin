@@ -99,6 +99,7 @@ const DialogWrapper = () => {
       // Embed id.
       const positionTwoEmbedId = data?.positionTwo?.id || null;
 
+      // Insert a new Oovvuu embed to the editor.
       if (positionTwoEmbedId) {
         insertEmbed(positionTwoEmbedId);
       }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * A React component to render the edit view of a sample block.
+ * A React component to render an Oovvuu Embed.
  */
 const EmbedEdit = (props) => {
   const {
@@ -44,6 +44,7 @@ const EmbedEdit = (props) => {
           <TextControl
             label={__('Embed ID', 'oovvuu-app')}
             value={id}
+            readonly="readonly"
           />
         </PanelBody>
       </InspectorControls>
