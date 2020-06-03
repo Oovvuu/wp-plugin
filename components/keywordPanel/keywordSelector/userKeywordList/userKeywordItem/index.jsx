@@ -31,14 +31,11 @@ const UserKeywordItem = (props) => {
   );
 };
 
-UserKeywordItem.defaultProps = { onRemove: null };
-
 UserKeywordItem.propTypes = {
   item: PropTypes.shape({
-    isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   }).isRequired,
-  onRemove: PropTypes.func,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default UserKeywordItem;

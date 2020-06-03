@@ -4,9 +4,7 @@ import keyCodes from 'utils/keyCodes';
 import styles from './keywordInput.scss';
 
 const KeywordInput = (props) => {
-  const {
-    onRemove, onUpdate,
-  } = props;
+  const { onUpdate } = props;
   const [keyword, setKeyword] = React.useState('');
   const inputRef = React.createRef();
 
@@ -20,8 +18,7 @@ const KeywordInput = (props) => {
 
     // Trigger click handler on enter.
     if (keyCode === RETURN || keyCode === TAB) {
-      const callback = keyword ? onUpdate : onRemove;
-      const updated = { ...{ keyword: keyword.toLowerCase() } };
+      const updated = { keyword: keyword.toLowerCase() };
 
       if (keyword) {
         // Prevent tabbing to clear selection.
@@ -32,7 +29,7 @@ const KeywordInput = (props) => {
       // Clear the input.
       setKeyword('');
 
-      callback(updated);
+      onUpdate(updated);
     }
   };
 
@@ -66,10 +63,6 @@ const KeywordInput = (props) => {
 };
 
 KeywordInput.propTypes = {
-  item: PropTypes.shape({
-    keyword: PropTypes.string.isRequired,
-  }).isRequired,
-  onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
 

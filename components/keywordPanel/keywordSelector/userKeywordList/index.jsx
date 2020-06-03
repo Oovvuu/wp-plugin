@@ -84,16 +84,12 @@ const UserList = () => {
             <UserKeywordItem
               item={selfKeywordItems[key]}
               onRemove={handleRemove}
-              onUpdate={handleUpdate}
             />
           </li>
         ))}
 
         <li className={styles.inputItem}>
-          <KeywordInput
-            onRemove={handleRemove}
-            onUpdate={handleUpdate}
-          />
+          <KeywordInput onUpdate={handleUpdate} />
         </li>
       </ul>
     </div>
