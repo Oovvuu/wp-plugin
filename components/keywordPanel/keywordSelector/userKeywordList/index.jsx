@@ -1,6 +1,5 @@
 import React from 'react';
 import AddIcon from 'assets/add.svg';
-import ActionButton from 'components/actionButton';
 import oovvuuData from 'components/app/context';
 import UserKeywordItem from './userKeywordItem';
 import KeywordInput from './keywordInput';
@@ -19,28 +18,6 @@ const UserList = () => {
   // Need to keep a separate list to handle stubbing in a user-defined keyword.
   const [selfKeywordItems, setSelfKeywordItems] = React.useState({});
 
-  // The current focus of the add keyword button.
-  const [addKeywordFocus, setAddKeywordFocus] = React.useState(false);
-
-  /**
-   * Stubs in a user-defined keyword item for input.
-   */
-  const handleAdd = () => {
-    setSelfKeywordItems({
-      ...selfKeywordItems,
-      ...{
-        STUB: {
-          isSelected: false,
-          isStub: true,
-          keyword: '',
-          type: 'user',
-        },
-      },
-    });
-
-    setAddKeywordFocus(false);
-  };
-
   /**
    * Calls parent's onMutate() callback with flag to delete item. Deselects item to remove
    *   it from the list of selected keywords.
@@ -49,8 +26,6 @@ const UserList = () => {
   const handleRemove = (item) => {
     const { keyword } = item;
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
-
-    setAddKeywordFocus(true);
   };
 
   /**
@@ -69,8 +44,6 @@ const UserList = () => {
     }
 
     dispatch({ payload: [...userKeywords, keyword], type: 'UPDATE_USER_KEYWORDS' });
-
-    setAddKeywordFocus(true);
   };
 
   /**
@@ -98,14 +71,9 @@ const UserList = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ActionButton
-        buttonStyle="icon"
-        className={styles.addUserKeyword}
-        onClickHandler={handleAdd}
-        focus={addKeywordFocus}
-      >
+      <span className={styles.addIcon}>
         <AddIcon />
-      </ActionButton>
+      </span>
 
       <ul className={styles.keywords}>
         {Object.keys(selfKeywordItems).map((key) => (

@@ -1,15 +1,10 @@
 .wrapper {
+  align-items: center;
   display: flex;
 }
 
-.addUserKeyword {
-  @include button-base;
-  cursor: pointer;
+.addIcon {
+  display: block;
   height: rem(19);
-  margin-right: 12px;
-  margin-top: 10px;
-
-  svg {
-    background: transparent;
-  }
+  width: rem(19);
 }
