@@ -153,7 +153,7 @@ class REST_API {
 	public function get_videos( $request ) {
 		return rest_ensure_response(
 			$this->request(
-				'query ($input: ArticleRecommendationInput, $previewInput: PlaybackInput) {
+				'query ($input: ArticleRecommendationInput) {
 					videosForArticle(input: $input) {
 						hero {
 							...VideoDetailFragment
@@ -189,7 +189,7 @@ class REST_API {
 					thumbnail(input: { width: 500, height: 281 }) {
 						url
 					}
-					preview (input: $previewInput) {
+					preview {
 						brightcoveVideoId
 						brightcovePlayerId
 						brightcoveAccountId
