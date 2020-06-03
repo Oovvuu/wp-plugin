@@ -53,7 +53,7 @@ const UserList = () => {
           >
             <UserKeywordItem
               keyword={keyword}
-              onRemove={handleRemove}
+              onRemove={() => { handleRemove(keyword); }}
             />
           </li>
         ))}

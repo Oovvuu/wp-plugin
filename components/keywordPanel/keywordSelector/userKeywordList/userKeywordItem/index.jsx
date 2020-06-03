@@ -21,7 +21,7 @@ const UserKeywordItem = (props) => {
         {keyword}
       </span>
       <button
-        onClick={() => onRemove(keyword)}
+        onClick={onRemove}
         type="button"
       >
         <CloseIcon />
