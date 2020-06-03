@@ -75,9 +75,12 @@ const UserList = () => {
         <AddIcon />
       </span>
 
-      <ul className={styles.keywords}>
+      <ul className={styles.list}>
         {Object.keys(selfKeywordItems).map((key) => (
-          <li className={styles.keyword} key={selfKeywordItems[key].keyword}>
+          <li
+            className={styles.item}
+            key={selfKeywordItems[key].keyword}
+          >
             <UserKeywordItem
               item={selfKeywordItems[key]}
               onRemove={handleRemove}
@@ -86,9 +89,8 @@ const UserList = () => {
           </li>
         ))}
 
-        <li className={styles.keywordInput} key="user-keyword-input">
+        <li className={styles.inputItem}>
           <KeywordInput
-            item=""
             onRemove={handleRemove}
             onUpdate={handleUpdate}
           />

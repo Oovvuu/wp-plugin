@@ -1,3 +1,5 @@
+$shared-margin: 0 rem(10) rem(10) 0;
+
 .wrapper {
   align-items: center;
   display: flex;
@@ -6,5 +8,23 @@
 .addIcon {
   display: block;
   height: rem(19);
+  margin: $shared-margin;
   width: rem(19);
+}
+
+.list {
+  align-items: center;
+  display: flex;
+  margin: 0;
+  width: 100%;
+}
+
+.item {
+  margin: $shared-margin;
+}
+
+.inputItem {
+  flex: 1 0 auto;
+  height: rem(32);
+  margin: $shared-margin;
 }

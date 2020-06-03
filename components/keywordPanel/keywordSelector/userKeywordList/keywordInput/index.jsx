@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import keyCodes from 'utils/keyCodes';
-import styles from 'shared/checkboxes.scss';
+import styles from './keywordInput.scss';
 
 const KeywordInput = (props) => {
-  const { i18n: { __ } } = wp;
   const {
-    item, onRemove, onUpdate,
+    onRemove, onUpdate,
   } = props;
-  const [keyword, setKeyword] = React.useState(item.keyword);
+  const [keyword, setKeyword] = React.useState('');
   const inputRef = React.createRef();
 
   /**
@@ -22,7 +21,7 @@ const KeywordInput = (props) => {
     // Trigger click handler on enter.
     if (keyCode === RETURN || keyCode === TAB) {
       const callback = keyword ? onUpdate : onRemove;
-      const updated = { ...item, ...{ keyword: keyword.toLowerCase() } };
+      const updated = { ...{ keyword: keyword.toLowerCase() } };
 
       if (keyword) {
         // Prevent tabbing to clear selection.
@@ -60,7 +59,6 @@ const KeywordInput = (props) => {
       className={styles.input}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
-      placeholder={__('Enter keyword', 'oovvuu')}
       ref={inputRef}
       value={keyword}
     />
