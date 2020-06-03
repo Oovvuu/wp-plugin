@@ -6,8 +6,7 @@ import KeywordInput from './keywordInput';
 import styles from './userKeywordList.scss';
 
 /**
- * Manages adding and deleting user-defined keywords. Wraps the KeywordList component
- *   and passes through the onRemove() callback to enable editable functionality.
+ * Manages adding and deleting user-defined keywords.
  */
 const UserList = () => {
   const {
@@ -15,59 +14,30 @@ const UserList = () => {
     state: { recommendedKeywords, userKeywords },
   } = React.useContext(oovvuuData);
 
-  // Need to keep a separate list to handle stubbing in a user-defined keyword.
-  const [selfKeywordItems, setSelfKeywordItems] = React.useState({});
-
   /**
-   * Calls parent's onMutate() callback with flag to delete item. Deselects item to remove
-   *   it from the list of selected keywords.
-   * @param item
+   * Removes a given keyword from the userKeywords state.
+   *
+   * @param {string} keyword The keyword to be removed.
    */
-  const handleRemove = (item) => {
-    const { keyword } = item;
+  const handleRemove = (keyword) => {
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
   };
 
   /**
-   * Adds item if the updated item is a stub. Otherwise forwards the update.
+   * Adds a given keyword to the userKeywords state.
    *
    * @param item object Keyword item.
    */
-  const handleUpdate = (item) => {
-    const { keyword } = item;
-
+  const handleUpdate = (keyword) => {
     // Do not add a user keyword if it is already a recommended keyword.
     if (recommendedKeywords.includes(keyword)) {
       // @todo select the duplicate item if it's not already selected.
-      handleRemove(item);
+      handleRemove(keyword);
       return;
     }
 
     dispatch({ payload: [...userKeywords, keyword], type: 'UPDATE_USER_KEYWORDS' });
   };
-
-  /**
-   * Side effect to compile the master index of all keyword items, used for tracking
-   *   state throughout the selector tree.
-   *
-   * @param  {Array} selectionList An array list of the currently selected keyword strings.
-   */
-  const compileAllKeywordItems = (selectionList) => {
-    const indexedKeywords = userKeywords.reduce((carry, keyword) => ({
-      ...carry,
-      ...{
-        [keyword]: {
-          isSelected: selectionList.includes(keyword), keyword, type: 'user',
-        },
-      },
-    }), {});
-
-    setSelfKeywordItems({ ...indexedKeywords });
-  };
-
-  React.useEffect(() => {
-    compileAllKeywordItems(userKeywords);
-  }, [userKeywords]);
 
   return (
     <div className={styles.wrapper}>
@@ -76,13 +46,13 @@ const UserList = () => {
       </span>
 
       <ul className={styles.list}>
-        {Object.keys(selfKeywordItems).map((key) => (
+        {userKeywords.map((keyword) => (
           <li
             className={styles.item}
-            key={selfKeywordItems[key].keyword}
+            key={keyword}
           >
             <UserKeywordItem
-              item={selfKeywordItems[key]}
+              keyword={keyword}
               onRemove={handleRemove}
             />
           </li>

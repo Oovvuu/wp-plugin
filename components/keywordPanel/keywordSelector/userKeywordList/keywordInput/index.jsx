@@ -9,27 +9,20 @@ const KeywordInput = (props) => {
   const inputRef = React.createRef();
 
   /**
-   * Switches the keyword entry, calling onUpdate() to select
-   *   and forward the entered user keyword or onRemove() to delete it.
+   * Adds the user-entered keyword.
    */
   const handleKeyDown = (event) => {
     const { RETURN, TAB } = keyCodes;
     const { keyCode } = event;
 
     // Trigger click handler on enter.
-    if (keyCode === RETURN || keyCode === TAB) {
-      const updated = { keyword: keyword.toLowerCase() };
-
-      if (keyword) {
-        // Prevent tabbing to clear selection.
-        event.preventDefault();
-        updated.isSelected = true;
-      }
+    if (keyword && (keyCode === RETURN || keyCode === TAB)) {
+      event.preventDefault();
 
       // Clear the input.
       setKeyword('');
 
-      onUpdate(updated);
+      onUpdate(keyword);
     }
   };
 

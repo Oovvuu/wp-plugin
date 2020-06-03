@@ -4,14 +4,13 @@ import CloseIcon from 'assets/close.svg';
 import chip from 'shared/chip.scss';
 
 /**
- * Component for a single pill for selecting and deselecting a keyword.
+ * Component for a single pill for presenting a user-defined keyword.
  */
 const UserKeywordItem = (props) => {
   const {
-    item,
+    keyword,
     onRemove,
   } = props;
-  const { keyword } = item;
 
   return (
     <label
@@ -22,7 +21,7 @@ const UserKeywordItem = (props) => {
         {keyword}
       </span>
       <button
-        onClick={() => onRemove(item)}
+        onClick={() => onRemove(keyword)}
         type="button"
       >
         <CloseIcon />
@@ -32,9 +31,7 @@ const UserKeywordItem = (props) => {
 };
 
 UserKeywordItem.propTypes = {
-  item: PropTypes.shape({
-    keyword: PropTypes.string.isRequired,
-  }).isRequired,
+  keyword: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
 };
 
