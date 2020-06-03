@@ -21,13 +21,12 @@ const KeywordInput = (props) => {
 
     // Trigger click handler on enter.
     if (keyCode === RETURN || keyCode === TAB) {
-      // Prevent tabbing to clear selection.
-      event.preventDefault();
-
       const callback = keyword ? onUpdate : onRemove;
       const updated = { ...item, ...{ keyword: keyword.toLowerCase() } };
 
       if (keyword) {
+        // Prevent tabbing to clear selection.
+        event.preventDefault();
         updated.isSelected = true;
       }
 
