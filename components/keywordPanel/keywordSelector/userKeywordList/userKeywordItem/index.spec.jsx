@@ -8,7 +8,6 @@ describe('UserKeywordItem', () => {
     const wrapper = shallow(<UserKeywordItem
       keyword="keyword"
       onRemove={toRemove}
-      onToggle={jest.fn()}
     />);
 
     expect(wrapper.find('button')).toHaveLength(1);
