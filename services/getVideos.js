@@ -13,7 +13,15 @@ const getVideos = (keywords, id) => {
     data: { keywords, id },
   })
     .then((value) => {
-      const { videosForArticle } = value?.data || null;
+      if (value.data === null) {
+        return {
+          hasError: true,
+          message: __('Unable to perform request.', 'oovvuu'),
+        };
+      }
+
+      const videosForArticle = value?.data?.videosForArticle || null;
+
       return videosForArticle
         ? {
           hasError: false,
