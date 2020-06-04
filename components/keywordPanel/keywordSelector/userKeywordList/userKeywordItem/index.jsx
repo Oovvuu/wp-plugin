@@ -6,6 +6,7 @@ import CloseIcon from 'assets/close.svg';
  * Component for a single pill for presenting a user-defined keyword.
  */
 const UserKeywordItem = (props) => {
+  const { i18n: { __ } } = wp;
   const {
     keyword,
     onRemove,
@@ -19,6 +20,7 @@ const UserKeywordItem = (props) => {
       <button
         onClick={onRemove}
         type="button"
+        aria-label={`${__('Remove', 'oovvuu')} ${keyword}`}
       >
         <CloseIcon />
       </button>
