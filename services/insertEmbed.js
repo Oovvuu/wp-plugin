@@ -24,11 +24,18 @@ const insertEmbed = (id, videos) => {
     removeBlocks,
   } = dispatch('core/block-editor');
 
+  // Remove all un-needed data from videos.
+  const minimalVideos = videos.map((video) => ({
+    id: video.id,
+    preview: { ...video.preview },
+    thumbnail: { ...video.thumbnail },
+  }));
+
   // Create new embed block.
   const newBlock = createBlock(
     'oovvuu/embed', {
       id,
-      videos: JSON.stringify(videos),
+      videos: JSON.stringify(minimalVideos),
     },
   );
 
