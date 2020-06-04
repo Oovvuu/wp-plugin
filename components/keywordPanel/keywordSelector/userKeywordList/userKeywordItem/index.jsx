@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from 'assets/close.svg';
-import chip from 'shared/chip.scss';
+import keywords from 'components/keywordPanel/keywords.scss';
 
 /**
  * Component for a single pill for presenting a user-defined keyword.
@@ -14,7 +14,7 @@ const UserKeywordItem = (props) => {
 
   return (
     <label
-      className={chip.wrapper}
+      className={keywords.user}
       htmlFor={keyword}
     >
       <span>

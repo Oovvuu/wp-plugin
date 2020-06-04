@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from 'shared/checkboxes.scss';
+import styles from './keywordList.scss';
 import KeywordItem from './keywordItem';
 
 /**
@@ -33,7 +33,7 @@ const KeywordList = (props) => {
   return (
     <ul className={styles.keywords}>
       {Object.keys(keywordItems).map((key) => (
-        <li className={styles.keyword} key={keywordItems[key].keyword}>
+        <li key={keywordItems[key].keyword}>
           <KeywordItem
             item={keywordItems[key]}
             onRemove={onRemove}
