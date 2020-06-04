@@ -9,10 +9,13 @@ import styles from './userKeywordList.scss';
  * Manages adding and deleting user-defined keywords.
  */
 const UserList = () => {
+  const { i18n: { __ } } = wp;
   const {
     dispatch,
     state: { recommendedKeywords, userKeywords },
   } = React.useContext(oovvuuData);
+  const [lastAction, setLastAction] = React.useState('');
+  const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
 
   /**
    * Removes a given keyword from the userKeywords state.
@@ -20,6 +23,9 @@ const UserList = () => {
    * @param {string} keyword The keyword to be removed.
    */
   const handleRemove = (keyword) => {
+    // Update local state for aria-live region.
+    setLastAction(`${keyword} removed.`);
+
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
   };
 
@@ -36,8 +42,23 @@ const UserList = () => {
       return;
     }
 
+    // Update local state for aria-live region.
+    setLastAction(`${keyword} added.`);
+
     dispatch({ payload: [...userKeywords, keyword], type: 'UPDATE_USER_KEYWORDS' });
   };
+
+  /**
+   * Compile the aria-live region's message string.
+   */
+  React.useEffect(() => {
+    const keywordCount = userKeywords.length;
+    const countDescription = (keywordCount === 1)
+      ? __('keyword total.', 'oovvuu')
+      : __('keywords total.', 'oovvuu');
+
+    setLiveRegionMessage(`${lastAction} ${keywordCount} ${countDescription}`);
+  }, [lastAction]);
 
   return (
     <div className={styles.wrapper}>
@@ -59,6 +80,16 @@ const UserList = () => {
         ))}
 
         <KeywordInput onUpdate={handleUpdate} />
+      </div>
+      <div className="screen-reader-only">
+        {__('Last change to keywords list:', 'oovvuu')}
+        <span
+          aria-live="polite"
+          aria-relevant="additions removals"
+          id="form-action-text"
+        >
+          {liveRegionMessage}
+        </span>
       </div>
     </div>
   );
