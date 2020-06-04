@@ -1,11 +1,12 @@
 /**
  * Insert Oovvuu embed after 3rd paragraph
  *
- * @param   {int}    id    The embed ID.
+ * @param {int} id The embed ID.
+ * @param {object} videos The videos.
  */
-const insertEmbed = (id) => {
+const insertEmbed = (id, videos) => {
   // return if no id.
-  if (!id) {
+  if (!id || videos.length === 0) {
     return false;
   }
 
@@ -27,6 +28,7 @@ const insertEmbed = (id) => {
   const newBlock = createBlock(
     'oovvuu/embed', {
       id,
+      videos: JSON.stringify(videos),
     },
   );
 
