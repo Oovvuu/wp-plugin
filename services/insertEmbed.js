@@ -55,12 +55,14 @@ const insertEmbed = (id) => {
     // Array of HTML elements.
     const nodes = [...el.childNodes];
     const nodesHtml = nodes.map((n) => n.outerHTML);
-    // Remove existing shortcode and add new one
+    // Remove existing shortcode.
     const filteredNodes = nodesHtml.filter((n) => !n.includes('[oovvuu-embed'));
-    filteredNodes.splice(3, 0, `<p>[oovvuu-embed id=${id}]</p>`);
+    // Add new shortcode as the 4th element.
+    filteredNodes.splice(3, 0, `[oovvuu-embed id="${id}"]`);
     // Reset editor content.
     tinymce.editors.content.setContent(filteredNodes.join(''));
   }
+
   return true;
 };
 export default insertEmbed;

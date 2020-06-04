@@ -10,10 +10,11 @@ namespace Oovvuu;
 /**
  * Render embed shortcode.
  *
+ * @since 1.0.0
  * @param array $atts shortcode atts.
  * @return string the embed template.
  */
-function oovvuu_embed_shortcode( $atts ) {
+function embed_shortcode( $atts ) {
 	$attributes = shortcode_atts(
 		[
 			'id' => '',
@@ -27,4 +28,4 @@ function oovvuu_embed_shortcode( $atts ) {
 }
 
 // Register shortcode.
-add_shortcode( 'oovvuu-embed', __NAMESPACE__ . '\oovvuu_embed_shortcode' );
+add_shortcode( 'oovvuu-embed', __NAMESPACE__ . '\embed_shortcode' );
