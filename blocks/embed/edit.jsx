@@ -15,8 +15,6 @@ const EmbedEdit = (props) => {
     } = {},
   } = props;
 
-  const getVideosArray = () => JSON.parse(videos);
-
   return (
     <div className={classnames(
       styles.playerWrapper,
@@ -24,7 +22,7 @@ const EmbedEdit = (props) => {
       styles.brightcovePlayer,
     )}
     >
-      <PlayerWrapper videos={getVideosArray()} />
+      <PlayerWrapper videos={JSON.parse(videos) || {}} />
     </div>
   );
 };
