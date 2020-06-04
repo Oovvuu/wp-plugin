@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from 'shared/checkboxes.scss';
+import styles from 'components/keywordPanel/keywordSelector/keywordList/keywordList.scss';
 import TopicItem from './topicItem';
 
 /**
@@ -14,7 +14,7 @@ const TopicsList = (props) => {
   return (
     <ul className={styles.keywords}>
       {Object.keys(items).map((key) => (
-        <li className={styles.keyword} key={`topic-${items[key].filter.keywordMatch[0]}`}>
+        <li key={`topic-${items[key].filter.keywordMatch[0]}`}>
           <TopicItem
             item={items[key]}
           />
