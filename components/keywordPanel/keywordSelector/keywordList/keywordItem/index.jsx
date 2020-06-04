@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CloseIcon from 'assets/close.svg';
 import keyCodes from 'utils/keyCodes';
-import checkboxes from 'shared/checkboxes.scss';
-import styles from './keywordItem.scss';
+import keywords from 'components/keywordPanel/keywords.scss';
 
 /**
  * Component for a single pill for selecting and deselecting a keyword.
@@ -11,7 +9,6 @@ import styles from './keywordItem.scss';
 const KeywordItem = (props) => {
   const {
     item,
-    onRemove,
     onToggle,
   } = props;
   const { isSelected, keyword } = item;
@@ -34,7 +31,7 @@ const KeywordItem = (props) => {
 
   return (
     <label
-      className={checkboxes.keyword}
+      className={keywords.recommended}
       htmlFor={keyword}
       onKeyDown={handleKeyDown}
     >
@@ -48,23 +45,15 @@ const KeywordItem = (props) => {
       <span>
         {keyword}
       </span>
-      {onRemove && typeof onRemove === 'function' && (
-        <button className={styles.removeKeyword} onClick={() => onRemove(item)} type="button">
-          <CloseIcon />
-        </button>
-      )}
     </label>
   );
 };
-
-KeywordItem.defaultProps = { onRemove: null };
 
 KeywordItem.propTypes = {
   item: PropTypes.shape({
     isSelected: PropTypes.bool.isRequired,
     keyword: PropTypes.string.isRequired,
   }).isRequired,
-  onRemove: PropTypes.func,
   onToggle: PropTypes.func.isRequired,
 };
 

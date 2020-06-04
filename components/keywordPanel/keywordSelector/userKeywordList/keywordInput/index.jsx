@@ -1,42 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import keyCodes from 'utils/keyCodes';
-import styles from 'shared/checkboxes.scss';
+import styles from './keywordInput.scss';
 
 const KeywordInput = (props) => {
-  const { i18n: { __ } } = wp;
-  const {
-    item, onRemove, onUpdate,
-  } = props;
-  const [keyword, setKeyword] = React.useState(item.keyword);
+  const { onUpdate } = props;
+  const [keyword, setKeyword] = React.useState('');
   const inputRef = React.createRef();
 
   /**
-   * Switches the keyword entry, calling onUpdate() to select
-   *   and forward the entered user keyword or onRemove() to delete it.
+   * Adds the user-entered keyword.
    */
   const handleKeyDown = (event) => {
     const { RETURN, TAB } = keyCodes;
     const { keyCode } = event;
 
     // Trigger click handler on enter.
-    if (keyCode === RETURN || keyCode === TAB) {
-      // Prevent tabbing to clear selection.
+    if (keyword && (keyCode === RETURN || keyCode === TAB)) {
       event.preventDefault();
 
-      const callback = keyword ? onUpdate : onRemove;
-      const updated = { ...item, ...{ keyword: keyword.toLowerCase() } };
+      // Clear the input.
+      setKeyword('');
 
-      if (keyword) {
-        updated.isSelected = true;
-      }
-
-      callback(updated);
+      onUpdate(keyword);
     }
   };
 
   /**
    * Handles updating internal state for user input.
+   *
    * @param event Event Event object.
    */
   const handleChange = (event) => {
@@ -57,7 +49,6 @@ const KeywordInput = (props) => {
       className={styles.input}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
-      placeholder={__('Enter keyword', 'oovvuu')}
       ref={inputRef}
       value={keyword}
     />
@@ -65,10 +56,6 @@ const KeywordInput = (props) => {
 };
 
 KeywordInput.propTypes = {
-  item: PropTypes.shape({
-    keyword: PropTypes.string.isRequired,
-  }).isRequired,
-  onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
 

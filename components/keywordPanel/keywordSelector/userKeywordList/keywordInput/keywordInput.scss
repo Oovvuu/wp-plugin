@@ -1,0 +1,11 @@
+.input {
+  @include input-reset;
+  @include font-props(14, 14, medium);
+  @include uppercase;
+  height: 100%;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}

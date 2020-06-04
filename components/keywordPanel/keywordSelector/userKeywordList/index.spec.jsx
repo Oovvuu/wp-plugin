@@ -1,8 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ActionButton from 'components/actionButton';
-import UserLKeywordList from './index';
-import KeywordList from '../keywordList';
+import UserKeywordList from './index';
+import UserKeywordItem from './userKeywordItem';
 
 describe('UserKeywordList', () => {
   it('Renders required child components', () => {
@@ -11,9 +10,8 @@ describe('UserKeywordList', () => {
         dispatch: jest.fn(),
         state: { userKeywords: ['keyword'] },
       }));
-    const wrapper = shallow(<UserLKeywordList />);
+    const wrapper = shallow(<UserKeywordList />);
 
-    expect(wrapper.find(KeywordList)).toHaveLength(1);
-    expect(wrapper.find(ActionButton)).toHaveLength(1);
+    expect(wrapper.find(UserKeywordItem)).toHaveLength(1);
   });
 });
