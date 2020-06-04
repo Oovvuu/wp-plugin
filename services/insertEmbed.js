@@ -1,3 +1,4 @@
+import insertShortcode from './insertShortcode';
 /* global tinymce */
 
 /**
@@ -47,25 +48,13 @@ const insertEmbed = (id) => {
 
   // Classic editor.
   if (tinymce?.editors?.content) {
-    // Get editor content.
-    const content = tinymce.editors.content.getContent();
-
-    // Dummy element to process nodes.
-    const el = document.createElement('div');
-    el.innerHTML = content;
-
-    // Array of HTML elements.
-    const nodes = [...el.childNodes];
-    const nodesHtml = nodes.map((n) => n.outerHTML);
-
-    // Remove existing shortcode.
-    const filteredNodes = nodesHtml.filter((n) => !n.includes('[oovvuu-embed'));
-
-    // Add new shortcode as the 4th element.
-    filteredNodes.splice(3, 0, `[oovvuu-embed id="${id}"]`);
-
-    // Reset editor content.
-    tinymce.editors.content.setContent(filteredNodes.join(''));
+    // Get editor content and insert/modify embed shortcode.
+    tinymce.editors.content.setContent(
+      insertShortcode(
+        id,
+        tinymce.editors.content.getContent(),
+      ),
+    );
   }
 
   return true;
