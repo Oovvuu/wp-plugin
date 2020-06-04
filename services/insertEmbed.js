@@ -46,17 +46,18 @@ const insertEmbed = (id) => {
   }
 
   if (tinymce?.editors?.content) {
+    // Get editor content.
     const content = tinymce.editors.content.getContent();
-
     // Dummy element to process nodes.
     const el = document.createElement('div');
     el.innerHTML = content;
-
     // Array of HTML elements.
     const nodes = [...el.childNodes];
     const nodesHtml = nodes.map((n) => n.outerHTML);
-    const filteredNodes = nodesHtml.filter((n) => !n.includes('blap'));
+    // Remove existing shortcode and add new one
+    const filteredNodes = nodesHtml.filter((n) => !n.includes('[oovvuu-embed'));
     filteredNodes.splice(3, 0, `<p>[oovvuu-embed id=${id}]</p>`);
+    // Reset editor content.
     tinymce.editors.content.setContent(filteredNodes.join(''));
   }
 
