@@ -1,0 +1,70 @@
+/* stylelint-disable selector-max-specificity */
+
+/**
+ * Toggle-style checkbox.
+ */
+.toggle {
+  display: inline-block;
+  margin-left: auto;
+
+  &:focus-within {
+    text-decoration: underline;
+  }
+
+  label {
+    @include font-props(14, 14, medium);
+    @include uppercase;
+    align-items: center;
+    display: flex;
+  }
+
+  input[type="checkbox"] {
+    @include checkbox-reset;
+    background: none;
+    height: rem(20);
+    margin-left: rem(6);
+    outline: none;
+    position: relative;
+    width: rem(34);
+    z-index: 0;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+    }
+
+    &::before {
+      background-color: rgba(18, 22, 27, 0.2);
+      border-radius: rem(7);
+      height: rem(14);
+      left: 0;
+      position: absolute;
+      top: calc(50% - rem(7)); // Minus half the height.
+      width: rem(34);
+      z-index: -1;
+    }
+
+    &::after {
+      background-color: #E4E7EB;
+      border-radius: 50%;
+      height: rem(20);
+      transition: transform 150ms ease-in-out, color 150ms ease-in-out;
+      width: rem(20);
+      z-index: 1;
+    }
+
+    &:checked {
+
+      &::after {
+        background-color: var(--color-theme);
+        transform: translateX(rem(20));
+      }
+
+      &::before {
+        background-color: var(--color-theme);
+        opacity: 0.5;
+      }
+    }
+  }
+}
