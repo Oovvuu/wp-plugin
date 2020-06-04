@@ -11,7 +11,7 @@ const insertEmbed = (id) => {
     return false;
   }
 
-  // Check if Gutenberg.
+  // Gutenberg.
   if (wp.data) {
     const {
       data: { dispatch, select },
@@ -45,6 +45,7 @@ const insertEmbed = (id) => {
     insertBlocks(newBlock, 3);
   }
 
+  // Classic editor
   if (tinymce?.editors?.content) {
     // Get editor content.
     const content = tinymce.editors.content.getContent();
@@ -59,9 +60,7 @@ const insertEmbed = (id) => {
     filteredNodes.splice(3, 0, `<p>[oovvuu-embed id=${id}]</p>`);
     // Reset editor content.
     tinymce.editors.content.setContent(filteredNodes.join(''));
-  }
-
-  // Classic editor.
+  }.
   return true;
 };
 export default insertEmbed;
