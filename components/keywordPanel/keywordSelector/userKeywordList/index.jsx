@@ -1,6 +1,8 @@
 import React from 'react';
 import AddIcon from 'assets/add.svg';
+import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
+import keywords from 'components/keywordPanel/keywords.scss';
 import UserKeywordItem from './userKeywordItem';
 import KeywordInput from './keywordInput';
 import styles from './userKeywordList.scss';
@@ -48,7 +50,7 @@ const UserList = () => {
       <ul className={styles.list}>
         {userKeywords.map((keyword) => (
           <li
-            className={styles.item}
+            className={classnames(styles.item, keywords.user)}
             key={keyword}
           >
             <UserKeywordItem

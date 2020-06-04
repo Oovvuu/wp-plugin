@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from 'assets/close.svg';
-import keywords from 'components/keywordPanel/keywords.scss';
 
 /**
  * Component for a single pill for presenting a user-defined keyword.
@@ -13,10 +12,7 @@ const UserKeywordItem = (props) => {
   } = props;
 
   return (
-    <label
-      className={keywords.user}
-      htmlFor={keyword}
-    >
+    <>
       <span>
         {keyword}
       </span>
@@ -26,7 +22,7 @@ const UserKeywordItem = (props) => {
       >
         <CloseIcon />
       </button>
-    </label>
+    </>
   );
 };
 
