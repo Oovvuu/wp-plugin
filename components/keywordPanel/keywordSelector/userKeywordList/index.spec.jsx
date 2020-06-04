@@ -3,6 +3,10 @@ import { shallow } from 'enzyme';
 import UserKeywordList from './index';
 import UserKeywordItem from './userKeywordItem';
 
+global.wp = {
+  i18n: { __: jest.fn(() => 'translated') },
+};
+
 describe('UserKeywordList', () => {
   it('Renders required child components', () => {
     jest.spyOn(React, 'useContext')
