@@ -22,6 +22,9 @@ const DialogWrapper = () => {
       isLoadedFromMeta,
       selectedVideos,
       isLoading,
+      selectedVideos: {
+        positionTwo,
+      },
     },
     dispatch,
   } = React.useContext(oovvuuData);
@@ -99,7 +102,7 @@ const DialogWrapper = () => {
 
       // Insert a new Oovvuu embed to the editor.
       if (positionTwoEmbedId) {
-        insertEmbed(positionTwoEmbedId);
+        insertEmbed(positionTwoEmbedId, positionTwo);
       }
 
       /**
