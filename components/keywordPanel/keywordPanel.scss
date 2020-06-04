@@ -2,16 +2,6 @@
   padding: rem(4 20 22 20);
 }
 
-.panelHeading {
-  @include font-props(14, 16, medium);
-  @include uppercase;
-  background-color: var(--color-white);
-  display: inline-block;
-  margin: 0;
-  padding: 0 rem(14) 0 rem(4);
-  transform: translate(rem(16), rem(6));
-}
-
 .keywordsHeading {
   @include font-props(16, 24, regular);
   margin: 0 0 rem(20) 0;

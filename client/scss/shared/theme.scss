@@ -6,3 +6,13 @@
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
 }
+
+.panelHeading {
+  @include font-props(14, 16, medium);
+  @include uppercase;
+  background-color: var(--color-white);
+  display: inline-block;
+  margin: 0;
+  padding: 0 rem(14) 0 rem(4);
+  transform: translate(rem(16), rem(6));
+}

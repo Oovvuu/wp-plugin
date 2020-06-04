@@ -17,6 +17,7 @@ const initialState = {
     positionTwo: [],
     positionTwoEmptyReason: null,
     positionTwoSecondary: [],
+    alternateSearches: [],
   },
   selectedKeywords: [],
   userKeywords: [],
@@ -26,6 +27,7 @@ const initialState = {
     positionTwo: [],
     positionTwoSecondary: [],
   },
+  selectedAlternateSearches: [],
   isLoading: false,
   isUserAuthenticated: false,
   loadingAttributes: {
