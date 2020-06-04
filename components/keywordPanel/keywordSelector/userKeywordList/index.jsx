@@ -45,7 +45,11 @@ const UserList = () => {
         <AddIcon />
       </span>
 
-      <div className={styles.list}>
+      <div
+        className={styles.list}
+        role="grid"
+        aria-labelledby="user-keywords-heading"
+      >
         {userKeywords.map((keyword) => (
           <UserKeywordItem
             key={keyword}
