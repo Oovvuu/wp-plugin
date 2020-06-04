@@ -1,8 +1,6 @@
 import React from 'react';
 import AddIcon from 'assets/add.svg';
-import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
-import keywords from 'components/keywordPanel/keywords.scss';
 import UserKeywordItem from './userKeywordItem';
 import KeywordInput from './keywordInput';
 import styles from './userKeywordList.scss';
@@ -47,23 +45,17 @@ const UserList = () => {
         <AddIcon />
       </span>
 
-      <ul className={styles.list}>
+      <div className={styles.list}>
         {userKeywords.map((keyword) => (
-          <li
-            className={classnames(styles.item, keywords.user)}
+          <UserKeywordItem
             key={keyword}
-          >
-            <UserKeywordItem
-              keyword={keyword}
-              onRemove={() => { handleRemove(keyword); }}
-            />
-          </li>
+            keyword={keyword}
+            onRemove={() => { handleRemove(keyword); }}
+          />
         ))}
 
-        <li className={styles.inputItem}>
-          <KeywordInput onUpdate={handleUpdate} />
-        </li>
-      </ul>
+        <KeywordInput onUpdate={handleUpdate} />
+      </div>
     </div>
   );
 };
