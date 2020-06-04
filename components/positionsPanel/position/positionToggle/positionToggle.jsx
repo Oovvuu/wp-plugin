@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'react-uuid';
-import checkboxes from 'shared/checkboxes.scss';
+import styles from './positionToggle.scss';
 
 /**
  * Displays the toggle to enable/disable a position.
@@ -12,7 +12,7 @@ const PositionToggle = (props) => {
   const { enabled, onTogglePosition } = props;
 
   return (
-    <span className={checkboxes.toggle}>
+    <span className={styles.toggle}>
       <label
         htmlFor={id}
       >

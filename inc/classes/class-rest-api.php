@@ -169,6 +169,15 @@ class REST_API {
 							...VideoDetailFragment
 						}
 						positionTwoEmptyReason
+						alternateSearches {
+							approximateTotalCount
+							filter {
+								...VideoFilterFragment
+							}
+							previewImage(input: { height: 100, width: 100 }) {
+								url
+							}
+						}
 					}
 				}
 
@@ -202,6 +211,14 @@ class REST_API {
 					modified
 					activeSince
 					providerAssetId
+				}
+
+				fragment VideoFilterFragment on VideoFilterOutputType {
+					keywordMatch
+					genre
+					publishedAt {
+						gte
+					}
 				}',
 				[
 					'articleTitle' => $request['title'] ?? '',
@@ -210,7 +227,12 @@ class REST_API {
 						'keywordMatch' => $request['keywords'] ?? [],
 					],
 				],
-				$request['id'] ?? 0
+				$request['id'] ?? 0,
+				[
+					'previewInput' => [
+						'domain' => wp_parse_url( admin_url(), PHP_URL_HOST ),
+					],
+				]
 			)
 		);
 	}
@@ -238,7 +260,7 @@ class REST_API {
 
 		// Save the state to post meta.
 		$state = array_merge( $request['state'], [ 'isLoadedFromMeta' => true ] );
-		update_post_meta($request['id'], 'oovvuu_state', $state );
+		update_post_meta( $request['id'], 'oovvuu_state', $state );
 
 		// Create the embeds.
 		$embeds = [];
@@ -346,6 +368,7 @@ class REST_API {
 				],
 			],
 			$payload['post_id'] ?? 0,
+			[],
 			true
 		);
 	}
@@ -444,10 +467,11 @@ class REST_API {
 	 * @param  string $query GraphQL query.
 	 * @param  array  $input Input variables.
 	 * @param  int    $post_id The current post ID relating to the request.
+	 * @param  array  $variables Extra variables to be passed to the query.
 	 * @param  bool   $remove_article_metadata Whether or not to remove the article metadata input.
 	 * @return mixed The HTTP response body or a WP_Error object.
 	 */
-	public function request( $query, $input, $post_id = 0, $remove_article_metadata = false ) {
+	public function request( $query, $input, $post_id = 0, $variables = [], $remove_article_metadata = false ) {
 		$current_user_id = get_current_user_id();
 
 		// No user.
@@ -487,6 +511,15 @@ class REST_API {
 			unset( $payload['variables']['input']['articleMetadata'] );
 		}
 
+		// Add extra variables to the query input.
+		if ( ! empty( $variables ) ) {
+
+			// Ensure we are not overridding the default input.
+			unset( $variables['input'] );
+
+			$payload['variables'] = array_merge( $payload['variables'], $variables );
+		}
+
 		// Perform the request.
 		$response = wp_remote_post(
 			$this->endpoint,
@@ -496,6 +529,7 @@ class REST_API {
 					'Content-Type'  => 'application/json',
 				],
 				'body'    => wp_json_encode( $payload ),
+				'timeout' => 10, // phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 			]
 		);
 
