@@ -38,7 +38,6 @@ const KeywordList = (props) => {
             item={keywordItems[key]}
             onRemove={onRemove}
             onToggle={handleToggle}
-            onUpdate={onUpdate}
           />
         </li>
       ))}
