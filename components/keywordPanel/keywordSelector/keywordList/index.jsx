@@ -1,43 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import oovvuuData from 'components/app/context';
 import styles from './keywordList.scss';
 import KeywordItem from './keywordItem';
 
 /**
- * Component for showing list of keywords for the current post. This has two distinct
- *   behaviors depending on whether the onMutate() callback prop is passed in and further
- *   drilled down to the children KeywordItem components:
- *   - By default (no onMutate() callback), it only renders a KeywordItem with text and a toggle
- *     to show the KeywordItem's selected state.
- *   - With an onMutate() callback, the KeywordItem will additionally render an input
- *     for adding a user-defined keyword. The KeywordItem will also have a ClearIcon to remove
- *     a user-defined keyword.
+ * Displays and manages the list of recommended keywords.
  */
 const KeywordList = (props) => {
   const {
-    keywordItems, onRemove, onUpdate,
+    dispatch,
+    state: { selectedKeywords },
+  } = React.useContext(oovvuuData);
+  const {
+    keywordItems,
   } = props;
 
   /**
-   * Flips selected state of a keyword item and calls update callback.
+   * Handle toggling recommended keywords.
    *
-   * @param key string UUID key of the updated keyword item.
+   * @param {string} keyword the keyword being updated.
    */
-  const handleToggle = (key) => {
-    const toggled = keywordItems[key];
-    toggled.isSelected = !toggled.isSelected;
+  const handleItemUpdated = (keyword) => {
+    const payload = (!selectedKeywords.includes(keyword))
+      ? [...selectedKeywords, keyword.toLowerCase()]
+      : selectedKeywords.filter((selected) => selected !== keyword);
 
-    onUpdate(toggled);
+    dispatch({ payload, type: 'UPDATE_SELECTED_KEYWORDS' });
   };
 
   return (
     <ul className={styles.keywords}>
-      {Object.keys(keywordItems).map((key) => (
-        <li key={keywordItems[key].keyword}>
+      {keywordItems.map((keyword) => (
+        <li key={keyword}>
           <KeywordItem
-            item={keywordItems[key]}
-            onRemove={onRemove}
-            onToggle={handleToggle}
+            keyword={keyword}
+            isSelected={selectedKeywords.includes(keyword)}
+            onToggle={() => handleItemUpdated(keyword)}
           />
         </li>
       ))}
@@ -45,15 +44,8 @@ const KeywordList = (props) => {
   );
 };
 
-KeywordList.defaultProps = { onRemove: null };
-
 KeywordList.propTypes = {
-  keywordItems: PropTypes.objectOf(PropTypes.shape({
-    isSelected: PropTypes.bool.isRequired,
-    keyword: PropTypes.string.isRequired,
-  })).isRequired,
-  onRemove: PropTypes.func,
-  onUpdate: PropTypes.func.isRequired,
+  keywordItems: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default KeywordList;
