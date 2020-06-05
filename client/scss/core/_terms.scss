@@ -1,0 +1,26 @@
+/**
+ * Sets the basic keyword "pill" shape.
+ */
+@mixin term-pill {
+  @include font-props(14, 14, medium);
+  @include uppercase;
+  background-color: var(--color-white);
+  border: solid 1px var(--color-decoration);
+  border-radius: rem(16);
+  height: rem(32);
+}
+
+/**
+ * Sets the selected keyword styles.
+ */
+@mixin term-selected {
+  background-color: var(--color-theme-faded);
+  border: solid 1px var(--color-theme);
+}
+
+/**
+ * Sets keyword focus styles.
+ */
+@mixin term-focused {
+  box-shadow: 0 0 1px 1px var(--color-theme);
+}

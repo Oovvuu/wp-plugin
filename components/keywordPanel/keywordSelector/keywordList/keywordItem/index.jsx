@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import keyCodes from 'utils/keyCodes';
-import keywords from 'components/keywordPanel/keywords.scss';
+import keywords from 'shared/theme.scss';
 
 /**
  * Component for a single pill for selecting and deselecting a keyword.
@@ -31,7 +31,7 @@ const KeywordItem = (props) => {
 
   return (
     <label
-      className={keywords.recommended}
+      className={keywords.recommendedTerm}
       htmlFor={keyword}
       onKeyDown={handleKeyDown}
     >
