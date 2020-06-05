@@ -5,11 +5,13 @@
  * @param   {int}    id    The embed ID.
  * @param   {string} html  The markup.
  */
-const insertShortcode = (id, html) => {
+const insertShortcode = (id, html, shortcodePattern) => {
   // return if no id.
-  if (!id || !html) {
+  if (!id || !html || !shortcodePattern) {
     return '';
   }
+
+
   // Dummy element to process nodes.
   const el = document.createElement('div');
   el.innerHTML = html;
@@ -18,8 +20,9 @@ const insertShortcode = (id, html) => {
   const nodes = [...el.childNodes];
   const nodesHtml = nodes.map((n) => n.outerHTML);
 
-  const shortcodePattern = /\[oovvuu-embed(\s.*?)?\](?:([^[]+)?\[\/shortcode\])?/g;
   const emptyTagPattern = /<[^/>][^>]*><\/[^>]+>/g;
+  console.log(nodesHtml);
+
   // If node contains shortcode remove it. Clean empty tag after.
   const filteredNodes = nodesHtml.map(
     (n) => (

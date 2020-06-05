@@ -45,8 +45,19 @@ function action_admin_enqueue_scripts() {
 		[],
 		'1.0.0'
 	);
+
+	// Send shorcode regex and edit profile link.
+	wp_localize_script(
+		'oovvuu-app-classic-js',
+		'oovvuuAppUserData',
+		[
+			'shortcodeRegex'  => get_shortcode_regex( [ 'oovvuu-embed' ] ),
+			'editProfileLink' => get_edit_user_link(),
+		]
+	);
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\action_admin_enqueue_scripts' );
+
 
 /**
  * A callback for the enqueue_block_editor_assets action hook to register assets
