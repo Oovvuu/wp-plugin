@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import keyCodes from 'utils/keyCodes';
 import buttons from './actionButton.scss';
 
 /**
@@ -32,21 +31,6 @@ const ActionButton = (props) => {
   // Reference to the action button.
   const ref = React.useRef();
 
-  /**
-   * Handle return key press and act like button click for accessibilty.
-   *
-   * @param {Event} event The Event object.
-   */
-  const handleKeyDown = (event) => {
-    const { RETURN } = keyCodes;
-    const { keyCode } = event;
-
-    // Trigger click handler on enter.
-    if (keyCode === RETURN) {
-      onClickHandler();
-    }
-  };
-
   // Set focus to button when focus is true.
   React.useEffect(() => {
     if (focus) {
@@ -60,7 +44,6 @@ const ActionButton = (props) => {
       type="button"
       disabled={disabled}
       onClick={onClickHandler}
-      onKeyDown={handleKeyDown}
       ref={ref}
     >
       <span>{children}</span>

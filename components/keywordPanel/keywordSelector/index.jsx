@@ -101,7 +101,12 @@ const KeywordSelector = () => {
         keywordItems={keywordItems}
         onUpdate={handleItemUpdated}
       />
-      <h4 className={styles.keywordsHeading}>{__('Add additional keywords here', 'oovvuu')}</h4>
+      <h4
+        id="user-keywords-heading"
+        className={styles.keywordsHeading}
+      >
+        {__('Add additional keywords here', 'oovvuu')}
+      </h4>
       <UserKeywordList />
     </div>
   );

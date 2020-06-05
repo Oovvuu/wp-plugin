@@ -1,3 +1,9 @@
+.inputItem {
+  flex: 1 0 auto;
+  height: rem(32);
+  margin: var(--keyword-margin);
+}
+
 .input {
   @include input-reset;
   @include font-props(14, 14, medium);

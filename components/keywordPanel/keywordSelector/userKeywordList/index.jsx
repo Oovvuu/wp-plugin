@@ -9,10 +9,13 @@ import styles from './userKeywordList.scss';
  * Manages adding and deleting user-defined keywords.
  */
 const UserList = () => {
+  const { i18n: { __ } } = wp;
   const {
     dispatch,
     state: { recommendedKeywords, userKeywords },
   } = React.useContext(oovvuuData);
+  const [lastAction, setLastAction] = React.useState('');
+  const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
 
   /**
    * Removes a given keyword from the userKeywords state.
@@ -20,6 +23,9 @@ const UserList = () => {
    * @param {string} keyword The keyword to be removed.
    */
   const handleRemove = (keyword) => {
+    // Update local state for aria-live region.
+    setLastAction(`${keyword} removed.`);
+
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
   };
 
@@ -29,15 +35,29 @@ const UserList = () => {
    * @param item object Keyword item.
    */
   const handleUpdate = (keyword) => {
-    // Do not add a user keyword if it is already a recommended keyword.
-    if (recommendedKeywords.includes(keyword)) {
+    // Do not add a user keyword if it already exists.
+    if ([...recommendedKeywords, ...userKeywords].includes(keyword)) {
       // @todo select the duplicate item if it's not already selected.
-      handleRemove(keyword);
       return;
     }
 
+    // Update local state for aria-live region.
+    setLastAction(`${keyword} added.`);
+
     dispatch({ payload: [...userKeywords, keyword], type: 'UPDATE_USER_KEYWORDS' });
   };
+
+  /**
+   * Compile the aria-live region's message string.
+   */
+  React.useEffect(() => {
+    const keywordCount = userKeywords.length;
+    const countDescription = (keywordCount === 1)
+      ? __('keyword total.', 'oovvuu')
+      : __('keywords total.', 'oovvuu');
+
+    setLiveRegionMessage(`${lastAction} ${keywordCount} ${countDescription}`);
+  }, [lastAction]);
 
   return (
     <div className={styles.wrapper}>
@@ -45,23 +65,31 @@ const UserList = () => {
         <AddIcon />
       </span>
 
-      <ul className={styles.list}>
+      <div
+        className={styles.list}
+        role="grid"
+        aria-labelledby="user-keywords-heading"
+      >
         {userKeywords.map((keyword) => (
-          <li
-            className={styles.item}
+          <UserKeywordItem
             key={keyword}
-          >
-            <UserKeywordItem
-              keyword={keyword}
-              onRemove={() => { handleRemove(keyword); }}
-            />
-          </li>
+            keyword={keyword}
+            onRemove={() => { handleRemove(keyword); }}
+          />
         ))}
 
-        <li className={styles.inputItem}>
-          <KeywordInput onUpdate={handleUpdate} />
-        </li>
-      </ul>
+        <KeywordInput onUpdate={handleUpdate} />
+      </div>
+      <div className="screen-reader-only">
+        {__('Last change to keywords list:', 'oovvuu')}
+        <span
+          aria-live="polite"
+          aria-relevant="additions removals"
+          id="form-action-text"
+        >
+          {liveRegionMessage}
+        </span>
+      </div>
     </div>
   );
 };

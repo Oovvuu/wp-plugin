@@ -6,7 +6,7 @@ import addModalDivEl from 'services/addModalDivEl';
 import userAuthenticated from 'services/userAuthenticated';
 import getState from 'services/getState';
 import getPostAttribute from 'services/getPostAttribute';
-import 'scss/global/vars.scss';
+import 'scss/global/base.scss';
 import OovvuuDataContext from './context';
 import EffectsManager from './effectsManager';
 
