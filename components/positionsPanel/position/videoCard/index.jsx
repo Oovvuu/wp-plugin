@@ -25,7 +25,7 @@ const VideoCardWrapper = (props) => {
           legalName,
         },
       },
-      description,
+      summary,
       duration,
       modified,
       id,
@@ -138,7 +138,7 @@ const VideoCardWrapper = (props) => {
         <Badge text={moment(modified).fromNow()} />
         <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
       </div>
-      <p className={styles.description}>{description}</p>
+      <p className={styles.description}>{summary}</p>
     </div>
   );
 };
@@ -155,7 +155,7 @@ VideoCardWrapper.propTypes = {
         legalName: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    description: PropTypes.string.isRequired,
+    summary: PropTypes.string.isRequired,
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,

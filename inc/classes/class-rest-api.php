@@ -185,6 +185,7 @@ class REST_API {
 					id
 					title
 					description
+					summary
 					tags
 					thumbnail(input: { width: 500, height: 281 }) {
 						url
