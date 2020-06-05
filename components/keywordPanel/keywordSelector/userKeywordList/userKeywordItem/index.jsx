@@ -14,8 +14,8 @@ const UserKeywordItem = (props) => {
     onRemove,
   } = props;
 
-  const textIdRef = keyword.replace(/\s/g, '-');
-  const buttonIdRef = `remove-${textIdRef}`;
+  const textId = keyword.replace(/\s/g, '-');
+  const buttonId = `remove-${textId}`;
 
   return (
     <span
@@ -23,7 +23,7 @@ const UserKeywordItem = (props) => {
       role="row"
     >
       <span
-        id={textIdRef}
+        id={textId}
         role="gridcell"
       >
         {keyword}
@@ -32,11 +32,11 @@ const UserKeywordItem = (props) => {
         role="gridcell"
       >
         <button
-          id={buttonIdRef}
+          id={buttonId}
           onClick={onRemove}
           type="button"
           aria-label={__('Remove', 'oovvuu')}
-          aria-labelledby={`${buttonIdRef} ${textIdRef}`}
+          aria-labelledby={`${buttonId} ${textId}`}
         >
           <CloseIcon />
         </button>
