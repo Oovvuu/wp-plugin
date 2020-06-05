@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import checkboxes from 'shared/checkboxes.scss';
+import keywords from 'components/keywordPanel/keywords.scss';
 
 /**
  * Component for a single pill for selecting and deselecting a topic.
@@ -14,7 +14,7 @@ const TopicItem = (props) => {
 
   return (
     <label
-      className={checkboxes.keyword}
+      className={keywords.recommended}
       htmlFor={key}
     >
       <input
