@@ -27,9 +27,13 @@ const TopicItem = (props) => {
         type="checkbox"
       />
       <span>
-        <img src={url} alt="" />
+        <div className={theme.itemThumbnail}>
+          <img src={url} alt={keywordMatch} />
+        </div>
         {keywordMatch}
-        {approximateTotalCount}
+        <div className={theme.itemMeta}>
+          {approximateTotalCount}
+        </div>
       </span>
     </label>
   );
@@ -37,7 +41,7 @@ const TopicItem = (props) => {
 
 TopicItem.propTypes = {
   item: PropTypes.shape({
-    approximateTotalCount: PropTypes.number.isRequired,
+    approximateTotalCount: PropTypes.string.isRequired,
     keywordMatch: PropTypes.string.isRequired,
     previewImage: PropTypes.shape({ url: PropTypes.string.isRequired }).isRequired,
   }).isRequired,

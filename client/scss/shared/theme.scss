@@ -46,9 +46,35 @@
     justify-content: center;
     min-width: rem(120);
     padding: 0 rem(24);
+    //position: relative;
 
     @media (min(md)) {
       min-width: rem(163);
+    }
+  }
+
+  .itemMeta {
+    @include font-props(12, 12);
+    align-items: center;
+    border: solid 1px var(--color-decoration);
+    border-radius: 50%;
+    display: flex;
+    height: rem(32);
+    justify-content: center;
+    overflow: hidden;
+    transform: translateX(rem(24));
+    width: rem(32);
+  }
+
+  .itemThumbnail {
+    border-radius: 50%;
+    height: rem(40);
+    overflow: hidden;
+    transform: translateX(rem(-24));
+    width: rem(40);
+
+    img {
+      height: 100%;
     }
   }
 }
