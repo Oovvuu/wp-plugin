@@ -35,10 +35,9 @@ const UserList = () => {
    * @param item object Keyword item.
    */
   const handleUpdate = (keyword) => {
-    // Do not add a user keyword if it is already a recommended keyword.
-    if (recommendedKeywords.includes(keyword)) {
+    // Do not add a user keyword if it already exists.
+    if ([...recommendedKeywords, ...userKeywords].includes(keyword)) {
       // @todo select the duplicate item if it's not already selected.
-      handleRemove(keyword);
       return;
     }
 
