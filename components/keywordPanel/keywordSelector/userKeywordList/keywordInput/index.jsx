@@ -15,9 +15,9 @@ const KeywordInput = (props) => {
    * @param {Event} event The event object.
    */
   const handleSubmit = (event) => {
-    if (keyword) {
-      event.preventDefault();
+    event.preventDefault();
 
+    if (keyword) {
       // Clear the input.
       setKeyword('');
 
@@ -34,7 +34,7 @@ const KeywordInput = (props) => {
     const { TAB } = keyCodes;
     const { keyCode } = event;
 
-    if (TAB === keyCode) {
+    if (keyword && TAB === keyCode) {
       handleSubmit(event);
     }
   };
