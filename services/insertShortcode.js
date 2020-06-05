@@ -8,7 +8,7 @@
  * @param   {RegExp} regex Shortcode regex.
  */
 const insertShortcode = (id, html, regex) => {
-  // return if no id.
+  // return if no id, html or regex.
   if (!id || !html || !regex) {
     return '';
   }
