@@ -57,7 +57,6 @@ function action_admin_enqueue_scripts() {
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\action_admin_enqueue_scripts' );
 
-
 /**
  * A callback for the enqueue_block_editor_assets action hook to register assets
  * for the Gutenberg editor.

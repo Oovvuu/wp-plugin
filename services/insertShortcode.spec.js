@@ -50,12 +50,15 @@ describe('insertShortcode', () => {
     const afterHtml = insertShortcode(ids[0], prevHtml, shortcodePattern);
     expect(afterHtml).toEqual(expectedHtml);
   });
+
   it('Empty <p> around shortcode gets removed, but not the empty <div>', () => {
     const prevHtml = `<p>p1</p><ol><li>l1</li><li>l2</li></ol><blockquote>q1</blockquote><p>${shortcodes[1]}</p><div id="test"></div>`;
     const expectedHtml = `<p>p1</p><ol><li>l1</li><li>l2</li></ol><blockquote>q1</blockquote>${shortcodes[0]}<div id="test"></div>`;
     const afterHtml = insertShortcode(ids[0], prevHtml, shortcodePattern);
     expect(afterHtml).toEqual(expectedHtml);
-  }); it('<p> Around shortcode with extra content, the shortcode is removed but the extra content stays', () => {
+  });
+
+  it('<p> Around shortcode with extra content, the shortcode is removed but the extra content stays', () => {
     const prevHtml = `<p>p1</p><ol><li>l1</li><li>l2</li></ol><blockquote>q1</blockquote><p>${shortcodes[1]} test</p><div id="test"></div>`;
     const expectedHtml = `<p>p1</p><ol><li>l1</li><li>l2</li></ol><blockquote>q1</blockquote>${shortcodes[0]}<p> test</p><div id="test"></div>`;
     const afterHtml = insertShortcode(ids[0], prevHtml, shortcodePattern);
