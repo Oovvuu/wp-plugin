@@ -27,14 +27,6 @@ const KeywordSelector = () => {
    * Handles sync of all keyword item state on update. This is different
    *   than an addition or removal of a keyword item, which is handled by
    *   handleMutate().
-   *   - User keyword items require extra handling as they
-   *     must be maintained even when the generated recommendedKeywords list
-   *     is refreshed.
-   *   - Keyword item objects should have the following shape:
-   *     - isSelected: boolean
-   *     - keyword: string
-   *     - type: string Token to indicate keyword item type,
-   *         one of 'generated' or 'user'.
    *
    * @param item object Update keyword item.
    */
