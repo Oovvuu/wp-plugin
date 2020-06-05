@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CloseIcon from 'assets/close.svg';
-import keywords from 'components/keywordPanel/keywords.scss';
 import styles from './userKeywordItem.scss';
 
 /**
@@ -20,7 +19,7 @@ const UserKeywordItem = (props) => {
 
   return (
     <span
-      className={classnames(styles.item, keywords.user)}
+      className={classnames(styles.item, styles.user)}
       role="row"
     >
       <span

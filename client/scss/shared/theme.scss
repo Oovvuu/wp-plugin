@@ -1,3 +1,58 @@
+/* stylelint-disable selector-max-specificity */
+
+/**
+ * Keywords and topics styles.
+ */
+.termList {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: rem(20);
+  margin-top: 0;
+
+  li {
+
+    &:not(:last-of-type) {
+      margin-right: rem(10);
+    }
+  }
+}
+
+/**
+ * Styles a recommended keyword.
+ */
+.recommendedTerm {
+  @include container-box-sizing;
+
+  &:focus-within span {
+    @include term-focused;
+  }
+
+  input {
+    @include screen-reader-only;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:checked + span {
+      @include term-selected;
+    }
+  }
+
+  span {
+    @include term-pill;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-width: rem(120);
+    padding: 0 rem(24);
+
+    @media (min(md)) {
+      min-width: rem(163);
+    }
+  }
+}
+
 /**
  * Basic panel styles.
  */
@@ -5,6 +60,7 @@
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+  padding: rem(4 20 22 20);
 }
 
 .panelHeading {
