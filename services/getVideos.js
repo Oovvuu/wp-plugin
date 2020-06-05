@@ -4,6 +4,8 @@
  * @param  {[array]}  keywords The keywords.
  * @returns {Promise} Future object for API response data.
  */
+import transformAlternateSearch from 'transforms/alternateSearches';
+
 const getVideos = (keywords, id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
@@ -25,7 +27,12 @@ const getVideos = (keywords, id) => {
       return videosForArticle
         ? {
           hasError: false,
-          data: { videos: videosForArticle },
+          data: {
+            videos: {
+              ...videosForArticle,
+              alternateSearches: videosForArticle.alternateSearches.map(transformAlternateSearch),
+            },
+          },
         } : {
           hasError: true,
           message: __('Malformed response data.', 'oovvuu'),

@@ -1,31 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import keywords from 'components/keywordPanel/keywords.scss';
+import theme from 'shared/theme.scss';
 
 /**
  * Component for a single pill for selecting and deselecting a topic.
  */
 const TopicItem = (props) => {
   const {
-    item,
+    item: {
+      approximateTotalCount,
+      keywordMatch,
+      previewImage: { url },
+    },
   } = props;
 
-  const key = `topic-${item.filter.keywordMatch[0]}`;
+  const key = `topic-${keywordMatch}`;
 
   return (
     <label
-      className={keywords.recommended}
+      className={theme.recommendedTerm}
       htmlFor={key}
     >
       <input
         id={key}
-        name={item.filter.keywordMatch[0]}
+        name={keywordMatch}
         type="checkbox"
       />
       <span>
-        <img src={item.previewImage.url} alt="" />
-        {item.filter.keywordMatch[0]}
-        {item.approximateTotalCount}
+        <img src={url} alt="" />
+        {keywordMatch}
+        {approximateTotalCount}
       </span>
     </label>
   );
@@ -33,15 +37,9 @@ const TopicItem = (props) => {
 
 TopicItem.propTypes = {
   item: PropTypes.shape({
-    approximateTotalCount: PropTypes.number,
-    filter: PropTypes.objectOf(PropTypes.shape({
-      keywordMatch: PropTypes.array,
-      genre: PropTypes.array,
-      publishedAt: PropTypes.object,
-    })),
-    previewImage: PropTypes.objectOf(PropTypes.shape({
-      url: PropTypes.string,
-    })),
+    approximateTotalCount: PropTypes.number.isRequired,
+    keywordMatch: PropTypes.string.isRequired,
+    previewImage: PropTypes.shape({ url: PropTypes.string.isRequired }).isRequired,
   }).isRequired,
 };
 
