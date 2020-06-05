@@ -11,7 +11,7 @@ const mockVideo = {
       legalName: 'Legal Name',
     },
   },
-  description: 'description',
+  summary: 'summary',
   duration: 61,
   modified: new Date().toISOString(),
   id: 'id',

@@ -7,7 +7,7 @@ import Player from './player';
  */
 const PlayerWrapper = (props) => {
   const { videos } = props;
-  const [previewVideos, setPreviewVideos] = React.useState([]);
+  const [previewVideos, setPreviewVideos] = React.useState([...videos]);
 
   /**
    * Swap video that is assigned to the player when clicking in one of the images.

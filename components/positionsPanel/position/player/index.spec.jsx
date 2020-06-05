@@ -4,6 +4,7 @@ import Player from './player';
 import PlayerWrapper from './index';
 
 const mockVideos = [{
+  id: '1',
   preview: {
     brightcoveVideoId: 'xxx',
     brightcovePlayerId: 'xxx',
