@@ -11,7 +11,7 @@ const UserKeywordItem = (props) => {
   const { i18n: { __ } } = wp;
   const {
     keyword,
-    onRemove,
+    handleRemove,
   } = props;
 
   const textId = keyword.replace(/\s/g, '-');
@@ -33,7 +33,7 @@ const UserKeywordItem = (props) => {
       >
         <button
           id={buttonId}
-          onClick={onRemove}
+          onClick={() => handleRemove(keyword)}
           type="button"
           aria-label={__('Remove', 'oovvuu')}
           aria-labelledby={`${buttonId} ${textId}`}
@@ -47,7 +47,7 @@ const UserKeywordItem = (props) => {
 
 UserKeywordItem.propTypes = {
   keyword: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
 };
 
 export default UserKeywordItem;
