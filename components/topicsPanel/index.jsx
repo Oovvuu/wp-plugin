@@ -17,30 +17,12 @@ const TopicsPanelWrapper = () => {
     },
   } = React.useContext(OovvuuDataContext);
 
-  const [displayTopics, setDisplayTopics] = React.useState(false);
-
-  /**
-   * Show and hide the topics panel when the alternate searches value updates.
-   */
-  React.useEffect(() => {
-    if (alternateSearches.length > 0) {
-      setDisplayTopics(true);
-    } else {
-      setDisplayTopics(false);
-    }
-  }, [alternateSearches]);
-
-  /**
-   * Load the positions panel when any of the positions have a video.
-   */
-  const topics = displayTopics ? (
-    <div className={classnames(theme.panel)}>
-      <h3 className={theme.panelHeading}>{__('Recommended Topics with Videos', 'oovvuu')}</h3>
-      <TopicsSelector />
-    </div>
-  ) : '';
-
-  return topics;
+  return alternateSearches?.length && (
+  <div className={classnames(theme.panel)}>
+    <h3 className={theme.panelHeading}>{__('Recommended Topics with Videos', 'oovvuu')}</h3>
+    <TopicsSelector />
+  </div>
+  );
 };
 
 export default TopicsPanelWrapper;
