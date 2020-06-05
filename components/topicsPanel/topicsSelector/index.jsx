@@ -1,5 +1,6 @@
 import React from 'react';
 import oovvuuData from 'components/app/context';
+import theme from 'shared/theme.scss';
 import TopicsList from './topicsList';
 
 /**
@@ -15,7 +16,7 @@ const TopicsSelectorWrapper = () => {
   } = React.useContext(oovvuuData);
 
   return (
-    <div>
+    <div className={theme.panelInset}>
       <TopicsList
         items={alternateSearches}
       />
