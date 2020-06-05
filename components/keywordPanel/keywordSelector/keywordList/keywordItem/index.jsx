@@ -20,7 +20,7 @@ const KeywordItem = (props) => {
       <input
         id={keyword}
         name={keyword}
-        onChange={onToggle}
+        onChange={() => onToggle(keyword)}
         checked={isSelected}
         type="checkbox"
       />

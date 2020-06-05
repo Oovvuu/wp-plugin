@@ -36,7 +36,7 @@ const KeywordList = (props) => {
           <KeywordItem
             keyword={keyword}
             isSelected={selectedKeywords.includes(keyword)}
-            onToggle={() => handleItemUpdated(keyword)}
+            onToggle={handleItemUpdated}
           />
         </li>
       ))}
