@@ -56,20 +56,17 @@ const insertEmbed = (id, videos) => {
   }
 
   // Classic editor.
-  if (tinymce?.editors?.content) {
-    // Fetch WP shortcodeRegex. Converting from PHP to JS needs escaping '+'.
-    const { shortcodeRegex } = window.oovvuuAppUserData || '';
-    // eslint-disable-next-line no-useless-escape
-    console.log(shortcodeRegex);
-    const shortcodePattern = shortcodeRegex ? new RegExp(shortcodeRegex.replace('+', '\+'), 'g') : /\[(\[?)(oovvuu-embed)(?![\w-])([^\]/]*(?:\/(?!\])[^\]/]*)*?)(?:(\/)\]|\](?:([^[]*\+(?:\[(?!\/\2\])[^[]*\+)*\+)\[\/\2\])?)(\]?):/g;
+  if (tinymce?.editors?.content && wp?.shortcode) {
+    const { shortcode } = wp;
 
     // Get editor content and insert/modify embed shortcode.
-    tinymce.editors.content.setContent(
-      insertShortcode(
-        id,
-        tinymce.editors.content.getContent(), shortcodePattern,
-      ),
-    );
+    const currentHtml = tinymce.editors.content.getContent();
+    const newHtml = insertShortcode(id, currentHtml, shortcode.regexp('oovvuu-embed'));
+
+    // Check content is valid and different to current.
+    if (newHtml !== '' && newHtml !== currentHtml) {
+      tinymce.editors.content.setContent(newHtml);
+    }
   }
 
   return true;

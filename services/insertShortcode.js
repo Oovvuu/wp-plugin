@@ -1,16 +1,17 @@
+
 /**
  * Insert Oovvuu shortcode after 3th element.
  * Remove existing shortcode if present.
  *
  * @param   {int}    id    The embed ID.
  * @param   {string} html  The markup.
+ * @param   {RegExp} regex Shortcode regex.
  */
-const insertShortcode = (id, html, shortcodePattern) => {
+const insertShortcode = (id, html, regex) => {
   // return if no id.
-  if (!id || !html || !shortcodePattern) {
+  if (!id || !html || !regex) {
     return '';
   }
-
 
   // Dummy element to process nodes.
   const el = document.createElement('div');
@@ -21,13 +22,12 @@ const insertShortcode = (id, html, shortcodePattern) => {
   const nodesHtml = nodes.map((n) => n.outerHTML);
 
   const emptyTagPattern = /<[^/>][^>]*><\/[^>]+>/g;
-  console.log(nodesHtml);
 
   // If node contains shortcode remove it. Clean empty tag after.
   const filteredNodes = nodesHtml.map(
     (n) => (
-      shortcodePattern.test(n)
-        ? n.replace(shortcodePattern, '').replace(emptyTagPattern, '')
+      regex.test(n)
+        ? n.replace(regex, '').replace(emptyTagPattern, '')
         : n
     ),
   );

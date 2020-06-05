@@ -34,7 +34,7 @@ function action_admin_enqueue_scripts() {
 	wp_enqueue_script(
 		'oovvuu-app-classic-js',
 		get_versioned_asset_path( 'appClassic.js' ),
-		[ 'react', 'react-dom', 'wp-api-fetch' ],
+		[ 'react', 'react-dom', 'wp-api-fetch', 'wp-shortcode' ],
 		'1.0.0',
 		true
 	);
@@ -51,7 +51,6 @@ function action_admin_enqueue_scripts() {
 		'oovvuu-app-classic-js',
 		'oovvuuAppUserData',
 		[
-			'shortcodeRegex'  => get_shortcode_regex( [ 'oovvuu-embed' ] ),
 			'editProfileLink' => get_edit_user_link(),
 		]
 	);
