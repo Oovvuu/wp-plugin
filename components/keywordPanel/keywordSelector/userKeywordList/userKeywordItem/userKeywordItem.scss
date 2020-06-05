@@ -1,3 +1,36 @@
+/* stylelint-disable selector-max-specificity */
+
+/**
+ * Styles a user-defined keywords.
+ */
+.user {
+  @include term-pill;
+  @include term-selected;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr rem(12);
+  padding: 0 rem(16) 0 rem(8);
+
+  &:focus-within {
+    @include term-focused;
+  }
+
+  > span {
+    padding: 0 rem(26);
+  }
+
+  button {
+    @include button-reset;
+    cursor: pointer;
+    height: rem(12);
+    width: rem(12);
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
 .item {
   margin: var(--keyword-margin);
 }

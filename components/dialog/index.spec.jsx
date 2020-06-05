@@ -23,6 +23,9 @@ describe('DialogWrapper', () => {
           isLoadedFromMeta: false,
           recommendedKeywords: ['keyword'],
           isLoading: false,
+          selectedVideos: {
+            positionTwo: {},
+          },
         },
       }));
 
@@ -42,6 +45,9 @@ describe('DialogWrapper', () => {
           isLoadedFromMeta: true,
           recommendedKeywords: ['keyword'],
           isLoading: false,
+          selectedVideos: {
+            positionTwo: {},
+          },
         },
       }));
 

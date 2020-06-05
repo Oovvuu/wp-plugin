@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import oovvuuData from 'components/app/context';
-import styles from './keywordList.scss';
+import theme from 'shared/theme.scss';
 import KeywordItem from './keywordItem';
 
 /**
@@ -30,7 +30,7 @@ const KeywordList = (props) => {
   };
 
   return (
-    <ul className={styles.keywords}>
+    <ul className={theme.termList}>
       {keywordItems.map((keyword) => (
         <li key={keyword}>
           <KeywordItem
