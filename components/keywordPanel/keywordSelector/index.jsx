@@ -1,5 +1,6 @@
 import React from 'react';
 import oovvuuData from 'components/app/context';
+import theme from 'shared/theme.scss';
 import KeywordList from './keywordList';
 import UserKeywordList from './userKeywordList';
 import styles from '../keywordPanel.scss';
@@ -95,7 +96,7 @@ const KeywordSelector = () => {
   }, [selectedKeywords]);
 
   return (
-    <div className={styles.selector}>
+    <div className={theme.panelInset}>
       <h4 className={styles.keywordsHeading}>{__('Select all relevant keywords', 'oovvuu')}</h4>
       <KeywordList
         keywordItems={keywordItems}
