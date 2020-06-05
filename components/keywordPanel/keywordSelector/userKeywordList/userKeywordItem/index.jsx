@@ -23,13 +23,13 @@ const UserKeywordItem = (props) => {
       className={classnames(styles.item, keywords.user)}
       role="row"
     >
-      <div
+      <span
         id={textIdRef}
         role="gridcell"
       >
-        <span>{keyword}</span>
-      </div>
-      <span
+        {keyword}
+      </span>
+      <div
         role="gridcell"
       >
         <button
@@ -41,7 +41,7 @@ const UserKeywordItem = (props) => {
         >
           <CloseIcon />
         </button>
-      </span>
+      </div>
     </span>
   );
 };
