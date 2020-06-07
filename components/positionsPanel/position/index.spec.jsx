@@ -15,7 +15,7 @@ const mockVideos = [{
       legalName: 'Legal Name',
     },
   },
-  description: 'description',
+  summary: 'summary',
   duration: 61,
   modified: Date.now().toString(),
   preview: {

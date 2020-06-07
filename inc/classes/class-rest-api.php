@@ -153,7 +153,7 @@ class REST_API {
 	public function get_videos( $request ) {
 		return rest_ensure_response(
 			$this->request(
-				'query ($input: ArticleRecommendationInput) {
+				'query ($input: ArticleRecommendationInput, $playbackInput: PlaybackInput) {
 					videosForArticle(input: $input) {
 						hero {
 							...VideoDetailFragment
@@ -185,11 +185,12 @@ class REST_API {
 					id
 					title
 					description
+					summary
 					tags
 					thumbnail(input: { width: 500, height: 281 }) {
 						url
 					}
-					preview {
+					preview (input: $playbackInput) {
 						brightcoveVideoId
 						brightcovePlayerId
 						brightcoveAccountId
@@ -229,7 +230,7 @@ class REST_API {
 				],
 				$request['id'] ?? 0,
 				[
-					'previewInput' => [
+					'playbackInput' => [
 						'domain' => wp_parse_url( admin_url(), PHP_URL_HOST ),
 					],
 				]
