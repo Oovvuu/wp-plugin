@@ -24,6 +24,7 @@ const saveState = (state, id) => {
       'isUserAuthenticated',
       'lastActionType',
       'loadingAttributes',
+      'currentDraggingVideo',
     ];
 
     return !filter.includes(key) ? { ...carry, ...{ [key]: dirtyState[key] } } : carry;
