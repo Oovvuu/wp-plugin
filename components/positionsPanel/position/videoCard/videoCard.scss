@@ -18,6 +18,10 @@
   }
 }
 
+.inner {
+  display: block;
+}
+
 .logo {
   grid-area: logo;
   height: rem(60);
@@ -67,5 +71,5 @@
 }
 
 .isDragging {
-  color: red;
+  background-color: var(--color-decoration);
 }

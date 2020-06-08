@@ -106,6 +106,25 @@ const VideoCardWrapper = (props) => {
   const handleDragStart = (event) => {
     const currentVideo = getDragAndDropData();
 
+    const clonedNode = event.target.cloneNode(true);
+    clonedNode.firstChild.style.backgroundColor = 'white';
+    clonedNode.style.position = 'absolute';
+    clonedNode.style.top = '0';
+    clonedNode.style.left = '0';
+    clonedNode.style.zIndex = '-1';
+    clonedNode.firstChild.style.border = 'solid 1px #159d8f';
+
+    // Set the rotation.
+    clonedNode.firstChild.style.transform = 'rotate(2deg)';
+
+    document.body.appendChild(clonedNode);
+    event.dataTransfer.setDragImage(clonedNode, 20, 20);
+
+    // Remove the ghost element.
+    window.setTimeout(() => {
+      clonedNode.parentNode.removeChild(clonedNode);
+    }, 1000);
+
     dispatch({ type: 'SET_DRAGGING_VIDEO', payload: { ...JSON.parse(currentVideo) } });
 
     event.dataTransfer.setData('text', currentVideo);
@@ -171,23 +190,25 @@ const VideoCardWrapper = (props) => {
       onDragOver={allowDrop}
       onDrop={handleDrop}
     >
-      <ActionButton
-        buttonStyle="icon"
-        className={styles.removeVideo}
-        onClickHandler={removeVideo}
-      >
-        <ClearIcon />
-      </ActionButton>
-      <div className={styles.logo}>
-        <img src={url} alt={legalName} draggable="false" />
+      <div className={styles.inner}>
+        <ActionButton
+          buttonStyle="icon"
+          className={styles.removeVideo}
+          onClickHandler={removeVideo}
+        >
+          <ClearIcon />
+        </ActionButton>
+        <div className={styles.logo}>
+          <img src={url} alt={legalName} draggable="false" />
+        </div>
+        <h4 className={styles.title}>{title}</h4>
+        <div className={styles.meta}>
+          <Badge text={clipLength} />
+          <Badge text={moment(modified).fromNow()} />
+          <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
+        </div>
+        <p className={styles.description}>{summary}</p>
       </div>
-      <h4 className={styles.title}>{title}</h4>
-      <div className={styles.meta}>
-        <Badge text={clipLength} />
-        <Badge text={moment(modified).fromNow()} />
-        <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
-      </div>
-      <p className={styles.description}>{summary}</p>
     </div>
   );
 };
