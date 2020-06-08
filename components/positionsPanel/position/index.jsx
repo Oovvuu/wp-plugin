@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import OovvuuDataContext from 'components/app/context';
 import getHumanReadableEmptyReason from 'services/getHumanReadableEmptyReason';
 import classnames from 'classnames';
 import theme from 'shared/theme.scss';
@@ -17,6 +18,12 @@ const PositionWrapper = (props) => {
   const {
     enabled, positionEmptyReason, positionKey, title, videos,
   } = props;
+
+  const {
+    state: {
+      currentDraggingVideo,
+    },
+  } = React.useContext(OovvuuDataContext);
 
   return (
     <div className={classnames(styles.panel, theme.panel)}>
@@ -48,7 +55,11 @@ const PositionWrapper = (props) => {
                 >
                   <PlayerWrapper videos={videos} />
                 </div>
-                <div className={styles.cardsWrapper}>
+                <div className={classnames(
+                  styles.cardsWrapper,
+                  { [styles.dropZone]: currentDraggingVideo.videoId !== undefined },
+                )}
+                >
                   {videos.map((video, index) => (
                     <VideoCardWrapper
                       key={video.id}

@@ -88,3 +88,8 @@
   grid-row-gap: rem(14);
   height: min-content;
 }
+
+.dropZone {
+  border: 1px dashed;
+  background-color: rgba(225, 225, 225, 0.5);
+}

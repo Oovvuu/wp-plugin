@@ -34,8 +34,32 @@ const VideoCardWrapper = (props) => {
   } = props;
   const {
     dispatch,
+    state: {
+      currentDraggingVideo,
+    },
   } = React.useContext(OovvuuDataContext);
   const clipLength = moment(moment.duration(duration, 'seconds').asMilliseconds()).format('mm:ss');
+
+  /**
+   * Determine if this video is actively being dragged.
+   *
+   * @return {Boolean} Whether the current video is being dragged.
+   */
+  const isDraggingCurrentVideo = () => currentDraggingVideo.videoId !== undefined
+        && currentDraggingVideo.videoId === id;
+
+  /**
+   * Get the classnames for the current video card.
+   *
+   * @return {string} The classnames string.
+   */
+  const getClassnames = () => classNames(
+    styles.wrapper,
+    styles.addRemoveKeyword,
+    { [styles.isDragging]: isDraggingCurrentVideo() },
+  );
+
+  const [videoClassnames, setVideoClassnames] = React.useState(getClassnames());
 
   /**
    * Removes a video from the position.
@@ -80,7 +104,11 @@ const VideoCardWrapper = (props) => {
    * @param {Event} event The drag start event.
    */
   const handleDragStart = (event) => {
-    event.dataTransfer.setData('text', getDragAndDropData());
+    const currentVideo = getDragAndDropData();
+
+    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: { ...JSON.parse(currentVideo) } });
+
+    event.dataTransfer.setData('text', currentVideo);
   };
 
   /**
@@ -91,6 +119,8 @@ const VideoCardWrapper = (props) => {
   const handleDrop = (event) => {
     event.preventDefault();
     const data = event.dataTransfer.getData('text');
+
+    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: {} });
 
     // No data found.
     if (!data) {
@@ -113,12 +143,31 @@ const VideoCardWrapper = (props) => {
     });
   };
 
+  /**
+   * Drag event has ended.
+   *
+   * @param {Event} event The drag drop event.
+   */
+  const handleDragEnd = (event) => {
+    event.preventDefault();
+
+    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: {} });
+  };
+
+  /**
+   * Update classnames when video drag is updated.
+   */
+  React.useEffect(() => {
+    setVideoClassnames(getClassnames());
+  }, [currentDraggingVideo]);
+
   return (
     <div
       key={id}
-      className={classNames(styles.wrapper, styles.addRemoveKeyword)}
+      className={videoClassnames}
       draggable
       onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
       onDragOver={allowDrop}
       onDrop={handleDrop}
     >
