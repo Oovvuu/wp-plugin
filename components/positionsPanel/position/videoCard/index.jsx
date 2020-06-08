@@ -47,6 +47,7 @@ const VideoCardWrapper = (props) => {
    * @return {string} The classnames string.
    */
   const getClassnames = (dropTarget) => classNames(
+    styles.wrapper,
     { [styles.isDropTarget]: dropTarget },
   );
 
@@ -155,6 +156,8 @@ const VideoCardWrapper = (props) => {
 
     // Add the current dragging video as transfer data in the drag event.
     event.dataTransfer.setData('text', currentVideo);
+    event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
+    event.dataTransfer.effectAllowed = 'move'; // eslint-disable-line no-param-reassign
 
     // Remove the ghost element.
     window.setTimeout(() => {

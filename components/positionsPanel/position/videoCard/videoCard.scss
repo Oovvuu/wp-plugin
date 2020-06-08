@@ -1,3 +1,7 @@
+.wrapper[draggable="true"] {
+  cursor: grab;
+}
+
 .inner {
   box-shadow: var(--box-shadow-deep);
   display: grid;
