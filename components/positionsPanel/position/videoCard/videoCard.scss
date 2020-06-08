@@ -1,4 +1,4 @@
-.wrapper {
+.inner {
   box-shadow: var(--box-shadow-deep);
   display: grid;
   grid-gap: rem(10) rem(20);
@@ -16,10 +16,6 @@
       'logo meta'
       'logo description';
   }
-}
-
-.inner {
-  display: block;
 }
 
 .logo {
@@ -70,6 +66,6 @@
   }
 }
 
-.isDragging {
+.isDropTarget {
   background-color: var(--color-decoration);
 }

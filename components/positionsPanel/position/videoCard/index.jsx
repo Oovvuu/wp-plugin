@@ -41,25 +41,18 @@ const VideoCardWrapper = (props) => {
   const clipLength = moment(moment.duration(duration, 'seconds').asMilliseconds()).format('mm:ss');
 
   /**
-   * Determine if this video is actively being dragged.
-   *
-   * @return {Boolean} Whether the current video is being dragged.
-   */
-  const isDraggingCurrentVideo = () => currentDraggingVideo.videoId !== undefined
-        && currentDraggingVideo.videoId === id;
-
-  /**
    * Get the classnames for the current video card.
    *
+   * @param {Boolean} dropTarget Whether or not this is a drop target element.
    * @return {string} The classnames string.
    */
-  const getClassnames = () => classNames(
-    styles.wrapper,
-    styles.addRemoveKeyword,
-    { [styles.isDragging]: isDraggingCurrentVideo() },
+  const getClassnames = (dropTarget) => classNames(
+    { [styles.isDropTarget]: dropTarget },
   );
 
-  const [videoClassnames, setVideoClassnames] = React.useState(getClassnames());
+  const [videoClassnames, setVideoClassnames] = React.useState(getClassnames(false));
+
+  const videoCardRef = React.useRef();
 
   /**
    * Removes a video from the position.
@@ -98,6 +91,42 @@ const VideoCardWrapper = (props) => {
   };
 
   /**
+   * Styles the drag over valid target element.
+   *
+   * @param {Event} event The drop event.
+   */
+  const handleDragEnter = (event) => {
+    event.preventDefault();
+
+    if (videoCardRef.current.firstChild.contains(event.target)) {
+      setVideoClassnames(getClassnames(true));
+    }
+  };
+
+  /**
+   * Removes valid drop target styling.
+   *
+   * @param {Event} event The drop event.
+   */
+  const handleDragLeave = (event) => {
+    event.preventDefault();
+
+    const rect = videoCardRef.current.getBoundingClientRect();
+
+    const withinEl = (
+      event.clientX >= rect.left
+      && event.clientY >= rect.top
+      && event.clientX <= rect.right
+      && event.clientY <= rect.bottom
+    );
+
+    // Dragged outside the element.
+    if (!withinEl) {
+      setVideoClassnames(getClassnames(false));
+    }
+  };
+
+  /**
    * Handle the drag start event to get the relevant video data from the source
    * video.
    *
@@ -108,16 +137,17 @@ const VideoCardWrapper = (props) => {
 
     const clonedNode = event.target.cloneNode(true);
     clonedNode.firstChild.style.backgroundColor = 'white';
+    clonedNode.style.width = `${event.target.offsetWidth}px`;
     clonedNode.style.position = 'absolute';
     clonedNode.style.top = '0';
     clonedNode.style.left = '0';
     clonedNode.style.zIndex = '-1';
-    clonedNode.firstChild.style.border = 'solid 1px #159d8f';
+    clonedNode.firstChild.style.border = 'solid 1px var(--color-theme)';
 
     // Set the rotation.
     clonedNode.firstChild.style.transform = 'rotate(2deg)';
 
-    document.body.appendChild(clonedNode);
+    event.target.parentNode.appendChild(clonedNode);
     event.dataTransfer.setDragImage(clonedNode, 20, 20);
 
     // Remove the ghost element.
@@ -177,15 +207,18 @@ const VideoCardWrapper = (props) => {
    * Update classnames when video drag is updated.
    */
   React.useEffect(() => {
-    setVideoClassnames(getClassnames());
+    setVideoClassnames(getClassnames(false));
   }, [currentDraggingVideo]);
 
   return (
     <div
       key={id}
       className={videoClassnames}
+      ref={videoCardRef}
       draggable
       onDragStart={handleDragStart}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
       onDragEnd={handleDragEnd}
       onDragOver={allowDrop}
       onDrop={handleDrop}
