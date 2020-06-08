@@ -12,7 +12,11 @@ const UserList = () => {
   const { i18n: { __ } } = wp;
   const {
     dispatch,
-    state: { recommendedKeywords, userKeywords },
+    state: {
+      recommendedKeywords,
+      userKeywords,
+      selectedKeywords,
+    },
   } = React.useContext(oovvuuData);
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
@@ -36,8 +40,17 @@ const UserList = () => {
    */
   const handleUpdate = (keyword) => {
     // Do not add a user keyword if it already exists.
-    if ([...recommendedKeywords, ...userKeywords].includes(keyword)) {
-      // @todo select the duplicate item if it's not already selected.
+    if (userKeywords.includes(keyword)) {
+      return;
+    }
+
+    // Handle duplicate keywords.
+    if (recommendedKeywords.includes(keyword)) {
+      // Select the duplicate item if it's not already selected.
+      if (!selectedKeywords.includes(keyword)) {
+        dispatch({ payload: [...selectedKeywords, keyword], type: 'UPDATE_SELECTED_KEYWORDS' });
+      }
+
       return;
     }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import keyCodes from 'utils/keyCodes';
 import keywords from 'shared/theme.scss';
 
 /**
@@ -8,32 +7,15 @@ import keywords from 'shared/theme.scss';
  */
 const KeywordItem = (props) => {
   const {
-    item,
+    keyword,
+    isSelected,
     onToggle,
   } = props;
-  const { isSelected, keyword } = item;
-
-  /**
-   * Allow users to press enter when the chip is active to toggle the state of
-   * the chip.
-   *
-   * @param  {Event} event The keypress event.
-   */
-  const handleKeyDown = (event) => {
-    const { RETURN } = keyCodes;
-    const { keyCode } = event;
-
-    // Enter key is pressed.
-    if (RETURN === keyCode) {
-      onToggle(keyword);
-    }
-  };
 
   return (
     <label
       className={keywords.recommendedTerm}
       htmlFor={keyword}
-      onKeyDown={handleKeyDown}
     >
       <input
         id={keyword}
@@ -50,10 +32,8 @@ const KeywordItem = (props) => {
 };
 
 KeywordItem.propTypes = {
-  item: PropTypes.shape({
-    isSelected: PropTypes.bool.isRequired,
-    keyword: PropTypes.string.isRequired,
-  }).isRequired,
+  keyword: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
 };
 

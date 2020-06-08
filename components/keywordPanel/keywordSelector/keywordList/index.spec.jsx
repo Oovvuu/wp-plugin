@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import uuid from 'react-uuid';
-import GeneratedList from './';
+import KeywordList from './';
 import KeywordItem from './keywordItem';
 
 const keywords = [
@@ -18,45 +17,46 @@ const keywords = [
   'coronavirus cases',
   'disaster',
 ];
-const mockKeywordItems = keywords.reduce((carry, keyword) => {
-  const id = uuid();
-  return {
-    ...carry,
-    ...{ [id]: { id, isSelected: false, keyword } },
-  };
-}, {});
+
+const selectedKeywords = [
+  'coronavirus',
+];
+
+const dispatchFn = jest.fn();
+
+jest.spyOn(React, 'useContext')
+  .mockImplementation(() => ({
+    dispatch: dispatchFn,
+    state: { selectedKeywords },
+  }));
 
 describe('GeneratedKeywordList', () => {
   it('Renders li for each available keyword', () => {
-    const wrapper = shallow(<GeneratedList
-      keywordItems={mockKeywordItems}
-      onUpdate={() => true}
+    const wrapper = shallow(<KeywordList
+      keywordItems={keywords}
     />);
 
     expect(wrapper.find('li')).toHaveLength(keywords.length);
   });
+});
 
-  it('Calls onUpdate() correctly with selected object', () => {
-    const updateFn = jest.fn();
-    const id = 'uuid';
-    const items = { [id]: { id, isSelected: false, keyword: 'keyword' } };
-    const wrapper = shallow(<GeneratedList keywordItems={items} onUpdate={updateFn} />);
+describe('Toggle keywords', () => {
+  const wrapper = shallow(<KeywordList keywordItems={keywords} />);
+  const onToggle = wrapper.find(KeywordItem).at(0).prop('onToggle');
 
-    const expected = { id: 'uuid', isSelected: false, keyword: 'keyword' };
-    wrapper.find(KeywordItem).at(0).prop('onToggle')(expected.id);
-    expect(updateFn.mock.calls[0][0].isSelected).toBeTruthy();
-    expect(updateFn.mock.calls[0][0].id).toEqual(expected.id);
+  it('Correctly selects a keyword', () => {
+    onToggle('scientists');
+    expect(dispatchFn).toHaveBeenCalledWith({
+      payload: [...selectedKeywords, 'scientists'],
+      type: 'UPDATE_SELECTED_KEYWORDS',
+    });
   });
 
-  it('Calls onUpdate() correctly with deselected object', () => {
-    const updateFn = jest.fn();
-    const id = 'uuid';
-    const items = { [id]: { id, isSelected: true, keyword: 'keyword' } };
-    const wrapper = shallow(<GeneratedList keywordItems={items} onUpdate={updateFn} />);
-
-    const expected = items[id];
-    wrapper.find(KeywordItem).at(0).prop('onToggle')(expected.id);
-    expect(updateFn.mock.calls[0][0].isSelected).toBeFalsy();
-    expect(updateFn.mock.calls[0][0].keyword).toEqual(expected.keyword);
+  it('Correctly deselects a keyword', () => {
+    onToggle('coronavirus');
+    expect(dispatchFn).toHaveBeenCalledWith({
+      payload: [],
+      type: 'UPDATE_SELECTED_KEYWORDS',
+    });
   });
 });
