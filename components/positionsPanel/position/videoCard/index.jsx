@@ -133,8 +133,7 @@ const VideoCardWrapper = (props) => {
    * @param {Event} event The drag start event.
    */
   const handleDragStart = (event) => {
-    const currentVideo = getDragAndDropData();
-
+    // Create a ghost element used as the drag image.
     const clonedNode = event.target.cloneNode(true);
     clonedNode.firstChild.style.backgroundColor = 'white';
     clonedNode.style.width = `${event.target.offsetWidth}px`;
@@ -150,14 +149,17 @@ const VideoCardWrapper = (props) => {
     event.target.parentNode.appendChild(clonedNode);
     event.dataTransfer.setDragImage(clonedNode, 20, 20);
 
+    // Set the dragging video in the global state.
+    const currentVideo = getDragAndDropData();
+    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: { ...JSON.parse(currentVideo) } });
+
+    // Add the current dragging video as transfer data in the drag event.
+    event.dataTransfer.setData('text', currentVideo);
+
     // Remove the ghost element.
     window.setTimeout(() => {
       clonedNode.parentNode.removeChild(clonedNode);
     }, 1000);
-
-    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: { ...JSON.parse(currentVideo) } });
-
-    event.dataTransfer.setData('text', currentVideo);
   };
 
   /**
