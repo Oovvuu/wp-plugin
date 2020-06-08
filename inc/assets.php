@@ -34,7 +34,7 @@ function action_admin_enqueue_scripts() {
 	wp_enqueue_script(
 		'oovvuu-app-classic-js',
 		get_versioned_asset_path( 'appClassic.js' ),
-		[ 'react', 'react-dom', 'wp-api-fetch' ],
+		[ 'react', 'react-dom', 'wp-api-fetch', 'wp-shortcode' ],
 		'1.0.0',
 		true
 	);
@@ -44,6 +44,15 @@ function action_admin_enqueue_scripts() {
 		get_versioned_asset_path( 'fonts.css' ),
 		[],
 		'1.0.0'
+	);
+
+	// Send shorcode regex and edit profile link.
+	wp_localize_script(
+		'oovvuu-app-classic-js',
+		'oovvuuAppUserData',
+		[
+			'editProfileLink' => get_edit_user_link(),
+		]
 	);
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\action_admin_enqueue_scripts' );

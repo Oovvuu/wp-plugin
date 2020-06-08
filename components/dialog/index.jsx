@@ -5,7 +5,7 @@ import TopicsPanelWrapper from 'components/topicsPanel';
 import ActionButton from 'components/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
-import oovvuuData from 'components/app/context';
+import OovvuuDataContext from 'components/app/context';
 import SaveSVG from 'assets/save.svg';
 import insertEmbed from 'services/insertEmbed';
 import Dialog from './dialog';
@@ -28,7 +28,7 @@ const DialogWrapper = () => {
       },
     },
     dispatch,
-  } = React.useContext(oovvuuData);
+  } = React.useContext(OovvuuDataContext);
   // Set default panel display state.
   const [displayPanels, setDisplayPanels] = React.useState(false);
 

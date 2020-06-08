@@ -10,24 +10,31 @@ import transform from 'transforms/embeds';
 const saveState = (state, id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
+  /**
+   * Returns a clean state that removed values that should not be persistent.
+   *
+   * @param  {object} dirtyState The dirty state.
+   * @return {object}            The clean state.
+   */
+  const getCleanState = (dirtyState) => Object.keys(dirtyState).reduce((carry, key) => {
+    // Excluded from post meta.
+    const filter = [
+      'embeds',
+      'isLoading',
+      'isUserAuthenticated',
+      'lastActionType',
+      'loadingAttributes',
+    ];
+
+    return !filter.includes(key) ? { ...carry, ...{ [key]: dirtyState[key] } } : carry;
+  }, {});
+
   return apiFetch({
     path: '/oovvuu/v1/saveState/',
     method: 'POST',
     data: {
       id,
-      // Filter out properties we don't want in post meta.
-      state: Object.keys(state).reduce((carry, key) => {
-        // Excluded from post meta.
-        const filter = [
-          'embeds',
-          'isLoading',
-          'isUserAuthenticated',
-          'lastActionType',
-          'loadingAttributes',
-        ];
-
-        return !filter.includes(key) ? { ...carry, ...{ [key]: state[key] } } : carry;
-      }, {}),
+      state: getCleanState(state),
     },
   }).then((value) => {
     const { embeds, state: updatedState, success } = value;

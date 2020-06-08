@@ -14,8 +14,9 @@ describe('UserKeywordItem', () => {
       onRemove={toRemove}
     />);
 
-    expect(wrapper.find('button')).toHaveLength(1);
-    wrapper.find('button').simulate('click');
+    const removeButton = wrapper.find('button');
+    expect(removeButton).toHaveLength(1);
+    removeButton.simulate('click');
     expect(toRemove).toHaveBeenCalled();
   });
 });

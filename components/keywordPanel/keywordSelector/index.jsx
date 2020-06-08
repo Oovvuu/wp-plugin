@@ -14,8 +14,7 @@ const KeywordSelector = () => {
   const { i18n: { __ } } = wp;
 
   const {
-    dispatch,
-    state: { recommendedKeywords, selectedKeywords },
+    state: { recommendedKeywords },
   } = React.useContext(oovvuuData);
 
   /**
@@ -91,8 +90,7 @@ const KeywordSelector = () => {
     <div className={theme.panelInset}>
       <h4 className={styles.keywordsHeading}>{__('Select all relevant keywords', 'oovvuu')}</h4>
       <KeywordList
-        keywordItems={keywordItems}
-        onUpdate={handleItemUpdated}
+        keywordItems={recommendedKeywords}
       />
       <h4
         id="user-keywords-heading"
