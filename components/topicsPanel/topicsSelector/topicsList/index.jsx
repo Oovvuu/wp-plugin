@@ -12,7 +12,6 @@ import styles from './topicList.scss';
 const TopicsList = (props) => {
   const { items } = props;
   const { dispatch, state: { selectedTopics } } = React.useContext(oovvuuDataContext);
-  const [localSelectedTopics, setLocalSelectedTopics] = React.useState([...selectedTopics]);
 
   /**
    * Triggers a new search given the selected topic.
@@ -34,14 +33,10 @@ const TopicsList = (props) => {
    * @return {Boolean}         True or false.
    */
   const isSelected = (keyword) => {
-    const filteredTopics = localSelectedTopics.filter((topic) => topic.keywordMatch === keyword);
+    const filteredTopics = selectedTopics.filter((topic) => topic.keywordMatch === keyword);
 
     return filteredTopics.length !== 0;
   };
-
-  React.useEffect(() => {
-    setLocalSelectedTopics([...selectedTopics]);
-  }, [selectedTopics]);
 
   return (
     <ul className={classnames(theme.termList, styles.topicList)}>
