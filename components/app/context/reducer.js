@@ -43,6 +43,13 @@ const reducer = (state, action) => {
         selectedTopics: [],
       };
     }
+    case 'CLEAR_TOPICS': {
+      return {
+        ...nextState,
+        selectedTopics: [],
+        recommendedTopics: [],
+      };
+    }
     case 'CLEAR_SELECTED_AND_USER_KEYWORDS':
       return { ...nextState, selectedKeywords: [], userKeywords: [] };
     case 'UPDATE_USER_KEYWORDS':

@@ -38,20 +38,20 @@ describe('Application reducer', () => {
     });
   });
 
-  describe('CLEAR_SELECTED_ALTERNATE_SEARCH', () => {
+  describe('CLEAR_SELECTED_TOPICS', () => {
     it('Correctly clears selected alternate searches', () => {
       const existingAlternateSearch = {
         approximateTotalCount: '1',
         keywordMatch: 'existingMatch',
         previewImage: { url: 'existingUrl' },
       };
-      const action = { type: 'CLEAR_SELECTED_ALTERNATE_SEARCH' };
+      const action = { type: 'CLEAR_SELECTED_TOPICS' };
       const newState = reducer({
         ...initialState,
-        selectedAlternateSearches: [existingAlternateSearch],
+        selectedTopics: [existingAlternateSearch],
       }, action);
 
-      expect(newState.selectedAlternateSearches).toHaveLength(0);
+      expect(newState.selectedTopics).toHaveLength(0);
     });
   });
 });

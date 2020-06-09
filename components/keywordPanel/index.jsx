@@ -47,7 +47,7 @@ const KeywordPanelWrapper = (props) => {
    * @returns {Promise<void>} Future for response data or error object.
    */
   const handleFetchVideos = async () => {
-    dispatch({ type: 'CLEAR_SELECTED_ALTERNATE_SEARCH' });
+    dispatch({ type: 'CLEAR_TOPICS' });
 
     dispatch({
       type: 'SET_LOADING_STATE',

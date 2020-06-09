@@ -20,7 +20,9 @@ const EffectsManager = (props) => {
     actionType,
     children,
     dispatch,
-    state: { recommendedVideos, selectedTopics, selectedKeywords },
+    state: {
+      recommendedVideos, recommendedKeywords, selectedTopics, selectedKeywords,
+    },
   } = props;
 
   /**
@@ -77,10 +79,20 @@ const EffectsManager = (props) => {
    */
   const handleSelectTopic = async (topic) => {
     const { keywordMatch } = topic;
-    dispatch({
-      type: 'UPDATE_SELECTED_KEYWORDS',
-      payload: selectedKeywords.filter((keyword) => keyword === keywordMatch),
-    });
+
+    // Select keyword.
+    if (recommendedKeywords.includes(keywordMatch)) {
+      dispatch({
+        type: 'UPDATE_SELECTED_KEYWORDS',
+        payload: selectedKeywords.filter((keyword) => keyword === keywordMatch),
+      });
+    } else {
+      // Add keyword as a user keyword.
+      dispatch({
+        type: 'UPDATE_USER_KEYWORDS',
+        payload: [keywordMatch],
+      });
+    }
 
     const id = getPostAttribute('id');
 
