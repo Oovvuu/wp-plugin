@@ -1,4 +1,8 @@
-.wrapper {
+.wrapper[draggable="true"] {
+  cursor: grab;
+}
+
+.inner {
   box-shadow: var(--box-shadow-deep);
   display: grid;
   grid-gap: rem(10) rem(20);
@@ -64,4 +68,8 @@
   svg {
     background: transparent;
   }
+}
+
+.isDropTarget {
+  background-color: var(--color-decoration);
 }

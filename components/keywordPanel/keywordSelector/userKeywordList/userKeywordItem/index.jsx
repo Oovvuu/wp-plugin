@@ -11,11 +11,11 @@ const UserKeywordItem = (props) => {
   const { i18n: { __ } } = wp;
   const {
     keyword,
-    onRemove,
+    handleRemove,
   } = props;
 
-  const textIdRef = keyword.replace(/\s/g, '-');
-  const buttonIdRef = `remove-${textIdRef}`;
+  const textId = keyword.replace(/\s/g, '-');
+  const buttonId = `remove-${textId}`;
 
   return (
     <span
@@ -23,7 +23,7 @@ const UserKeywordItem = (props) => {
       role="row"
     >
       <span
-        id={textIdRef}
+        id={textId}
         role="gridcell"
       >
         {keyword}
@@ -32,11 +32,11 @@ const UserKeywordItem = (props) => {
         role="gridcell"
       >
         <button
-          id={buttonIdRef}
-          onClick={onRemove}
+          id={buttonId}
+          onClick={() => handleRemove(keyword)}
           type="button"
           aria-label={__('Remove', 'oovvuu')}
-          aria-labelledby={`${buttonIdRef} ${textIdRef}`}
+          aria-labelledby={`${buttonId} ${textId}`}
         >
           <CloseIcon />
         </button>
@@ -47,7 +47,7 @@ const UserKeywordItem = (props) => {
 
 UserKeywordItem.propTypes = {
   keyword: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
 };
 
 export default UserKeywordItem;

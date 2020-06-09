@@ -66,6 +66,10 @@ const reducer = (state, action) => {
     case 'SWAP_VIDEOS': {
       return swapVideos(nextState, payload);
     }
+    case 'SET_DRAGGING_VIDEO': {
+      nextState.currentDraggingVideo = payload;
+      return nextState;
+    }
     case 'UPDATE_EMBEDS': {
       return { ...nextState, embeds: payload };
     }

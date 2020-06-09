@@ -34,8 +34,26 @@ const VideoCardWrapper = (props) => {
   } = props;
   const {
     dispatch,
+    state: {
+      currentDraggingVideo,
+    },
   } = React.useContext(OovvuuDataContext);
   const clipLength = moment(moment.duration(duration, 'seconds').asMilliseconds()).format('mm:ss');
+
+  /**
+   * Get the classnames for the current video card.
+   *
+   * @param {Boolean} dropTarget Whether or not this is a drop target element.
+   * @return {string} The classnames string.
+   */
+  const getClassnames = (dropTarget) => classNames(
+    styles.wrapper,
+    { [styles.isDropTarget]: dropTarget },
+  );
+
+  const [videoClassnames, setVideoClassnames] = React.useState(getClassnames(false));
+
+  const videoCardRef = React.useRef();
 
   /**
    * Removes a video from the position.
@@ -74,13 +92,77 @@ const VideoCardWrapper = (props) => {
   };
 
   /**
+   * Styles the drag over valid target element.
+   *
+   * @param {Event} event The drop event.
+   */
+  const handleDragEnter = (event) => {
+    event.preventDefault();
+
+    if (videoCardRef.current.firstChild.contains(event.target)) {
+      setVideoClassnames(getClassnames(true));
+    }
+  };
+
+  /**
+   * Removes valid drop target styling.
+   *
+   * @param {Event} event The drop event.
+   */
+  const handleDragLeave = (event) => {
+    event.preventDefault();
+
+    const rect = videoCardRef.current.getBoundingClientRect();
+
+    const withinEl = (
+      event.clientX >= rect.left
+      && event.clientY >= rect.top
+      && event.clientX <= rect.right
+      && event.clientY <= rect.bottom
+    );
+
+    // Dragged outside the element.
+    if (!withinEl) {
+      setVideoClassnames(getClassnames(false));
+    }
+  };
+
+  /**
    * Handle the drag start event to get the relevant video data from the source
    * video.
    *
    * @param {Event} event The drag start event.
    */
   const handleDragStart = (event) => {
-    event.dataTransfer.setData('text', getDragAndDropData());
+    // Create a ghost element used as the drag image.
+    const clonedNode = event.target.cloneNode(true);
+    clonedNode.firstChild.style.backgroundColor = 'white';
+    clonedNode.style.width = `${event.target.offsetWidth}px`;
+    clonedNode.style.position = 'absolute';
+    clonedNode.style.top = '0';
+    clonedNode.style.left = '0';
+    clonedNode.style.zIndex = '-1';
+    clonedNode.firstChild.style.border = 'solid 1px var(--color-theme)';
+
+    // Set the rotation.
+    clonedNode.firstChild.style.transform = 'rotate(2deg)';
+
+    event.target.parentNode.appendChild(clonedNode);
+    event.dataTransfer.setDragImage(clonedNode, 20, 20);
+
+    // Set the dragging video in the global state.
+    const currentVideo = getDragAndDropData();
+    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: { ...JSON.parse(currentVideo) } });
+
+    // Add the current dragging video as transfer data in the drag event.
+    event.dataTransfer.setData('text', currentVideo);
+    event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
+    event.dataTransfer.effectAllowed = 'move'; // eslint-disable-line no-param-reassign
+
+    // Remove the ghost element.
+    window.setTimeout(() => {
+      clonedNode.parentNode.removeChild(clonedNode);
+    }, 1000);
   };
 
   /**
@@ -91,6 +173,8 @@ const VideoCardWrapper = (props) => {
   const handleDrop = (event) => {
     event.preventDefault();
     const data = event.dataTransfer.getData('text');
+
+    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: {} });
 
     // No data found.
     if (!data) {
@@ -113,32 +197,56 @@ const VideoCardWrapper = (props) => {
     });
   };
 
+  /**
+   * Drag event has ended.
+   *
+   * @param {Event} event The drag drop event.
+   */
+  const handleDragEnd = (event) => {
+    event.preventDefault();
+
+    dispatch({ type: 'SET_DRAGGING_VIDEO', payload: {} });
+  };
+
+  /**
+   * Update classnames when video drag is updated.
+   */
+  React.useEffect(() => {
+    setVideoClassnames(getClassnames(false));
+  }, [currentDraggingVideo]);
+
   return (
     <div
       key={id}
-      className={classNames(styles.wrapper, styles.addRemoveKeyword)}
+      className={videoClassnames}
+      ref={videoCardRef}
       draggable
       onDragStart={handleDragStart}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragEnd={handleDragEnd}
       onDragOver={allowDrop}
       onDrop={handleDrop}
     >
-      <ActionButton
-        buttonStyle="icon"
-        className={styles.removeVideo}
-        onClickHandler={removeVideo}
-      >
-        <ClearIcon />
-      </ActionButton>
-      <div className={styles.logo}>
-        <img src={url} alt={legalName} draggable="false" />
+      <div className={styles.inner}>
+        <ActionButton
+          buttonStyle="icon"
+          className={styles.removeVideo}
+          onClickHandler={removeVideo}
+        >
+          <ClearIcon />
+        </ActionButton>
+        <div className={styles.logo}>
+          <img src={url} alt={legalName} draggable="false" />
+        </div>
+        <h4 className={styles.title}>{title}</h4>
+        <div className={styles.meta}>
+          <Badge text={clipLength} />
+          <Badge text={moment(modified).fromNow()} />
+          <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
+        </div>
+        <p className={styles.description}>{summary}</p>
       </div>
-      <h4 className={styles.title}>{title}</h4>
-      <div className={styles.meta}>
-        <Badge text={clipLength} />
-        <Badge text={moment(modified).fromNow()} />
-        <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
-      </div>
-      <p className={styles.description}>{summary}</p>
     </div>
   );
 };

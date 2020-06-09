@@ -34,6 +34,7 @@ const initialState = {
     message: '',
   },
   isLoadedFromMeta: false,
+  currentDraggingVideo: [],
 };
 
 export default initialState;

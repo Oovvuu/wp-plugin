@@ -20,6 +20,20 @@ const mockVideo = {
 global.wp = { i18n: { __: () => 'translated' } };
 
 describe('VideoCardWrapper', () => {
+  const dispatchFn = jest.fn();
+
+  beforeEach(() => {
+    jest.spyOn(React, 'useContext')
+      .mockImplementation(() => ({
+        dispatch: dispatchFn,
+        state: { currentDraggingVideo: [] },
+      }));
+  });
+
+  afterEach(() => {
+    dispatchFn.mockClear();
+  });
+
   it('Renders logo image', () => {
     const wrapper = shallow(
       <VideoCardWrapper positionKey="hero" video={mockVideo} index={Number(0)} />,
