@@ -11,21 +11,38 @@ import styles from './topicList.scss';
  */
 const TopicsList = (props) => {
   const { items } = props;
-  const { dispatch, state: { selectedAlternateSearches } } = React.useContext(oovvuuDataContext);
-  const [selectedAlternateSearch, setSelectedAlternateSearch] = React.useState(null);
+  const { dispatch, state: { selectedTopics } } = React.useContext(oovvuuDataContext);
+  const [localSelectedTopics, setLocalSelectedTopics] = React.useState([...selectedTopics]);
 
+  /**
+   * Triggers a new search given the selected topic.
+   *
+   * @param  {[type]} item [description]
+   * @return {[type]}      [description]
+   */
   const handleClick = (item) => {
-    const action = selectedAlternateSearch
-      ? { type: 'CLEAR_SELECTED_ALTERNATE_SEARCH' }
-      : { type: 'SELECT_ALTERNATE_SEARCH', payload: item };
-    dispatch(action);
+    // Clear all selections.
+    dispatch({ type: 'CLEAR_SELECTED_TOPICS' });
+
+    // Select the topic and trigger a search.
+    dispatch({ type: 'UPDATE_SELECTED_TOPICS', payload: [item] });
+  };
+
+  /**
+   * Determines if a topic is selected.
+   *
+   * @param  {string}  keyword The keyword to match.
+   * @return {Boolean}         True or false.
+   */
+  const isSelected = (keyword) => {
+    const filteredTopics = localSelectedTopics.filter((topic) => topic.keywordMatch === keyword);
+
+    return filteredTopics.length !== 0;
   };
 
   React.useEffect(() => {
-    const [selected] = selectedAlternateSearches;
-
-    setSelectedAlternateSearch(selected ?? null);
-  }, [selectedAlternateSearches]);
+    setLocalSelectedTopics([...selectedTopics]);
+  }, [selectedTopics]);
 
   return (
     <ul className={classnames(theme.termList, styles.topicList)}>
@@ -35,7 +52,7 @@ const TopicsList = (props) => {
         return (
           <li key={`topic-${keywordMatch}`}>
             <TopicItem
-              isSelected={keywordMatch === selectedAlternateSearch?.keywordMatch}
+              isSelected={isSelected(keywordMatch)}
               item={item}
               onToggle={handleClick}
             />

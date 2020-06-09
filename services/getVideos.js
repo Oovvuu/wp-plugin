@@ -30,10 +30,8 @@ const getVideos = (keywords, id) => {
         ? {
           hasError: false,
           data: {
-            videos: {
-              ...videosForArticle,
-              alternateSearches: videosForArticle.alternateSearches.map(transformAlternateSearch),
-            },
+            videos: { ...videosForArticle },
+            alternateSearches: videosForArticle.alternateSearches.map(transformAlternateSearch),
           },
         } : {
           hasError: true,

@@ -9,16 +9,14 @@ import TopicsList from './topicsList';
 const TopicsSelectorWrapper = () => {
   const {
     state: {
-      recommendedVideos: {
-        alternateSearches,
-      },
+      recommendedTopics,
     },
   } = React.useContext(oovvuuData);
 
   return (
     <div className={theme.panelInset}>
       <TopicsList
-        items={alternateSearches}
+        items={recommendedTopics}
       />
     </div>
   );

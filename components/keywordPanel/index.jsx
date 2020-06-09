@@ -59,8 +59,10 @@ const KeywordPanelWrapper = (props) => {
     const response = await getVideos([...selectedKeywords, ...userKeywords], id);
 
     if (!response.hasError) {
-      const { videos } = response.data;
+      const { videos, alternateSearches } = response.data;
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
+
+      dispatch({ payload: alternateSearches, type: 'UPDATE_RECOMMENDED_TOPICS' });
 
       /*
        * Each position is enabled by default, but the API may disable a position.

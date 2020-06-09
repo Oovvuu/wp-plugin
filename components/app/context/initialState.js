@@ -10,6 +10,7 @@ const initialState = {
   isPositionTwoEnabled: true,
   lastActionType: null,
   recommendedKeywords: [],
+  recommendedTopics: [],
   recommendedVideos: {
     hero: [],
     heroEmptyReason: null,
@@ -21,13 +22,13 @@ const initialState = {
   },
   selectedKeywords: [],
   userKeywords: [],
+  selectedTopics: [],
   selectedVideos: {
     hero: [],
     heroSecondary: [],
     positionTwo: [],
     positionTwoSecondary: [],
   },
-  selectedAlternateSearches: [],
   isLoading: false,
   isUserAuthenticated: false,
   loadingAttributes: {

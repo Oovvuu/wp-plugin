@@ -25,12 +25,24 @@ const reducer = (state, action) => {
     case 'UPDATE_RECOMMENDED_KEYWORDS':
       nextState.recommendedKeywords = payload;
       return nextState;
+    case 'UPDATE_RECOMMENDED_TOPICS':
+      nextState.recommendedTopics = payload;
+      return nextState;
     case 'UPDATE_RECOMMENDED_VIDEOS':
       nextState.recommendedVideos = payload;
       return nextState;
     case 'UPDATE_SELECTED_KEYWORDS':
       nextState.selectedKeywords = payload;
       return nextState;
+    case 'UPDATE_SELECTED_TOPICS':
+      nextState.selectedTopics = payload;
+      return nextState;
+    case 'CLEAR_SELECTED_TOPICS': {
+      return {
+        ...nextState,
+        selectedTopics: [],
+      };
+    }
     case 'CLEAR_SELECTED_AND_USER_KEYWORDS':
       return { ...nextState, selectedKeywords: [], userKeywords: [] };
     case 'UPDATE_USER_KEYWORDS':
@@ -90,18 +102,6 @@ const reducer = (state, action) => {
       return {
         ...nextState,
         isUserAuthenticated: true,
-      };
-    }
-    case 'SELECT_ALTERNATE_SEARCH': {
-      return {
-        ...nextState,
-        selectedAlternateSearches: [payload],
-      };
-    }
-    case 'CLEAR_SELECTED_ALTERNATE_SEARCH': {
-      return {
-        ...nextState,
-        selectedAlternateSearches: [],
       };
     }
 

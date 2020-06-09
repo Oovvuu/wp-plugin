@@ -20,7 +20,7 @@ const EffectsManager = (props) => {
     actionType,
     children,
     dispatch,
-    state: { recommendedVideos, selectedAlternateSearches, selectedKeywords },
+    state: { recommendedVideos, selectedTopics, selectedKeywords },
   } = props;
 
   /**
@@ -137,8 +137,8 @@ const EffectsManager = (props) => {
       dispatch({ type: 'CLEAR_LOADING_STATE' });
     }
 
-    if (actionType === 'SELECT_ALTERNATE_SEARCH') {
-      const [topic] = selectedAlternateSearches;
+    if (actionType === 'UPDATE_SELECTED_TOPICS') {
+      const [topic] = selectedTopics;
 
       handleSelectTopic(topic);
     }
@@ -165,7 +165,7 @@ EffectsManager.propTypes = {
       positionTwo: PropTypes.arrayOf(PropTypes.object).isRequired,
       positionTwoSecondary: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
-    selectedAlternateSearches: PropTypes.arrayOf(PropTypes.shape({
+    selectedTopics: PropTypes.arrayOf(PropTypes.shape({
       keywordMatch: PropTypes.string.isRequired,
     })).isRequired,
     selectedKeywords: PropTypes.arrayOf(PropTypes.string).isRequired,
