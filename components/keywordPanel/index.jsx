@@ -34,7 +34,7 @@ const KeywordPanelWrapper = (props) => {
     );
 
     if (confirmDialog === true) {
-      dispatch({ type: 'CLEAR_SELECTED_KEYWORDS' });
+      dispatch({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' });
     }
   };
 
@@ -47,6 +47,8 @@ const KeywordPanelWrapper = (props) => {
    * @returns {Promise<void>} Future for response data or error object.
    */
   const handleFetchVideos = async () => {
+    dispatch({ type: 'CLEAR_SELECTED_ALTERNATE_SEARCH' });
+
     dispatch({
       type: 'SET_LOADING_STATE',
       payload: {
