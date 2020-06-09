@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import classnames from 'classnames';
 import theme from 'shared/theme.scss';
 
 /**
@@ -17,30 +19,33 @@ const TopicItem = (props) => {
     onToggle,
   } = props;
 
-  const key = `topic-${keywordMatch}`;
+  const keywordId = `topic-${keywordMatch.replace(/[\W\s]+/g, '-')}`;
+  const buttonId = `${keywordId}-button`;
+  const countId = `${keywordId}-count`;
 
   return (
-    <label
-      className={theme.topic}
-      htmlFor={key}
+    <button
+      type="submit"
+      className={classnames(theme.topic, { [theme.topicSelected]: isSelected })}
+      onClick={() => onToggle(item)}
+      id={buttonId}
+      aria-label={__('Recommend videos for', 'oovvuu')}
+      aria-labelledby={`${buttonId} ${keywordId} ${countId}`}
+      aria-pressed={isSelected}
     >
-      <input
-        checked={isSelected}
-        id={key}
-        name={keywordMatch}
-        onChange={() => onToggle(item)}
-        type="checkbox"
-      />
-      <span>
-        <div className={theme.itemThumbnail}>
-          <img src={url} alt={keywordMatch} />
-        </div>
-        <span className={theme.itemKeyword}>{keywordMatch}</span>
-        <div className={theme.itemMeta}>
+      <div>
+        <img src={url} alt="" />
+        <span id={keywordId}>
+          {keywordMatch}
+        </span>
+        <span
+          id={countId}
+          aria-label={`with approximately ${approximateTotalCount} videos available`}
+        >
           {approximateTotalCount}
-        </div>
-      </span>
-    </label>
+        </span>
+      </div>
+    </button>
   );
 };
 
