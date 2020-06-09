@@ -14,10 +14,11 @@ const TopicsPanelWrapper = () => {
       recommendedVideos: {
         alternateSearches,
       },
+      selectedAlternateSearches,
     },
   } = React.useContext(OovvuuDataContext);
 
-  return alternateSearches?.length && (
+  return (alternateSearches?.length || selectedAlternateSearches?.length) && (
   <div className={classnames(theme.panel)}>
     <h3 className={theme.panelHeading}>{__('Recommended Topics with Videos', 'oovvuu')}</h3>
     <TopicsSelector />
