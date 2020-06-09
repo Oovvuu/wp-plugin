@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import oovvuuDataContext from 'components/app/context';
 import theme from 'shared/theme.scss';
 import TopicItem from './topicItem';
 import styles from './topicList.scss';
@@ -10,6 +11,21 @@ import styles from './topicList.scss';
  */
 const TopicsList = (props) => {
   const { items } = props;
+  const { dispatch, state: { selectedAlternateSearches } } = React.useContext(oovvuuDataContext);
+  const [selectedAlternateSearch, setSelectedAlternateSearch] = React.useState(null);
+
+  const handleClick = (item) => {
+    const action = selectedAlternateSearch
+      ? { type: 'CLEAR_SELECTED_ALTERNATE_SEARCH' }
+      : { type: 'SELECT_ALTERNATE_SEARCH', payload: item };
+    dispatch(action);
+  };
+
+  React.useEffect(() => {
+    const [selected] = selectedAlternateSearches;
+
+    setSelectedAlternateSearch(selected ?? null);
+  }, [selectedAlternateSearches]);
 
   return (
     <ul className={classnames(theme.termList, styles.topicList)}>
@@ -18,7 +34,11 @@ const TopicsList = (props) => {
 
         return (
           <li key={`topic-${keywordMatch}`}>
-            <TopicItem item={item} />
+            <TopicItem
+              isSelected={keywordMatch === selectedAlternateSearch?.keywordMatch}
+              item={item}
+              onToggle={handleClick}
+            />
           </li>
         );
       })}
@@ -28,9 +48,7 @@ const TopicsList = (props) => {
 
 TopicsList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
-    approximateTotalCount: PropTypes.string.isRequired,
     keywordMatch: PropTypes.string.isRequired,
-    previewImage: PropTypes.shape({ url: PropTypes.string.isRequired }).isRequired,
   })).isRequired,
 };
 
