@@ -7,11 +7,14 @@ import theme from 'shared/theme.scss';
  */
 const TopicItem = (props) => {
   const {
+    isSelected,
     item: {
       approximateTotalCount,
       keywordMatch,
       previewImage: { url },
     },
+    item,
+    onToggle,
   } = props;
 
   const key = `topic-${keywordMatch}`;
@@ -22,8 +25,10 @@ const TopicItem = (props) => {
       htmlFor={key}
     >
       <input
+        checked={isSelected}
         id={key}
         name={keywordMatch}
+        onChange={() => onToggle(item)}
         type="checkbox"
       />
       <span>
@@ -39,12 +44,16 @@ const TopicItem = (props) => {
   );
 };
 
+TopicItem.defaultProps = { isSelected: false };
+
 TopicItem.propTypes = {
+  isSelected: PropTypes.bool,
   item: PropTypes.shape({
     approximateTotalCount: PropTypes.string.isRequired,
     keywordMatch: PropTypes.string.isRequired,
     previewImage: PropTypes.shape({ url: PropTypes.string.isRequired }).isRequired,
   }).isRequired,
+  onToggle: PropTypes.func.isRequired,
 };
 
 export default TopicItem;
