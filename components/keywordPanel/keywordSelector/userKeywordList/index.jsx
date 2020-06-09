@@ -87,7 +87,7 @@ const UserList = () => {
           <UserKeywordItem
             key={keyword}
             keyword={keyword}
-            onRemove={() => { handleRemove(keyword); }}
+            handleRemove={handleRemove}
           />
         ))}
 
