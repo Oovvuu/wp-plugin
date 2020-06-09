@@ -55,27 +55,27 @@ describe('EffectsManager', () => {
     });
   });
 
-  describe('SELECT_ALTERNATE_SEARCH', () => {
+  describe.skip('UPDATE_SELECTED_TOPICS', () => {
     let getPostAttributeSpy;
     let getTopicVideosSpy;
     const postId = '1';
     let props;
-    let selectedAlternateSearch;
+    let recommendedTopics;
     let recommendedVideos;
     let response;
 
     beforeEach(() => {
       global.wp = { i18n: { __: jest.fn(() => 'translated') } };
-      selectedAlternateSearch = {
+      recommendedTopics = {
         approximateTotalCount: '5',
         keywordMatch: 'selectedMatch',
         previewImage: { url: 'selectedUrl' },
       };
       props = {
-        actionType: 'SELECT_ALTERNATE_SEARCH',
+        actionType: 'UPDATE_SELECTED_TOPICS',
         state: {
           ...initialState,
-          selectedAlternateSearches: [selectedAlternateSearch],
+          recommendedTopics: [recommendedTopics],
         },
       };
       recommendedVideos = {
@@ -139,7 +139,7 @@ describe('EffectsManager', () => {
           payload: { message: 'translated' },
         });
         expect(getTopicVideosSpy)
-          .toHaveBeenCalledWith([selectedAlternateSearch.keywordMatch], postId);
+          .toHaveBeenCalledWith([recommendedTopics.keywordMatch], postId);
         expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_LOADING_STATE' });
         expect(dispatchFn).toHaveBeenCalledWith({
           type: 'UPDATE_RECOMMENDED_VIDEOS',

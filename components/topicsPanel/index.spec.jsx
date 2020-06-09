@@ -27,9 +27,9 @@ describe('TopicsPanelWrapper', () => {
     jest.spyOn(React, 'useContext')
       .mockImplementation(() => ({
         state: {
-          recommendedVideos: {
-            alternateSearches: ['alternate'],
-          },
+          recommendedTopics: [
+            { keywordMatch: 'keyword' },
+          ],
         },
       }));
 
