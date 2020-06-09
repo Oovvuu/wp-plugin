@@ -17,8 +17,7 @@ const TopicsList = (props) => {
   /**
    * Triggers a new search given the selected topic.
    *
-   * @param  {[type]} item [description]
-   * @return {[type]}      [description]
+   * @param  {object} item The topic.
    */
   const handleClick = (item) => {
     // Clear all selections.
