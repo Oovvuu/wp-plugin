@@ -31,7 +31,7 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_KEYWORDS':
       nextState.selectedKeywords = payload;
       return nextState;
-    case 'CLEAR_SELECTED_KEYWORDS':
+    case 'CLEAR_SELECTED_AND_USER_KEYWORDS':
       return { ...nextState, selectedKeywords: [], userKeywords: [] };
     case 'UPDATE_USER_KEYWORDS':
       nextState.userKeywords = payload;
@@ -86,6 +86,18 @@ const reducer = (state, action) => {
       return {
         ...nextState,
         isUserAuthenticated: true,
+      };
+    }
+    case 'SELECT_ALTERNATE_SEARCH': {
+      return {
+        ...nextState,
+        selectedAlternateSearches: [payload],
+      };
+    }
+    case 'CLEAR_SELECTED_ALTERNATE_SEARCH': {
+      return {
+        ...nextState,
+        selectedAlternateSearches: [],
       };
     }
 
