@@ -21,7 +21,7 @@ const TopicItem = (props) => {
 
   return (
     <label
-      className={theme.recommendedTerm}
+      className={theme.topic}
       htmlFor={key}
     >
       <input
@@ -35,7 +35,7 @@ const TopicItem = (props) => {
         <div className={theme.itemThumbnail}>
           <img src={url} alt={keywordMatch} />
         </div>
-        {keywordMatch}
+        <span className={theme.itemKeyword}>{keywordMatch}</span>
         <div className={theme.itemMeta}>
           {approximateTotalCount}
         </div>
