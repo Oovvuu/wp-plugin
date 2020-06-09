@@ -1,10 +1,12 @@
+import transformAlternateSearch from 'transforms/alternateSearches';
+
 /**
  * Performs an API request to obtain videos given keywords.
  *
- * @param  {[array]}  keywords The keywords.
+ * @param  {[array]} keywords The keywords.
+ * @param  {string}  id Post ID.
  * @returns {Promise} Future object for API response data.
  */
-import transformAlternateSearch from 'transforms/alternateSearches';
 
 const getVideos = (keywords, id) => {
   const { apiFetch, i18n: { __ } } = wp;
