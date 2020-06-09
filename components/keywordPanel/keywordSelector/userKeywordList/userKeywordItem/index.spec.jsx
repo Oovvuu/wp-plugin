@@ -8,15 +8,15 @@ global.wp = {
 
 describe('UserKeywordItem', () => {
   it('Calls remove function when clicked', () => {
-    const toRemove = jest.fn();
+    const handleRemove = jest.fn();
     const wrapper = shallow(<UserKeywordItem
       keyword="keyword"
-      onRemove={toRemove}
+      handleRemove={handleRemove}
     />);
 
     const removeButton = wrapper.find('button');
     expect(removeButton).toHaveLength(1);
     removeButton.simulate('click');
-    expect(toRemove).toHaveBeenCalled();
+    expect(handleRemove).toHaveBeenCalled();
   });
 });
