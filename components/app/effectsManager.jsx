@@ -21,7 +21,7 @@ const EffectsManager = (props) => {
     children,
     dispatch,
     state: {
-      recommendedVideos, recommendedKeywords, selectedTopics, selectedKeywords,
+      recommendedVideos, recommendedKeywords, selectedTopics,
     },
   } = props;
 
@@ -80,11 +80,14 @@ const EffectsManager = (props) => {
   const handleSelectTopic = async (topic) => {
     const { keywordMatch } = topic;
 
+    // Clear the keywords.
+    dispatch({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' });
+
     // Select keyword.
     if (recommendedKeywords.includes(keywordMatch)) {
       dispatch({
         type: 'UPDATE_SELECTED_KEYWORDS',
-        payload: selectedKeywords.filter((keyword) => keyword === keywordMatch),
+        payload: [keywordMatch],
       });
     } else {
       // Add keyword as a user keyword.
