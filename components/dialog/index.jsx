@@ -1,6 +1,7 @@
 import React from 'react';
 import KeywordPanel from 'components/keywordPanel';
 import PositionsPanelWrapper from 'components/positionsPanel';
+import TopicsPanelWrapper from 'components/topicsPanel';
 import ActionButton from 'components/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
@@ -157,6 +158,7 @@ const DialogWrapper = () => {
         <KeywordPanel
           onHandleDisplayPanels={setDisplayPanels}
         />
+        <TopicsPanelWrapper />
         <PositionsPanelWrapper
           displayPanels={displayPanels}
         />

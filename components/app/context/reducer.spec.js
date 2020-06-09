@@ -7,9 +7,51 @@ describe('Application reducer', () => {
       payload: { hero: { id: 'hero' } },
       type: 'UPDATE_SELECTED_VIDEOS',
     };
-
     const newState = reducer(initialState, action);
 
     expect(newState.selectedVideos.hero).toEqual(expect.objectContaining(action.payload.hero));
+  });
+
+  describe.skip('UPDATE_SELECTED_TOPICS', () => {
+    it('Correctly sets a selected alternate search', () => {
+      const existingAlternateSearch = {
+        approximateTotalCount: '1',
+        keywordMatch: 'existingMatch',
+        previewImage: { url: 'existingUrl' },
+      };
+      const selectedAlternateSearch = {
+        approximateTotalCount: '5',
+        keywordMatch: 'selectedMatch',
+        previewImage: { url: 'selectedUrl' },
+      };
+      const action = {
+        payload: [selectedAlternateSearch],
+        type: 'UPDATE_SELECTED_TOPICS',
+      };
+      const newState = reducer({
+        ...initialState,
+        selectedTopics: [existingAlternateSearch],
+      }, action);
+
+      expect(newState.selectedTopics).toHaveLength(1);
+      expect(newState.selectedTopics[0]).toEqual(selectedAlternateSearch);
+    });
+  });
+
+  describe.skip('CLEAR_SELECTED_TOPICS', () => {
+    it('Correctly clears selected alternate searches', () => {
+      const existingAlternateSearch = {
+        approximateTotalCount: '1',
+        keywordMatch: 'existingMatch',
+        previewImage: { url: 'existingUrl' },
+      };
+      const action = { type: 'CLEAR_SELECTED_TOPICS' };
+      const newState = reducer({
+        ...initialState,
+        selectedTopics: [existingAlternateSearch],
+      }, action);
+
+      expect(newState.selectedTopics).toHaveLength(0);
+    });
   });
 });

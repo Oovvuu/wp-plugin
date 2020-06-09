@@ -1,9 +1,13 @@
+import transformAlternateSearch from 'transforms/alternateSearches';
+
 /**
  * Performs an API request to obtain videos given keywords.
  *
- * @param  {[array]}  keywords The keywords.
+ * @param  {[array]} keywords The keywords.
+ * @param  {string}  id Post ID.
  * @returns {Promise} Future object for API response data.
  */
+
 const getVideos = (keywords, id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
@@ -25,7 +29,10 @@ const getVideos = (keywords, id) => {
       return videosForArticle
         ? {
           hasError: false,
-          data: { videos: videosForArticle },
+          data: {
+            videos: { ...videosForArticle },
+            alternateSearches: videosForArticle.alternateSearches.map(transformAlternateSearch),
+          },
         } : {
           hasError: true,
           message: __('Malformed response data.', 'oovvuu'),

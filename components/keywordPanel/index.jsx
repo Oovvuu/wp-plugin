@@ -34,7 +34,7 @@ const KeywordPanelWrapper = (props) => {
     );
 
     if (confirmDialog === true) {
-      dispatch({ type: 'CLEAR_SELECTED_KEYWORDS' });
+      dispatch({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' });
     }
   };
 
@@ -47,6 +47,8 @@ const KeywordPanelWrapper = (props) => {
    * @returns {Promise<void>} Future for response data or error object.
    */
   const handleFetchVideos = async () => {
+    dispatch({ type: 'CLEAR_TOPICS' });
+
     dispatch({
       type: 'SET_LOADING_STATE',
       payload: {
@@ -57,8 +59,10 @@ const KeywordPanelWrapper = (props) => {
     const response = await getVideos([...selectedKeywords, ...userKeywords], id);
 
     if (!response.hasError) {
-      const { videos } = response.data;
+      const { videos, alternateSearches } = response.data;
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
+
+      dispatch({ payload: alternateSearches, type: 'UPDATE_RECOMMENDED_TOPICS' });
 
       /*
        * Each position is enabled by default, but the API may disable a position.
@@ -80,7 +84,7 @@ const KeywordPanelWrapper = (props) => {
 
   return (
     <div className={classnames(styles.panel, theme.panel)}>
-      <h3 className={styles.panelHeading}>{__('Recommended Keywords', 'oovvuu')}</h3>
+      <h3 className={theme.panelHeading}>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector />
 
       {recommendedKeywords.length > 0
