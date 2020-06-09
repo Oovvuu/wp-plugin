@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import theme from 'shared/theme.scss';
 import KeywordList from './keywordList';
@@ -18,7 +19,7 @@ const KeywordSelector = () => {
   } = React.useContext(oovvuuData);
 
   return (
-    <div className={theme.panelInset}>
+    <div className={classnames(theme.panelInset, styles.selector)}>
       <h4 className={styles.keywordsHeading}>{__('Select all relevant keywords', 'oovvuu')}</h4>
       <KeywordList
         keywordItems={recommendedKeywords}
