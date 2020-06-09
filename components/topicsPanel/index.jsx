@@ -18,12 +18,13 @@ const TopicsPanelWrapper = () => {
     },
   } = React.useContext(OovvuuDataContext);
 
-  return (alternateSearches?.length || selectedAlternateSearches?.length) && (
-  <div className={classnames(theme.panel)}>
-    <h3 className={theme.panelHeading}>{__('Recommended Topics with Videos', 'oovvuu')}</h3>
-    <TopicsSelector />
-  </div>
-  );
+  return (alternateSearches?.length || selectedAlternateSearches?.length)
+    ? (
+      <div className={classnames(theme.panel)}>
+        <h3 className={theme.panelHeading}>{__('Recommended Topics with Videos', 'oovvuu')}</h3>
+        <TopicsSelector />
+      </div>
+    ) : null;
 };
 
 export default TopicsPanelWrapper;
