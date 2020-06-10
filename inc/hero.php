@@ -8,6 +8,38 @@
 namespace Oovvuu;
 
 /**
+ * Determine if this post has a hero embed.
+ *
+ * @since 1.0.0
+ *
+ * @param int $post_id The post ID.
+ * @return boolean True of the post as an Oovvuu hero embed, otherwise false.
+ */
+function has_hero_embed( $post_id = 0 ) {
+	// No post ID.
+	if ( empty( $post_id ) ) {
+		$post_id = get_the_ID();
+	}
+
+	$post = get_post( $post_id );
+
+	// Invalid post.
+	if ( ! ( $post instanceof \WP_Post ) ) {
+		return false;
+	}
+
+	// Get the embed codes.
+	$embeds = get_post_meta( $post->ID, 'oovvuu_embeds', true );
+
+	// Has hero embed.
+	if ( ! empty( $embeds['hero']['data']['createEmbed']['id'] ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Gets the Hero embed HTML for a specific post.
  *
  * @since 1.0.0
