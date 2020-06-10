@@ -55,18 +55,18 @@ describe('EffectsManager', () => {
     });
   });
 
-  describe.skip('UPDATE_SELECTED_TOPICS', () => {
+  describe('UPDATE_SELECTED_TOPICS', () => {
     let getPostAttributeSpy;
     let getTopicVideosSpy;
     const postId = '1';
     let props;
-    let recommendedTopics;
+    let topic;
     let recommendedVideos;
     let response;
 
     beforeEach(() => {
       global.wp = { i18n: { __: jest.fn(() => 'translated') } };
-      recommendedTopics = {
+      topic = {
         approximateTotalCount: '5',
         keywordMatch: 'selectedMatch',
         previewImage: { url: 'selectedUrl' },
@@ -75,7 +75,8 @@ describe('EffectsManager', () => {
         actionType: 'UPDATE_SELECTED_TOPICS',
         state: {
           ...initialState,
-          recommendedTopics: [recommendedTopics],
+          recommendedTopics: [topic],
+          selectedTopics: [topic],
         },
       };
       recommendedVideos = {
@@ -118,7 +119,7 @@ describe('EffectsManager', () => {
 
       wrapper.setProps(propsWithSelectedKeywords);
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
-        expect(dispatchFn).toHaveBeenCalledWith({ type: 'UPDATE_SELECTED_KEYWORDS', payload: ['selectedMatch'] });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' });
       });
     });
 
@@ -139,7 +140,7 @@ describe('EffectsManager', () => {
           payload: { message: 'translated' },
         });
         expect(getTopicVideosSpy)
-          .toHaveBeenCalledWith([recommendedTopics.keywordMatch], postId);
+          .toHaveBeenCalledWith([topic.keywordMatch], postId);
         expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_LOADING_STATE' });
         expect(dispatchFn).toHaveBeenCalledWith({
           type: 'UPDATE_RECOMMENDED_VIDEOS',

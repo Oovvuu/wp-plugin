@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import OovvuuDataContext from 'components/app/context';
 import Player from './player';
 
 /**
@@ -7,6 +8,13 @@ import Player from './player';
  */
 const PlayerWrapper = (props) => {
   const { videos } = props;
+
+  const {
+    state: {
+      lastActionType = '',
+    } = {},
+  } = React.useContext(OovvuuDataContext);
+
   const [previewVideos, setPreviewVideos] = React.useState([...videos]);
 
   /**
@@ -38,9 +46,14 @@ const PlayerWrapper = (props) => {
     ));
   };
 
+  /**
+   * Update the preview videos when videos are swapped.
+   */
   React.useEffect(() => {
-    setPreviewVideos([...videos]);
-  }, [videos]);
+    if (lastActionType === 'SWAP_VIDEOS') {
+      setPreviewVideos([...videos]);
+    }
+  }, [lastActionType]);
 
   return getPlayer();
 };

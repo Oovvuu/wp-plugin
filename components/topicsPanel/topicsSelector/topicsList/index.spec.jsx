@@ -29,11 +29,12 @@ describe('TopicsList', () => {
     expect(wrapper.find(TopicItem)).toHaveLength(items.length);
   });
 
-  it.skip('Correctly dispatches SELECT_ALTERNATE_SEARCH on TopicItem click', () => {
+  it('Correctly dispatches SELECT_ALTERNATE_SEARCH on TopicItem click', () => {
     const wrapper = mount(<TopicsList items={items} />);
     const [item] = items;
 
     wrapper.find('button').first().simulate('click');
-    expect(dispatchFn).toHaveBeenCalledWith({ type: 'SELECT_ALTERNATE_SEARCH', payload: item });
+    expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_SELECTED_TOPICS' });
+    expect(dispatchFn).toHaveBeenCalledWith({ type: 'UPDATE_SELECTED_TOPICS', payload: [item] });
   });
 });
