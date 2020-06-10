@@ -1,6 +1,6 @@
 <?php
 /**
- * Oovvuu admin field partials: oovvuu_auth0_domain field
+ * Oovvuu admin field partials: oovvuu_auto_replace_feature_image field
  *
  * @package Oovvuu
  * @since 1.0.0
