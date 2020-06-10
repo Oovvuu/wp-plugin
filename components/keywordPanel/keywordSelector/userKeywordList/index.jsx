@@ -32,6 +32,7 @@ const UserList = () => {
     setLastAction(`${keyword} removed.`);
 
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
+    inputRef.current.focus();
   };
 
   /**
