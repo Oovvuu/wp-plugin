@@ -78,11 +78,7 @@ const UserList = () => {
         <AddIcon />
       </span>
 
-      <div
-        className={styles.list}
-        role="grid"
-        aria-labelledby="user-keywords-heading"
-      >
+      <div className={styles.list}>
         {userKeywords.map((keyword) => (
           <UserKeywordItem
             key={keyword}
@@ -93,16 +89,16 @@ const UserList = () => {
 
         <KeywordInput onUpdate={handleUpdate} />
       </div>
-      <div className="screen-reader-only">
-        {__('Last change to keywords list:', 'oovvuu')}
-        <span
-          aria-live="polite"
-          aria-relevant="additions removals"
-          id="form-action-text"
-        >
-          {liveRegionMessage}
-        </span>
-      </div>
+      <span
+        className="screen-reader-only"
+        role="status"
+        aria-live="assertive"
+        aria-atomic="true"
+        aria-relevant="text"
+        id="form-action-text"
+      >
+        <span>{liveRegionMessage}</span>
+      </span>
     </div>
   );
 };

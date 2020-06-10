@@ -58,27 +58,20 @@ const KeywordInput = (props) => {
   }, []);
 
   return (
-    <form
-      className={styles.inputItem}
-      onSubmit={handleSubmit}
-      autoComplete="off"
+    <label
+      htmlFor="keyword-input"
     >
-      <label
-        htmlFor="keyword-input"
-      >
-        <span className="screen-reader-only">
-          {__('Enter a keyword', 'oovvuu')}
-        </span>
-        <input
-          className={styles.input}
-          onKeyDown={handleKeyDown}
-          onChange={handleChange}
-          ref={inputRef}
-          value={keyword}
-          name="keyword-input"
-        />
-      </label>
-    </form>
+      <input
+        autoComplete="off"
+        className={styles.input}
+        onKeyDown={handleKeyDown}
+        onChange={handleChange}
+        ref={inputRef}
+        value={keyword}
+        name="keyword-input"
+        aria-label={__('Enter a keyword', 'oovvuu')}
+      />
+    </label>
   );
 };
 

@@ -18,30 +18,26 @@ const UserKeywordItem = (props) => {
   const buttonId = `remove-${textId}`;
 
   return (
-    <span
+    <div
       className={classnames(styles.item, styles.user)}
-      role="row"
     >
       <span
         id={textId}
-        role="gridcell"
+        aria-hidden="true"
       >
         {keyword}
       </span>
-      <div
-        role="gridcell"
+
+      <button
+        id={buttonId}
+        onClick={() => handleRemove(keyword)}
+        type="button"
+        aria-label={__('Remove', 'oovvuu')}
+        aria-labelledby={`${buttonId} ${textId}`}
       >
-        <button
-          id={buttonId}
-          onClick={() => handleRemove(keyword)}
-          type="button"
-          aria-label={__('Remove', 'oovvuu')}
-          aria-labelledby={`${buttonId} ${textId}`}
-        >
-          <CloseIcon />
-        </button>
-      </div>
-    </span>
+        <CloseIcon />
+      </button>
+    </div>
   );
 };
 
