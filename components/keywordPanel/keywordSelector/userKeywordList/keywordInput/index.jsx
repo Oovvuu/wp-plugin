@@ -30,10 +30,10 @@ const KeywordInput = (props) => {
    * @param {Event} event The event object.
    */
   const handleKeyDown = (event) => {
-    const { TAB } = keyCodes;
+    const { TAB, RETURN } = keyCodes;
     const { keyCode } = event;
 
-    if (keyword && TAB === keyCode) {
+    if (keyword && [TAB, RETURN].includes(keyCode)) {
       handleSubmit(event);
     }
   };
