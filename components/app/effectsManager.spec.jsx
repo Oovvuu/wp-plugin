@@ -150,6 +150,21 @@ describe('EffectsManager', () => {
 
   describe('UPDATE_RECOMMENDED_VIDEOS', () => {
     describe('Syncs position state to videos recommendations', () => {
+      it('Dispatches ENABLE_POSITION if the hero position recommendation does not contain an empty reason', () => {
+        const wrapper = shallow(
+          <EffectsManager
+            dispatch={dispatchFn}
+            state={mockState}
+          >
+            <p>Hello, world!</p>
+          </EffectsManager>,
+        );
+
+        // Enable hero case.
+        wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS' });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'ENABLE_POSITION', payload: { position: 'hero' } });
+      });
+
       it('Dispatches DISABLE_POSITION if the hero position recommendation contains an empty reason', () => {
         const wrapper = shallow(
           <EffectsManager
@@ -170,17 +185,20 @@ describe('EffectsManager', () => {
         };
         wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: heroEmptyState });
         expect(dispatchFn).toHaveBeenCalledWith({ type: 'DISABLE_POSITION', payload: { position: 'hero' } });
+      });
+      it('Dispatches ENABLE_POSITION if the hero position recommendation does not contain an empty reason', () => {
+        const wrapper = shallow(
+          <EffectsManager
+            dispatch={dispatchFn}
+            state={mockState}
+          >
+            <p>Hello, world!</p>
+          </EffectsManager>,
+        );
 
-        // Disable positionTwo case.
-        const positionTwoEmptyState = {
-          ...mockState,
-          recommendedVideos: {
-            ...mockState.recommendedVideos,
-            positionTwoEmptyReason: 'some reason',
-          },
-        };
-        wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: positionTwoEmptyState });
-        expect(dispatchFn).toHaveBeenCalledWith({ type: 'DISABLE_POSITION', payload: { position: 'hero' } });
+        // Enable positionTwo case.
+        wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS' });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'ENABLE_POSITION', payload: { position: 'positionTwo' } });
       });
 
       it('Dispatches DISABLE_POSITION if the positionTwo position recommendation contains an empty reason', () => {
