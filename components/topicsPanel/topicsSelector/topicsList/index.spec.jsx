@@ -33,7 +33,7 @@ describe('TopicsList', () => {
     const wrapper = mount(<TopicsList items={items} />);
     const [item] = items;
 
-    wrapper.find('input[type="checkbox"]').first().simulate('change', { target: { checked: true } });
+    wrapper.find('button').first().simulate('click');
     expect(dispatchFn).toHaveBeenCalledWith({ type: 'SELECT_ALTERNATE_SEARCH', payload: item });
   });
 });
