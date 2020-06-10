@@ -186,6 +186,7 @@ describe('EffectsManager', () => {
         wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: heroEmptyState });
         expect(dispatchFn).toHaveBeenCalledWith({ type: 'DISABLE_POSITION', payload: { position: 'hero' } });
       });
+
       it('Dispatches ENABLE_POSITION if the hero position recommendation does not contain an empty reason', () => {
         const wrapper = shallow(
           <EffectsManager
