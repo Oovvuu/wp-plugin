@@ -12,45 +12,42 @@ describe('Application reducer', () => {
     expect(newState.selectedVideos.hero).toEqual(expect.objectContaining(action.payload.hero));
   });
 
-  describe.skip('UPDATE_SELECTED_TOPICS', () => {
+  describe('UPDATE_SELECTED_TOPICS', () => {
     it('Correctly sets a selected alternate search', () => {
-      const existingAlternateSearch = {
+      const existingSelectedTopic = {
         approximateTotalCount: '1',
         keywordMatch: 'existingMatch',
         previewImage: { url: 'existingUrl' },
       };
-      const selectedAlternateSearch = {
+      const newSelectedTopic = {
         approximateTotalCount: '5',
         keywordMatch: 'selectedMatch',
         previewImage: { url: 'selectedUrl' },
       };
       const action = {
-        payload: [selectedAlternateSearch],
+        payload: [newSelectedTopic],
         type: 'UPDATE_SELECTED_TOPICS',
       };
       const newState = reducer({
         ...initialState,
-        selectedTopics: [existingAlternateSearch],
+        selectedTopics: [existingSelectedTopic],
       }, action);
 
       expect(newState.selectedTopics).toHaveLength(1);
-      expect(newState.selectedTopics[0]).toEqual(selectedAlternateSearch);
+      expect(newState.selectedTopics[0]).toEqual(newSelectedTopic);
     });
   });
 
-  describe.skip('CLEAR_SELECTED_TOPICS', () => {
-    it('Correctly clears selected alternate searches', () => {
-      const existingAlternateSearch = {
-        approximateTotalCount: '1',
-        keywordMatch: 'existingMatch',
-        previewImage: { url: 'existingUrl' },
-      };
-      const action = { type: 'CLEAR_SELECTED_TOPICS' };
+  describe('CLEAR_TOPICS', () => {
+    it('Correctly clears recommended and selected topics', () => {
+      const action = { type: 'CLEAR_TOPICS' };
       const newState = reducer({
         ...initialState,
-        selectedTopics: [existingAlternateSearch],
+        recommendedTopics: ['topic'],
+        selectedTopics: ['topic'],
       }, action);
 
+      expect(newState.recommendedTopics).toHaveLength(0);
       expect(newState.selectedTopics).toHaveLength(0);
     });
   });
