@@ -50,11 +50,12 @@ if ( ! file_exists( OOVVUU_PATH . '/vendor/autoload.php' ) ) {
 	);
 } else {
 	require_once OOVVUU_PATH . '/vendor/autoload.php';
-}
 
-if ( file_exists( OOVVUU_PATH . '/.env' ) ) {
-	$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
-	$dotenv->load();
+	// Load .env file.
+	if ( file_exists( OOVVUU_PATH . '/.env' ) && class_exists( 'Dotenv\Dotenv' ) ) {
+		$oovvuu_dotenv = \Dotenv\Dotenv::createImmutable( __DIR__ );
+		$oovvuu_dotenv->load();
+	}
 }
 
 // Functions.
