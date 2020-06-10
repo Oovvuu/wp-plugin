@@ -85,5 +85,8 @@ require_once OOVVUU_PATH . '/inc/meta-boxes.php';
 // Blocks.
 require_once OOVVUU_PATH . '/inc/blocks.php';
 
+// Hero.
+require_once OOVVUU_PATH . '/inc/hero.php';
+
 // Shortcodes.
 require_once OOVVUU_PATH . '/inc/shortcodes.php';

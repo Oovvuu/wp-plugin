@@ -41,21 +41,39 @@ class Admin_Settings {
 
 		// Define fields to register.
 		$fields = [
-			'oovvuu_auth0_domain'        => [
-				'label'    => esc_html__( 'Domain', 'oovvuu' ),
-				'sanitize' => 'sanitize_text_field',
+			'oovvuu_auth0_section'   => [
+				'oovvuu_auth0_domain'        => [
+					'label' => esc_html__( 'Domain', 'oovvuu' ),
+					'args'  => [
+						'sanitize' => 'sanitize_text_field',
+					],
+				],
+				'oovvuu_auth0_client_id'     => [
+					'label' => esc_html__( 'Client ID', 'oovvuu' ),
+					'args'  => [
+						'sanitize' => 'sanitize_text_field',
+					],
+				],
+				'oovvuu_auth0_client_secret' => [
+					'label' => esc_html__( 'Client Secret', 'oovvuu' ),
+					'args'  => [
+						'sanitize' => 'sanitize_text_field',
+					],
+				],
 			],
-			'oovvuu_auth0_client_id'     => [
-				'label'    => esc_html__( 'Client ID', 'oovvuu' ),
-				'sanitize' => 'sanitize_text_field',
-			],
-			'oovvuu_auth0_client_secret' => [
-				'label'    => esc_html__( 'Client Secret', 'oovvuu' ),
-				'sanitize' => 'sanitize_text_field',
+			'oovvuu_display_section' => [
+				'oovvuu_auto_replace_feature_image' => [
+					'label' => esc_html__( 'Automatically Replace Feature Image', 'oovvuu' ),
+					'args'  => [
+						'type'     => 'boolean',
+						'default'  => false,
+						'sanitize' => 'sanitize_text_field',
+					],
+				],
 			],
 		];
 
-		// Register the config section.
+		// Register the Auth0 section.
 		add_settings_section(
 			'oovvuu_auth0_section',
 			esc_html__( 'Auth0 Configuration', 'oovvuu' ),
@@ -63,28 +81,38 @@ class Admin_Settings {
 			'oovvuu_settings'
 		);
 
+		// Register the config section.
+		add_settings_section(
+			'oovvuu_display_section',
+			esc_html__( 'Display', 'oovvuu' ),
+			null,
+			'oovvuu_settings'
+		);
+
 		// Loop over field definitions and register each.
-		foreach ( $fields as $field_key => $field_properties ) {
+		foreach ( $fields as $section => $section_fields ) {
+			foreach ( $section_fields as $field_key => $field_properties ) {
 
-			// Add the definition for the field.
-			add_settings_field(
-				$field_key,
-				$field_properties['label'],
-				[ $this, 'render_field' ],
-				'oovvuu_settings',
-				'oovvuu_auth0_section',
-				[
-					'field_name' => $field_key,
-					'label_for'  => str_replace( '_', '-', $field_key ),
-				]
-			);
+				// Add the definition for the field.
+				add_settings_field(
+					$field_key,
+					$field_properties['label'],
+					[ $this, 'render_field' ],
+					'oovvuu_settings',
+					$section,
+					[
+						'field_name' => $field_key,
+						'label_for'  => str_replace( '_', '-', $field_key ),
+					]
+				);
 
-			// Register the fields.
-			register_setting(
-				'oovvuu_auth0_section',
-				$field_key,
-				$field_properties['sanitize']
-			);
+				// Register the fields.
+				register_setting(
+					$section,
+					$field_key,
+					$field_properties
+				);
+			}
 		}
 	}
 

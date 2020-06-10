@@ -20,11 +20,12 @@ function embed_shortcode( $atts ) {
 			'id' => '',
 		],
 		$atts,
-		'oovvuu-embed' 
+		'oovvuu-embed'
 	);
+
 	ob_start();
 	include dirname( __DIR__ ) . '/template-parts/blocks/embed.php';
-	return ob_get_clean();  
+	return ob_get_clean();
 }
 
 // Register shortcode.
