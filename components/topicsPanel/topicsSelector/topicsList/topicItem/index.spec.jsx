@@ -12,7 +12,7 @@ describe('TopicItem', () => {
       onToggle={onToggleFn}
     />);
 
-    wrapper.find('input[type="checkbox"]').simulate('change', { target: { checked: true } });
+    wrapper.find('button').simulate('click');
     expect(onToggleFn).toHaveBeenCalledWith(item);
   });
 });
