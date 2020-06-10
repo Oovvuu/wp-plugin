@@ -5,14 +5,13 @@
  */
 .termList {
   display: flex;
-  flex-flow: row wrap;
-  margin-bottom: rem(20);
-  margin-top: 0;
+  flex-wrap: wrap;
 
   li {
+    margin: 0 rem(10) rem(10) 0;
 
-    &:not(:last-of-type) {
-      margin-right: rem(10);
+    &:last-of-type {
+      margin-right: 0;
     }
   }
 }
@@ -82,33 +81,24 @@
  * Styles a recommended topic.
  */
 .topic {
+  @include button-reset;
   @include container-box-sizing;
 
-  &:focus-within > span {
-    @include term-focused;
-  }
+  &:focus {
+    outline: none;
 
-  input {
-    @include screen-reader-only;
-
-    &:focus {
-      outline: none;
-    }
-
-    &:checked + span {
-      @include term-selected;
-
-      .itemMeta {
-        border: solid 1px var(--color-theme);
-      }
+    div {
+      @include term-focused;
     }
   }
 
-  > span {
+  div {
     @include term-pill;
+    align-content: center;
     align-items: center;
-    display: inline-flex;
-    justify-content: space-between;
+    display: grid;
+    grid-column-gap: rem(10);
+    grid-template-columns: max-content 1fr max-content;
     min-width: rem(120);
 
     @media (min(md)) {
@@ -116,15 +106,33 @@
     }
   }
 
-  .itemMeta,
-  .itemThumbnail {
-    border-radius: 50%;
+  &.topicSelected {
+
+    div {
+      @include term-selected;
+    }
+
+    span:last-of-type {
+      border: solid 1px var(--color-theme);
+    }
   }
 
-  .itemMeta {
+  img {
+    border-radius: 50%;
+    height: rem(40);
+    left: -1px;
+    object-fit: cover;
+    object-position: center;
+    position: relative;
+    width: rem(40);
+  }
+
+  // Video count.
+  span:last-child {
     @include font-props(12, 12);
     align-items: center;
     border: solid 1px var(--color-decoration);
+    border-radius: 50%;
     display: flex;
     height: rem(32);
     justify-content: center;
@@ -133,26 +141,6 @@
     position: relative;
     right: -1px;
     width: rem(32);
-  }
-
-  .itemKeyword {
-    padding: 0 rem(10);
-  }
-
-  .itemThumbnail {
-    height: rem(40);
-    left: -1px;
-    overflow: hidden;
-    position: relative;
-    width: rem(40);
-
-    img {
-      height: 100%;
-      left: 50%;
-      position: absolute;
-      top: 0;
-      transform: translateX(-50%);
-    }
   }
 }
 
