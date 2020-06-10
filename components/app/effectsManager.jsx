@@ -25,8 +25,10 @@ const EffectsManager = (props) => {
       recommendedVideos: {
         hero,
         heroEmptyReason,
+        heroSecondary,
         positionTwo,
         positionTwoEmptyReason,
+        positionTwoSecondary,
       },
       recommendedVideos,
       selectedTopics,
@@ -66,9 +68,6 @@ const EffectsManager = (props) => {
    *   across positions).
    */
   const syncSelectedToRecommendedVideos = () => {
-    const {
-      hero, heroSecondary, positionTwo, positionTwoSecondary,
-    } = recommendedVideos;
     dispatch({
       payload: {
         hero: hero.map((video) => ({ ...video, position: 'hero' })),
