@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-$oovvuu_auto_replace_feature_image = get_option( 'oovvuu_auto_replace_feature_image', false );
+$oovvuu_auto_replace_feature_image = get_option( 'oovvuu_auto_replace_feature_image' );
 ?>
 
 <div>
