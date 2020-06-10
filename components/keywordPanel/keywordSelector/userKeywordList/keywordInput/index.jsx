@@ -59,6 +59,7 @@ const KeywordInput = (props) => {
   return (
     <label
       htmlFor="keyword-input"
+      className={styles.inputItem}
     >
       <input
         id="user-keyword-input"
