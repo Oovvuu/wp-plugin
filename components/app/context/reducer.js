@@ -111,6 +111,12 @@ const reducer = (state, action) => {
         isUserAuthenticated: true,
       };
     }
+    case 'SHOW_POSITIONS_PANEL': {
+      return {
+        ...nextState,
+        shouldShowPositionsPanel: true,
+      };
+    }
 
     default:
       return nextState;

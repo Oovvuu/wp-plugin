@@ -224,5 +224,28 @@ describe('EffectsManager', () => {
         expect(dispatchFn).toHaveBeenCalledWith({ type: 'DISABLE_POSITION', payload: { position: 'positionTwo' } });
       });
     });
+
+    it('Dispatches SHOW_POSITIONS_PANEL if recommended videos available', () => {
+      const wrapper = shallow(
+        <EffectsManager
+          dispatch={dispatchFn}
+          state={mockState}
+        >
+          <p>Hello, world!</p>
+        </EffectsManager>,
+      );
+
+      // Disable positionTwo case.
+      const positionTwoEmptyState = {
+        ...mockState,
+        recommendedVideos: {
+          ...mockState.recommendedVideos,
+          hero: [{}],
+          positionTwo: [{}],
+        },
+      };
+      wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: positionTwoEmptyState });
+      expect(dispatchFn).toHaveBeenCalledWith({ type: 'SHOW_POSITIONS_PANEL' });
+    });
   });
 });

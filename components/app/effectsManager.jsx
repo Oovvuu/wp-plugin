@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LOADING_ACTIONS from 'constants/loadingActions';
 import POSITION_KEYS from 'constants/positionKeys';
 import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
@@ -22,7 +21,15 @@ const EffectsManager = (props) => {
     children,
     dispatch,
     state: {
-      recommendedVideos, recommendedKeywords, selectedTopics,
+      recommendedKeywords,
+      recommendedVideos: {
+        hero,
+        heroEmptyReason,
+        positionTwo,
+        positionTwoEmptyReason,
+      },
+      recommendedVideos,
+      selectedTopics,
     },
   } = props;
 
@@ -118,11 +125,11 @@ const EffectsManager = (props) => {
     dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
+  /*
+   * Each position is enabled by default, but the API may disable a position.
+   * Ensure that each position's state is consistent with the recommended videos response.
+   */
   const syncPositionsToRecommendedVideos = () => {
-    /*
-     * Each position is enabled by default, but the API may disable a position.
-     * Ensure that each position's state is consistent with the recommended videos response.
-     */
     POSITION_KEYS.forEach((key) => {
       // Disable a position if the API sends back a positionEmptyReason.
       dispatch({
@@ -130,6 +137,15 @@ const EffectsManager = (props) => {
         type: recommendedVideos[`${key}EmptyReason`] !== null ? 'DISABLE_POSITION' : 'ENABLE_POSITION',
       });
     });
+  };
+
+  /**
+   * Load the positions panel when any of the positions have an empty reason or a video.
+   */
+  const derivePositionsPanelVisibility = () => {
+    if (heroEmptyReason || positionTwoEmptyReason || hero.length || positionTwo.length) {
+      dispatch({ type: 'SHOW_POSITIONS_PANEL' });
+    }
   };
 
   /**
@@ -141,12 +157,18 @@ const EffectsManager = (props) => {
     }
 
     if (actionType === 'UPDATE_RECOMMENDED_VIDEOS') {
+      derivePositionsPanelVisibility();
       syncPositionsToRecommendedVideos();
       syncSelectedToRecommendedVideos();
     }
 
-    // Guard to force clear loading for certain action types..
-    if (LOADING_ACTIONS.includes(actionType)) {
+    // Actions for which the loading state should be cleared.
+    const loadingActions = [
+      'UPDATE_RECOMMENDED_KEYWORDS',
+      'UPDATE_RECOMMENDED_VIDEOS',
+    ];
+
+    if (loadingActions.includes(actionType)) {
       dispatch({ type: 'CLEAR_LOADING_STATE' });
     }
 
@@ -174,8 +196,10 @@ EffectsManager.propTypes = {
     recommendedVideos: PropTypes.shape({
       alternateSearches: PropTypes.arrayOf(PropTypes.object).isRequired,
       hero: PropTypes.arrayOf(PropTypes.object).isRequired,
+      heroEmptyReason: PropTypes.string,
       heroSecondary: PropTypes.arrayOf(PropTypes.object).isRequired,
       positionTwo: PropTypes.arrayOf(PropTypes.object).isRequired,
+      positionTwoEmptyReason: PropTypes.string,
       positionTwoSecondary: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
     selectedTopics: PropTypes.arrayOf(PropTypes.shape({

@@ -4,10 +4,11 @@ import PositionsPanelWrapper from './index';
 import PositionWrapper from './position';
 
 describe('PositionsPanelWrapper', () => {
-  let heroEmptyReason = null;
-  let positionTwoEmptyReason = null;
-  let hero = [];
-  let positionTwo = [];
+  const heroEmptyReason = null;
+  const positionTwoEmptyReason = null;
+  const hero = [];
+  const positionTwo = [];
+  let shouldShowPositionsPanel = false;
 
   beforeEach(() => {
     jest.spyOn(React, 'useContext')
@@ -17,40 +18,20 @@ describe('PositionsPanelWrapper', () => {
           isPositionTwoEnabled: true,
           recommendedVideos: { heroEmptyReason, positionTwoEmptyReason },
           selectedVideos: { hero, positionTwo },
+          shouldShowPositionsPanel,
         },
       }));
     global.wp = { i18n: { __: jest.fn() } };
   });
 
-  it('Should hide the panel if no videos data exists', () => {
+  it('Should hide the panel if not so flagged', () => {
     const wrapper = shallow(<PositionsPanelWrapper />);
 
     expect(wrapper.find(PositionWrapper)).toHaveLength(0);
   });
 
-  it('Should show the panel if heroEmptyReason exists', () => {
-    heroEmptyReason = 'some reason';
-    const wrapper = shallow(<PositionsPanelWrapper />);
-
-    expect(wrapper.find(PositionWrapper)).toHaveLength(2);
-  });
-
-  it('Should show the panel if positionTwoEmptyReason exists', () => {
-    positionTwoEmptyReason = 'some reason';
-    const wrapper = shallow(<PositionsPanelWrapper />);
-
-    expect(wrapper.find(PositionWrapper)).toHaveLength(2);
-  });
-
-  it('Should show the panel if hero videos exist', () => {
-    hero = [{ id: 'id' }];
-    const wrapper = shallow(<PositionsPanelWrapper />);
-
-    expect(wrapper.find(PositionWrapper)).toHaveLength(2);
-  });
-
-  it('Should show the panel if positionTwo videos exist', () => {
-    positionTwo = [{ id: 'id' }];
+  it('Should show the panel if so flagged', () => {
+    shouldShowPositionsPanel = true;
     const wrapper = shallow(<PositionsPanelWrapper />);
 
     expect(wrapper.find(PositionWrapper)).toHaveLength(2);

@@ -20,13 +20,14 @@ const PositionsPanelWrapper = () => {
         hero,
         positionTwo,
       },
+      shouldShowPositionsPanel,
     },
   } = React.useContext(OovvuuDataContext);
 
   /**
    * Load the positions panel when any of the positions have an empty reason or a video.
    */
-  return heroEmptyReason || positionTwoEmptyReason || hero.length || positionTwo.length ? (
+  return shouldShowPositionsPanel && (
     <>
       <PositionWrapper
         enabled={heroEmptyReason ? false : isHeroEnabled}
@@ -43,7 +44,7 @@ const PositionsPanelWrapper = () => {
         videos={positionTwo}
       />
     </>
-  ) : null;
+  );
 };
 
 export default PositionsPanelWrapper;
