@@ -5,9 +5,8 @@ import styles from './keywordInput.scss';
 
 const KeywordInput = (props) => {
   const { i18n: { __ } } = wp;
-  const { onUpdate } = props;
+  const { onUpdate, inputRef } = props;
   const [keyword, setKeyword] = React.useState('');
-  const inputRef = React.createRef();
 
   /**
    * Adds the user-entered keyword when the form is submitted.
@@ -62,6 +61,7 @@ const KeywordInput = (props) => {
       htmlFor="keyword-input"
     >
       <input
+        id="user-keyword-input"
         autoComplete="off"
         className={styles.input}
         onKeyDown={handleKeyDown}
@@ -77,6 +77,7 @@ const KeywordInput = (props) => {
 
 KeywordInput.propTypes = {
   onUpdate: PropTypes.func.isRequired,
+  inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
 };
 
 export default KeywordInput;

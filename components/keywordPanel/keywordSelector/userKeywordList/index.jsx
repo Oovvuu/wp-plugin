@@ -20,6 +20,7 @@ const UserList = () => {
   } = React.useContext(oovvuuData);
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
+  const inputRef = React.createRef();
 
   /**
    * Removes a given keyword from the userKeywords state.
@@ -61,6 +62,16 @@ const UserList = () => {
   };
 
   /**
+   * Handle clicks on `add button` skip link.
+   *
+   * @param  {Event} event The event object.
+   */
+  const onAddClick = (event) => {
+    event.preventDefault();
+    inputRef.current.focus();
+  };
+
+  /**
    * Compile the aria-live region's message string.
    */
   React.useEffect(() => {
@@ -74,9 +85,14 @@ const UserList = () => {
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.addIcon}>
+      <a
+        className={styles.addIcon}
+        aria-label={__('Skip to keyword text field', 'oovvuu')}
+        href="#user-keyword-input"
+        onClick={onAddClick}
+      >
         <AddIcon />
-      </span>
+      </a>
 
       <div className={styles.list}>
         {userKeywords.map((keyword) => (
@@ -87,7 +103,10 @@ const UserList = () => {
           />
         ))}
 
-        <KeywordInput onUpdate={handleUpdate} />
+        <KeywordInput
+          onUpdate={handleUpdate}
+          inputRef={inputRef}
+        />
       </div>
       <span
         className="screen-reader-only"
