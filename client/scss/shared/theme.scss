@@ -87,8 +87,9 @@
   &:focus {
     outline: none;
 
-    div {
-      @include term-focused;
+    div,
+    span:last-of-type {
+      border-color: var(--color-theme);
     }
   }
 
