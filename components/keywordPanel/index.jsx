@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import getVideos from 'services/getVideos';
@@ -64,7 +63,7 @@ const KeywordPanelWrapper = () => {
   };
 
   return (
-    <div className={classnames(styles.panel, theme.panel)}>
+    <div className={theme.panelWithHeading}>
       <h3 className={theme.panelHeading}>{__('Recommended Keywords', 'oovvuu')}</h3>
       <KeywordSelector />
 

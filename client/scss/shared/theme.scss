@@ -79,12 +79,94 @@
 }
 
 /**
+ * Styles a recommended topic.
+ */
+.topic {
+  @include container-box-sizing;
+
+  &:focus-within > span {
+    @include term-focused;
+  }
+
+  input {
+    @include screen-reader-only;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:checked + span {
+      @include term-selected;
+
+      .itemMeta {
+        border: solid 1px var(--color-theme);
+      }
+    }
+  }
+
+  > span {
+    @include term-pill;
+    align-items: center;
+    display: inline-flex;
+    justify-content: space-between;
+    min-width: rem(120);
+
+    @media (min(md)) {
+      min-width: rem(163);
+    }
+  }
+
+  .itemMeta,
+  .itemThumbnail {
+    border-radius: 50%;
+  }
+
+  .itemMeta {
+    @include font-props(12, 12);
+    align-items: center;
+    border: solid 1px var(--color-decoration);
+    display: flex;
+    height: rem(32);
+    justify-content: center;
+    letter-spacing: -0.04px;
+    padding: rem(3);
+    position: relative;
+    right: -1px;
+    width: rem(32);
+  }
+
+  .itemKeyword {
+    padding: 0 rem(10);
+  }
+
+  .itemThumbnail {
+    height: rem(40);
+    left: -1px;
+    overflow: hidden;
+    position: relative;
+    width: rem(40);
+
+    img {
+      height: 100%;
+      left: 50%;
+      position: absolute;
+      top: 0;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/**
  * Basic panel styles.
  */
 .panel {
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+}
+
+.panelWithHeading {
+  composes: panel;
   padding: rem(4 20 22 20);
 }
 
@@ -101,6 +183,5 @@
 .panelInset {
   border: 1px solid #DEDEDE;
   border-radius: var(--border-radius);
-  margin-bottom: rem(20);
   padding: rem(16);
 }

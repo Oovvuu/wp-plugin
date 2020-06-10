@@ -17,7 +17,7 @@ const TopicsPanelWrapper = () => {
 
   return recommendedTopics?.length
     ? (
-      <div className={classnames(theme.panel)}>
+      <div className={classnames(theme.panelWithHeading)}>
         <h3 className={theme.panelHeading}>{__('Recommended Topics with Videos', 'oovvuu')}</h3>
         <TopicsSelector />
       </div>
