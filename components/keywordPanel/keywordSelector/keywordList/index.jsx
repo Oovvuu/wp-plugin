@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import theme from 'shared/theme.scss';
+import panelStyles from 'components/keywordPanel/keywordPanel.scss';
 import KeywordItem from './keywordItem';
 
 /**
@@ -30,7 +32,7 @@ const KeywordList = (props) => {
   };
 
   return (
-    <ul className={theme.termList}>
+    <ul className={classnames(theme.termList, panelStyles.keywordList)}>
       {keywordItems.map((keyword) => (
         <li key={keyword}>
           <KeywordItem

@@ -1,8 +1,8 @@
 .topicList {
-  margin: 0;
-  padding: rem(4);
+  margin: 0 0 rem(-10) 0; // Negative margin to pull back list-item bottom margin.
 
   li {
-    margin-bottom: 0;
+    align-items: center;
+    display: flex;
   }
 }

@@ -5,14 +5,13 @@
  */
 .termList {
   display: flex;
-  flex-flow: row wrap;
-  margin-bottom: rem(20);
-  margin-top: 0;
+  flex-wrap: wrap;
 
   li {
+    margin: 0 rem(10) rem(10) 0;
 
-    &:not(:last-of-type) {
-      margin-right: rem(10);
+    &:last-of-type {
+      margin-right: 0;
     }
   }
 }
