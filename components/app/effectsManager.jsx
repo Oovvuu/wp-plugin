@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LOADING_ACTIONS from 'constants/loadingActions';
 import POSITION_KEYS from 'constants/positionKeys';
 import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
@@ -112,19 +113,6 @@ const EffectsManager = (props) => {
       const { videos } = response.data;
       const { alternateSearches } = recommendedVideos;
       dispatch({ payload: { ...videos, alternateSearches }, type: 'UPDATE_RECOMMENDED_VIDEOS' });
-
-      /*
-       * Each position is enabled by default, but the API may disable a position.
-       * Ensure that each position's state is consistent with the getVideos response.
-       */
-      POSITION_KEYS.forEach((positionKey) => {
-        // Disable a position if the API sends back a positionEmptyReason.
-        if (videos[`${positionKey}EmptyReason`] != null) {
-          dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
-        } else {
-          dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
-        }
-      });
     }
 
     dispatch({ type: 'CLEAR_LOADING_STATE' });
@@ -133,15 +121,14 @@ const EffectsManager = (props) => {
   const syncPositionsToRecommendedVideos = () => {
     /*
      * Each position is enabled by default, but the API may disable a position.
-     * Ensure that each position's state is consistent with the getVideos response.
+     * Ensure that each position's state is consistent with the recommended videos response.
      */
-    POSITION_KEYS.forEach((positionKey) => {
+    POSITION_KEYS.forEach((key) => {
       // Disable a position if the API sends back a positionEmptyReason.
-      if (recommendedVideos[`${positionKey}EmptyReason`] != null) {
-        dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
-      } else {
-        dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
-      }
+      dispatch({
+        payload: { position: key },
+        type: recommendedVideos[`${key}EmptyReason`] !== null ? 'DISABLE_POSITION' : 'ENABLE_POSITION',
+      });
     });
   };
 
@@ -158,13 +145,8 @@ const EffectsManager = (props) => {
       syncSelectedToRecommendedVideos();
     }
 
-    // Actions for which the loading state should be cleared.
-    const loadingActions = [
-      'UPDATE_RECOMMENDED_KEYWORDS',
-      'UPDATE_RECOMMENDED_VIDEOS',
-    ];
-
-    if (loadingActions.includes(actionType)) {
+    // Guard to force clear loading for certain action types..
+    if (LOADING_ACTIONS.includes(actionType)) {
       dispatch({ type: 'CLEAR_LOADING_STATE' });
     }
 

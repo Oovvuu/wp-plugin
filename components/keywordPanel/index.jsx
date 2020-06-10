@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
-import POSITION_KEYS from 'constants/getPositionKeys';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
 import theme from 'shared/theme.scss';
@@ -61,23 +60,7 @@ const KeywordPanelWrapper = () => {
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
 
       dispatch({ payload: alternateSearches, type: 'UPDATE_RECOMMENDED_TOPICS' });
-
-      /*
-       * Each position is enabled by default, but the API may disable a position.
-       * Ensure that each position's state is consistent with the getVideos response.
-       */
-      POSITION_KEYS.forEach((positionKey) => {
-        // Disable a position if the API sends back a positionEmptyReason.
-        if (videos[`${positionKey}EmptyReason`] != null) {
-          dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
-        } else {
-          dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
-        }
-      });
     } // @todo else, set error state.
-
-    // Component state change to display panels.
-    // onHandleDisplayPanels(true);
   };
 
   return (
