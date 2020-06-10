@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import OovvuuDataContext from 'components/app/context';
 import PositionWrapper from './position';
 
@@ -7,8 +6,7 @@ import PositionWrapper from './position';
  * The position panel container component that wraps all logic for the positions
  * display.
  */
-const PositionsPanelWrapper = (props) => {
-  const { displayPanels } = props;
+const PositionsPanelWrapper = () => {
   const { i18n: { __ } } = wp;
   const {
     state: {
@@ -26,9 +24,9 @@ const PositionsPanelWrapper = (props) => {
   } = React.useContext(OovvuuDataContext);
 
   /**
-   * Load the positions panel when any of the positions have a video.
+   * Load the positions panel when any of the positions have an empty reason or a video.
    */
-  const positionPanels = displayPanels ? (
+  return heroEmptyReason || positionTwoEmptyReason || hero.length || positionTwo.length ? (
     <>
       <PositionWrapper
         enabled={heroEmptyReason ? false : isHeroEnabled}
@@ -45,13 +43,7 @@ const PositionsPanelWrapper = (props) => {
         videos={positionTwo}
       />
     </>
-  ) : '';
-
-  return positionPanels;
-};
-
-PositionsPanelWrapper.propTypes = {
-  displayPanels: PropTypes.bool.isRequired,
+  ) : null;
 };
 
 export default PositionsPanelWrapper;

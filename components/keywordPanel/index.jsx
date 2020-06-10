@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
@@ -16,8 +15,7 @@ import styles from './keywordPanel.scss';
  * Wrapper component for the keyword selector panel. Includes generated
  *   and user-supplied keywords.
  */
-const KeywordPanelWrapper = (props) => {
-  const { onHandleDisplayPanels } = props;
+const KeywordPanelWrapper = () => {
   const { i18n: { __ } } = wp;
   const {
     dispatch,
@@ -79,7 +77,7 @@ const KeywordPanelWrapper = (props) => {
     } // @todo else, set error state.
 
     // Component state change to display panels.
-    onHandleDisplayPanels(true);
+    // onHandleDisplayPanels(true);
   };
 
   return (
@@ -131,10 +129,6 @@ const KeywordPanelWrapper = (props) => {
       </div>
     </div>
   );
-};
-
-KeywordPanelWrapper.propTypes = {
-  onHandleDisplayPanels: PropTypes.func.isRequired,
 };
 
 export default KeywordPanelWrapper;
