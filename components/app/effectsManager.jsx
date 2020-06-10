@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import POSITION_KEYS from 'constants/positionKeys';
 import getKeywords from 'services/getKeywords';
-import getPositionKeys from 'services/getPositionKeys';
 import getPostAttribute from 'services/getPostAttribute';
 import getTopicVideos from 'services/getTopicVideos';
 
@@ -117,7 +117,7 @@ const EffectsManager = (props) => {
        * Each position is enabled by default, but the API may disable a position.
        * Ensure that each position's state is consistent with the getVideos response.
        */
-      getPositionKeys().forEach((positionKey) => {
+      POSITION_KEYS.forEach((positionKey) => {
         // Disable a position if the API sends back a positionEmptyReason.
         if (videos[`${positionKey}EmptyReason`] != null) {
           dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
@@ -130,6 +130,21 @@ const EffectsManager = (props) => {
     dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
+  const syncPositionsToRecommendedVideos = () => {
+    /*
+     * Each position is enabled by default, but the API may disable a position.
+     * Ensure that each position's state is consistent with the getVideos response.
+     */
+    POSITION_KEYS.forEach((positionKey) => {
+      // Disable a position if the API sends back a positionEmptyReason.
+      if (recommendedVideos[`${positionKey}EmptyReason`] != null) {
+        dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
+      } else {
+        dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
+      }
+    });
+  };
+
   /**
    * Listens for action types that require additional state updates.
    */
@@ -139,6 +154,7 @@ const EffectsManager = (props) => {
     }
 
     if (actionType === 'UPDATE_RECOMMENDED_VIDEOS') {
+      syncPositionsToRecommendedVideos();
       syncSelectedToRecommendedVideos();
     }
 

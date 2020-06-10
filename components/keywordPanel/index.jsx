@@ -2,9 +2,9 @@ import React from 'react';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
+import POSITION_KEYS from 'constants/getPositionKeys';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
-import getPositionKeys from 'services/getPositionKeys';
 import theme from 'shared/theme.scss';
 import SearchIcon from 'assets/search.svg';
 import CloseIcon from 'assets/close.svg';
@@ -66,7 +66,7 @@ const KeywordPanelWrapper = () => {
        * Each position is enabled by default, but the API may disable a position.
        * Ensure that each position's state is consistent with the getVideos response.
        */
-      getPositionKeys().forEach((positionKey) => {
+      POSITION_KEYS.forEach((positionKey) => {
         // Disable a position if the API sends back a positionEmptyReason.
         if (videos[`${positionKey}EmptyReason`] != null) {
           dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
