@@ -21,7 +21,6 @@ const DialogWrapper = () => {
     state,
     state: {
       isLoadedFromMeta,
-      selectedVideos,
       isLoading,
       selectedVideos: {
         positionTwo,
@@ -29,8 +28,6 @@ const DialogWrapper = () => {
     },
     dispatch,
   } = React.useContext(OovvuuDataContext);
-  // Set default panel display state.
-  const [displayPanels, setDisplayPanels] = React.useState(false);
 
   /**
    * Open the dialog. If no embeds exist, dispatch FETCH_KEYWORDS action to trigger effect.
@@ -117,13 +114,6 @@ const DialogWrapper = () => {
     }
   };
 
-  // Determine if the the panels should display. Accounts for saved videos and fetched videos.
-  // @todo This should also check whether or not state data was loaded from post meta.
-  React.useEffect(() => {
-    setDisplayPanels(selectedVideos.hero.length > 0
-      || selectedVideos.positionTwo.length > 0);
-  }, [selectedVideos]);
-
   return (
     <>
       <button
@@ -155,13 +145,9 @@ const DialogWrapper = () => {
             <>{__('Save and Close', 'oovvuu')}</>
           </ActionButton>
         </header>
-        <KeywordPanel
-          onHandleDisplayPanels={setDisplayPanels}
-        />
+        <KeywordPanel />
         <TopicsPanelWrapper />
-        <PositionsPanelWrapper
-          displayPanels={displayPanels}
-        />
+        <PositionsPanelWrapper />
       </Dialog>
     </>
   );

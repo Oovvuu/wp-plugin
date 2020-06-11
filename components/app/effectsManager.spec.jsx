@@ -6,23 +6,22 @@ import * as getPostAttribute from 'services/getPostAttribute';
 import * as getTopicVideos from 'services/getTopicVideos';
 import EffectsManager from './effectsManager';
 
-jest.spyOn(React, 'useEffect')
-  .mockImplementation((effect) => effect());
-
 describe('EffectsManager', () => {
   let dispatchFn;
   const mockState = initialState;
 
   beforeEach(() => {
+    global.wp = { i18n: { __: jest.fn(() => 'translated') } };
+    jest.spyOn(React, 'useEffect')
+      .mockImplementation((effect) => effect());
     dispatchFn = jest.fn();
   });
 
   afterEach(() => {
-    dispatchFn.mockClear();
+    jest.clearAllMocks();
   });
 
   it('Fetches keywords on FETCH_KEYWORDS action', async () => {
-    global.wp = { i18n: { __: jest.fn(() => 'translated') } };
     const keywords = ['keyword'];
     const response = { hasError: false, data: { keywords } };
     const getKeywordsSpy = jest.spyOn(getKeywords, 'default')
@@ -65,7 +64,6 @@ describe('EffectsManager', () => {
     let response;
 
     beforeEach(() => {
-      global.wp = { i18n: { __: jest.fn(() => 'translated') } };
       topic = {
         approximateTotalCount: '5',
         keywordMatch: 'selectedMatch',
@@ -147,6 +145,107 @@ describe('EffectsManager', () => {
           payload: recommendedVideos,
         });
       });
+    });
+  });
+
+  describe('UPDATE_RECOMMENDED_VIDEOS', () => {
+    describe('Syncs position state to videos recommendations', () => {
+      it('Dispatches ENABLE_POSITION if the hero position recommendation does not contain an empty reason', () => {
+        const wrapper = shallow(
+          <EffectsManager
+            dispatch={dispatchFn}
+            state={mockState}
+          >
+            <p>Hello, world!</p>
+          </EffectsManager>,
+        );
+
+        // Enable hero case.
+        wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS' });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'ENABLE_POSITION', payload: { position: 'hero' } });
+      });
+
+      it('Dispatches DISABLE_POSITION if the hero position recommendation contains an empty reason', () => {
+        const wrapper = shallow(
+          <EffectsManager
+            dispatch={dispatchFn}
+            state={mockState}
+          >
+            <p>Hello, world!</p>
+          </EffectsManager>,
+        );
+
+        // Disable hero case.
+        const heroEmptyState = {
+          ...mockState,
+          recommendedVideos: {
+            ...mockState.recommendedVideos,
+            heroEmptyReason: 'some reason',
+          },
+        };
+        wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: heroEmptyState });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'DISABLE_POSITION', payload: { position: 'hero' } });
+      });
+
+      it('Dispatches ENABLE_POSITION if the hero position recommendation does not contain an empty reason', () => {
+        const wrapper = shallow(
+          <EffectsManager
+            dispatch={dispatchFn}
+            state={mockState}
+          >
+            <p>Hello, world!</p>
+          </EffectsManager>,
+        );
+
+        // Enable positionTwo case.
+        wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS' });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'ENABLE_POSITION', payload: { position: 'positionTwo' } });
+      });
+
+      it('Dispatches DISABLE_POSITION if the positionTwo position recommendation contains an empty reason', () => {
+        const wrapper = shallow(
+          <EffectsManager
+            dispatch={dispatchFn}
+            state={mockState}
+          >
+            <p>Hello, world!</p>
+          </EffectsManager>,
+        );
+
+        // Disable positionTwo case.
+        const positionTwoEmptyState = {
+          ...mockState,
+          recommendedVideos: {
+            ...mockState.recommendedVideos,
+            positionTwoEmptyReason: 'some reason',
+          },
+        };
+        wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: positionTwoEmptyState });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'DISABLE_POSITION', payload: { position: 'positionTwo' } });
+      });
+    });
+
+    it('Dispatches SHOW_POSITIONS_PANEL if recommended videos available', () => {
+      const wrapper = shallow(
+        <EffectsManager
+          dispatch={dispatchFn}
+          state={mockState}
+        >
+          <p>Hello, world!</p>
+        </EffectsManager>,
+      );
+
+      // Disable positionTwo case.
+      const positionTwoEmptyState = {
+        ...mockState,
+        recommendedVideos: {
+          ...mockState.recommendedVideos,
+          hero: [{}],
+          positionTwo: [{}],
+        },
+      };
+      wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: positionTwoEmptyState });
+      expect(dispatchFn).toHaveBeenCalledWith({ type: 'SHOW_POSITIONS_PANEL' });
     });
   });
 });

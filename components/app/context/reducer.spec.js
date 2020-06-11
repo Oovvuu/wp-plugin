@@ -51,4 +51,13 @@ describe('Application reducer', () => {
       expect(newState.selectedTopics).toHaveLength(0);
     });
   });
+
+  describe('SHOW_POSITIONS_PANEL', () => {
+    it('Sets flag for showing video positions panel', () => {
+      const action = { type: 'SHOW_POSITIONS_PANEL' };
+      const newState = reducer({ ...initialState }, action);
+
+      expect(newState.shouldShowPositionsPanel).toBeTruthy();
+    });
+  });
 });

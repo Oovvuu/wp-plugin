@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
-import getPositionKeys from 'services/getPositionKeys';
 import theme from 'shared/theme.scss';
 import SearchIcon from 'assets/search.svg';
 import CloseIcon from 'assets/close.svg';
@@ -15,8 +13,7 @@ import styles from './keywordPanel.scss';
  * Wrapper component for the keyword selector panel. Includes generated
  *   and user-supplied keywords.
  */
-const KeywordPanelWrapper = (props) => {
-  const { onHandleDisplayPanels } = props;
+const KeywordPanelWrapper = () => {
   const { i18n: { __ } } = wp;
   const {
     dispatch,
@@ -62,23 +59,7 @@ const KeywordPanelWrapper = (props) => {
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
 
       dispatch({ payload: alternateSearches, type: 'UPDATE_RECOMMENDED_TOPICS' });
-
-      /*
-       * Each position is enabled by default, but the API may disable a position.
-       * Ensure that each position's state is consistent with the getVideos response.
-       */
-      getPositionKeys().forEach((positionKey) => {
-        // Disable a position if the API sends back a positionEmptyReason.
-        if (videos[`${positionKey}EmptyReason`] != null) {
-          dispatch({ payload: { position: positionKey }, type: 'DISABLE_POSITION' });
-        } else {
-          dispatch({ payload: { position: positionKey }, type: 'ENABLE_POSITION' });
-        }
-      });
     } // @todo else, set error state.
-
-    // Component state change to display panels.
-    onHandleDisplayPanels(true);
   };
 
   return (
@@ -130,10 +111,6 @@ const KeywordPanelWrapper = (props) => {
       </div>
     </div>
   );
-};
-
-KeywordPanelWrapper.propTypes = {
-  onHandleDisplayPanels: PropTypes.func.isRequired,
 };
 
 export default KeywordPanelWrapper;
