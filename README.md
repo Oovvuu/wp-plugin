@@ -1,4 +1,19 @@
-# Build
+# Overview
+
+# Developer Documentation
+
+## Manually update your theme's featured image
+Oovvuu comes with some helper functions that allow you to easily replace the existing featured image HTML with the hero embed HTML. You can simply add the code below to where you normally output your featured image to instead output an Oovvuu embed when one is present.
+
+```php
+if ( \Oovvuu\has_hero_embed() ) {
+	\Oovvuu\the_hero_embed();
+} else {
+	// Perform normal feature image logic.
+}
+```
+
+## Build
 All built files are ignored by default and therefore the plugin needs to be built after cloning the repo. The main commands that need to be run are:
 1. `composer install`
 1. `npm install`
@@ -9,7 +24,7 @@ This plugin uses the Auth0 php SDK to authenticate with the Oovvuu API. Please r
 
 ## Client builds
 
-To build client assets (i.e. JavaScript and CSS files) we utilize npm. First install all packages with `npm install`. Then run `npm run build` to build all production assets. 
+To build client assets (i.e. JavaScript and CSS files) we utilize npm. First install all packages with `npm install`. Then run `npm run build` to build all production assets.
 
 ### Development Mode
 

@@ -1,9 +1,9 @@
 <?php
 /**
-* Tests the Auth class.
-*
-* @package Oovvuu
-*/
+ * Tests the Auth class.
+ *
+ * @package Oovvuu
+ */
 
 use Oovvuu\Auth;
 
