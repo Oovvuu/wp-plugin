@@ -65,11 +65,11 @@ class Hero_Test extends WP_UnitTestCase {
 		// Should not return HTMl until global setting is active.
 		$this->assertEmpty( apply_filters( 'post_thumbnail_html', '', $post_id ) );
 
-		// Only allow overrides to happen on single pages.
-		$this->assertEmpty( apply_filters( 'post_thumbnail_html', '', $post_id ) );
-
 		// Activate global setting.
 		update_option( 'oovvuu_auto_replace_feature_image', '1' );
+
+		// Only allow overrides to happen on single pages.
+		$this->assertEmpty( apply_filters( 'post_thumbnail_html', '', $post_id ) );
 
 		// Go to post page.
 		$this->go_to( get_permalink( $post_id ) );
@@ -101,11 +101,11 @@ class Hero_Test extends WP_UnitTestCase {
 		// Should not return HTMl until global setting is active.
 		$this->assertFalse( apply_filters( 'has_post_thumbnail', false, $post_id ) );
 
-		// Only allow overrides to happen on single pages.
-		$this->assertFalse( apply_filters( 'has_post_thumbnail', false, $post_id ) );
-
 		// Activate global setting.
 		update_option( 'oovvuu_auto_replace_feature_image', '1' );
+
+		// Only allow overrides to happen on single pages.
+		$this->assertFalse( apply_filters( 'has_post_thumbnail', false, $post_id ) );
 
 		// Go to post page.
 		$this->go_to( get_permalink( $post_id ) );
