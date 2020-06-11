@@ -1,0 +1,26 @@
+# System files
+.idea
+.DS_Store
+.env
+
+node_modules
+
+# Ignore files not needed for a release
+.babelrc
+.eslintignore
+.eslint.json
+.travis.yml
+CODEOWNERS
+composer.json
+composer.lock
+package.json
+package.lock
+phpcs.xml.dist
+phpunit.xml.dist
+webpack.config.js
+
+bin
+client
+mocks
+tests
+webpack
