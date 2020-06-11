@@ -27,6 +27,7 @@
 
 	<form method="post" action="options.php">
 		<?php settings_fields( 'oovvuu_auth0_section' ); ?>
+		<?php settings_fields( 'oovvuu_display_section' ); ?>
 		<?php do_settings_sections( 'oovvuu_settings' ); ?>
 		<?php submit_button(); ?>
 	</form>
