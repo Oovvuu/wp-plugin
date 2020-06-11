@@ -18,8 +18,8 @@ When a new version of the plugin is ready for distribution, we will need to crea
 
 1. Checkout the branch off of which you want base the release (i.e. `git fetch && git checkout production`
 1. Create new branch with a name that contains the version number is and suffixed with `-built` (i.e. `1.0.0-built`)
-1. The `.gitignore.dist` should contain an exact copy of the normal `.gitignore` file with all of the relevant built files not ignored.
-1. Remove the `.gitignore` file and rename the `.gitignore.dist` file to `.gitignore`. This will ensure that built files are committed to the repo.
+1. The `.deployignore` should contain an exact copy of the normal `.gitignore` file with all of the relevant built files not ignored.
+1. Remove the `.gitignore` file and rename the `.deployignore` file to `.gitignore`. This will ensure that built files are committed to the repo.
 1. Build the plugin (see steps below)
 1. Commit all built files and perform tests locally to ensure this built branch functions as expected
 1. Push this branch up to the repo `git push -u origin`
