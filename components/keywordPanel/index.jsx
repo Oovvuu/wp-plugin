@@ -25,6 +25,7 @@ const KeywordPanelWrapper = () => {
    * onClick handler for Clear Selection button to clear selected keywords.
    */
   const clearSelectedKeywords = () => {
+    // @todo OVU-34 Replace with alert/prompt component.
     const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
       __('Are you sure you want to clear your selected keywords?', 'oovvuu'),
     );
@@ -59,7 +60,7 @@ const KeywordPanelWrapper = () => {
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
 
       dispatch({ payload: alternateSearches, type: 'UPDATE_RECOMMENDED_TOPICS' });
-    } // @todo else, set error state.
+    } // @todo OVU-34 else, set error state.
   };
 
   return (

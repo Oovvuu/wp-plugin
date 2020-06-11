@@ -59,6 +59,7 @@ const VideoCardWrapper = (props) => {
    * Removes a video from the position.
    */
   const removeVideo = () => {
+    // @todo OVU-34 Replace with alert/prompt component.
     const confirmDialog = confirm( // eslint-disable-line no-restricted-globals
       __('Are you sure you want to remove this video?', 'oovvuu'),
     );

@@ -66,6 +66,7 @@ const DialogWrapper = () => {
 
     // Prompt the user with a confirm message if they are closing without saving.
     if (prompt) {
+      // @todo OVU-34 Replace with alert/prompt component.
       const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
         __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu'),
       );
@@ -111,7 +112,7 @@ const DialogWrapper = () => {
 
       // Close the Dialog.
       closeDialog(false);
-    }
+    } // @todo OVU-34 else, set error state.
   };
 
   return (

@@ -58,7 +58,7 @@ const EffectsManager = (props) => {
     if (!response.hasError) {
       const { keywords } = response.data;
       dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
-    }
+    } // @todo OVU-34 else, set error state.
   };
 
 
