@@ -13,6 +13,23 @@ if ( \Oovvuu\has_hero_embed() ) {
 }
 ```
 
+## Creating a new release
+When a new version of the plugin is ready for distribution, we will need to create a new release that can be downloaded. Below are the steps for how to create a new release in GitHub.
+
+1. Checkout the branch off of which you want base the release (i.e. `git fetch && git checkout production`
+1. Create new branch with a name that contains the version number is and suffixed with `-built` (i.e. `1.0.0-built`)
+1. The `.gitignore.dist` should contain an exact copy of the normal `.gitignore` file with all of the relevant built files not ignored.
+1. Remove the `.gitignore` file and rename the `.gitignore.dist` file to `.gitignore`. This will ensure that built files are committed to the repo.
+1. Build the plugin (see steps below)
+1. Commit all built files and perform tests locally to ensure this built branch functions as expected
+1. Push this branch up to the repo `git push -u origin`
+1. Go to the GitHub repo and [create a new release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release)
+1. Ensure that you use the built branch created in the steps above as the `Target` branch
+1. Tag the release
+1. Add relevant changelog notes
+1. Create the release
+1. Download the built plugin and locally test that it can be installed properly and that it functions properly
+
 ## Build
 All built files are ignored by default and therefore the plugin needs to be built after cloning the repo. The main commands that need to be run are:
 1. `composer install`

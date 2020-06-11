@@ -1,7 +1,10 @@
+# System files
 .idea
 .DS_Store
 .env
 
-build
 node_modules
+
+# Built files
+build
 vendor
