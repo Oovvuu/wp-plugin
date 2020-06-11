@@ -17,7 +17,7 @@ if ( \Oovvuu\has_hero_embed() ) {
 When a new version of the plugin is ready for distribution, we will need to create a new release that can be downloaded. Below are the steps for how to create a new release in GitHub.
 
 1. Checkout the branch off of which you want base the release (i.e. `git fetch && git checkout production`
-1. Create new branch with a name that contains the version number is and suffixed with `-built` (i.e. `v1.0.0-built`)
+1. Create new branch with a name that contains the version number and is suffixed with `-built` (i.e. `v1.0.0-built`)
 1. The `.deployignore` should contain an exact copy of the normal `.gitignore` file with all of the relevant built files not ignored.
 1. Remove the `.gitignore` file and rename the `.deployignore` file to `.gitignore`. This will ensure that built files are committed to the repo and unnecessary files are ignored.
 1. Remove all unnecessary files listed in the new `.gitignore` using this command `git ls-files -i --exclude-from=.gitignore | xargs git rm --cached`
