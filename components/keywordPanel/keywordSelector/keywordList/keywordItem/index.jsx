@@ -23,8 +23,9 @@ const KeywordItem = (props) => {
         onChange={() => onToggle(keyword)}
         checked={isSelected}
         type="checkbox"
+        aria-label={keyword}
       />
-      <span>
+      <span aria-hidden="true">
         {keyword}
       </span>
     </label>

@@ -9,21 +9,22 @@ global.wp = {
 describe('KeywordInput', () => {
   const onUpdate = jest.fn();
   const setKeyword = jest.fn();
+  const inputRef = React.createRef();
   jest.spyOn(React, 'useState').mockImplementation(() => ['keyword', setKeyword]);
 
   it('Correctly submits the form', () => {
-    const wrapper = shallow(<KeywordInput onUpdate={onUpdate} />);
-    const form = wrapper.find('form');
+    const wrapper = shallow(<KeywordInput inputRef={inputRef} onUpdate={onUpdate} />);
+    const input = wrapper.find('input');
 
-    expect(form).toHaveLength(1);
+    expect(input).toHaveLength(1);
 
-    form.simulate('submit', { preventDefault() {} });
+    input.simulate('keydown', { keyCode: 13, preventDefault() {} });
     expect(setKeyword).toHaveBeenCalledWith('');
     expect(onUpdate).toHaveBeenCalledWith('keyword');
   });
 
   it('Submits the form on TAB key down', () => {
-    const wrapper = shallow(<KeywordInput onUpdate={onUpdate} />);
+    const wrapper = shallow(<KeywordInput inputRef={inputRef} onUpdate={onUpdate} />);
     const input = wrapper.find('input');
 
     expect(input).toHaveLength(1);

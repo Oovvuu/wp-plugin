@@ -20,6 +20,7 @@ const UserList = () => {
   } = React.useContext(oovvuuData);
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
+  const inputRef = React.createRef();
 
   /**
    * Removes a given keyword from the userKeywords state.
@@ -31,6 +32,7 @@ const UserList = () => {
     setLastAction(`${keyword} removed.`);
 
     dispatch({ payload: userKeywords.filter((value) => value !== keyword), type: 'UPDATE_USER_KEYWORDS' });
+    inputRef.current.focus();
   };
 
   /**
@@ -61,6 +63,16 @@ const UserList = () => {
   };
 
   /**
+   * Handle clicks on `add button` skip link.
+   *
+   * @param  {Event} event The event object.
+   */
+  const onAddClick = (event) => {
+    event.preventDefault();
+    inputRef.current.focus();
+  };
+
+  /**
    * Compile the aria-live region's message string.
    */
   React.useEffect(() => {
@@ -74,15 +86,16 @@ const UserList = () => {
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.addIcon}>
-        <AddIcon />
-      </span>
-
-      <div
-        className={styles.list}
-        role="grid"
-        aria-labelledby="user-keywords-heading"
+      <a
+        className={styles.addIcon}
+        aria-label={__('Skip to keyword text field', 'oovvuu')}
+        href="#user-keyword-input"
+        onClick={onAddClick}
       >
+        <AddIcon />
+      </a>
+
+      <div className={styles.list}>
         {userKeywords.map((keyword) => (
           <UserKeywordItem
             key={keyword}
@@ -91,18 +104,21 @@ const UserList = () => {
           />
         ))}
 
-        <KeywordInput onUpdate={handleUpdate} />
+        <KeywordInput
+          onUpdate={handleUpdate}
+          inputRef={inputRef}
+        />
       </div>
-      <div className="screen-reader-only">
-        {__('Last change to keywords list:', 'oovvuu')}
-        <span
-          aria-live="polite"
-          aria-relevant="additions removals"
-          id="form-action-text"
-        >
-          {liveRegionMessage}
-        </span>
-      </div>
+      <span
+        className="screen-reader-only"
+        role="status"
+        aria-live="assertive"
+        aria-atomic="true"
+        aria-relevant="text"
+        id="form-action-text"
+      >
+        <span>{liveRegionMessage}</span>
+      </span>
     </div>
   );
 };

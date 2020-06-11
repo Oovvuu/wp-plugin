@@ -5,9 +5,8 @@ import styles from './keywordInput.scss';
 
 const KeywordInput = (props) => {
   const { i18n: { __ } } = wp;
-  const { onUpdate } = props;
+  const { onUpdate, inputRef } = props;
   const [keyword, setKeyword] = React.useState('');
-  const inputRef = React.createRef();
 
   /**
    * Adds the user-entered keyword when the form is submitted.
@@ -31,10 +30,10 @@ const KeywordInput = (props) => {
    * @param {Event} event The event object.
    */
   const handleKeyDown = (event) => {
-    const { TAB } = keyCodes;
+    const { TAB, RETURN } = keyCodes;
     const { keyCode } = event;
 
-    if (keyword && TAB === keyCode) {
+    if (keyword && [TAB, RETURN].includes(keyCode)) {
       handleSubmit(event);
     }
   };
@@ -58,32 +57,28 @@ const KeywordInput = (props) => {
   }, []);
 
   return (
-    <form
+    <label
+      htmlFor="keyword-input"
       className={styles.inputItem}
-      onSubmit={handleSubmit}
-      autoComplete="off"
     >
-      <label
-        htmlFor="keyword-input"
-      >
-        <span className="screen-reader-only">
-          {__('Enter a keyword', 'oovvuu')}
-        </span>
-        <input
-          className={styles.input}
-          onKeyDown={handleKeyDown}
-          onChange={handleChange}
-          ref={inputRef}
-          value={keyword}
-          name="keyword-input"
-        />
-      </label>
-    </form>
+      <input
+        id="user-keyword-input"
+        autoComplete="off"
+        className={styles.input}
+        onKeyDown={handleKeyDown}
+        onChange={handleChange}
+        ref={inputRef}
+        value={keyword}
+        name="keyword-input"
+        aria-label={__('Enter a keyword', 'oovvuu')}
+      />
+    </label>
   );
 };
 
 KeywordInput.propTypes = {
   onUpdate: PropTypes.func.isRequired,
+  inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
 };
 
 export default KeywordInput;
