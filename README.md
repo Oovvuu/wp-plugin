@@ -28,7 +28,7 @@ When a new version of the plugin is ready for distribution, we will need to crea
 1. Create a non-built release based on the `production` branch and use a tag name without the `-built` suffix (i.e. `v1.0.0`)
 1. Add relevant changelog notes
 1. Publish the release
-1. Create a built based on the built branch you just created in the above steps. Make sure to have `-built` after the tag version (i.e. `v1.0.0-built`)
+1. Create a built release based on the built branch you just created in the above steps. Make sure to have `-built` after the tag version (i.e. `v1.0.0-built`)
 1. Publish the built release. No changelog notes are needed in the built release since they are already added to the non-built release.
 1. Create the release
 1. Download the built plugin and locally test that it can be installed properly and that it functions properly
