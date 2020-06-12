@@ -50,32 +50,30 @@ const DialogWrapper = () => {
   /**
    * Close the dialog.
    */
-  const closeDialog = (prompt) => {
-    const performClose = () => {
-      setIsOpen(false);
+  const closeDialog = () => {
+    setIsOpen(false);
 
-      // Remove body class.
-      const body = document.querySelector('.wp-admin.wp-core-ui');
+    // Remove body class.
+    const body = document.querySelector('.wp-admin.wp-core-ui');
 
-      if (body && body.classList.contains('modal-open')) {
-        body.classList.remove('modal-open');
-      }
+    if (body && body.classList.contains('modal-open')) {
+      body.classList.remove('modal-open');
+    }
 
-      dispatch({ type: 'CLEAR_LOADING_STATE' });
-    };
+    dispatch({ type: 'CLEAR_LOADING_STATE' });
+  };
 
-    // Prompt the user with a confirm message if they are closing without saving.
-    if (prompt) {
-      // @todo OVU-34 Replace with alert/prompt component.
-      const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
-        __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu'),
-      );
+  /**
+   * Prompt the user with a confirm message prior to closing the dialog.
+   */
+  const promptToClose = () => {
+    // @todo OVU-34 Replace with alert/prompt component.
+    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
+      __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu'),
+    );
 
-      if (confirmDialog === true) {
-        performClose();
-      }
-    } else {
-      performClose();
+    if (confirmDialog === true) {
+      closeDialog();
     }
   };
 
@@ -111,7 +109,7 @@ const DialogWrapper = () => {
       dispatch({ type: 'RESET_STATE', payload: data });
 
       // Close the Dialog.
-      closeDialog(false);
+      closeDialog();
     } // @todo OVU-34 else, set error state.
   };
 
@@ -130,7 +128,7 @@ const DialogWrapper = () => {
       <Dialog
         isOpen={isOpen}
         isLoading={isLoading}
-        closeDialog={() => { closeDialog(true); }}
+        closeDialog={promptToClose}
       >
         <header className={styles.titleWrapper}>
           <h2 className={styles.postTitle}>
