@@ -28,11 +28,11 @@ function has_hero_embed( $post_id = 0 ) {
 		return false;
 	}
 
-	// Get the embed codes.
-	$embeds = get_post_meta( $post->ID, 'oovvuu_embeds', true );
+	// Get the embed ID.
+	$embed_id = get_embed_id( 'hero', $post_id );
 
 	// Has hero embed.
-	if ( ! empty( $embeds['hero']['data']['createEmbed']['id'] ) ) {
+	if ( ! empty( $embed_id ) ) {
 		return true;
 	}
 
@@ -61,16 +61,16 @@ function get_hero_embed( $post_id ) {
 	}
 
 	// Get the embed codes.
-	$embeds = get_post_meta( $post->ID, 'oovvuu_embeds', true );
+	$embed_id = get_embed_id( 'hero', $post_id );
 
 	// No hero embed.
-	if ( empty( $embeds['hero']['data']['createEmbed']['id'] ) ) {
+	if ( empty( $embed_id ) ) {
 		return '';
 	}
 
 	// Set the attributes varaible for use in the template part.
 	$attributes       = [];
-	$attributes['id'] = $embeds['hero']['data']['createEmbed']['id'];
+	$attributes['id'] = $embed_id;
 
 	// Get the HTML.
 	ob_start();
@@ -82,11 +82,11 @@ function get_hero_embed( $post_id ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $html    The hero embed HTMl.
-	 * @param int    $post_id The post ID.
-	 * @param array  $embeds  The post Oovvuu embed.
+	 * @param string $html     The hero embed HTMl.
+	 * @param int    $post_id  The post ID.
+	 * @param string $embed_id The Oovvuu embed ID.
 	 */
-	return apply_filters( 'oovvuu_hero_embed_html', $html, $post_id, $embeds );
+	return apply_filters( 'oovvuu_hero_embed_html', $html, $post_id, $embed_id );
 }
 
 /**
