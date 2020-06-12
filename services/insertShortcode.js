@@ -6,13 +6,9 @@
  * @param   {int}    id    The embed ID.
  * @param   {string} html  The markup.
  * @param   {RegExp} regex Shortcode regex.
+ * @param {boolean} enabled True when the position is enabled, otherwise false.
  */
-const insertShortcode = (id, html, regex) => {
-  // return if no id, html or regex.
-  if (!id || !html || !regex) {
-    return '';
-  }
-
+const insertShortcode = (id, html, regex, enabled) => {
   // Dummy element to process nodes.
   const el = document.createElement('div');
   el.innerHTML = html;
@@ -32,9 +28,16 @@ const insertShortcode = (id, html, regex) => {
     ),
   );
 
+  // If position is disabled, do not add new shortcode.
+  if (!enabled || !id) {
+    return filteredNodes.join('');
+  }
+
   // Add new shortcode as the 4th element.
   if (filteredNodes.length > 2) {
     filteredNodes.splice(3, 0, `[oovvuu-embed id="${id}"]`);
+  } else {
+    filteredNodes.push(`[oovvuu-embed id="${id}"]`);
   }
 
   return filteredNodes.join('');

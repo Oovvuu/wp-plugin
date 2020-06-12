@@ -22,6 +22,7 @@ const DialogWrapper = () => {
     state: {
       isLoadedFromMeta,
       isLoading,
+      isPositionTwoEnabled,
       selectedVideos: {
         positionTwo,
       },
@@ -99,9 +100,7 @@ const DialogWrapper = () => {
       const positionTwoEmbedId = data?.embeds?.positionTwo?.id || null;
 
       // Insert a new Oovvuu embed to the editor.
-      if (positionTwoEmbedId) {
-        insertEmbed(positionTwoEmbedId, positionTwo);
-      }
+      insertEmbed(positionTwoEmbedId, positionTwo, isPositionTwoEnabled);
 
       /**
        * saveState() returns updated state, with flag that data has been loaded

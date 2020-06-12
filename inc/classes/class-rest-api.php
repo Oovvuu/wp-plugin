@@ -279,7 +279,7 @@ class REST_API {
 			if ( ! empty( $repsonse['data'] ) ) {
 				$embed = [
 					'raw_response' => $repsonse['data'],
-					'id'           => $repsonse['data']['createEmbed'] ?? '',
+					'id'           => $repsonse['data']['createEmbed']['id'] ?? '',
 				];
 			}
 

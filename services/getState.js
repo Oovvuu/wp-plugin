@@ -1,5 +1,4 @@
 import initialState from 'components/app/context/initialState';
-import embedsTransformer from 'transforms/embeds';
 
 /**
  * Performs an API request to get the current state.
@@ -26,7 +25,7 @@ const getState = (id) => {
             ...state,
             embeds: {
               ...initialState.embeds,
-              ...embedsTransformer(embeds),
+              ...embeds,
             },
           },
         } : {
