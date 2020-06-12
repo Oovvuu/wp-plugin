@@ -55,7 +55,7 @@ const insertEmbed = (id, videos, enabled) => {
   }
 
   // Classic editor.
-  if (tinymce?.editors?.content && wp?.shortcode) {
+  if (typeof tinymce !== 'undefined' && tinymce?.editors?.content && wp?.shortcode) {
     const { shortcode } = wp;
 
     // Get editor content and insert/modify embed shortcode.
