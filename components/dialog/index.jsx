@@ -8,6 +8,7 @@ import saveState from 'services/saveState';
 import OovvuuDataContext from 'components/app/context';
 import SaveSVG from 'assets/save.svg';
 import insertEmbed from 'services/insertEmbed';
+import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 
@@ -67,14 +68,11 @@ const DialogWrapper = () => {
    * Prompt the user with a confirm message prior to closing the dialog.
    */
   const promptToClose = () => {
-    // @todo OVU-34 Replace with alert/prompt component.
-    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
-      __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu'),
+    confirmThenProceed(
+      { message: __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu') },
+      __('Yes, close', 'oovvuu'),
+      closeDialog,
     );
-
-    if (confirmDialog === true) {
-      closeDialog();
-    }
   };
 
   /**
@@ -90,10 +88,15 @@ const DialogWrapper = () => {
 
     // Note: Loading state is cleared within the `saveState` service.
     const response = await saveState(state, getPostAttribute('id'));
+    const {
+      hasError,
+      data,
+      error: {
+        message,
+      } = {},
+    } = response;
 
-    if (!response.hasError) {
-      const { data } = response;
-
+    if (!hasError) {
       // Embed id.
       const positionTwoEmbedId = data?.embeds?.positionTwo?.id || null;
 
@@ -110,7 +113,11 @@ const DialogWrapper = () => {
 
       // Close the Dialog.
       closeDialog();
-    } // @todo OVU-34 else, set error state.
+    } else {
+      dispatch({ type: 'CLEAR_LOADING_STATE' });
+
+      displayDismissableAlert({ message });
+    }
   };
 
   return (
