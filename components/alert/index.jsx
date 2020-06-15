@@ -18,6 +18,11 @@ const Alert = (props) => {
     supplemental,
   } = props;
 
+  /**
+   * Get the onClickHandler function for an alert button.
+   *
+   * @param {string} action An action referencing the function to return.
+   */
   const getButtonHandler = (action) => {
     const {
       dismiss,
@@ -81,6 +86,7 @@ Alert.defaultProps = {
 };
 
 Alert.propTypes = {
+  // dismiss, cancel, show and proceed are passed via `confirmable`.
   dismiss: PropTypes.func.isRequired,
   cancel: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
