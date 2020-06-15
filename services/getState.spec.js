@@ -5,20 +5,10 @@ describe('getState', () => {
   it('Maps embed data next to state keys', async () => {
     const embedsData = {
       hero: {
-        data: {
-          createEmbed: {
-            id: 'hero-id',
-            snippet: 'hero-snippet',
-          },
-        },
+        id: 'hero-id',
       },
       positionTwo: {
-        data: {
-          createEmbed: {
-            id: 'positionTwo-id',
-            snippet: 'positionTwo-snippet',
-          },
-        },
+        id: 'positionTwo-id',
       },
     };
     const data = {
@@ -36,8 +26,8 @@ describe('getState', () => {
       data: {
         ...initialState,
         embeds: {
-          hero: data.embeds.hero.data.createEmbed,
-          positionTwo: data.embeds.positionTwo.data.createEmbed,
+          hero: data.embeds.hero,
+          positionTwo: data.embeds.positionTwo,
         },
       },
       hasError: false,

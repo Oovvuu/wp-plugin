@@ -17,7 +17,8 @@ class Hero_Test extends WP_UnitTestCase {
 		$this->assertFalse( \Oovvuu\has_hero_embed( $post_id ) );
 
 		// Add the hero embed.
-		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'data' => [ 'createEmbed' => [ 'id' => '1234' ] ] ] ] );
+		update_post_meta( $post_id, 'oovvuu_state', [ 'isHeroEnabled' => true ] );
+		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'id' => '1234' ] ] );
 
 		// Has hero embed.
 		$this->assertTrue( \Oovvuu\has_hero_embed( $post_id ) );
@@ -36,7 +37,8 @@ class Hero_Test extends WP_UnitTestCase {
 		$this->assertEmpty( \Oovvuu\get_hero_embed( $post_id ) );
 
 		// Add the hero embed.
-		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'data' => [ 'createEmbed' => [ 'id' => '1234' ] ] ] ] );
+		update_post_meta( $post_id, 'oovvuu_state', [ 'isHeroEnabled' => true ] );
+		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'id' => '1234' ] ] );
 
 		// Has hero embed.
 		$this->assertNotEmpty( \Oovvuu\get_hero_embed( $post_id ) );
@@ -60,7 +62,8 @@ class Hero_Test extends WP_UnitTestCase {
 		$this->assertEmpty( apply_filters( 'post_thumbnail_html', '', $post_id ) );
 
 		// Add the hero embed.
-		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'data' => [ 'createEmbed' => [ 'id' => '1234' ] ] ] ] );
+		update_post_meta( $post_id, 'oovvuu_state', [ 'isHeroEnabled' => true ] );
+		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'id' => '1234' ] ] );
 
 		// Should not return HTMl until global setting is active.
 		$this->assertEmpty( apply_filters( 'post_thumbnail_html', '', $post_id ) );
@@ -96,7 +99,8 @@ class Hero_Test extends WP_UnitTestCase {
 		$this->assertFalse( apply_filters( 'has_post_thumbnail', false, $post_id ) );
 
 		// Add the hero embed.
-		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'data' => [ 'createEmbed' => [ 'id' => '1234' ] ] ] ] );
+		update_post_meta( $post_id, 'oovvuu_state', [ 'isHeroEnabled' => true ] );
+		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'id' => '1234' ] ] );
 
 		// Should not return HTMl until global setting is active.
 		$this->assertFalse( apply_filters( 'has_post_thumbnail', false, $post_id ) );

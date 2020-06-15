@@ -248,24 +248,13 @@ class REST_API {
 	 */
 	public function save_state( $request ) {
 
-		$positions = [
-			'hero'        => [
-				'type'           => 'Single',
-				'embed_location' => 'Hero',
-			],
-			'positionTwo' => [
-				'type'           => 'OneByThree',
-				'embed_location' => 'ParagraphFour',
-			],
-		];
-
 		// Save the state to post meta.
 		$state = array_merge( $request['state'], [ 'isLoadedFromMeta' => true ] );
 		update_post_meta( $request['id'], 'oovvuu_state', $state );
 
 		// Create the embeds.
 		$embeds = [];
-		foreach ( $positions as $position => $data ) {
+		foreach ( get_valid_positions() as $position => $data ) {
 
 			// Position is empty.
 			if ( empty( $request['state']['selectedVideos'][ $position ] ) ) {
@@ -273,7 +262,7 @@ class REST_API {
 			}
 
 			// Create the embed.
-			$embeds[ $position ] = $this->create_embed(
+			$response = $this->create_embed(
 				[
 					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => $request['state']['selectedVideos'][ $position ],
@@ -283,6 +272,19 @@ class REST_API {
 					'embed_location' => $data['embed_location'],
 				]
 			);
+
+			$embed = [];
+
+			// Valid response.
+			if ( ! empty( $response['data'] ) ) {
+				$embed = [
+					'raw_response' => $response['data'],
+					'id'           => $response['data']['createEmbed']['id'] ?? '',
+				];
+			}
+
+			// Add the embed.
+			$embeds[ $position ] = $embed;
 		}
 
 		// Save the embed code if it is valid.

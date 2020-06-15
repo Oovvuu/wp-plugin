@@ -58,8 +58,8 @@ if ( ! file_exists( OOVVUU_PATH . '/vendor/autoload.php' ) ) {
 	}
 }
 
-// Functions.
-require_once OOVVUU_PATH . '/functions.php';
+// Helpers.
+require_once OOVVUU_PATH . '/inc/helpers.php';
 
 // Singleton.
 require_once OOVVUU_PATH . '/inc/traits/trait-singleton.php';
