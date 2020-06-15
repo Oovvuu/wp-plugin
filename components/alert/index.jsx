@@ -56,13 +56,14 @@ const Alert = (props) => {
 
         {buttons && (
           <div className={styles.buttonWrapper}>
-            {buttons.map((button) => {
+            {buttons.map((button, index) => {
               const { action, text } = button;
               return (
                 <ActionButton
                   buttonStyle={(action === 'proceed') ? 'warn' : 'button'}
                   onClickHandler={getButtonHandler(action)}
                   className={styles.button}
+                  focus={(index === 0)}
                 >
                   <Fragment>{text}</Fragment>
                 </ActionButton>
