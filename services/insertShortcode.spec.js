@@ -16,7 +16,7 @@ const shortcodes = [
 ];
 
 describe('insertShortcode', () => {
-  it('Less than 3 tags, expectedHtml = prevHtml', () => {
+  it('Less than 3 tags, add shortcode to end of content', () => {
     const prevHtml = '<p>p1</p><ol><li>l1</li><li>l2</li></ol>';
     const expectedHtml = `<p>p1</p><ol><li>l1</li><li>l2</li></ol>${shortcodes[0]}`;
     const afterHtml = insertShortcode(ids[0], prevHtml, shortcodePattern, true);

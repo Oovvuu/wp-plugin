@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains helper functions used acorss the plugin.
+ * Contains helper functions used across the plugin.
  *
  * @package Oovvuu
  */

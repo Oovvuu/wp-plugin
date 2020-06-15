@@ -262,7 +262,7 @@ class REST_API {
 			}
 
 			// Create the embed.
-			$repsonse = $this->create_embed(
+			$response = $this->create_embed(
 				[
 					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => $request['state']['selectedVideos'][ $position ],
@@ -276,10 +276,10 @@ class REST_API {
 			$embed = [];
 
 			// Valid response.
-			if ( ! empty( $repsonse['data'] ) ) {
+			if ( ! empty( $response['data'] ) ) {
 				$embed = [
-					'raw_response' => $repsonse['data'],
-					'id'           => $repsonse['data']['createEmbed']['id'] ?? '',
+					'raw_response' => $response['data'],
+					'id'           => $response['data']['createEmbed']['id'] ?? '',
 				];
 			}
 
