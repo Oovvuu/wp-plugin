@@ -63,7 +63,7 @@ class Admin_Settings {
 			],
 			'oovvuu_display_section' => [
 				'oovvuu_auto_replace_feature_image' => [
-					'label' => esc_html__( 'Automatically Replace Feature Image', 'oovvuu' ),
+					'label' => esc_html__( 'Automatically Replace Featured Image', 'oovvuu' ),
 					'args'  => [
 						'type'     => 'boolean',
 						'default'  => false,
