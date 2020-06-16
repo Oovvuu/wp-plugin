@@ -4,6 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/actionButton';
+import { confirmThenProceed } from 'services/alert';
 import ClearIcon from 'assets/clear.svg';
 import styles from './videoCard.scss';
 import Badge from './badge';
@@ -59,19 +60,19 @@ const VideoCardWrapper = (props) => {
    * Removes a video from the position.
    */
   const removeVideo = () => {
-    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals
-      __('Are you sure you want to remove this video?', 'oovvuu'),
+    confirmThenProceed(
+      { message: __('Are you sure you want to remove this video?', 'oovvuu') },
+      __('Yes, remove it', 'oovvuu'),
+      () => {
+        dispatch({
+          type: 'REMOVE_VIDEO',
+          payload: {
+            position: positionKey,
+            videoId: id,
+          },
+        });
+      },
     );
-
-    if (confirmDialog === true) {
-      dispatch({
-        type: 'REMOVE_VIDEO',
-        payload: {
-          position: positionKey,
-          videoId: id,
-        },
-      });
-    }
   };
 
   /**

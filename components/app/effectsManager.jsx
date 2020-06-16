@@ -4,6 +4,7 @@ import POSITION_KEYS from 'constants/positionKeys';
 import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getTopicVideos from 'services/getTopicVideos';
+import { displayDismissableAlert } from 'services/alert';
 
 /**
  * Container component to manage side effects related to dispatched context actions. Discrete
@@ -52,12 +53,22 @@ const EffectsManager = (props) => {
     });
 
     const response = await getKeywords(title, content, id);
+    const {
+      hasError,
+      data: {
+        keywords,
+      },
+      error: {
+        message,
+      } = {},
+    } = response;
 
     dispatch({ type: 'CLEAR_LOADING_STATE' });
 
-    if (!response.hasError) {
-      const { keywords } = response.data;
+    if (!hasError) {
       dispatch({ payload: keywords, type: 'UPDATE_RECOMMENDED_KEYWORDS' });
+    } else {
+      displayDismissableAlert({ message });
     }
   };
 

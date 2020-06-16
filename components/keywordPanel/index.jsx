@@ -3,6 +3,7 @@ import oovvuuData from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
+import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
 import theme from 'shared/theme.scss';
 import SearchIcon from 'assets/search.svg';
 import CloseIcon from 'assets/close.svg';
@@ -25,13 +26,11 @@ const KeywordPanelWrapper = () => {
    * onClick handler for Clear Selection button to clear selected keywords.
    */
   const clearSelectedKeywords = () => {
-    const confirmDialog = confirm( // eslint-disable-line no-restricted-globals, no-alert
-      __('Are you sure you want to clear your selected keywords?', 'oovvuu'),
+    confirmThenProceed(
+      { message: __('Are you sure you want to clear your selected keywords?', 'oovvuu') },
+      __('Yes, close', 'oovvuu'),
+      () => { dispatch({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' }); },
     );
-
-    if (confirmDialog === true) {
-      dispatch({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' });
-    }
   };
 
   /**
@@ -53,13 +52,24 @@ const KeywordPanelWrapper = () => {
     });
 
     const response = await getVideos([...selectedKeywords, ...userKeywords], id);
+    const {
+      hasError,
+      data,
+      error: {
+        message,
+      } = {},
+    } = response;
 
-    if (!response.hasError) {
-      const { videos, alternateSearches } = response.data;
+    if (!hasError) {
+      const { videos, alternateSearches } = data;
       dispatch({ payload: videos, type: 'UPDATE_RECOMMENDED_VIDEOS' });
 
       dispatch({ payload: alternateSearches, type: 'UPDATE_RECOMMENDED_TOPICS' });
-    } // @todo else, set error state.
+    } else {
+      dispatch({ type: 'CLEAR_LOADING_STATE' });
+
+      displayDismissableAlert({ message });
+    }
   };
 
   return (
