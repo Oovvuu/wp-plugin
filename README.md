@@ -28,10 +28,7 @@ When a new version of the plugin is ready for distribution, we will need to crea
 
 1. Checkout the branch off of which you want base the release (i.e. `git fetch && git checkout production`
 1. Create new branch with a name that contains the version number and is suffixed with `-built` (i.e. `v1.0.0-built`)
-1. The `.deployignore` should be based on the `.gitignore` file with all of the relevant built files not ignored.
-1. Remove the `.gitignore` file and rename the `.deployignore` file to `.gitignore`. This will ensure that built files are committed to the repo and unnecessary files are ignored.
-1. Remove all unnecessary files listed in the new `.gitignore` using this command `git ls-files -i --exclude-from=.gitignore | xargs git rm --cached`
-1. Build the plugin (see steps below)
+1. Run the release `bash release.sh`
 1. Add all untracked files `git add -A` and commit this to the built branch `git commit -m "{Message}"`
 1. Push this branch up to the repo `git push -u origin`
 1. Go to the GitHub repo and [create a new release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release)
