@@ -40,7 +40,6 @@ const Dialog = ({
   const dialogElement = (
     <div
       className={styles.overlay}
-      role="presentation"
       aria-hidden={!isOpen}
       tabIndex="-1"
       id="oovvuu-dialog-wrapper"
