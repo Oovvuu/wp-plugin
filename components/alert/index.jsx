@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { confirmable, createConfirmation } from 'react-confirm';
 import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
+import withTrappedTabs from 'services/withTrappedTabs';
 import ActionButton from 'components/actionButton';
 import styles from './alert.scss';
 
@@ -16,6 +17,7 @@ const Alert = (props) => {
     message,
     buttons,
     supplemental,
+    trappedTabsRoot,
   } = props;
 
   /**
@@ -44,6 +46,7 @@ const Alert = (props) => {
     <div
       className={classnames(styles.wrapper, { [styles.show]: show })}
       id="oovvuu-alert-wrapper"
+      ref={trappedTabsRoot}
     >
       <div
         className={styles.popup}
@@ -98,7 +101,11 @@ Alert.propTypes = {
     action: PropTypes.string,
     text: PropTypes.string,
   })),
+  trappedTabsRoot: PropTypes.shape({
+    current: PropTypes.instanceOf(HTMLInputElement),
+  }).isRequired,
 };
 
-const alertConfirm = createConfirmation(confirmable(Alert));
+const trappedTabsAlert = withTrappedTabs(Alert);
+const alertConfirm = createConfirmation(confirmable(trappedTabsAlert));
 export default alertConfirm;
