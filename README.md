@@ -4,7 +4,7 @@
 1. Download the [latest built release](https://github.com/alleyinteractive/oovvuu/releases) of the plugin
 1. Go to Plugins > Add New in your dashboard
 1. Click the `Upload Plugin` button to prompt a file selector
-1. Locate the built zip file in your Downloads folder and select to be uploaded
+1. Locate the built zip file in your Downloads folder and select it to be uploaded
 1. Activate the plugin
 1. Go to the `Oovvuu` settings page in the admin menu
 1. Configure the Auth0 settings to be able to authenticate with the Oovvuu platform
