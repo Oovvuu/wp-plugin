@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { confirmable, createConfirmation } from 'react-confirm';
 import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
+import keyCodes from 'utils/keyCodes';
+import withTrappedTabs from 'services/withTrappedTabs';
 import ActionButton from 'components/actionButton';
 import styles from './alert.scss';
 
@@ -15,6 +17,7 @@ const Alert = (props) => {
     message,
     buttons,
     supplemental,
+    trappedTabsRoot,
   } = props;
 
   /**
@@ -39,14 +42,32 @@ const Alert = (props) => {
     }
   };
 
+  /**
+   * Handle keydown events on the alert component.
+   *
+   * @param  {Event} event The event object.
+   */
+  const handleKeydown = (event) => {
+    const { ESC } = keyCodes;
+    const { keyCode } = event;
+    const { dismiss } = props;
+
+    if (ESC === keyCode) {
+      dismiss();
+    }
+  };
+
   return (
     <div
       className={classnames(styles.wrapper, { [styles.show]: show })}
       id="oovvuu-alert-wrapper"
+      role="presentation"
+      onKeyDown={handleKeydown}
     >
       <div
         className={styles.popup}
         role="alert"
+        ref={trappedTabsRoot}
       >
         <div className={styles.messageWrapper}>
           <p className={styles.message}>{message}</p>
@@ -97,7 +118,11 @@ Alert.propTypes = {
     action: PropTypes.string,
     text: PropTypes.string,
   })),
+  trappedTabsRoot: PropTypes.shape({
+    current: PropTypes.instanceOf(HTMLInputElement),
+  }).isRequired,
 };
 
-const alertConfirm = createConfirmation(confirmable(Alert));
+const trappedTabsAlert = withTrappedTabs(Alert);
+const alertConfirm = createConfirmation(confirmable(trappedTabsAlert));
 export default alertConfirm;

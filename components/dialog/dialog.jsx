@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import portalId from 'services/portalId';
-import keyCodes from 'utils/keyCodes';
+import withTrappedTabs from 'services/withTrappedTabs';
 import LoadingWrapper from 'components/dialog/loading';
 import OovvuuSVGLogo from 'assets/oovvuu-logo.svg';
 import WPVIPSVGLogo from 'assets/wp-vip-logo.svg';
@@ -17,42 +17,15 @@ const Dialog = ({
   closeDialog,
   children,
   isLoading,
+  trappedTabsRoot,
 }) => {
   const { __ } = wp.i18n;
+
   /**
    * Create references to elements.
    */
-  const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
   const backToTopButtonRef = useRef(null);
-
-  /**
-   * Trap key tabs within the dialog.
-   *
-   * @param {Event} event The Event object.
-   */
-  const onKeyPressed = (event) => {
-    const { TAB } = keyCodes;
-    const { keyCode, shiftKey } = event;
-
-    if (isOpen && keyCode === TAB) {
-      if (shiftKey && closeButtonRef.current.contains(event.target)) {
-        event.preventDefault();
-        /*
-         * Move back from the first interactive child element to the last
-         * interactive child element
-         */
-        backToTopButtonRef.current.focus();
-      } else if (!shiftKey && backToTopButtonRef.current.contains(event.target)) {
-        event.preventDefault();
-        /*
-         * Move forward from the last interactive child element to the first
-         * interactive child element.
-         */
-        closeButtonRef.current.focus();
-      }
-    }
-  };
 
   /**
    * Sets focus on modal open to the close button.
@@ -67,14 +40,12 @@ const Dialog = ({
   const dialogElement = (
     <div
       className={styles.overlay}
-      onKeyDown={onKeyPressed}
-      role="presentation"
       aria-hidden={!isOpen}
       tabIndex="-1"
       id="oovvuu-dialog-wrapper"
     >
       <div
-        ref={dialogRef}
+        ref={trappedTabsRoot}
         className={styles.dialog}
         aria-live="polite"
         aria-busy={isLoading}
@@ -133,6 +104,10 @@ Dialog.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
   isLoading: PropTypes.bool.isRequired,
+  trappedTabsRoot: PropTypes.shape({
+    current: PropTypes.instanceOf(HTMLInputElement),
+  }).isRequired,
 };
 
-export default Dialog;
+const trappedTabsDialog = withTrappedTabs(Dialog);
+export default trappedTabsDialog;
