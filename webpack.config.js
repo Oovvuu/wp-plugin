@@ -7,16 +7,10 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
 const getDevServer = require('./config/devServer');
 const getEntries = require('./config/getEntries');
+const paths = require('./webpack/paths');
 
 // Set variables from .env file.
 require('dotenv').config();
-
-const paths = {
-  config: path.join(__dirname, './config'),
-  build: path.join(__dirname, './build'),
-  scss: path.join(__dirname, './client/scss'),
-  fonts: path.join(__dirname, './client/fonts'),
-};
 
 module.exports = (env, argv) => {
   const { mode } = argv;
