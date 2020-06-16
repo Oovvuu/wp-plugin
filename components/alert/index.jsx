@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-fragments */
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { confirmable, createConfirmation } from 'react-confirm';
 import { __ } from '@wordpress/i18n';
@@ -65,7 +64,7 @@ const Alert = (props) => {
                   className={styles.button}
                   focus={(index === 0)}
                 >
-                  <Fragment>{text}</Fragment>
+                  <>{text}</>
                 </ActionButton>
               );
             })}
