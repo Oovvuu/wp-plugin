@@ -6,7 +6,6 @@ import addModalDivEl from 'services/addModalDivEl';
 import userAuthenticated from 'services/userAuthenticated';
 import getState from 'services/getState';
 import getPostAttribute from 'services/getPostAttribute';
-import { displayDismissableAlert } from 'services/alert';
 import 'scss/global/base.scss';
 import OovvuuDataContext from './context';
 import EffectsManager from './effectsManager';
@@ -66,8 +65,7 @@ const App = () => {
       // Set the user as authenticated.
       dispatch({ type: 'SET_USER_IS_AUTHENTICATED' });
     } else {
-      // @todo OVU-34 This is somewhat annoying on every page load.
-      displayDismissableAlert({ message: __('You must be authenticated to use the Oovvuu plugin.', 'oovvuu') });
+      // @todo OVU-34 - do we need to account for removing user authentication state?
     }
 
     // Finished loading.
