@@ -6,7 +6,7 @@ set -e
 # Check for passed argument(s).
 if [[ ${#} -eq 1 ]]; then
   # Step 1: Create the {version}-built branch
-  git fetch && git checkout production
+  git checkout production && git pull
   git checkout -B "v${@}-built"
 
   # Step 2: Remove .gitignore and use .deployignore
