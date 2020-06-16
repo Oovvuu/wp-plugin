@@ -9,7 +9,7 @@ import styles from './userKeywordList.scss';
  * Manages adding and deleting user-defined keywords.
  */
 const UserList = () => {
-  const { i18n: { __ } } = wp;
+  const { i18n: { __, sprintf, _n } } = wp;
   const {
     dispatch,
     state: {
@@ -76,12 +76,12 @@ const UserList = () => {
    * Compile the aria-live region's message string.
    */
   React.useEffect(() => {
-    const keywordCount = userKeywords.length;
-    const countDescription = (keywordCount === 1)
-      ? __('keyword total.', 'oovvuu')
-      : __('keywords total.', 'oovvuu');
+    const updatedMessage = sprintf(
+      _n('%d keyword total.', '%d keywords total.', userKeywords.length, 'oovvuu'),
+      userKeywords.length,
+    );
 
-    setLiveRegionMessage(`${lastAction} ${keywordCount} ${countDescription}`);
+    setLiveRegionMessage(`${lastAction} ${updatedMessage}`);
   }, [lastAction]);
 
   return (
