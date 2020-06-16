@@ -16,7 +16,6 @@ import { displayDismissableAlert } from 'services/alert';
  * @link https://github.com/reduxjs/redux-thunk
  */
 const EffectsManager = (props) => {
-  const { i18n: { __ } } = wp;
   const {
     actionType,
     children,
@@ -45,12 +44,7 @@ const EffectsManager = (props) => {
     const id = getPostAttribute('id');
     const title = getPostAttribute('title');
     const content = getPostAttribute('content');
-    dispatch({
-      type: 'SET_LOADING_STATE',
-      payload: {
-        message: __("Hang tight, we're fetching keywords", 'oovvuu'),
-      },
-    });
+    dispatch({ type: 'SET_LOADING_STATE' });
 
     const response = await getKeywords(title, content, id);
     const {
@@ -117,12 +111,7 @@ const EffectsManager = (props) => {
 
     const id = getPostAttribute('id');
 
-    dispatch({
-      type: 'SET_LOADING_STATE',
-      payload: {
-        message: __("Hang tight, we're fetching topic video recommendations", 'oovvuu'),
-      },
-    });
+    dispatch({ type: 'SET_LOADING_STATE' });
 
     const response = await getTopicVideos([keywordMatch], id);
 

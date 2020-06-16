@@ -96,13 +96,11 @@ const reducer = (state, action) => {
       return {
         ...nextState,
         isLoading: true,
-        loadingAttributes: payload,
       };
     case 'CLEAR_LOADING_STATE': {
       return {
         ...nextState,
         isLoading: false,
-        loadingAttributes: { message: '' },
       };
     }
     case 'SET_USER_IS_AUTHENTICATED': {

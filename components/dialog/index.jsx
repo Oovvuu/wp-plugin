@@ -80,12 +80,7 @@ const DialogWrapper = () => {
    * Handles the save action when a user clicks the save button.
    */
   const handleSave = async () => {
-    dispatch({
-      type: 'SET_LOADING_STATE',
-      payload: {
-        message: __("Hang tight, we're saving your settings", 'oovvuu'),
-      },
-    });
+    dispatch({ type: 'SET_LOADING_STATE' });
 
     // Note: Loading state is cleared within the `saveState` service.
     const response = await saveState(state, getPostAttribute('id'));
