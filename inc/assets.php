@@ -8,6 +8,20 @@
 namespace Oovvuu;
 
 /**
+ * The main theme asset map.
+ *
+ * @var array
+ */
+define( 'OOVVUU_ASSET_MAP', read_asset_map( dirname( __DIR__ ) . '/build/assetMap.json' ) );
+
+/**
+ * The main theme asset build mode.
+ *
+ * @var string
+ */
+define( 'OOVVUU_ASSET_MODE', OOVVUU_ASSET_MAP['mode'] ?? 'production' );
+
+/**
  * A callback for the admin_enqueue_scripts action hook to register assets for the
  * Classic Editor.
  *
@@ -33,17 +47,17 @@ function action_admin_enqueue_scripts() {
 
 	wp_enqueue_script(
 		'oovvuu-app-classic-js',
-		get_versioned_asset_path( 'appClassic.js' ),
+		get_asset_path( 'appClassic.js' ),
 		[ 'react', 'react-dom', 'wp-api-fetch', 'wp-shortcode' ],
-		'1.0.0',
+		get_asset_hash( 'appClassic.js' ),
 		true
 	);
 
 	wp_enqueue_style(
 		'oovvuu-fonts-css',
-		get_versioned_asset_path( 'fonts.css' ),
+		get_asset_path( 'fonts.css' ),
 		[],
-		'1.0.0'
+		get_asset_hash( 'fonts.css' )
 	);
 
 	// Send shorcode regex and edit profile link.
@@ -73,27 +87,27 @@ function action_enqueue_block_editor_assets() {
 
 	wp_enqueue_script(
 		'oovvuu-app-js',
-		get_versioned_asset_path( 'app.js' ),
+		get_asset_path( 'app.js' ),
 		[ 'wp-i18n', 'wp-edit-post', 'wp-plugins' ],
-		'1.0.0',
+		get_asset_hash( 'app.js' ),
 		true
 	);
 	inline_locale_data( 'oovvuu-app' );
 
 	wp_enqueue_script(
 		'oovvuu-embed-block-js',
-		get_versioned_asset_path( 'embedBlock.js' ),
+		get_asset_path( 'embedBlock.js' ),
 		[ 'wp-i18n', 'wp-blocks' ],
-		'1.0.0',
+		get_asset_hash( 'embedBlock.js' ),
 		true
 	);
 	inline_locale_data( 'oovvuu-app' );
 
 	wp_enqueue_style(
 		'oovvuu-fonts-css',
-		get_versioned_asset_path( 'fonts.css' ),
+		get_asset_path( 'fonts.css' ),
 		[],
-		'1.0.0'
+		get_asset_hash( 'fonts.css' )
 	);
 
 	// Send edit profile link to JS.
@@ -125,46 +139,6 @@ function allowed_post_types() {
 	 * @param array $allowed_post_types Array of post types.
 	 */
 	return apply_filters( 'oovvuu_allowed_post_types', $allowed_post_types );
-}
-
-/**
- * Get the version for a given asset.
- *
- * @since 1.0.0
- *
- * @param string $asset_path Entry point and asset type separated by a '.'.
- * @return string The asset version.
- */
-function get_versioned_asset_path( $asset_path ) {
-	static $asset_map;
-	// Create public path.
-	$base_path = is_dev() ?
-		get_proxy_path() :
-		plugins_url( 'build/', __DIR__ );
-
-	if ( ! isset( $asset_map ) ) {
-		$asset_map_file = dirname( __DIR__ ) . '/build/assetMap.json';
-		if ( file_exists( $asset_map_file ) && 0 === validate_file( $asset_map_file ) ) {
-			ob_start();
-			include $asset_map_file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile, WordPressVIPMinimum.Files.IncludingFile.UsingVariable
-			$asset_map = json_decode( ob_get_clean(), true );
-		} else {
-			$asset_map = [];
-		}
-	}
-
-	/*
-	 * Appending a '.' ensures the explode() doesn't generate a notice while
-	 * allowing the variable names to be more readable via list().
-	 */
-	list( $entrypoint, $type ) = explode( '.', "$asset_path." );
-	$versioned_path            = isset( $asset_map[ $entrypoint ][ $type ] ) ? $asset_map[ $entrypoint ][ $type ] : false;
-
-	if ( $versioned_path ) {
-		return $base_path . $versioned_path;
-	}
-
-	return '';
 }
 
 /**
@@ -207,40 +181,69 @@ function get_proxy_path() {
 }
 
 /**
- * Whether development mode is allowed.
+ * Decode the asset map at the given file path.
  *
- * @return bool
+ * @param string $path File path.
+ * @return array
  */
-function allow_dev_mode() {
-	return is_admin() && ( defined( 'ALLOW_DEV_MODE' ) && ALLOW_DEV_MODE );
+function read_asset_map( string $path ) {
+	if ( file_exists( $path ) && 0 === validate_file( $path ) ) {
+		ob_start();
+		include $path; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile, WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+		return json_decode( ob_get_clean(), true );
+	}
+
+	return [];
 }
 
 /**
- * Whether development mode is enabled.
+ * Get a property for a given asset.
  *
- * @return bool whether or not we're in development mode
+ * @param string $asset Entry point and asset type separated by a '.'.
+ * @param string $prop The property to get from the entry object.
+ * @return string|null The asset property based on entry and type.
  */
-function is_dev() {
-	if ( allow_dev_mode() ) {
-		return (
-			( ! empty( $_GET['fe-dev'] ) && 'on' === $_GET['fe-dev'] ) || // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
-			! empty( $_COOKIE['fe-dev'] ) // phpcs:ignore WordPress.VIP.RestrictedVariables.cache_constraints___COOKIE, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE
-		);
-	}
+function get_asset_property( $asset, $prop ) {
+	/*
+	 * Appending a '.' ensures the explode() doesn't generate a notice while
+	 * allowing the variable names to be more readable via list().
+	 */
+	list( $entrypoint, $type ) = explode( '.', "$asset." );
 
-	return false;
+	$asset_property = OOVVUU_ASSET_MAP[ $entrypoint ][ $type ][ $prop ] ?? null;
+
+	return $asset_property ? $asset_property : null;
 }
 
 /**
- * Set cookie to truthy value if fe-dev param is set to 'on', otherwise set coookie to falsy value
+ * Get the path for a given asset.
+ *
+ * @param string $asset Entry point and asset type separated by a '.'.
+ * @return string The asset version.
  */
-function set_dev_cookie() {
-	if ( ! empty( $_GET['fe-dev'] ) && 'off' === $_GET['fe-dev'] ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification, WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
-		setcookie( 'fe-dev', '0', 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl() ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
-		$_COOKIE['fe-dev'] = null; // phpcs:ignore WordPress.VIP.RestrictedVariables.cache_constraints___COOKIE, WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE, WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
-	} elseif ( is_dev() ) {
-		setcookie( 'fe-dev', '1', 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl() ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.cookies_setcookie
+function get_asset_path( $asset ) {
+	$asset_property = get_asset_property( $asset, 'path' );
+
+	if ( $asset_property ) {
+		// Create public path.
+		$base_path = OOVVUU_ASSET_MODE === 'development' ?
+			get_proxy_path() :
+			plugins_url( 'build/', __DIR__ );
+
+		return $base_path . $asset_property;
 	}
+
+	return null;
 }
 
-add_action( 'admin_init', __NAMESPACE__ . '\set_dev_cookie' );
+/**
+ * Get the contentHash for a given asset.
+ *
+ * @param string $asset Entry point and asset type separated by a '.'.
+ * @return string The asset's hash.
+ */
+function get_asset_hash( $asset ) {
+	$asset_property = get_asset_property( $asset, 'hash' );
+
+	return $asset_property ?? OOVVUU_ASSET_MAP['hash'] ?? '1.0.0';
+}

@@ -53,17 +53,11 @@ To build client assets (i.e. JavaScript and CSS files) we utilize npm. First ins
 
 ### Development Mode
 
+Running `npm run dev` starts development mode.
+
 With development mode on, client assets are served from `webpack-dev-server`, which will inject changes via webpack's Hot Module Replacement feature.
 
-First add the following to _wp-config.php_:
-
-```php
-define( 'ALLOW_DEV_MODE', true );
-```
-
-Run `npm run dev` and add a `fe-dev=on` query parameter to the URL to enable development mode. The `fe-dev=on` query parameter also adds a cookie so development mode will persist while navigating through wp-admin. Changing the parameter to `fe-dev=off` or removing the `ALLOW_DEV_MODE` constant will remove the cookie and revert asset enqueues to their expected production path.
-
-In order to enable a secure connection you'll need to define a couple enrionment variables in a `.env` file in the project root:
+In order to enable a secure connection you'll need to define a couple environment variables in a `.env` file in the project root:
 
 * `HTTPS_KEY_PATH` - Path to TLS key relative to current home directory.
 * `HTTPS_CERT_PATH` - Path to TLS cert relative to current home directory.

@@ -7,16 +7,10 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
 const getDevServer = require('./config/devServer');
 const getEntries = require('./config/getEntries');
+const paths = require('./webpack/paths');
 
 // Set variables from .env file.
 require('dotenv').config();
-
-const paths = {
-  config: path.join(__dirname, './config'),
-  build: path.join(__dirname, './build'),
-  scss: path.join(__dirname, './client/scss'),
-  fonts: path.join(__dirname, './client/fonts'),
-};
 
 module.exports = (env, argv) => {
   const { mode } = argv;
@@ -136,9 +130,7 @@ module.exports = (env, argv) => {
       ],
     },
     output: {
-      filename: mode === 'production'
-        ? '[name].[chunkhash].bundle.min.js'
-        : '[name].js',
+      filename: '[name].bundle.min.js',
       path: paths.build,
       publicPath: (mode === 'development')
         ? `${PROXY_URL}/build/`
@@ -146,7 +138,7 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new StatsPlugin({
-        transform: createWriteWpAssetManifest(mode),
+        transform: createWriteWpAssetManifest,
         fields: ['assetsByChunkName', 'hash'],
         filename: 'assetMap.json',
       }),
@@ -166,8 +158,8 @@ module.exports = (env, argv) => {
         configFile: path.join(paths.config, 'stylelint.config.js'),
       }),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].min.css',
-        chunkFilename: '[name].[contenthash].chunk.min.css',
+        filename: '[name].min.css',
+        chunkFilename: '[name].chunk.min.css',
       }),
     ],
     resolve: {
