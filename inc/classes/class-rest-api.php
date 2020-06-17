@@ -80,6 +80,16 @@ class REST_API {
 			]
 		);
 
+		register_rest_route(
+			$this->namespace,
+			'/latestVideos',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'get_latest_videos' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
+			]
+		);
+
 		// Save state.
 		register_rest_route(
 			$this->namespace,
@@ -179,42 +189,11 @@ class REST_API {
 							}
 						}
 					}
-				}
+				}' .
 
-				fragment VideoDetailFragment on Video {
-					id
-					title
-					description
-					summary
-					tags
-					thumbnail(input: { width: 500, height: 281 }) {
-						url
-					}
-					preview (input: $playbackInput) {
-						brightcoveVideoId
-						brightcovePlayerId
-						brightcoveAccountId
-					}
-					collection {
-						id
-						provider {
-							id
-							name
-							legalName
-							logo(input: { width: 100, height: 100 }) {
-								url
-							}
-						}
-					}
-					genres
-					duration
-					created
-					modified
-					activeSince
-					providerAssetId
-				}
+				$this->get_graphql_video_fragment() .
 
-				fragment VideoFilterFragment on VideoFilterOutputType {
+				'fragment VideoFilterFragment on VideoFilterOutputType {
 					keywordMatch
 					genre
 					publishedAt {
@@ -236,6 +215,86 @@ class REST_API {
 				]
 			)
 		);
+	}
+
+	/**
+	 * Gets latest videos.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function get_latest_videos( $request ) {
+		return rest_ensure_response(
+			$this->request(
+				'query ($input: VideoSetInput!, $playbackInput: PlaybackInput ) {
+					videoSet (input: $input) {
+						totalCount
+						pageResults {
+							...VideoDetailFragment
+						}
+						cursor
+						hasMorePages
+					}
+				}' . $this->get_graphql_video_fragment(),
+				[
+					'sort'  => [
+						(object) [
+							'sort'      => 'id',
+							'ascending' => false,
+						],
+					],
+					'limit' => 24,
+				],
+				$request['id'] ?? 0,
+				[
+					'playbackInput' => [
+						'domain' => wp_parse_url( admin_url(), PHP_URL_HOST ),
+					],
+				]
+			)
+		);
+	}
+
+	/**
+	 * Gets the GraphQL Video Fragment.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_graphql_video_fragment() {
+		return 'fragment VideoDetailFragment on Video {
+			id
+			title
+			description
+			summary
+			tags
+			thumbnail(input: { width: 500, height: 281 }) {
+				url
+			}
+			preview (input: $playbackInput) {
+				brightcoveVideoId
+				brightcovePlayerId
+				brightcoveAccountId
+			}
+			collection {
+				id
+				provider {
+					id
+					name
+					legalName
+					logo(input: { width: 100, height: 100 }) {
+						url
+					}
+				}
+			}
+			genres
+			duration
+			created
+			modified
+			activeSince
+			providerAssetId
+		}';
 	}
 
 	/**
