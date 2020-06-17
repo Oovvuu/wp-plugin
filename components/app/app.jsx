@@ -1,6 +1,7 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import DialogWrapper from 'components/dialog';
+import SidebarWrapper from 'components/sidebar';
 import portalId from 'services/portalId';
 import addModalDivEl from 'services/addModalDivEl';
 import userAuthenticated from 'services/userAuthenticated';
@@ -77,7 +78,7 @@ const App = () => {
    */
   const authenticatedApp = (
     <>
-      <p>{ __('This is where you will launch the Oovvuu modal.', 'oovvuu') }</p>
+      <SidebarWrapper />
       <DialogWrapper />
     </>
   );
