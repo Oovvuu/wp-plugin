@@ -33,6 +33,11 @@ const SidebarWrapper = () => {
     // @TODO: Clear loading state.
   };
 
+
+  /**
+   * Fetch latest videos when this component renders and does not currently
+   * contain any videos.
+   */
   React.useEffect(() => {
     if (latestVideos.length === 0) {
       handleFetchLatestVideos();
