@@ -23,7 +23,7 @@ webpack.config.js
 # Directories
 .github
 bin
-blocks
+/blocks
 client
 components
 config
