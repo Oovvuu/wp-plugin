@@ -17,10 +17,19 @@ package.json
 package-lock.json
 phpcs.xml.dist
 phpunit.xml.dist
+release.sh
 webpack.config.js
 
+# Directories
+.github
 bin
+blocks
 client
+components
+config
+constants
 mocks
+services
 tests
+transforms
 webpack
