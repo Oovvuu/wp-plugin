@@ -57,7 +57,7 @@ function action_admin_enqueue_scripts() {
 		'oovvuu-fonts-css',
 		ai_get_asset_path( 'fonts.css' ),
 		[],
-		ai_get_asset_hash( 'fonts.css' ),
+		ai_get_asset_hash( 'fonts.css' )
 	);
 
 	// Send shorcode regex and edit profile link.
@@ -107,7 +107,7 @@ function action_enqueue_block_editor_assets() {
 		'oovvuu-fonts-css',
 		ai_get_asset_path( 'fonts.css' ),
 		[],
-		ai_get_asset_hash( 'fonts.css' ),
+		ai_get_asset_hash( 'fonts.css' )
 	);
 
 	// Send edit profile link to JS.
