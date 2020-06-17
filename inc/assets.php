@@ -244,7 +244,6 @@ function ai_get_asset_path( $asset ) {
  */
 function ai_get_asset_hash( $asset ) {
 	$asset_property = ai_get_asset_property( $asset, 'hash' );
-	$fallback_hash  = OOVVUU_ASSET_MAP['hash'] ?? '1.0.0';
 
-	return $asset_property ?? $fallback_hash;
+	return $asset_property ?? AI_ASSET_MAP['hash'] ?? '1.0.0';
 }
