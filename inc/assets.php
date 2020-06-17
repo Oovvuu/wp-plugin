@@ -12,7 +12,7 @@ namespace Oovvuu;
  *
  * @var array
  */
-define( 'OOVVUU_ASSET_MAP', ai_read_asset_map( dirname( __DIR__ ) . '/build/assetMap.json' ) );
+define( 'OOVVUU_ASSET_MAP', read_asset_map( dirname( __DIR__ ) . '/build/assetMap.json' ) );
 
 /**
  * The main theme asset build mode.
@@ -47,17 +47,17 @@ function action_admin_enqueue_scripts() {
 
 	wp_enqueue_script(
 		'oovvuu-app-classic-js',
-		ai_get_asset_path( 'appClassic.js' ),
+		get_asset_path( 'appClassic.js' ),
 		[ 'react', 'react-dom', 'wp-api-fetch', 'wp-shortcode' ],
-		ai_get_asset_hash( 'appClassic.js' ),
+		get_asset_hash( 'appClassic.js' ),
 		true
 	);
 
 	wp_enqueue_style(
 		'oovvuu-fonts-css',
-		ai_get_asset_path( 'fonts.css' ),
+		get_asset_path( 'fonts.css' ),
 		[],
-		ai_get_asset_hash( 'fonts.css' )
+		get_asset_hash( 'fonts.css' )
 	);
 
 	// Send shorcode regex and edit profile link.
@@ -87,27 +87,27 @@ function action_enqueue_block_editor_assets() {
 
 	wp_enqueue_script(
 		'oovvuu-app-js',
-		ai_get_asset_path( 'app.js' ),
+		get_asset_path( 'app.js' ),
 		[ 'wp-i18n', 'wp-edit-post', 'wp-plugins' ],
-		ai_get_asset_hash( 'app.js' ),
+		get_asset_hash( 'app.js' ),
 		true
 	);
 	inline_locale_data( 'oovvuu-app' );
 
 	wp_enqueue_script(
 		'oovvuu-embed-block-js',
-		ai_get_asset_path( 'embedBlock.js' ),
+		get_asset_path( 'embedBlock.js' ),
 		[ 'wp-i18n', 'wp-blocks' ],
-		ai_get_asset_hash( 'embedBlock.js' ),
+		get_asset_hash( 'embedBlock.js' ),
 		true
 	);
 	inline_locale_data( 'oovvuu-app' );
 
 	wp_enqueue_style(
 		'oovvuu-fonts-css',
-		ai_get_asset_path( 'fonts.css' ),
+		get_asset_path( 'fonts.css' ),
 		[],
-		ai_get_asset_hash( 'fonts.css' )
+		get_asset_hash( 'fonts.css' )
 	);
 
 	// Send edit profile link to JS.
@@ -169,7 +169,7 @@ function inline_locale_data( string $to_handle ) {
  *
  * @return string
  */
-function ai_get_proxy_path() {
+function get_proxy_path() {
 	$proxy_url = 'https://0.0.0.0:8080';
 
 	// Use the value in .env if available.
@@ -186,7 +186,7 @@ function ai_get_proxy_path() {
  * @param string $path File path.
  * @return array
  */
-function ai_read_asset_map( string $path ) {
+function read_asset_map( string $path ) {
 	if ( file_exists( $path ) && 0 === validate_file( $path ) ) {
 		ob_start();
 		include $path; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile, WordPressVIPMinimum.Files.IncludingFile.UsingVariable
@@ -203,7 +203,7 @@ function ai_read_asset_map( string $path ) {
  * @param string $prop The property to get from the entry object.
  * @return string|null The asset property based on entry and type.
  */
-function ai_get_asset_property( $asset, $prop ) {
+function get_asset_property( $asset, $prop ) {
 	/*
 	 * Appending a '.' ensures the explode() doesn't generate a notice while
 	 * allowing the variable names to be more readable via list().
@@ -221,13 +221,13 @@ function ai_get_asset_property( $asset, $prop ) {
  * @param string $asset Entry point and asset type separated by a '.'.
  * @return string The asset version.
  */
-function ai_get_asset_path( $asset ) {
-	$asset_property = ai_get_asset_property( $asset, 'path' );
+function get_asset_path( $asset ) {
+	$asset_property = get_asset_property( $asset, 'path' );
 
 	if ( $asset_property ) {
 		// Create public path.
 		$base_path = OOVVUU_ASSET_MODE === 'development' ?
-			ai_get_proxy_path() :
+			get_proxy_path() :
 			plugins_url( 'build/', __DIR__ );
 
 		return $base_path . $asset_property;
@@ -242,8 +242,8 @@ function ai_get_asset_path( $asset ) {
  * @param string $asset Entry point and asset type separated by a '.'.
  * @return string The asset's hash.
  */
-function ai_get_asset_hash( $asset ) {
-	$asset_property = ai_get_asset_property( $asset, 'hash' );
+function get_asset_hash( $asset ) {
+	$asset_property = get_asset_property( $asset, 'hash' );
 
 	return $asset_property ?? AI_ASSET_MAP['hash'] ?? '1.0.0';
 }
