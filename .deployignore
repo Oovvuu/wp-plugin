@@ -8,13 +8,13 @@ node_modules
 # Ignore files not needed for a release
 .babelrc
 .eslintignore
-.eslint.json
+.eslintrc.json
 .travis.yml
 CODEOWNERS
 composer.json
 composer.lock
 package.json
-package.lock
+package-lock.json
 phpcs.xml.dist
 phpunit.xml.dist
 webpack.config.js
