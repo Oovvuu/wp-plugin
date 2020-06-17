@@ -47,7 +47,6 @@ const Dialog = ({
       <div
         ref={trappedTabsRoot}
         className={styles.dialog}
-        aria-live="polite"
         aria-busy={isLoading}
       >
         <div

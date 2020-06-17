@@ -24,6 +24,14 @@ const selectedKeywords = [
 
 const dispatchFn = jest.fn();
 
+global.wp = {
+  i18n: {
+    __: jest.fn(() => 'translated'),
+    sprintf: jest.fn(),
+    _n: jest.fn(),
+  },
+};
+
 jest.spyOn(React, 'useContext')
   .mockImplementation(() => ({
     dispatch: dispatchFn,

@@ -31,9 +31,6 @@ const initialState = {
   },
   isLoading: false,
   isUserAuthenticated: false,
-  loadingAttributes: {
-    message: '',
-  },
   isLoadedFromMeta: false,
   currentDraggingVideo: [],
 };

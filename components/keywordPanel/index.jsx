@@ -43,13 +43,7 @@ const KeywordPanelWrapper = () => {
    */
   const handleFetchVideos = async () => {
     dispatch({ type: 'CLEAR_TOPICS' });
-
-    dispatch({
-      type: 'SET_LOADING_STATE',
-      payload: {
-        message: __('Fetching videos based on selected keywords', 'oovvuu'),
-      },
-    });
+    dispatch({ type: 'SET_LOADING_STATE' });
 
     const response = await getVideos([...selectedKeywords, ...userKeywords], id);
     const {

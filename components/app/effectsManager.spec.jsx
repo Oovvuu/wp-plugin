@@ -11,7 +11,6 @@ describe('EffectsManager', () => {
   const mockState = initialState;
 
   beforeEach(() => {
-    global.wp = { i18n: { __: jest.fn(() => 'translated') } };
     jest.spyOn(React, 'useEffect')
       .mockImplementation((effect) => effect());
     dispatchFn = jest.fn();
@@ -41,10 +40,7 @@ describe('EffectsManager', () => {
 
     wrapper.setProps({ actionType: 'FETCH_KEYWORDS' });
     return new Promise((resolve) => setImmediate(resolve)).then(() => {
-      expect(dispatchFn).toHaveBeenCalledWith({
-        type: 'SET_LOADING_STATE',
-        payload: { message: 'translated' },
-      });
+      expect(dispatchFn).toHaveBeenCalledWith({ type: 'SET_LOADING_STATE' });
       expect(getKeywordsSpy).toHaveBeenCalledTimes(1);
       expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_LOADING_STATE' });
       expect(dispatchFn).toHaveBeenCalledWith({
@@ -133,10 +129,7 @@ describe('EffectsManager', () => {
 
       wrapper.setProps(props);
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
-        expect(dispatchFn).toHaveBeenCalledWith({
-          type: 'SET_LOADING_STATE',
-          payload: { message: 'translated' },
-        });
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'SET_LOADING_STATE' });
         expect(getTopicVideosSpy)
           .toHaveBeenCalledWith([topic.keywordMatch], postId);
         expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_LOADING_STATE' });

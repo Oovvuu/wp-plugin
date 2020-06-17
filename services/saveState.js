@@ -21,7 +21,6 @@ const saveState = (state, id) => {
       'isLoading',
       'isUserAuthenticated',
       'lastActionType',
-      'loadingAttributes',
       'currentDraggingVideo',
     ];
 

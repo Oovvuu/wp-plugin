@@ -10,6 +10,7 @@ import KeywordItem from './keywordItem';
  * Displays and manages the list of recommended keywords.
  */
 const KeywordList = (props) => {
+  const { i18n: { sprintf, _n } } = wp;
   const {
     dispatch,
     state: { selectedKeywords },
@@ -17,6 +18,7 @@ const KeywordList = (props) => {
   const {
     keywordItems,
   } = props;
+  const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
 
   /**
    * Handle toggling recommended keywords.
@@ -31,18 +33,67 @@ const KeywordList = (props) => {
     dispatch({ payload, type: 'UPDATE_SELECTED_KEYWORDS' });
   };
 
+  /**
+   * Compile the updated aria-live region's message string.
+   */
+  React.useEffect(() => {
+    const selectedKeywordCount = selectedKeywords.length;
+    const keywordCount = keywordItems.length;
+
+    const updatedMessage = sprintf(
+      _n('%1$d keyword selected out of %2$d', '%1$d keywords selected out of %2$d', selectedKeywordCount, 'oovvuu'),
+      selectedKeywordCount,
+      keywordCount,
+    );
+
+    setLiveRegionMessage(updatedMessage);
+  }, [selectedKeywords]);
+
+  /**
+   * Compile the initial aria-live region's message string.
+   */
+  React.useEffect(() => {
+    const selectedKeywordCount = selectedKeywords.length;
+    const keywordCount = keywordItems.length;
+    let initialMessage = sprintf(
+      _n('%d recommended keyword', '%d recommended keywords', keywordCount, 'oovvuu'),
+      keywordCount,
+    );
+
+    if (selectedKeywords.length > 0) {
+      initialMessage = sprintf(
+        _n('%1$d keyword out of %2$d selected', '%1$d keywords out of %2$d selected', selectedKeywordCount, 'oovvuu'),
+        selectedKeywordCount,
+        keywordCount,
+      );
+    }
+
+    setLiveRegionMessage(initialMessage);
+  }, [keywordItems]);
+
   return (
-    <ul className={classnames(theme.termList, panelStyles.keywordList)}>
-      {keywordItems.map((keyword) => (
-        <li key={keyword}>
-          <KeywordItem
-            keyword={keyword}
-            isSelected={selectedKeywords.includes(keyword)}
-            onToggle={handleItemUpdated}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={classnames(theme.termList, panelStyles.keywordList)}>
+        {keywordItems.map((keyword) => (
+          <li key={keyword}>
+            <KeywordItem
+              keyword={keyword}
+              isSelected={selectedKeywords.includes(keyword)}
+              onToggle={handleItemUpdated}
+            />
+          </li>
+        ))}
+      </ul>
+      <span
+        className="screen-reader-only"
+        role="status"
+        aria-live="assertive"
+        aria-atomic="true"
+        aria-relevant="text"
+      >
+        {liveRegionMessage}
+      </span>
+    </>
   );
 };
 
