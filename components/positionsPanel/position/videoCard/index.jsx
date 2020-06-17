@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import truncate from 'truncate';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/actionButton';
 import { confirmThenProceed } from 'services/alert';
@@ -246,7 +247,7 @@ const VideoCardWrapper = (props) => {
           <Badge text={moment(modified).fromNow()} />
           <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
         </div>
-        <p className={styles.description}>{summary}</p>
+        <p className={styles.description}>{truncate(summary, 272)}</p>
       </div>
     </div>
   );

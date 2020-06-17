@@ -35,6 +35,7 @@
     "react-hot-loader": "^4.12.21",
     "react-uuid": "^1.0.2",
     "sass-resources-loader": "^2.0.3",
+    "truncate": "^2.1.0",
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
