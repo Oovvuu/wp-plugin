@@ -245,5 +245,5 @@ function get_asset_path( $asset ) {
 function get_asset_hash( $asset ) {
 	$asset_property = get_asset_property( $asset, 'hash' );
 
-	return $asset_property ?? AI_ASSET_MAP['hash'] ?? '1.0.0';
+	return $asset_property ?? OOVVUU_ASSET_MAP['hash'] ?? '1.0.0';
 }
