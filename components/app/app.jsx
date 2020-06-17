@@ -78,8 +78,8 @@ const App = () => {
    */
   const authenticatedApp = (
     <>
-      <SidebarWrapper />
       <DialogWrapper />
+      <SidebarWrapper />
     </>
   );
 
