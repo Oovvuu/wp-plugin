@@ -5,7 +5,7 @@ import truncate from 'truncate';
 /**
  * The latest video list item container.
  */
-const VideoListWrapper = (props) => {
+const LatestVideoItemWrapper = (props) => {
   const {
     video: {
       collection: {
@@ -37,7 +37,7 @@ const VideoListWrapper = (props) => {
   );
 };
 
-VideoListWrapper.propTypes = {
+LatestVideoItemWrapper.propTypes = {
   video: PropTypes.shape({
     collection: PropTypes.shape({
       provider: PropTypes.shape({
@@ -55,4 +55,4 @@ VideoListWrapper.propTypes = {
   }).isRequired,
 };
 
-export default VideoListWrapper;
+export default LatestVideoItemWrapper;

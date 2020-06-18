@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import VideoItemWrapper from './videoItem';
+import LatestVideoItemWrapper from './latestVideoItem';
 
 /**
  * The latest video list container.
  */
-const VideoListWrapper = ({ videos }) => (
+const LatestVideoListWrapper = ({ videos }) => (
   <>
     {videos.map((video) => (
-      <VideoItemWrapper
+      <LatestVideoItemWrapper
         key={video.id}
         video={video}
       />
@@ -16,7 +16,7 @@ const VideoListWrapper = ({ videos }) => (
   </>
 );
 
-VideoListWrapper.propTypes = {
+LatestVideoListWrapper.propTypes = {
   videos: PropTypes.arrayOf({
     collection: PropTypes.shape({
       provider: PropTypes.shape({
@@ -34,4 +34,4 @@ VideoListWrapper.propTypes = {
   }).isRequired,
 };
 
-export default VideoListWrapper;
+export default LatestVideoListWrapper;
