@@ -6,18 +6,18 @@
 .topButtons {
   display: grid;
   grid-column-gap: rem(10);
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: auto 1fr;
   margin-bottom: rem(20);
 
   button {
-    min-width: 100%;
-    padding: rem(5);
+    padding: 0 rem(5);
   }
 }
 
 .buttonLink {
   @include button-shape-and-text-styles;
   @include button-flex-wrapper;
+  padding: 0 rem(5);
   text-decoration: none;
 
   &:focus,
