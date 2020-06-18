@@ -17,13 +17,25 @@
   }
 }
 
-:global(.edit-post-pinned-plugins button[aria-label="Oovvuu"]) {
-  background-color: $color-theme;
-}
+/* stylelint-disable selector-max-specificity, declaration-no-important */
+:global {
 
-/* stylelint-disable selector-max-specificity */
-:global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo),
-:global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo *) {
-  fill: #FFFFFF;
-  stroke: #FFFFFF;
+  .edit-post-pinned-plugins {
+
+    .components-button {
+
+      &[aria-label="Oovvuu"] {
+        background-color: $color-theme;
+
+        &:not(.is-pressed) {
+
+          svg,
+          svg * {
+            fill: white;
+            stroke: white;
+          }
+        }
+      }
+    }
+  }
 }
