@@ -34,7 +34,8 @@
 /* stylelint-disable selector-max-specificity, declaration-no-important */
 :global {
 
-  .edit-post-pinned-plugins {
+  .edit-post-pinned-plugins,
+  .edit-post-header {
 
     .components-button {
 
@@ -52,6 +53,40 @@
           svg * {
             fill: white;
             stroke: white;
+          }
+        }
+
+        &.is-pressed:focus,
+        &.is-pressed:hover {
+          background: $color-theme !important;
+          box-shadow: 0 0 0 1px $color-theme, inset 0 0 0 1px white !important;
+
+          svg,
+          svg * {
+            fill: white !important;
+            stroke: white !important;
+          }
+        }
+
+        &:not(:disabled):not([aria-disabled=true]):not(.is-secondary):not(.is-primary):not(.is-tertiary):not(.is-link):hover {
+          background-color: white;
+          box-shadow: inset 0 0 0 1px $color-theme, inset 0 0 0 2px white;
+        }
+
+        &:hover svg,
+        &:hover svg * {
+          fill: $color-theme !important;
+          stroke: $color-theme !important;
+        }
+
+        &:focus:not(:disabled) {
+          background-color: white;
+          box-shadow: inset 0 0 0 1px $color-theme, inset 0 0 0 2px white;
+
+          svg,
+          svg * {
+            fill: $color-theme;
+            stroke: $color-theme;
           }
         }
       }
