@@ -1,6 +1,7 @@
 import React from 'react';
 import getPostAttribute from 'services/getPostAttribute';
 import getLatestVideos from 'services/getLatestVideos';
+import LatestVideoListWrapper from './latestVideoList';
 
 /**
  * The Sidebar container.
@@ -45,15 +46,7 @@ const SidebarWrapper = () => {
   }, []);
 
   return (
-    <>
-      {latestVideos.map((video) => (
-        <div
-          key={video.id}
-        >
-          <p>{video.title}</p>
-        </div>
-      ))}
-    </>
+    <LatestVideoListWrapper videos={latestVideos} />
   );
 };
 
