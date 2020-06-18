@@ -111,6 +111,13 @@ module.exports = (env, argv) => {
               loader: 'react-svg-loader',
               options: {
                 jsx: true, // true outputs JSX tags
+                svgo: {
+                  plugins: [
+                    {
+                      removeViewBox: false,
+                    },
+                  ],
+                },
               },
             },
           ],
