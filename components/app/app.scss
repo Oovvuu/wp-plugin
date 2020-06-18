@@ -11,42 +11,9 @@
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 16px;
 
-  button,
-  .dashboardButton {
-
-    span {
-      align-items: center;
-      display: flex;
-      font-size: 13px;
-      justify-content: center;
-
-      svg { /* stylelint-disable-line selector-max-specificity */
-        height: 20px;
-        margin-right: rem(8);
-        width: 20px;
-      }
-    }
-  }
-
-  button {
-
-    path {
-      fill: white;
-    }
-  }
-
-  button,
-  .dashboardButton {
+  button  {
     padding: 5px;
     width: auto;
-  }
-
-  .dashboardButton {
-    align-items: center;
-    display: flex;
-    font-size: 14px;
-    justify-content: center;
-    text-decoration: none;
   }
 }
 

@@ -10,8 +10,6 @@ import SaveSVG from 'assets/save.svg';
 import OovvuuSmallSVGLogo from 'assets/oovvuu-small-logo.svg';
 import insertEmbed from 'services/insertEmbed';
 import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
-import buttonStyles from 'components/actionButton/actionButton.scss';
-import classnames from 'classnames';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 
@@ -119,23 +117,18 @@ const DialogWrapper = () => {
 
   return (
     <>
-      <button
+      <ActionButton
         type="button"
-        className={classnames(
-          buttonStyles.buttonAction,
-          buttonStyles.buttonTheme,
-        )}
-        onClick={openDialog}
+        buttonStyle="primary"
+        onClickHandler={openDialog}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls="oovvuu-dialog-wrapper"
         aria-owns="oovvuu-dialog-wrapper"
       >
-        <span>
-          <OovvuuSmallSVGLogo />
-          <>{__('Get Videos', 'oovvuu')}</>
-        </span>
-      </button>
+        <OovvuuSmallSVGLogo />
+        <>{__('Get Videos', 'oovvuu')}</>
+      </ActionButton>
       <Dialog
         isOpen={isOpen}
         isLoading={isLoading}

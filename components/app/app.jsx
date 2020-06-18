@@ -2,14 +2,13 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import DialogWrapper from 'components/dialog';
 import SidebarWrapper from 'components/sidebar';
+import ActionButton from 'components/actionButton';
 import portalId from 'services/portalId';
 import addModalDivEl from 'services/addModalDivEl';
 import userAuthenticated from 'services/userAuthenticated';
 import getState from 'services/getState';
 import getPostAttribute from 'services/getPostAttribute';
 import 'scss/global/base.scss';
-import buttonStyles from 'components/actionButton/actionButton.scss';
-import classnames from 'classnames';
 import DashboardSVG from 'assets/dashboard.svg';
 import styles from './app.scss';
 import OovvuuDataContext from './context';
@@ -86,16 +85,12 @@ const App = () => {
         className={styles.topButtons}
       >
         <DialogWrapper />
-        <a
-          href="https://compass.prod.oovvuu.io/"
-          type="button"
-          className={classnames(styles.dashboardButton, buttonStyles.buttonAction)}
-        >
-          <span>
-            <DashboardSVG />
-            <>{__('Dashboard', 'oovvuu')}</>
-          </span>
-        </a>
+        <ActionButton>
+          <DashboardSVG />
+          <a href="https://compass.prod.oovvuu.io/">
+            {__('Dashboard', 'oovvuu')}
+          </a>
+        </ActionButton>
       </div>
       <SidebarWrapper />
     </>
