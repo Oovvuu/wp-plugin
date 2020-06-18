@@ -1,3 +1,15 @@
+@import '../../client/scss/global/base.scss';
+
 .sidebar {
   padding: 16px;
+}
+
+:global(.edit-post-pinned-plugins button[aria-label="Oovvuu"]) {
+  background-color: $color-theme;
+}
+
+:global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo),
+:global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo *) {
+  stroke: #FFFFFF;
+  fill: #FFFFFF;
 }

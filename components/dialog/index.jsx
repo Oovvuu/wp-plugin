@@ -7,8 +7,11 @@ import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
 import OovvuuDataContext from 'components/app/context';
 import SaveSVG from 'assets/save.svg';
+import OovvuuSmallSVGLogo from 'assets/oovvuu-small-logo.svg';
 import insertEmbed from 'services/insertEmbed';
 import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
+import buttonStyles from 'components/actionButton/actionButton.scss';
+import classnames from 'classnames';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 
@@ -118,13 +121,15 @@ const DialogWrapper = () => {
     <>
       <button
         type="button"
+        className={classnames(buttonStyles.buttonAction, buttonStyles.buttonTheme)}
         onClick={openDialog}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls="oovvuu-dialog-wrapper"
         aria-owns="oovvuu-dialog-wrapper"
       >
-        {__('Open Dialog', 'oovvuu')}
+        <OovvuuSmallSVGLogo />
+        <>{__('Get Videos', 'oovvuu')}</>
       </button>
       <Dialog
         isOpen={isOpen}

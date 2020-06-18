@@ -78,7 +78,10 @@ const App = () => {
    */
   const authenticatedApp = (
     <>
-      <DialogWrapper />
+      <div>
+        <DialogWrapper />
+        <a href="https://compass.prod.oovvuu.io/" type="button">{__('Dashboard', 'oovvuu')}</a>
+      </div>
       <SidebarWrapper />
     </>
   );
