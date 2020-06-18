@@ -1,11 +1,8 @@
 @import '../../client/scss/global/base.scss';
 
-.sidebar {
-  padding: 16px;
-}
-
-:global(#oovvuu-sidebar-wrapper) { /* stylelint-disable-line selector-max-specificity */
+.wrapper {
   font-family: 'Barlow', sans-serif;
+  padding: 16px;
 }
 
 .topButtons {
@@ -15,7 +12,7 @@
   padding-bottom: 16px;
 
   button,
-  a {
+  .dashboardButton {
 
     span {
       align-items: center;
@@ -23,7 +20,7 @@
       font-size: 13px;
       justify-content: center;
 
-      svg {
+      svg { /* stylelint-disable-line selector-max-specificity */
         height: 20px;
         margin-right: rem(8);
         width: 20px;
@@ -39,12 +36,12 @@
   }
 
   button,
-  a {
+  .dashboardButton {
     padding: 5px;
     width: auto;
   }
 
-  a {
+  .dashboardButton {
     align-items: center;
     display: flex;
     font-size: 14px;

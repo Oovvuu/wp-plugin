@@ -81,9 +81,7 @@ const App = () => {
    * App elements to show when user is authenticated.
    */
   const authenticatedApp = (
-    <div
-      id="oovvuu-sidebar-wrapper"
-    >
+    <>
       <div
         className={styles.topButtons}
       >
@@ -91,7 +89,7 @@ const App = () => {
         <a
           href="https://compass.prod.oovvuu.io/"
           type="button"
-          className={classnames(buttonStyles.buttonAction)}
+          className={classnames(styles.dashboardButton, buttonStyles.buttonAction)}
         >
           <span>
             <DashboardSVG />
@@ -100,7 +98,7 @@ const App = () => {
         </a>
       </div>
       <SidebarWrapper />
-    </div>
+    </>
   );
 
   /**
@@ -137,7 +135,12 @@ const App = () => {
 
   return (
     <EffectsManager actionType={actionType} dispatch={dispatch} state={state}>
-      { isLoadingAuth ? initialLoadingApp : loadedApp}
+      <div
+        id="oovvuu-sidebar-wrapper"
+        className={styles.wrapper}
+      >
+        {isLoadingAuth ? initialLoadingApp : loadedApp}
+      </div>
     </EffectsManager>
   );
 };
