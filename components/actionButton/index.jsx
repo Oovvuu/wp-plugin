@@ -34,13 +34,11 @@ const ActionButton = (props) => {
   // Reference to the action button.
   const ref = React.useRef();
 
-  // Set focus to button when focus is true.
-  React.useEffect(() => {
-    if (focus) {
-      ref.current.focus();
-    }
-  }, [focus]);
-
+  /**
+   * Returns props used if this is a dialog action button.
+   *
+   * @return {object} The props object.
+   */
   const dialogProps = () => {
     if (!isDialog) {
       return {};
@@ -53,6 +51,13 @@ const ActionButton = (props) => {
       'aria-owns': dialogOwner,
     };
   };
+
+  // Set focus to button when focus is true.
+  React.useEffect(() => {
+    if (focus) {
+      ref.current.focus();
+    }
+  }, [focus]);
 
   return (
     <button
