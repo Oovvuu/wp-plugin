@@ -28,7 +28,7 @@ const KeywordPanelWrapper = () => {
   const clearSelectedKeywords = () => {
     confirmThenProceed(
       { message: __('Are you sure you want to clear your selected keywords?', 'oovvuu') },
-      __('Yes, close', 'oovvuu'),
+      __('Yes, clear', 'oovvuu'),
       () => { dispatch({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' }); },
     );
   };
