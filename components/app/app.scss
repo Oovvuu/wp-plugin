@@ -4,12 +4,54 @@
   padding: 16px;
 }
 
+.topButtons {
+  display: grid;
+  grid-column-gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  padding-bottom: 16px;
+
+  button {
+
+    span {
+      align-items: center;
+      display: flex;
+      font-size: 13px;
+      justify-content: center;
+
+      svg {
+        height: 20px;
+        margin-right: rem(8);
+        width: 20px;
+
+        path {
+          fill: white;
+        }
+      }
+    }
+  }
+
+  button,
+  a {
+    padding: 5px;
+    width: 100%;
+  }
+
+  a {
+    align-items: center;
+    display: flex;
+    font-size: 14px;
+    justify-content: center;
+    text-decoration: none;
+  }
+}
+
 :global(.edit-post-pinned-plugins button[aria-label="Oovvuu"]) {
   background-color: $color-theme;
 }
 
+/* stylelint-disable selector-max-specificity */
 :global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo),
 :global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo *) {
-  stroke: #FFFFFF;
   fill: #FFFFFF;
+  stroke: #FFFFFF;
 }

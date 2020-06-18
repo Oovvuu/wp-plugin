@@ -121,15 +121,20 @@ const DialogWrapper = () => {
     <>
       <button
         type="button"
-        className={classnames(buttonStyles.buttonAction, buttonStyles.buttonTheme)}
+        className={classnames(
+          buttonStyles.buttonAction,
+          buttonStyles.buttonTheme,
+        )}
         onClick={openDialog}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls="oovvuu-dialog-wrapper"
         aria-owns="oovvuu-dialog-wrapper"
       >
-        <OovvuuSmallSVGLogo />
-        <>{__('Get Videos', 'oovvuu')}</>
+        <span>
+          <OovvuuSmallSVGLogo />
+          <>{__('Get Videos', 'oovvuu')}</>
+        </span>
       </button>
       <Dialog
         isOpen={isOpen}

@@ -8,6 +8,9 @@ import userAuthenticated from 'services/userAuthenticated';
 import getState from 'services/getState';
 import getPostAttribute from 'services/getPostAttribute';
 import 'scss/global/base.scss';
+import buttonStyles from 'components/actionButton/actionButton.scss';
+import classnames from 'classnames';
+import styles from './app.scss';
 import OovvuuDataContext from './context';
 import EffectsManager from './effectsManager';
 
@@ -77,13 +80,23 @@ const App = () => {
    * App elements to show when user is authenticated.
    */
   const authenticatedApp = (
-    <>
-      <div>
+    <div
+      id="oovvuu-sidebar-wrapper"
+    >
+      <div
+        className={styles.topButtons}
+      >
         <DialogWrapper />
-        <a href="https://compass.prod.oovvuu.io/" type="button">{__('Dashboard', 'oovvuu')}</a>
+        <a
+          href="https://compass.prod.oovvuu.io/"
+          type="button"
+          className={classnames(buttonStyles.buttonAction)}
+        >
+          {__('Dashboard', 'oovvuu')}
+        </a>
       </div>
       <SidebarWrapper />
-    </>
+    </div>
   );
 
   /**
