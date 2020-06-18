@@ -2,12 +2,15 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import DialogWrapper from 'components/dialog';
 import SidebarWrapper from 'components/sidebar';
+import ActionButton from 'components/actionButton';
 import portalId from 'services/portalId';
 import addModalDivEl from 'services/addModalDivEl';
 import userAuthenticated from 'services/userAuthenticated';
 import getState from 'services/getState';
 import getPostAttribute from 'services/getPostAttribute';
 import 'scss/global/base.scss';
+import DashboardSVG from 'assets/dashboard.svg';
+import styles from './app.scss';
 import OovvuuDataContext from './context';
 import EffectsManager from './effectsManager';
 
@@ -78,7 +81,21 @@ const App = () => {
    */
   const authenticatedApp = (
     <>
-      <DialogWrapper />
+      <div
+        className={styles.topButtons}
+      >
+        <DialogWrapper />
+        <ActionButton>
+          <DashboardSVG />
+          <a
+            href="https://compass.prod.oovvuu.io/"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+          >
+            {__('Dashboard', 'oovvuu')}
+          </a>
+        </ActionButton>
+      </div>
       <SidebarWrapper />
     </>
   );
@@ -117,7 +134,12 @@ const App = () => {
 
   return (
     <EffectsManager actionType={actionType} dispatch={dispatch} state={state}>
-      { isLoadingAuth ? initialLoadingApp : loadedApp}
+      <div
+        id="oovvuu-sidebar-wrapper"
+        className={styles.wrapper}
+      >
+        {isLoadingAuth ? initialLoadingApp : loadedApp}
+      </div>
     </EffectsManager>
   );
 };

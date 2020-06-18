@@ -1,3 +1,29 @@
-.sidebar {
+@import '../../client/scss/global/vars.scss';
+
+.wrapper {
+  font-family: 'Barlow', sans-serif;
   padding: 16px;
+}
+
+.topButtons {
+  display: grid;
+  grid-column-gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  padding-bottom: 16px;
+
+  button {
+    padding: 5px;
+    width: auto;
+  }
+}
+
+:global(.edit-post-pinned-plugins button[aria-label="Oovvuu"]) {
+  background-color: $color-theme;
+}
+
+/* stylelint-disable selector-max-specificity */
+:global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo),
+:global(.edit-post-pinned-plugins .components-button:not(.is-pressed) svg.oovvuu-small-logo *) {
+  fill: #FFFFFF;
+  stroke: #FFFFFF;
 }

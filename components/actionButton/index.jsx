@@ -17,6 +17,9 @@ const ActionButton = (props) => {
     onClickHandler,
     className,
     focus,
+    isDialog,
+    isDialogOpen,
+    dialogOwner,
   } = props;
 
   const buttonStyles = {
@@ -30,6 +33,24 @@ const ActionButton = (props) => {
 
   // Reference to the action button.
   const ref = React.useRef();
+
+  /**
+   * Returns props used if this is a dialog action button.
+   *
+   * @return {object} The props object.
+   */
+  const dialogProps = () => {
+    if (!isDialog) {
+      return {};
+    }
+
+    return {
+      'aria-haspopup': 'dialog',
+      'aria-expanded': isDialogOpen,
+      'aria-controls': dialogOwner,
+      'aria-owns': dialogOwner,
+    };
+  };
 
   // Set focus to button when focus is true.
   React.useEffect(() => {
@@ -45,6 +66,8 @@ const ActionButton = (props) => {
       disabled={disabled}
       onClick={onClickHandler}
       ref={ref}
+
+      {...dialogProps()} /* eslint-disable-line react/jsx-props-no-spreading */
     >
       <span>{children}</span>
     </button>
@@ -56,6 +79,9 @@ ActionButton.defaultProps = {
   className: '',
   disabled: false,
   focus: false,
+  isDialog: false,
+  isDialogOpen: false,
+  dialogOwner: '',
 };
 
 ActionButton.propTypes = {
@@ -75,6 +101,9 @@ ActionButton.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   focus: PropTypes.bool,
+  isDialog: PropTypes.bool,
+  isDialogOpen: PropTypes.bool,
+  dialogOwner: PropTypes.string,
 };
 
 export default ActionButton;

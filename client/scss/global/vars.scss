@@ -1,7 +1,9 @@
 $color-theme: #159D8F;
 
+/* stylelint-disable selector-max-specificity */
 #oovvuu-dialog-wrapper,
-#oovvuu-alert-wrapper {
+#oovvuu-alert-wrapper,
+#oovvuu-sidebar-wrapper {
   // Basic colors.
   --color-white: #FFFFFF;
   --color-black: #000000;

@@ -12,10 +12,6 @@
   &[disabled] {
     background-color: var(--color-deactivated);
   }
-
-  svg {
-    fill: white;
-  }
 }
 
 /**
@@ -28,7 +24,18 @@
   width: fit-content;
 
   svg {
+    height: 18px;
     margin-right: rem(8);
+    width: 18px;
+  }
+
+  a {
+    color: initial;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -51,7 +58,6 @@
 .buttonTheme {
   background-color: var(--color-theme);
   color: var(--color-white);
-  composes: button;
 }
 
 /**
@@ -60,7 +66,15 @@
 .buttonWarn {
   background-color: var(--color-warn);
   color: var(--color-white);
+}
+
+.buttonTheme,
+.buttonWarn {
   composes: button;
+
+  svg {
+    fill: white;
+  }
 }
 
 /**
