@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import ActionButton from 'components/actionButton';
 import * as saveState from 'services/saveState';
 import DialogWrapper from './index';
+import Dialog from './dialog';
 
 describe('DialogWrapper', () => {
   const dispatchFn = jest.fn();
@@ -33,7 +34,7 @@ describe('DialogWrapper', () => {
       <DialogWrapper />,
     );
 
-    wrapper.find('button[aria-controls="oovvuu-dialog-wrapper"]').simulate('click');
+    wrapper.find(ActionButton).first().simulate('clickHandler');
     expect(dispatchFn).toHaveBeenCalledWith({ type: 'FETCH_KEYWORDS' });
   });
 
@@ -55,7 +56,7 @@ describe('DialogWrapper', () => {
       <DialogWrapper />,
     );
 
-    wrapper.find('button[aria-controls="oovvuu-dialog-wrapper"]').simulate('click');
+    wrapper.find(ActionButton).first().simulate('clickHandler');
     expect(dispatchFn).not.toHaveBeenCalled();
   });
 
@@ -76,7 +77,7 @@ describe('DialogWrapper', () => {
         <DialogWrapper />,
       );
 
-      wrapper.find(ActionButton).prop('onClickHandler')();
+      wrapper.find(Dialog).find(ActionButton).prop('onClickHandler')();
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
         expect(saveStateSpy).toHaveBeenCalled();
       });
@@ -85,7 +86,7 @@ describe('DialogWrapper', () => {
     it('Dispatches RESET_STATE action', () => {
       const wrapper = shallow(<DialogWrapper />);
 
-      wrapper.find(ActionButton).prop('onClickHandler')();
+      wrapper.find(Dialog).find(ActionButton).prop('onClickHandler')();
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
         expect(dispatchFn).toHaveBeenCalledWith({
           type: 'RESET_STATE',
