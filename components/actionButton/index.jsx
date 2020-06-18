@@ -17,6 +17,9 @@ const ActionButton = (props) => {
     onClickHandler,
     className,
     focus,
+    isDialog,
+    isDialogOpen,
+    dialogOwner,
   } = props;
 
   const buttonStyles = {
@@ -38,6 +41,19 @@ const ActionButton = (props) => {
     }
   }, [focus]);
 
+  const dialogProps = () => {
+    if (!isDialog) {
+      return {};
+    }
+
+    return {
+      'aria-haspopup': 'dialog',
+      'aria-expanded': isDialogOpen,
+      'aria-controls': dialogOwner,
+      'aria-owns': dialogOwner,
+    };
+  };
+
   return (
     <button
       className={classNames(buttonStyles[buttonStyle], className)}
@@ -45,6 +61,8 @@ const ActionButton = (props) => {
       disabled={disabled}
       onClick={onClickHandler}
       ref={ref}
+
+      {...dialogProps()} /* eslint-disable-line react/jsx-props-no-spreading */
     >
       <span>{children}</span>
     </button>
@@ -56,6 +74,9 @@ ActionButton.defaultProps = {
   className: '',
   disabled: false,
   focus: false,
+  isDialog: false,
+  isDialogOpen: false,
+  dialogOwner: '',
 };
 
 ActionButton.propTypes = {
@@ -75,6 +96,9 @@ ActionButton.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   focus: PropTypes.bool,
+  isDialog: PropTypes.bool,
+  isDialogOpen: PropTypes.bool,
+  dialogOwner: PropTypes.string,
 };
 
 export default ActionButton;

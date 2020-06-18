@@ -121,10 +121,9 @@ const DialogWrapper = () => {
         type="button"
         buttonStyle="primary"
         onClickHandler={openDialog}
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-        aria-controls="oovvuu-dialog-wrapper"
-        aria-owns="oovvuu-dialog-wrapper"
+        isDialog
+        isDialogOpen={isOpen}
+        dialogOwner="oovvuu-dialog-wrapper"
       >
         <OovvuuSmallSVGLogo />
         <>{__('Get Videos', 'oovvuu')}</>
