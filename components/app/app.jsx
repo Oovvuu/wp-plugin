@@ -87,7 +87,11 @@ const App = () => {
         <DialogWrapper />
         <ActionButton>
           <DashboardSVG />
-          <a href="https://compass.prod.oovvuu.io/">
+          <a
+            href="https://compass.prod.oovvuu.io/"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+          >
             {__('Dashboard', 'oovvuu')}
           </a>
         </ActionButton>
