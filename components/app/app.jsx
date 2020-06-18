@@ -10,6 +10,7 @@ import getPostAttribute from 'services/getPostAttribute';
 import 'scss/global/base.scss';
 import buttonStyles from 'components/actionButton/actionButton.scss';
 import classnames from 'classnames';
+import DashboardSVG from 'assets/dashboard.svg';
 import styles from './app.scss';
 import OovvuuDataContext from './context';
 import EffectsManager from './effectsManager';
@@ -92,7 +93,10 @@ const App = () => {
           type="button"
           className={classnames(buttonStyles.buttonAction)}
         >
-          {__('Dashboard', 'oovvuu')}
+          <span>
+            <DashboardSVG />
+            <>{__('Dashboard', 'oovvuu')}</>
+          </span>
         </a>
       </div>
       <SidebarWrapper />

@@ -4,13 +4,18 @@
   padding: 16px;
 }
 
+:global(#oovvuu-sidebar-wrapper) { /* stylelint-disable-line selector-max-specificity */
+  font-family: 'Barlow', sans-serif;
+}
+
 .topButtons {
   display: grid;
   grid-column-gap: 10px;
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 16px;
 
-  button {
+  button,
+  a {
 
     span {
       align-items: center;
@@ -22,18 +27,21 @@
         height: 20px;
         margin-right: rem(8);
         width: 20px;
-
-        path {
-          fill: white;
-        }
       }
+    }
+  }
+
+  button {
+
+    path {
+      fill: white;
     }
   }
 
   button,
   a {
     padding: 5px;
-    width: 100%;
+    width: auto;
   }
 
   a {
