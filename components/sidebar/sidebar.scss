@@ -23,3 +23,7 @@ h3.heading {
   @include uppercase;
   color: var(--color-text-dark);
 }
+
+.listWrapper {
+  position: relative;
+}
