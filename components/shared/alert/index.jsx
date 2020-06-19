@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 import keyCodes from 'utils/keyCodes';
 import withTrappedTabs from 'services/withTrappedTabs';
-import ActionButton from 'components/actionButton';
+import ActionButton from 'components/shared/actionButton';
 import styles from './alert.scss';
 
 /**

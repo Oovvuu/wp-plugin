@@ -1,8 +1,5 @@
 import React from 'react';
-import KeywordPanel from 'components/keywordPanel';
-import PositionsPanelWrapper from 'components/positionsPanel';
-import TopicsPanelWrapper from 'components/topicsPanel';
-import ActionButton from 'components/actionButton';
+import ActionButton from 'components/shared/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
 import saveState from 'services/saveState';
 import OovvuuDataContext from 'components/app/context';
@@ -10,6 +7,9 @@ import SaveSVG from 'assets/save.svg';
 import OovvuuSmallSVGLogo from 'assets/oovvuu-small-logo.svg';
 import insertEmbed from 'services/insertEmbed';
 import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
+import TopicsPanelWrapper from './topicsPanel';
+import PositionsPanelWrapper from './positionsPanel';
+import KeywordPanel from './keywordPanel';
 import Dialog from './dialog';
 import styles from './dialog.scss';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPlayerLoader from '@brightcove/react-player-loader';
-import styles from 'components/positionsPanel/position/position.scss';
+import styles from 'components/dialog/positionsPanel/position/position.scss';
 
 /**
  * Displays a specific Brightcove player for a given video.

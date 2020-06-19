@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import oovvuuData from 'components/app/context';
 import theme from 'shared/theme.scss';
-import panelStyles from 'components/keywordPanel/keywordPanel.scss';
+import panelStyles from 'components/dialog/keywordPanel/keywordPanel.scss';
 import KeywordItem from './keywordItem';
 
 /**

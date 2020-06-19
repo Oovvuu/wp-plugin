@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import PlayerWraper from 'components/positionsPanel/position/player';
-import PositionToggle from 'components/positionsPanel/position/positionToggle';
+import PlayerWraper from 'components/dialog/positionsPanel/position/player';
+import PositionToggle from 'components/dialog/positionsPanel/position/positionToggle';
 import PositionWrapper from './index';
 
 global.wp = { i18n: { __: () => 'translated' } };
