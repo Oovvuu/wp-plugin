@@ -1,9 +1,9 @@
-:global(.edit-post-sidebar) {
+/* stylelint-disable selector-max-specificity */
+:global .edit-post-sidebar #oovvuu-sidebar-wrapper {
   // Reset inherited styles.
 
   h2,
   h3 {
-    font-size: unset;
     margin: 0;
   }
 }
