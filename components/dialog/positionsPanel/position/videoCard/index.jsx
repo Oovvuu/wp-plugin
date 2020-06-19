@@ -4,7 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import truncate from 'truncate';
 import OovvuuDataContext from 'components/app/context';
-import ActionButton from 'components/actionButton';
+import ActionButton from 'components/shared/actionButton';
 import { confirmThenProceed } from 'services/alert';
 import ClearIcon from 'assets/clear.svg';
 import styles from './videoCard.scss';

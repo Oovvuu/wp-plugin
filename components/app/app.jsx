@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import DialogWrapper from 'components/dialog';
 import SidebarWrapper from 'components/sidebar';
-import ActionButton from 'components/actionButton';
+import ActionButton from 'components/shared/actionButton';
 import portalId from 'services/portalId';
 import addModalDivEl from 'services/addModalDivEl';
 import userAuthenticated from 'services/userAuthenticated';

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerWrapper from 'components/positionsPanel/position/player';
+import PlayerWrapper from 'components/dialog/positionsPanel/position/player';
 import classnames from 'classnames';
 import theme from 'shared/theme.scss';
-import styles from 'components/positionsPanel/position/position.scss';
+import styles from 'components/dialog/positionsPanel/position/position.scss';
 
 /**
  * A React component to render an Oovvuu Embed.

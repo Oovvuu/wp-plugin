@@ -1,4 +1,4 @@
-import alert from 'components/alert';
+import alert from 'components/shared/alert';
 import { __ } from '@wordpress/i18n';
 
 /**

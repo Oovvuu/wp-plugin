@@ -1,6 +1,6 @@
 import React from 'react';
 import oovvuuData from 'components/app/context';
-import ActionButton from 'components/actionButton';
+import ActionButton from 'components/shared/actionButton';
 import getVideos from 'services/getVideos';
 import getPostAttribute from 'services/getPostAttribute';
 import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
