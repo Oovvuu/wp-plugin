@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ActionButton from 'components/actionButton';
+import ActionButton from 'components/shared/actionButton';
 import KeywordSelector from './keywordSelector';
 import KeywordPanelWrapper from './index';
 
