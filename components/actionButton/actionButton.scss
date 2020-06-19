@@ -5,8 +5,7 @@
  */
 .buttonAction {
   @include button-base;
-  border-radius: rem(4);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+  @include button-shape-and-text-styles;
   padding: 0 rem(16);
 
   &[disabled] {
@@ -24,18 +23,7 @@
   width: fit-content;
 
   svg {
-    height: 18px;
     margin-right: rem(8);
-    width: 18px;
-  }
-
-  a {
-    color: initial;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }
 
@@ -68,12 +56,15 @@
   color: var(--color-white);
 }
 
+/**
+ * Shared actionButton styles.
+ */
 .buttonTheme,
 .buttonWarn {
   composes: button;
 
   svg {
-    fill: white;
+    fill: var(--color-white);
   }
 }
 
@@ -118,11 +109,5 @@
  * Clickable Icons.
  */
 .buttonIcon {
-  @include button-reset;
-
-  span {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
+  @include button-base;
 }

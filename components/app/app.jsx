@@ -2,7 +2,6 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import DialogWrapper from 'components/dialog';
 import SidebarWrapper from 'components/sidebar';
-import ActionButton from 'components/actionButton';
 import portalId from 'services/portalId';
 import addModalDivEl from 'services/addModalDivEl';
 import userAuthenticated from 'services/userAuthenticated';
@@ -85,16 +84,15 @@ const App = () => {
         className={styles.topButtons}
       >
         <DialogWrapper />
-        <ActionButton>
+        <a
+          href="https://compass.prod.oovvuu.io/"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          className={styles.buttonLink}
+        >
           <DashboardSVG />
-          <a
-            href="https://compass.prod.oovvuu.io/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-          >
-            {__('Dashboard', 'oovvuu')}
-          </a>
-        </ActionButton>
+          {__('Dashboard', 'oovvuu')}
+        </a>
       </div>
       <SidebarWrapper />
     </>
