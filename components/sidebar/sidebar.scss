@@ -1,0 +1,25 @@
+:global(.edit-post-sidebar) {
+  // Reset inherited styles.
+
+  h2,
+  h3 {
+    font-size: unset;
+    margin: 0;
+  }
+}
+
+.header {
+  align-items: center;
+  border-bottom: 1px solid var(--color-decoration);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: rem(20);
+  padding-bottom: rem(4);
+}
+
+// Specificity required.
+h3.heading {
+  @include font-props(16, 22, semibold);
+  @include uppercase;
+  color: var(--color-text-dark);
+}

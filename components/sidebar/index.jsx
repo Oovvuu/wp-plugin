@@ -1,12 +1,16 @@
 import React from 'react';
 import getPostAttribute from 'services/getPostAttribute';
 import getLatestVideos from 'services/getLatestVideos';
+import ActionButton from 'components/shared/actionButton';
+import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
+import styles from './sidebar.scss';
 
 /**
  * The Sidebar container.
  */
 const SidebarWrapper = () => {
+  const { i18n: { __ } } = wp;
   const [latestVideos, setLatestVideos] = React.useState([]);
 
   /**
@@ -46,7 +50,19 @@ const SidebarWrapper = () => {
   }, []);
 
   return (
-    <LatestVideoListWrapper videos={latestVideos} />
+    <article>
+      <header className={styles.header}>
+        <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
+        <ActionButton
+          buttonStyle="icon"
+          ariaLabel={__('Refresh latest videos', 'oovvuu')}
+          onClickHandler={handleFetchLatestVideos}
+        >
+          <RefreshIcon />
+        </ActionButton>
+      </header>
+      <LatestVideoListWrapper videos={latestVideos} />
+    </article>
   );
 };
 
