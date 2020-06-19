@@ -1,9 +1,11 @@
 import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import portalId from 'services/portalId';
 import withTrappedTabs from 'services/withTrappedTabs';
 import LoadingWrapper from 'components/dialog/loading';
+import buttons from 'components/actionButton/actionButton.scss';
 import OovvuuSVGLogo from 'assets/oovvuu-logo.svg';
 import WPVIPSVGLogo from 'assets/wp-vip-logo.svg';
 import CloseSVG from 'assets/close.svg';
@@ -61,14 +63,17 @@ const Dialog = ({
             <span className={styles.wpVipLogo}>
               <WPVIPSVGLogo />
             </span>
+
             <button
               ref={closeButtonRef}
               type="button"
-              className={styles.closeButton}
+              className={classnames(styles.closeButton, buttons.buttonIcon)}
               onClick={closeDialog}
               aria-label={__('Close', 'oovvuu')}
             >
-              <CloseSVG />
+              <span>
+                <CloseSVG />
+              </span>
             </button>
           </div>
 

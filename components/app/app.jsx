@@ -85,16 +85,15 @@ const App = () => {
         className={styles.topButtons}
       >
         <DialogWrapper />
-        <ActionButton>
+        <a
+          href="https://compass.prod.oovvuu.io/"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          className={styles.buttonLink}
+        >
           <DashboardSVG />
-          <a
-            href="https://compass.prod.oovvuu.io/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-          >
-            {__('Dashboard', 'oovvuu')}
-          </a>
-        </ActionButton>
+          {__('Dashboard', 'oovvuu')}
+        </a>
       </div>
       <SidebarWrapper />
     </>

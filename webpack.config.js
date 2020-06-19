@@ -76,6 +76,7 @@ module.exports = (env, argv) => {
               loader: 'sass-resources-loader',
               options: {
                 resources: [
+                  'core/_theme.scss',
                   'core/_utilities.scss',
                   'core/_breakpoints.scss',
                   'core/_a11y.scss',
@@ -111,6 +112,13 @@ module.exports = (env, argv) => {
               loader: 'react-svg-loader',
               options: {
                 jsx: true, // true outputs JSX tags
+                svgo: {
+                  plugins: [
+                    {
+                      removeViewBox: false,
+                    },
+                  ],
+                },
               },
             },
           ],
