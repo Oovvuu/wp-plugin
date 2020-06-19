@@ -2,18 +2,19 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import truncate from 'truncate';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/shared/actionButton';
 import { confirmThenProceed } from 'services/alert';
 import ClearIcon from 'assets/clear.svg';
-import styles from './videoCard.scss';
-import Badge from './badge';
+import styles from 'components/shared/videoCard/videoCard.scss';
+import VideoCardWrapper from 'components/shared/videoCard';
 
 /**
  * Displays an individual video with an position.
+ *
+ * @todo Create HoF to return a decorated wrapper for dialog component usage.
  */
-const VideoCardWrapper = (props) => {
+const DialogVideoCardDecorator = (props) => {
   const { i18n: { __ } } = wp;
   const {
     positionKey,
@@ -238,22 +239,20 @@ const VideoCardWrapper = (props) => {
         >
           <ClearIcon />
         </ActionButton>
-        <div className={styles.logo}>
-          <img src={url} alt={legalName} draggable="false" />
-        </div>
-        <h4 className={styles.title}>{title}</h4>
-        <div className={styles.meta}>
-          <Badge text={clipLength} />
-          <Badge text={moment(modified).fromNow()} />
-          <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
-        </div>
-        <p className={styles.description}>{truncate(summary, 272)}</p>
+        <VideoCardWrapper
+          summary={summary}
+          clipLength={clipLength}
+          modified={modified}
+          title={title}
+          url={url}
+          legalName={legalName}
+        />
       </div>
     </div>
   );
 };
 
-VideoCardWrapper.propTypes = {
+DialogVideoCardDecorator.propTypes = {
   positionKey: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   video: PropTypes.shape({
@@ -273,4 +272,4 @@ VideoCardWrapper.propTypes = {
   }).isRequired,
 };
 
-export default VideoCardWrapper;
+export default DialogVideoCardDecorator;

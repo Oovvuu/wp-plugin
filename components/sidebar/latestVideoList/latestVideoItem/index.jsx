@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BrightcovePlayer from 'components/shared/brightcovePlayer';
-import truncate from 'truncate';
+import moment from 'moment';
+import VideoCardWrapper from '../../../shared/videoCard';
 
 /**
  * The latest video list item container.
+ *
  */
 const LatestVideoItemWrapper = (props) => {
   const {
@@ -22,10 +24,14 @@ const LatestVideoItemWrapper = (props) => {
         url: thumbnailUrl,
       } = {},
       summary,
+      duration,
       id,
+      modified,
       title,
     },
   } = props;
+
+  const clipLength = moment(moment.duration(duration, 'seconds').asMilliseconds()).format('mm:ss');
 
   const renderPlayer = () => {
     if (preview === null) {
@@ -48,11 +54,14 @@ const LatestVideoItemWrapper = (props) => {
     >
       <div>
         {renderPlayer()}
-        <div>
-          <img src={url} alt={legalName} />
-        </div>
-        <h4>{title}</h4>
-        <p>{truncate(summary, 272)}</p>
+        <VideoCardWrapper
+          summary={summary}
+          clipLength={clipLength}
+          modified={modified}
+          title={title}
+          url={url}
+          legalName={legalName}
+        />
       </div>
     </div>
   );
