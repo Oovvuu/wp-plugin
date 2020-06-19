@@ -3,7 +3,7 @@
 }
 
 .inner {
-  box-shadow: var(--box-shadow-deep);
+  @include deep-shadow;
   display: grid;
   grid-gap: rem(10) rem(20);
   grid-template-areas:
@@ -71,5 +71,5 @@
 }
 
 .isDropTarget {
-  background-color: var(--color-decoration);
+  background-color: $color-decoration;
 }

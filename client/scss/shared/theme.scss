@@ -54,7 +54,7 @@
   .itemMeta {
     @include font-props(12, 12);
     align-items: center;
-    border: solid 1px var(--color-decoration);
+    border: solid 1px $color-decoration;
     border-radius: 50%;
     display: flex;
     height: rem(32);
@@ -89,7 +89,7 @@
 
     div,
     span:last-of-type {
-      border-color: var(--color-theme);
+      border-color: $color-theme;
     }
   }
 
@@ -114,7 +114,7 @@
     }
 
     span:last-of-type {
-      border: solid 1px var(--color-theme);
+      border: solid 1px $color-theme;
     }
   }
 
@@ -132,7 +132,7 @@
   span:last-child {
     @include font-props(12, 12);
     align-items: center;
-    border: solid 1px var(--color-decoration);
+    border: solid 1px $color-decoration;
     border-radius: 50%;
     display: flex;
     height: rem(32);
@@ -149,9 +149,9 @@
  * Basic panel styles.
  */
 .panel {
-  background-color: var(--color-white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  @include panel-shadow;
+  background-color: $color-white;
+  border-radius: $border-radius;
 }
 
 .panelWithHeading {
@@ -162,7 +162,7 @@
 .panelHeading {
   @include font-props(14, 16, medium);
   @include uppercase;
-  background-color: var(--color-white);
+  background-color: $color-white;
   display: inline-block;
   margin: 0;
   padding: 0 rem(14) 0 rem(4);
@@ -171,6 +171,6 @@
 
 .panelInset {
   border: 1px solid #DEDEDE;
-  border-radius: var(--border-radius);
+  border-radius: $border-radius;
   padding: rem(16);
 }
