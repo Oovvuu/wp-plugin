@@ -69,9 +69,7 @@ const SidebarWrapper = () => {
       <div className={styles.listWrapper}>
         {isLoading
           ? <LoadingWrapper />
-          : (
-            <LatestVideoListWrapper videos={latestVideos} />
-          )}
+          : <LatestVideoListWrapper videos={latestVideos} />}
       </div>
     </article>
   );
