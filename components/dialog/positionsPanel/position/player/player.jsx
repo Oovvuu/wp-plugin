@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactPlayerLoader from '@brightcove/react-player-loader';
+import BrightcovePlayer from 'components/shared/brightcovePlayer';
 import styles from 'components/dialog/positionsPanel/position/position.scss';
 
 /**
@@ -8,14 +8,6 @@ import styles from 'components/dialog/positionsPanel/position/position.scss';
  */
 const Player = (props) => {
   const { video, position, updatePlayer } = props;
-
-  const onSuccess = function (success) {
-    console.log(success);
-  };
-
-  const onFailure = function (failure) {
-    console.log(failure);
-  };
 
   /**
    * Return brightcove player component or thumbnail for a given video.
@@ -33,14 +25,11 @@ const Player = (props) => {
         && position === 0;
 
     return isPreviewConfigured ? (
-      <ReactPlayerLoader
+      <BrightcovePlayer
         key={id}
         accountId={preview.brightcoveAccountId}
         playerId={preview.brightcovePlayerId}
         videoId={preview.brightcoveVideoId}
-        embedOptions={{ responsive: true }}
-        onSuccess={(success) => { onSuccess(success); }}
-        onFailure={(failure) => { onFailure(failure); }}
       />
     ) : (
       <button
