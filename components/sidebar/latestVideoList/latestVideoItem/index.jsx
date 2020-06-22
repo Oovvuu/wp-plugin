@@ -62,6 +62,7 @@ const LatestVideoItemWrapper = (props) => {
           url={url}
           legalName={legalName}
         />
+        {/* @todo add ADDED button. */}
       </div>
     </div>
   );

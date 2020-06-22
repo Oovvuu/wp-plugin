@@ -9,7 +9,6 @@ import Badge from './badge';
  * Displays an individual videoCard with an position.
  */
 const VideoCardWrapper = (props) => {
-  const { i18n: { __ } } = wp;
   const {
     summary,
     clipLength,
@@ -28,7 +27,6 @@ const VideoCardWrapper = (props) => {
       <div className={styles.meta}>
         <Badge text={clipLength} />
         <Badge text={moment(modified).fromNow()} />
-        <Badge text={__('XXX Embeds', 'oovvuu')} type="embed" />
       </div>
       <p className={styles.description}>{truncate(summary, 272)}</p>
     </>

@@ -11,10 +11,8 @@ import VideoCardWrapper from 'components/shared/videoCard';
 
 /**
  * Displays an individual video with an position.
- *
- * @todo Create HoF to return a decorated wrapper for dialog component usage.
  */
-const DialogVideoCardDecorator = (props) => {
+const DialogVideoCard = (props) => {
   const { i18n: { __ } } = wp;
   const {
     positionKey,
@@ -252,7 +250,7 @@ const DialogVideoCardDecorator = (props) => {
   );
 };
 
-DialogVideoCardDecorator.propTypes = {
+DialogVideoCard.propTypes = {
   positionKey: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   video: PropTypes.shape({
@@ -272,4 +270,4 @@ DialogVideoCardDecorator.propTypes = {
   }).isRequired,
 };
 
-export default DialogVideoCardDecorator;
+export default DialogVideoCard;
