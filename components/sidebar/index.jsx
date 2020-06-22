@@ -13,7 +13,7 @@ import styles from './sidebar.scss';
 const SidebarWrapper = () => {
   const { i18n: { __ } } = wp;
   const [latestVideos, setLatestVideos] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   /**
    * Fetches the latest videos.
