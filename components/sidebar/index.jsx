@@ -3,6 +3,7 @@ import getPostAttribute from 'services/getPostAttribute';
 import getLatestVideos from 'services/getLatestVideos';
 import ActionButton from 'components/shared/actionButton';
 import LoadingSpinner from 'components/shared/loading/spinner';
+import { displayDismissableAlert } from 'services/alert';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
@@ -29,13 +30,16 @@ const SidebarWrapper = () => {
     const {
       hasError,
       data,
+      error: {
+        message,
+      } = {},
     } = response;
 
     if (!hasError) {
       const { videos } = data;
       setLatestVideos(videos);
     } else {
-      // @TODO: Perform error handling.
+      displayDismissableAlert({ message });
     }
 
     // Clear loading state.
