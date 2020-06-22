@@ -2,7 +2,7 @@ import React from 'react';
 import getPostAttribute from 'services/getPostAttribute';
 import getLatestVideos from 'services/getLatestVideos';
 import ActionButton from 'components/shared/actionButton';
-import LoadingWrapper from 'components/shared/loading';
+import LoadingSpinner from 'components/shared/loading/spinner';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
@@ -68,7 +68,7 @@ const SidebarWrapper = () => {
 
       <div className={styles.listWrapper}>
         {isLoading
-          ? <LoadingWrapper />
+          ? <LoadingSpinner />
           : <LatestVideoListWrapper videos={latestVideos} />}
       </div>
     </article>
