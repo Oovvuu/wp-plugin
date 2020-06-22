@@ -29,7 +29,14 @@ describe('VideoCardWrapper', () => {
 
   it('Renders logo image', () => {
     const wrapper = shallow(
-      <VideoCardWrapper {...mockVideo} />,
+      <VideoCardWrapper
+        summary={mockVideo.summary}
+        clipLength={mockVideo.clipLength}
+        modified={mockVideo.modified}
+        title={mockVideo.title}
+        url={mockVideo.url}
+        legalName={mockVideo.legalName}
+      />,
     );
 
     expect(wrapper.find('div img[alt="Legal Name"]')).toHaveLength(1);
@@ -37,7 +44,14 @@ describe('VideoCardWrapper', () => {
 
   it('Renders title', () => {
     const wrapper = shallow(
-      <VideoCardWrapper {...mockVideo} />,
+      <VideoCardWrapper
+        summary={mockVideo.summary}
+        clipLength={mockVideo.clipLength}
+        modified={mockVideo.modified}
+        title={mockVideo.title}
+        url={mockVideo.url}
+        legalName={mockVideo.legalName}
+      />,
     );
 
     expect(wrapper.find('h4.title')).toHaveLength(1);
@@ -45,7 +59,14 @@ describe('VideoCardWrapper', () => {
 
   it('Renders video meta', () => {
     const wrapper = shallow(
-      <VideoCardWrapper {...mockVideo} />,
+      <VideoCardWrapper
+        summary={mockVideo.summary}
+        clipLength={mockVideo.clipLength}
+        modified={mockVideo.modified}
+        title={mockVideo.title}
+        url={mockVideo.url}
+        legalName={mockVideo.legalName}
+      />,
     );
 
     expect(wrapper.find('div.meta')).toHaveLength(1);
@@ -53,7 +74,14 @@ describe('VideoCardWrapper', () => {
 
   it('Renders video description', () => {
     const wrapper = shallow(
-      <VideoCardWrapper {...mockVideo} />,
+      <VideoCardWrapper
+        summary={mockVideo.summary}
+        clipLength={mockVideo.clipLength}
+        modified={mockVideo.modified}
+        title={mockVideo.title}
+        url={mockVideo.url}
+        legalName={mockVideo.legalName}
+      />,
     );
 
     expect(wrapper.find('p.description')).toHaveLength(1);
