@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import getHumanReadableEmptyReason from 'services/getHumanReadableEmptyReason';
 import classnames from 'classnames';
 import theme from 'shared/theme.scss';
-import VideoCardWrapper from 'components/shared/videoCard';
+import DialogVideoCard from './DialogVideoCard';
 import Notice from './notice';
 import PositionToggleWrapper from './positionToggle';
 import PlayerWrapper from './player';
@@ -50,7 +50,7 @@ const PositionWrapper = (props) => {
                 </div>
                 <div className={classnames(styles.cardsWrapper)}>
                   {videos.map((video, index) => (
-                    <VideoCardWrapper
+                    <DialogVideoCard
                       key={video.id}
                       index={index}
                       positionKey={positionKey}

@@ -3,13 +3,12 @@ import { shallow } from 'enzyme';
 import VideoCardWrapper from './index';
 
 const mockVideo = {
-  url: 'url',
-  legalName: 'Legal Name',
   summary: 'summary',
   clipLength: '13:12',
   modified: new Date().toISOString(),
-  id: 'id',
   title: 'title',
+  url: 'url',
+  legalName: 'Legal Name',
 };
 global.wp = { i18n: { __: () => 'translated' } };
 
@@ -30,7 +29,7 @@ describe('VideoCardWrapper', () => {
 
   it('Renders logo image', () => {
     const wrapper = shallow(
-      <VideoCardWrapper video={mockVideo} />,
+      <VideoCardWrapper {...mockVideo} />,
     );
 
     expect(wrapper.find('div img[alt="Legal Name"]')).toHaveLength(1);
@@ -38,7 +37,7 @@ describe('VideoCardWrapper', () => {
 
   it('Renders title', () => {
     const wrapper = shallow(
-      <VideoCardWrapper video={mockVideo} />,
+      <VideoCardWrapper {...mockVideo} />,
     );
 
     expect(wrapper.find('h4.title')).toHaveLength(1);
@@ -46,7 +45,7 @@ describe('VideoCardWrapper', () => {
 
   it('Renders video meta', () => {
     const wrapper = shallow(
-      <VideoCardWrapper video={mockVideo} />,
+      <VideoCardWrapper {...mockVideo} />,
     );
 
     expect(wrapper.find('div.meta')).toHaveLength(1);
@@ -54,7 +53,7 @@ describe('VideoCardWrapper', () => {
 
   it('Renders video description', () => {
     const wrapper = shallow(
-      <VideoCardWrapper video={mockVideo} />,
+      <VideoCardWrapper {...mockVideo} />,
     );
 
     expect(wrapper.find('p.description')).toHaveLength(1);
