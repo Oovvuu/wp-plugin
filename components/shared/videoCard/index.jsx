@@ -28,13 +28,17 @@ const VideoCardWrapper = (props) => {
         <Badge text={clipLength} />
         <Badge text={moment(modified).fromNow()} />
       </div>
-      <p className={styles.description}>{truncate(summary, 272)}</p>
+      {summary && <p className={styles.description}>{truncate(summary, 272)}</p>}
     </>
   );
 };
 
+VideoCardWrapper.defaultProps = {
+  summary: '',
+};
+
 VideoCardWrapper.propTypes = {
-  summary: PropTypes.string.isRequired,
+  summary: PropTypes.string,
   clipLength: PropTypes.string.isRequired,
   modified: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

@@ -26,7 +26,6 @@ LatestVideoListWrapper.propTypes = {
         legalName: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    summary: PropTypes.string.isRequired,
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,

@@ -22,7 +22,6 @@ const LatestVideoItemWrapper = (props) => {
       thumbnail: {
         url: thumbnailUrl,
       } = {},
-      summary,
       duration,
       id,
       modified,
@@ -55,7 +54,6 @@ const LatestVideoItemWrapper = (props) => {
       <div>
         {renderPlayer()}
         <VideoCardWrapper
-          summary={summary}
           clipLength={formatDuration(duration)}
           modified={modified}
           title={title}
@@ -86,7 +84,6 @@ LatestVideoItemWrapper.propTypes = {
     thumbnail: PropTypes.shape({
       url: PropTypes.string.isRequired,
     }).isRequired,
-    summary: PropTypes.string.isRequired,
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
