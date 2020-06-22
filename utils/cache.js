@@ -2,16 +2,17 @@
  * Memoized function for caching data.
  */
 const cache = (key, value = null) => {
-  const store = [];
+  // Store the value globally.
+  window.oovvuuStore = window.oovvuuStore || [];
 
   // Get a value from the cache.
-  if (key && store[key]) {
-    return store[key];
+  if (key && window.oovvuuStore[key]) {
+    return window.oovvuuStore[key];
   }
 
   // Set the cache.
   if (key && value !== null) {
-    store[key] = value;
+    window.oovvuuStore[key] = value;
   }
 
   // Unable to process request.
