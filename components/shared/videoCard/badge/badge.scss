@@ -2,8 +2,8 @@
   @include uppercase;
   @include font-props(12, 12, medium);
   align-items: center;
-  background-color: var(--color-decoration);
-  border-radius: var(--border-radius);
+  background-color: $color-decoration;
+  border-radius: $border-radius;
   display: inline-flex;
   height: rem(20);
   justify-content: center;

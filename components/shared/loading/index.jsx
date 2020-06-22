@@ -1,6 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LoadingSpinner from './spinner';
 import styles from './loading.scss';
 
 /**
@@ -8,11 +7,6 @@ import styles from './loading.scss';
  */
 const LoadingWrapper = () => {
   const { i18n: { __ } } = wp;
-  const ColorCircularProgress = withStyles({
-    root: {
-      color: 'var(--color-theme)',
-    },
-  })(CircularProgress);
 
   return (
     <div
@@ -20,7 +14,9 @@ const LoadingWrapper = () => {
       role="alert"
     >
       <div className={styles.popup}>
-        <ColorCircularProgress className={styles.spinner} size={38} thickness={3} />
+        <span className={styles.spinner}>
+          <LoadingSpinner />
+        </span>
         <p className={styles.message}>{__('Please wait...', 'oovvuu')}</p>
       </div>
     </div>

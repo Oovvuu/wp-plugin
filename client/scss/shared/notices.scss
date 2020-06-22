@@ -1,6 +1,6 @@
 .wrapper {
   @include container-box-sizing;
-  background-color: var(--color-white);
+  background-color: $color-white;
   box-shadow: 0 3px 6px 0 rgba(67, 90, 111, 0.3);
   grid-column: 1 / span 2;
   justify-self: center;
@@ -12,9 +12,9 @@
 .notice {
   @include font-props(14, 14, medium);
   @include uppercase;
-  background-color: var(--color-warn);
+  background-color: $color-warn;
   border-radius: rem(4);
-  color: var(--color-white);
+  color: $color-white;
   margin: 0 0 rem(20) 0;
   padding: 0 rem(16);
 

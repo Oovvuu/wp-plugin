@@ -1,13 +1,20 @@
 import React from 'react';
 import getPostAttribute from 'services/getPostAttribute';
 import getLatestVideos from 'services/getLatestVideos';
+import ActionButton from 'components/shared/actionButton';
+import LoadingSpinner from 'components/shared/loading/spinner';
+import { displayDismissableAlert } from 'services/alert';
+import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
+import styles from './sidebar.scss';
 
 /**
  * The Sidebar container.
  */
 const SidebarWrapper = () => {
+  const { i18n: { __ } } = wp;
   const [latestVideos, setLatestVideos] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   /**
    * Fetches the latest videos.
@@ -15,23 +22,28 @@ const SidebarWrapper = () => {
    * @returns {Promise<void>} Future for response data or error object.
    */
   const handleFetchLatestVideos = async () => {
-    // @TODO: Start loading state.
+    // Start loading state.
+    setIsLoading(true);
 
     const response = await getLatestVideos(getPostAttribute('id'));
 
     const {
       hasError,
       data,
+      error: {
+        message,
+      } = {},
     } = response;
 
     if (!hasError) {
       const { videos } = data;
       setLatestVideos(videos);
     } else {
-      // @TODO: Perform error handling.
+      displayDismissableAlert({ message });
     }
 
-    // @TODO: Clear loading state.
+    // Clear loading state.
+    setIsLoading(false);
   };
 
 
@@ -46,7 +58,24 @@ const SidebarWrapper = () => {
   }, []);
 
   return (
-    <LatestVideoListWrapper videos={latestVideos} />
+    <article>
+      <header className={styles.header}>
+        <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
+        <ActionButton
+          buttonStyle="icon"
+          ariaLabel={__('Refresh latest videos', 'oovvuu')}
+          onClickHandler={handleFetchLatestVideos}
+        >
+          <RefreshIcon />
+        </ActionButton>
+      </header>
+
+      <div className={styles.listWrapper}>
+        {isLoading
+          ? <LoadingSpinner />
+          : <LatestVideoListWrapper videos={latestVideos} />}
+      </div>
+    </article>
   );
 };
 
