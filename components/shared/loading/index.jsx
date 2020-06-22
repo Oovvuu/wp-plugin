@@ -10,7 +10,7 @@ const LoadingWrapper = () => {
   const { i18n: { __ } } = wp;
   const ColorCircularProgress = withStyles({
     root: {
-      color: 'var(--color-theme)',
+      color: 'var(--oovvuu-color-theme)',
     },
   })(CircularProgress);
 

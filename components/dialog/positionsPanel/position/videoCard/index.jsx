@@ -144,7 +144,7 @@ const VideoCardWrapper = (props) => {
     clonedNode.style.top = '0';
     clonedNode.style.left = '0';
     clonedNode.style.zIndex = '-1';
-    clonedNode.firstChild.style.border = 'solid 1px var(--color-theme)';
+    clonedNode.firstChild.style.border = 'solid 1px var(--oovvuu-color-theme)';
 
     // Set the rotation.
     clonedNode.firstChild.style.transform = 'rotate(2deg)';

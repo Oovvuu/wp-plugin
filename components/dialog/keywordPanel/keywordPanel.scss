@@ -14,7 +14,7 @@
 
   p {
     @include font-props(16, 16, light);
-    color: var(--color-deactivated);
+    color: $color-deactivated;
     margin: 0;
   }
 }

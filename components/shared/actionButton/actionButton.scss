@@ -9,7 +9,7 @@
   padding: 0 rem(16);
 
   &[disabled] {
-    background-color: var(--color-deactivated);
+    background-color: $color-deactivated;
   }
 }
 
@@ -44,16 +44,16 @@
  * Theme-colored button.
  */
 .buttonTheme {
-  background-color: var(--color-theme);
-  color: var(--color-white);
+  background-color: $color-theme;
+  color: $color-white;
 }
 
 /**
  * Confirmation or warning button.
  */
 .buttonWarn {
-  background-color: var(--color-warn);
-  color: var(--color-white);
+  background-color: $color-warn;
+  color: $color-white;
 }
 
 /**
@@ -64,7 +64,7 @@
   composes: button;
 
   svg {
-    fill: var(--color-white);
+    fill: $color-white;
   }
 }
 
@@ -72,8 +72,8 @@
  * Large confirmation or warning button.
  */
 .buttonWarnLarge {
-  background-color: var(--color-warn);
-  color: var(--color-white);
+  background-color: $color-warn;
+  color: $color-white;
   composes: buttonLarge;
 }
 
@@ -86,7 +86,7 @@
   height: rem(24);
 
   svg {
-    fill: var(--color-text);
+    fill: $color-text;
     margin-left: rem(12);
   }
 }
@@ -100,7 +100,7 @@
   height: rem(22);
 
   svg {
-    fill: var(--color-text);
+    fill: $color-text;
     margin-left: rem(12);
   }
 }

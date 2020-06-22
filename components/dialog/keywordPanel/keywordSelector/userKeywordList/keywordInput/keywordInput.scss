@@ -1,7 +1,7 @@
 .inputItem {
   flex: 1 0 auto;
   height: rem(32);
-  margin: var(--keyword-margin);
+  margin: $keyword-margin;
 }
 
 .input {

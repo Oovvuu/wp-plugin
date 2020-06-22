@@ -57,12 +57,12 @@
     &:checked {
 
       &::after {
-        background-color: var(--color-theme);
+        background-color: $color-theme;
         transform: translateX(rem(20));
       }
 
       &::before {
-        background-color: var(--color-theme);
+        background-color: $color-theme;
         opacity: 0.5;
       }
     }
