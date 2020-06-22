@@ -114,8 +114,14 @@ module.exports = (env, argv) => {
                 jsx: true, // true outputs JSX tags
                 svgo: {
                   plugins: [
+                    { removeViewBox: false },
                     {
-                      removeViewBox: false,
+                      addAttributesToSVGElement: {
+                        attributes: [
+                          { focusable: 'false' },
+                          { 'aria-hidden': 'true' },
+                        ],
+                      },
                     },
                   ],
                 },
