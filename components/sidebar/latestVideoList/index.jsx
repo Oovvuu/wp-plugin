@@ -6,14 +6,14 @@ import LatestVideoItemWrapper from './latestVideoItem';
  * The latest video list container.
  */
 const LatestVideoListWrapper = ({ videos }) => (
-  <>
+  <ul className={styles.list}>
     {videos.map((video) => (
       <LatestVideoItemWrapper
         key={video.id}
         video={video}
       />
     ))}
-  </>
+  </ul>
 );
 
 LatestVideoListWrapper.propTypes = {

@@ -58,7 +58,7 @@ const SidebarWrapper = () => {
   }, []);
 
   return (
-    <article>
+    <section>
       <header className={styles.header}>
         <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
         <ActionButton
@@ -75,7 +75,7 @@ const SidebarWrapper = () => {
           ? <LoadingSpinner />
           : <LatestVideoListWrapper videos={latestVideos} />}
       </div>
-    </article>
+    </section>
   );
 };
 

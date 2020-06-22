@@ -49,7 +49,7 @@ const LatestVideoItemWrapper = (props) => {
   };
 
   return (
-    <div
+    <li
       key={id}
     >
       <div>
@@ -64,7 +64,7 @@ const LatestVideoItemWrapper = (props) => {
         />
         {/* @todo add ADDED button. */}
       </div>
-    </div>
+    </li>
   );
 };
 
