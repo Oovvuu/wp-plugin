@@ -1,9 +1,9 @@
-:global(.edit-post-sidebar) {
+/* stylelint-disable selector-max-specificity */
+:global .edit-post-sidebar #oovvuu-sidebar-wrapper {
   // Reset inherited styles.
 
   h2,
   h3 {
-    font-size: unset;
     margin: 0;
   }
 }
@@ -22,4 +22,8 @@ h3.heading {
   @include font-props(16, 22, semibold);
   @include uppercase;
   color: var(--color-text-dark);
+}
+
+.listWrapper {
+  position: relative;
 }
