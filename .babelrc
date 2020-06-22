@@ -21,7 +21,8 @@
         "extensions": [".js", ".jsx"],
         "alias": {
           "components": "./components",
-          "services": "./services"
+          "services": "./services",
+          "utils": "./utils"
         },
         "root": [
           "./",
