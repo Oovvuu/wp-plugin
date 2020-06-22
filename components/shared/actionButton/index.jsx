@@ -20,6 +20,7 @@ const ActionButton = (props) => {
     isDialog,
     isDialogOpen,
     dialogOwner,
+    ariaLabel,
   } = props;
 
   const buttonStyles = {
@@ -66,6 +67,7 @@ const ActionButton = (props) => {
       disabled={disabled}
       onClick={onClickHandler}
       ref={ref}
+      aria-label={ariaLabel}
 
       {...dialogProps()} /* eslint-disable-line react/jsx-props-no-spreading */
     >
@@ -82,6 +84,7 @@ ActionButton.defaultProps = {
   isDialog: false,
   isDialogOpen: false,
   dialogOwner: '',
+  ariaLabel: '',
 };
 
 ActionButton.propTypes = {
@@ -104,6 +107,7 @@ ActionButton.propTypes = {
   isDialog: PropTypes.bool,
   isDialogOpen: PropTypes.bool,
   dialogOwner: PropTypes.string,
+  ariaLabel: PropTypes.string,
 };
 
 export default ActionButton;
