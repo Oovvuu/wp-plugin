@@ -16,6 +16,7 @@ module.exports = {
   testMatch: [
     '<rootDir>/components/**/?(*.)+(spec|test).[jt]s?(x)',
     '<rootDir>/services/**/?(*.)+(spec|test).[jt]s?(x)',
+    '<rootDir>/utils/**/?(*.)+(spec|test).[jt]s?(x)',
   ],
   transformIgnorePatterns: [
     '/node_modules/(?!aria-components).+(js|jsx)$',
