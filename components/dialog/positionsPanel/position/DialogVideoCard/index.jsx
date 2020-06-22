@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/shared/actionButton';
@@ -8,6 +7,7 @@ import { confirmThenProceed } from 'services/alert';
 import ClearIcon from 'assets/clear.svg';
 import styles from 'components/shared/videoCard/videoCard.scss';
 import VideoCardWrapper from 'components/shared/videoCard';
+import formatDuration from 'services/formatDuration';
 
 /**
  * Displays an individual video with an position.
@@ -39,7 +39,6 @@ const DialogVideoCard = (props) => {
       currentDraggingVideo,
     },
   } = React.useContext(OovvuuDataContext);
-  const clipLength = moment(moment.duration(duration, 'seconds').asMilliseconds()).format('mm:ss');
 
   /**
    * Get the classnames for the current video card.
@@ -239,7 +238,7 @@ const DialogVideoCard = (props) => {
         </ActionButton>
         <VideoCardWrapper
           summary={summary}
-          clipLength={clipLength}
+          clipLength={formatDuration(duration)}
           modified={modified}
           title={title}
           url={url}

@@ -6,7 +6,7 @@ import styles from './videoCard.scss';
 import Badge from './badge';
 
 /**
- * Displays an individual videoCard with an position.
+ * Displays an individual videoCard.
  */
 const VideoCardWrapper = (props) => {
   const {
