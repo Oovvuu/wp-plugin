@@ -97,7 +97,7 @@ const LatestVideoItemWrapper = (props) => {
    * @return {string} The button text.
    */
   const getButtonText = () => {
-    if (isVideoAdded()) {
+    if (!isSavingStory && isVideoAdded()) {
       return __('Added', 'oovvuu');
     }
 
