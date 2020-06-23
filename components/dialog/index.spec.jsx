@@ -27,6 +27,7 @@ describe('DialogWrapper', () => {
           selectedVideos: {
             positionTwo: {},
           },
+          sidebarSelectedHeroVideo: {},
         },
       }));
 
@@ -49,6 +50,7 @@ describe('DialogWrapper', () => {
           selectedVideos: {
             positionTwo: {},
           },
+          sidebarSelectedHeroVideo: {},
         },
       }));
 
