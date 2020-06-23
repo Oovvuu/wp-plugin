@@ -1,16 +1,18 @@
 .wrapper {
   @include container-box-sizing;
+  align-items: center;
   display: none;
   font-family: $font-sans;
   height: 100%;
+  justify-content: center;
   left: 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 10000;
 
   &.show {
-    display: block;
+    display: flex;
   }
 }
 
@@ -20,10 +22,8 @@
     0 9px 46px 8px rgba(0, 0, 0, 0.12),
     0 24px 38px 3px rgba(0, 0, 0, 0.14);
   height: max-content;
-  left: calc(50vw - (rem(632) / 2));
-  position: fixed;
-  top: 40vh;
-  width: rem(632);
+  max-width: rem(632);
+  width: 90vw;
 }
 
 .messageWrapper {
@@ -33,9 +33,13 @@
 }
 
 .message {
-  @include font-props(24, 28, medium);
+  @include font-props(20, 23, medium);
   color: $color-text-dark;
   margin: 0;
+
+  @media (min(lg)) {
+    @include font-props(24, 28, medium);
+  }
 
   + .supplemental {
     margin-top: rem(20);
