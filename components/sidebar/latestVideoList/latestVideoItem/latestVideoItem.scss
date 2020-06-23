@@ -16,6 +16,7 @@
     'meta meta'
     'logo title'
     '. button';
+  grid-template-columns: $video-card-logo-sm 1fr;
   padding: rem(6) rem(6) rem(9) rem(9);
   position: relative;
 }
