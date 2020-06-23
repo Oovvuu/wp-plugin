@@ -11,6 +11,7 @@
     'title title'
     'meta meta'
     'description description';
+  grid-template-columns: $video-card-logo-lg 1fr;
   padding: rem(10) rem(26) rem(10) rem(10);
   position: relative;
 

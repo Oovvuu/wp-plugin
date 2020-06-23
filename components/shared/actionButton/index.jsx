@@ -30,6 +30,7 @@ const ActionButton = (props) => {
     primary: buttons.buttonTheme,
     warn: buttons.buttonWarn,
     warnLarge: buttons.buttonWarnLarge,
+    small: buttons.buttonSmall,
   };
 
   // Reference to the action button.
@@ -100,6 +101,7 @@ ActionButton.propTypes = {
     'primary',
     'warn',
     'warnLarge',
+    'small',
   ]),
   className: PropTypes.string,
   disabled: PropTypes.bool,
