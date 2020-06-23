@@ -28,7 +28,7 @@ function add_metabox() {
 		__( 'Oovvuu', 'oovvuu' ),
 		function () {
 			// React container.
-			echo '<div id="oovvuu-classic-editor-react-app"></div>';
+			echo '<div id="oovvuu-classic-editor-react-app" class="oovvuu-classic-editor-react-app"></div>';
 		},
 		allowed_post_types(),
 		'side'

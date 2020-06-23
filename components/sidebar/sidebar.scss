@@ -8,6 +8,13 @@
   }
 }
 
+// Classic-only Styles.
+// @TODO Consider refactoring to if this block grows in size.
+:global .oovvuu-classic-editor-react-app {
+  max-height: 800px;
+  overflow: scroll;
+}
+
 .header {
   align-items: center;
   border-bottom: 1px solid $color-decoration;
