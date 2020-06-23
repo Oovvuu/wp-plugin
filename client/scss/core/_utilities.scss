@@ -42,6 +42,23 @@
 }
 
 /**
+ * Target the classic editor sidebar metabox.
+ */
+@mixin classic-editor-sidebar-only {
+  $classic-app: ':global .oovvuu-classic-editor-react-app';
+  // Check for a parent selector so we can use it in the root if needed.
+  $selector: if(
+    '' == '#{&}',
+    $classic-app,
+    selector-nest($classic-app, ':local #{&}')
+  );
+
+  @at-root #{$selector} {
+    @content;
+  }
+}
+
+/**
  * Sets box-sizing for a container and its children.
  */
 @mixin container-box-sizing {

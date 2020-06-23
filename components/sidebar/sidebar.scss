@@ -26,4 +26,9 @@ h3.heading {
 
 .listWrapper {
   position: relative;
+
+  @include classic-editor-sidebar-only {
+    max-height: 100vh;
+    overflow: scroll;
+  }
 }
