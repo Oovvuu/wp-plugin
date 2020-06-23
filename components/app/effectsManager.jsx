@@ -170,7 +170,7 @@ const EffectsManager = (props) => {
        */
       dispatch({ type: 'RESET_STATE', payload: data });
     } else {
-      displayDismissableAlert(message);
+      displayDismissableAlert({ message });
     }
   };
 
