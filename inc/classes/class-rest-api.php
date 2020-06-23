@@ -228,7 +228,7 @@ class REST_API {
 	public function get_latest_videos( $request ) {
 		return rest_ensure_response(
 			$this->request(
-				'query ($input: VideoSetInput!, $playbackInput: PlaybackInput ) {
+				'query ($input: VideoSetInput!, $playbackInput: PlaybackInput! ) {
 					videoSet (input: $input) {
 						totalCount
 						pageResults {
