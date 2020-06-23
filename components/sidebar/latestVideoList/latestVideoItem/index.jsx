@@ -1,15 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ActionButton from 'components/shared/actionButton';
 import BrightcovePlayer from 'components/shared/brightcovePlayer';
 import VideoCardWrapper from 'components/shared/videoCard';
 import formatDuration from 'services/formatDuration';
+import OovvuuDataContext from 'components/app/context';
 import styles from './latestVideoItem.scss';
 
 /**
  * The latest video list item container.
  */
 const LatestVideoItemWrapper = (props) => {
+  const { i18n: { __ } } = wp;
   const {
+    state: {
+      lastActionType,
+      sidebarSelectedHeroVideo,
+    },
+    dispatch,
+  } = React.useContext(OovvuuDataContext);
+  const [isSavingStory, setIsSavingStory] = React.useState(false);
+
+  const {
+    video,
     video: {
       collection: {
         provider: {
@@ -28,6 +41,9 @@ const LatestVideoItemWrapper = (props) => {
       modified,
       title,
     },
+    disableCurrentlyAddingVideo,
+    enableCurrentlyAddingVideo,
+    currentlyAddingVideo,
   } = props;
 
   /**
@@ -48,6 +64,56 @@ const LatestVideoItemWrapper = (props) => {
     );
   };
 
+  /**
+   * Handles adding a story from the sidebar as the hero embed for a post.
+   */
+  const handleAddToStory = async () => {
+    // Set loading state.
+    setIsSavingStory(true);
+    enableCurrentlyAddingVideo();
+
+    // Set the sidebar hero embed.
+    dispatch({ type: 'UPDATE_SIDEBAR_HERO_EMBED', payload: video });
+  };
+
+  /**
+   * Determine if the current video is already added as the hero embed video.
+   *
+   * @return {boolean} True if there is a video embedded via the sidebar,
+   *                   otherwise false.
+   */
+  const isVideoAdded = () => {
+    if (sidebarSelectedHeroVideo.id === id) {
+      return true;
+    }
+
+    return false;
+  };
+
+  /**
+   * Get the button text for the add to story based on whether this video is already
+   * added as the hero.
+   *
+   * @return {string} The button text.
+   */
+  const getButtonText = () => {
+    if (!isSavingStory && isVideoAdded()) {
+      return __('Added', 'oovvuu');
+    }
+
+    return __('Add to Story', 'oovvuu');
+  };
+
+  /**
+   * Clear the loading state after the state has been reset.
+   */
+  React.useEffect(() => {
+    if (lastActionType === 'RESET_STATE') {
+      setIsSavingStory(false);
+      disableCurrentlyAddingVideo(false);
+    }
+  }, [lastActionType]);
+
   return (
     <li
       key={id}
@@ -64,7 +130,14 @@ const LatestVideoItemWrapper = (props) => {
             size="small"
           />
         </div>
-        {/* @todo add ADDED button. */}
+        <ActionButton
+          disabled={isVideoAdded() || currentlyAddingVideo}
+          buttonStyle="primary"
+          onClickHandler={handleAddToStory}
+        >
+          <>{getButtonText()}</>
+          <>{isSavingStory ? 'Loading...' : ''}</>
+        </ActionButton>
       </div>
     </li>
   );
@@ -83,8 +156,8 @@ LatestVideoItemWrapper.propTypes = {
     preview: PropTypes.shape({
       brightcoveVideoId: PropTypes.string,
       brightcovePlayerId: PropTypes.string,
-      brightcoveAccountId: PropTypes.string.isRequired,
-    }).isRequired,
+      brightcoveAccountId: PropTypes.string,
+    }),
     thumbnail: PropTypes.shape({
       url: PropTypes.string.isRequired,
     }).isRequired,
@@ -93,6 +166,9 @@ LatestVideoItemWrapper.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
+  disableCurrentlyAddingVideo: PropTypes.func.isRequired,
+  enableCurrentlyAddingVideo: PropTypes.func.isRequired,
+  currentlyAddingVideo: PropTypes.bool.isRequired,
 };
 
 export default LatestVideoItemWrapper;

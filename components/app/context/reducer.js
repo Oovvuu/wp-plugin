@@ -58,6 +58,9 @@ const reducer = (state, action) => {
     case 'UPDATE_SELECTED_VIDEOS':
       nextState.selectedVideos = payload;
       return nextState;
+    case 'UPDATE_SIDEBAR_HERO_EMBED':
+      nextState.sidebarSelectedHeroVideo = payload;
+      return nextState;
     case 'DISABLE_POSITION':
       if (payload.position === 'hero') {
         nextState.isHeroEnabled = false;

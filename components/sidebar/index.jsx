@@ -3,6 +3,7 @@ import getPostAttribute from 'services/getPostAttribute';
 import getLatestVideos from 'services/getLatestVideos';
 import ActionButton from 'components/shared/actionButton';
 import LoadingSpinner from 'components/shared/loading/spinner';
+import OovvuuDataContext from 'components/app/context';
 import { displayDismissableAlert } from 'services/alert';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
@@ -13,6 +14,11 @@ import styles from './sidebar.scss';
  */
 const SidebarWrapper = () => {
   const { i18n: { __ } } = wp;
+  const {
+    state: {
+      sidebarSelectedHeroVideo,
+    },
+  } = React.useContext(OovvuuDataContext);
   const [latestVideos, setLatestVideos] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -69,6 +75,11 @@ const SidebarWrapper = () => {
           <RefreshIcon />
         </ActionButton>
       </header>
+
+      <div>
+        <h3>{__('Currently Embedded Hero', 'oovvuu')}</h3>
+        {(undefined !== sidebarSelectedHeroVideo.id ? sidebarSelectedHeroVideo.id : 0)}
+      </div>
 
       <div className={styles.listWrapper}>
         {isLoading

@@ -28,6 +28,7 @@ const DialogWrapper = () => {
       selectedVideos: {
         positionTwo,
       },
+      sidebarSelectedHeroVideo,
     },
     dispatch,
   } = React.useContext(OovvuuDataContext);
@@ -115,9 +116,24 @@ const DialogWrapper = () => {
     }
   };
 
+  /**
+   * Determine if the current video is already added as the hero embed video.
+   *
+   * @return {boolean} True if there is a video embedded via the sidebar,
+   *                   otherwise false.
+   */
+  const isVideoEmbeddedViaSidebar = () => {
+    if (undefined !== sidebarSelectedHeroVideo.id) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <>
       <ActionButton
+        disabled={isVideoEmbeddedViaSidebar()}
         type="button"
         buttonStyle="primary"
         onClickHandler={openDialog}

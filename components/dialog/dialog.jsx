@@ -109,7 +109,7 @@ Dialog.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
   isLoading: PropTypes.bool.isRequired,
   trappedTabsRoot: PropTypes.shape({
-    current: PropTypes.instanceOf(HTMLInputElement),
+    current: PropTypes.instanceOf(HTMLElement),
   }).isRequired,
 };
 
