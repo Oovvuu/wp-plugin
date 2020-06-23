@@ -146,8 +146,9 @@ const LatestVideoItemWrapper = (props) => {
         </div>
         <ActionButton
           disabled={isVideoAdded() || currentlyAddingVideo}
-          buttonStyle="primary"
+          buttonStyle="small"
           onClickHandler={handleAddToStory}
+          className={styles.addButton}
         >
           <ButtonContents />
         </ActionButton>

@@ -16,3 +16,7 @@
   padding: rem(5) rem(5) rem(10) rem(10);
   position: relative;
 }
+
+.addButton {
+  --oovvuu-color-add-icon-fill: #{$color-white};
+}
