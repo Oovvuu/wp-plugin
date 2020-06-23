@@ -13,11 +13,25 @@
  * Base shape and text styles shared between buttons and links.
  */
 @mixin button-shape-and-text-styles {
+  @include button-text-styles;
+  @include button-shape-styles;
+}
+
+/**
+ * Base shape and text styles shared between buttons and links.
+ */
+@mixin button-shape-styles {
+  border-radius: rem(4);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+/**
+ * Base shape and text styles shared between buttons and links.
+ */
+@mixin button-text-styles {
   @include font-props(14, 14, medium);
   @include uppercase;
   background-color: white;
-  border-radius: rem(4);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
   color: $color-text-dark;
 }
 
