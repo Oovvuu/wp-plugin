@@ -29,6 +29,7 @@ const initialState = {
     positionTwo: [],
     positionTwoSecondary: [],
   },
+  sidebarSelectedHeroVideo: {},
   isLoading: false,
   isUserAuthenticated: false,
   isLoadedFromMeta: false,

@@ -4,6 +4,7 @@ import POSITION_KEYS from 'constants/positionKeys';
 import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getTopicVideos from 'services/getTopicVideos';
+import saveState from 'services/saveState';
 import { displayDismissableAlert } from 'services/alert';
 
 /**
@@ -20,6 +21,7 @@ const EffectsManager = (props) => {
     actionType,
     children,
     dispatch,
+    state,
     state: {
       recommendedKeywords,
       recommendedVideos: {
@@ -148,6 +150,32 @@ const EffectsManager = (props) => {
   };
 
   /**
+   * Save the overall context state to post meta.
+   */
+  const saveDatatoPostMeta = async () => {
+    // Save the state.
+    const response = await saveState(state, getPostAttribute('id'));
+    const {
+      hasError,
+      data,
+      error: {
+        message,
+      } = {},
+    } = response;
+
+    if (!hasError) {
+      /**
+       * saveState() returns updated state, with flag that data has been loaded
+       *   from meta. This needs to be sync'd back to state.
+       */
+      dispatch({ type: 'RESET_STATE', payload: data });
+    } else {
+      // @todo display any error message.
+      console.log(message);
+    }
+  };
+
+  /**
    * Listens for action types that require additional state updates.
    */
   React.useEffect(() => {
@@ -159,6 +187,10 @@ const EffectsManager = (props) => {
       derivePositionsPanelVisibility();
       syncPositionsToRecommendedVideos();
       syncSelectedToRecommendedVideos();
+    }
+
+    if (actionType === 'UPDATE_SIDEBAR_HERO_EMBED') {
+      saveDatatoPostMeta();
     }
 
     // Actions for which the loading state should be cleared.
