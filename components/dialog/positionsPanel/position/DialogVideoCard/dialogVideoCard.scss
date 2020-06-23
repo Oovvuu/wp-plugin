@@ -22,43 +22,6 @@
   }
 }
 
-.logo {
-  grid-area: logo;
-  height: rem(60);
-  width: rem(60);
-
-  img {
-    display: block;
-    max-width: 100%;
-  }
-}
-
-.title {
-  @include font-props(20, normal, medium);
-  grid-area: title;
-  margin: 0;
-}
-
-.meta {
-  display: grid;
-  grid-area: meta;
-  grid-gap: rem(10);
-
-  @media (min(450)) {
-    grid-template: auto / repeat(2, 1fr);
-  }
-
-  @media (min(500)) {
-    grid-template: none / repeat(3, max-content);
-  }
-}
-
-.description {
-  @include font-props(16, 24);
-  grid-area: description;
-  margin: 0;
-}
-
 .removeVideo {
   cursor: pointer;
   position: absolute;

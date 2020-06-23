@@ -5,9 +5,9 @@ import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/shared/actionButton';
 import { confirmThenProceed } from 'services/alert';
 import ClearIcon from 'assets/clear.svg';
-import styles from 'components/shared/videoCard/videoCard.scss';
 import VideoCardWrapper from 'components/shared/videoCard';
 import formatDuration from 'services/formatDuration';
+import styles from './dialogVideoCard.scss';
 
 /**
  * Displays an individual video with an position.
@@ -243,6 +243,7 @@ const DialogVideoCard = (props) => {
           title={title}
           url={url}
           legalName={legalName}
+          size="large"
         />
       </div>
     </div>

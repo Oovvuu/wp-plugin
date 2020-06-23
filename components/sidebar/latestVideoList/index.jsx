@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LatestVideoItemWrapper from './latestVideoItem';
+import styles from './latestVideoList.scss';
 
 /**
  * The latest video list container.

@@ -1,0 +1,9 @@
+.list {
+  display: grid;
+  grid-row-gap: rem(20);
+  margin: 0;
+
+  li {
+    margin: 0;
+  }
+}
