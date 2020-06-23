@@ -1,6 +1,8 @@
 .wrapper {
   @include deep-shadow;
   border-radius: 0 0 $border-radius $border-radius;
+  display: flex;
+  flex-direction: column;
 
   img {
     max-width: 100%;
@@ -12,11 +14,14 @@
   grid-gap: rem(10);
   grid-template-areas:
     'meta meta'
-    'logo title';
-  padding: rem(5) rem(5) rem(10) rem(10);
+    'logo title'
+    '. button';
+  padding: rem(6) rem(6) rem(9) rem(9);
   position: relative;
 }
 
 .addButton {
   --oovvuu-color-add-icon-fill: #{$color-white};
+  grid-area: button;
+  margin-left: auto;
 }
