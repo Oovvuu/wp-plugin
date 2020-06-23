@@ -13,8 +13,11 @@
   li {
     margin: 0;
 
-    &:last-of-type {
-      margin-bottom: rem(6); // Prevents the overflow from cutting off the shadow.
+    @include classic-editor-sidebar-only {
+
+      &:last-of-type {
+        margin-bottom: rem(6); // Prevents the overflow from cutting off the shadow.
+      }
     }
   }
 }
