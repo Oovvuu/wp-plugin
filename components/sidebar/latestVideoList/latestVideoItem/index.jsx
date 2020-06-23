@@ -84,13 +84,7 @@ const LatestVideoItemWrapper = (props) => {
    * @return {boolean} True if there is a video embedded via the sidebar,
    *                   otherwise false.
    */
-  const isVideoAdded = () => {
-    if (sidebarSelectedHeroVideo.id === id) {
-      return true;
-    }
-
-    return false;
-  };
+  const isVideoAdded = () => (sidebarSelectedHeroVideo.id === id);
 
   /**
    * Get the button text for the add to story based on whether this video is already
