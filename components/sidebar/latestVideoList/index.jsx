@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LatestVideoItemWrapper from './latestVideoItem';
+import styles from './latestVideoList.scss';
 
 /**
  * The latest video list container.
  */
 const LatestVideoListWrapper = ({ videos }) => (
-  <>
+  <ul className={styles.list}>
     {videos.map((video) => (
       <LatestVideoItemWrapper
         key={video.id}
         video={video}
       />
     ))}
-  </>
+  </ul>
 );
 
 LatestVideoListWrapper.propTypes = {
@@ -26,7 +27,6 @@ LatestVideoListWrapper.propTypes = {
         legalName: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    summary: PropTypes.string.isRequired,
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,

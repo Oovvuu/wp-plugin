@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import truncate from 'truncate';
+import BrightcovePlayer from 'components/shared/brightcovePlayer';
+import VideoCardWrapper from 'components/shared/videoCard';
+import formatDuration from 'services/formatDuration';
+import styles from './latestVideoItem.scss';
 
 /**
  * The latest video list item container.
@@ -16,24 +19,54 @@ const LatestVideoItemWrapper = (props) => {
           legalName,
         },
       },
-      summary,
+      preview,
+      thumbnail: {
+        url: thumbnailUrl,
+      } = {},
+      duration,
       id,
+      modified,
       title,
     },
   } = props;
 
+  /**
+   * Render image thumbnail or brightcove player.
+   */
+  const renderPlayer = () => {
+    if (preview === null) {
+      return (
+        <img src={thumbnailUrl} alt="" />
+      );
+    }
+    return (
+      <BrightcovePlayer
+        accountId={preview.brightcoveAccountId}
+        playerId={preview.brightcovePlayerId}
+        videoId={preview.brightcoveVideoId}
+      />
+    );
+  };
+
   return (
-    <div
+    <li
       key={id}
     >
-      <div>
-        <div>
-          <img src={url} alt={legalName} draggable="false" />
+      <div className={styles.wrapper}>
+        {renderPlayer()}
+        <div className={styles.inner}>
+          <VideoCardWrapper
+            clipLength={formatDuration(duration)}
+            modified={modified}
+            title={title}
+            url={url}
+            legalName={legalName}
+            size="small"
+          />
         </div>
-        <h4>{title}</h4>
-        <p>{truncate(summary, 272)}</p>
+        {/* @todo add ADDED button. */}
       </div>
-    </div>
+    </li>
   );
 };
 
@@ -47,7 +80,14 @@ LatestVideoItemWrapper.propTypes = {
         legalName: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    summary: PropTypes.string.isRequired,
+    preview: PropTypes.shape({
+      brightcoveVideoId: PropTypes.string,
+      brightcovePlayerId: PropTypes.string,
+      brightcoveAccountId: PropTypes.string.isRequired,
+    }).isRequired,
+    thumbnail: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+    }).isRequired,
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
