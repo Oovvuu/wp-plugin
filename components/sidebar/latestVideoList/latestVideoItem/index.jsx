@@ -5,6 +5,8 @@ import BrightcovePlayer from 'components/shared/brightcovePlayer';
 import VideoCardWrapper from 'components/shared/videoCard';
 import formatDuration from 'services/formatDuration';
 import OovvuuDataContext from 'components/app/context';
+import AddIcon from 'assets/add.svg';
+import DoneIcon from 'assets/done.svg';
 import styles from './latestVideoItem.scss';
 
 /**
@@ -96,12 +98,24 @@ const LatestVideoItemWrapper = (props) => {
    *
    * @return {string} The button text.
    */
-  const getButtonText = () => {
-    if (!isSavingStory && isVideoAdded()) {
-      return __('Added', 'oovvuu');
+  const ButtonContents = () => {
+    if (isSavingStory) {
+      return <>{__('Adding...', 'oovvuu')}</>;
     }
 
-    return __('Add to Story', 'oovvuu');
+    return isVideoAdded()
+      ? (
+        <>
+          <DoneIcon />
+          {__('Added', 'oovvuu')}
+        </>
+      )
+      : (
+        <>
+          <AddIcon />
+          {__('Add to story', 'oovvuu')}
+        </>
+      );
   };
 
   /**
@@ -135,8 +149,7 @@ const LatestVideoItemWrapper = (props) => {
           buttonStyle="primary"
           onClickHandler={handleAddToStory}
         >
-          <>{getButtonText()}</>
-          <>{isSavingStory ? 'Loading...' : ''}</>
+          <ButtonContents />
         </ActionButton>
       </div>
     </li>
