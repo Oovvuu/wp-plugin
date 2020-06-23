@@ -1,4 +1,5 @@
 import initialState from 'components/app/context/initialState';
+import Cache from 'utils/cache';
 import getState from './getState';
 
 describe('getState', () => {
@@ -35,6 +36,9 @@ describe('getState', () => {
   });
 
   it('Maps embed keys to null when no embed data exists', async () => {
+    // Clear the cache.
+    Cache.delete('oovvuu-state');
+
     const data = {
       ...initialState,
       embeds: {},

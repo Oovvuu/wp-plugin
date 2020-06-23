@@ -1,3 +1,5 @@
+import Cache from 'utils/cache';
+
 /**
  * Performs an API request to get the current state of user authentication.
  *
@@ -6,26 +8,47 @@
 const userAuthenticated = () => {
   const { apiFetch, i18n: { __ } } = wp;
 
+  // Attempt to get auth from the cache.
+  const cachedAuth = Cache.get('oovvuu-user-authenticated');
+
+  // Return the auth if it is cached.
+  if (cachedAuth !== null) {
+    return Promise.resolve(cachedAuth);
+  }
+
   return apiFetch({
     path: '/oovvuu/v1/userAuthenticated/',
     method: 'GET',
   })
-    .then((value) => (value
-      ? {
-        hasError: false,
-        data: value,
-      } : {
-        hasError: true,
-        message: __('Authentication failed.', 'oovvuu'),
-      }))
+    .then((value) => {
+      const response = value
+        ? {
+          hasError: false,
+          data: value,
+        } : {
+          hasError: true,
+          message: __('Authentication failed.', 'oovvuu'),
+        };
+
+      // Cache the data.
+      Cache.set('oovvuu-user-authenticated', response);
+
+      // Return the response.
+      return response;
+    })
     .catch((error) => {
       const { message } = error;
-      // TODO: Perform error handling - user is not auth'd.
-      console.error(error);
-      return {
+
+      const response = {
         hasError: true,
         error: { message },
       };
+
+      // Cache the data.
+      Cache.set('oovvuu-user-authenticated', response);
+
+      // Return the response.
+      return response;
     });
 };
 
