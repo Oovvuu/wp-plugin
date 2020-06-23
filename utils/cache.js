@@ -1,22 +1,58 @@
+
+// Store the value globally.
+window.oovvuuClientCache = window.oovvuuClientCache || [];
+
 /**
- * Memoized function for caching data.
+ * Memoized class for caching data.
  */
-const cache = (key, value = null) => {
-  // Store the value globally.
-  window.oovvuuStore = window.oovvuuStore || [];
+export default class Cache {
+  /**
+   * Gets a cache value given a cache key.
+   *
+   * @param  {string} key The cache key.
+   */
+  static get(key) {
+    // Invalid key.
+    if (undefined === key || !key) {
+      return null;
+    }
 
-  // Get a value from the cache.
-  if (key && window.oovvuuStore[key]) {
-    return window.oovvuuStore[key];
+    // Return the value.
+    if (undefined !== window.oovvuuClientCache[key]) {
+      return window.oovvuuClientCache[key];
+    }
+
+    return null;
   }
 
-  // Set the cache.
-  if (key && value !== null) {
-    window.oovvuuStore[key] = value;
+  /**
+   * Set the cache value.
+   *
+   * @param {string} key The cache key.
+   * @param {mixed}  value The value to cache.
+   */
+  static set(key, value) {
+    // Set the cache.
+    if (key && undefined !== value) {
+      window.oovvuuClientCache[key] = value;
+      return true;
+    }
+
+    return false;
   }
 
-  // Unable to process request.
-  return null;
-};
+  /**
+   * Set the cache value.
+   *
+   * @param {string} key The cache key.
+   */
+  static delete(key) {
+    // Clear the cache.
+    if (undefined !== window.oovvuuClientCache[key]) {
+      delete window.oovvuuClientCache[key];
+      return true;
+    }
 
-export default cache;
+    return false;
+  }
+}

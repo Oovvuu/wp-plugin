@@ -1,4 +1,4 @@
-import cache from 'utils/cache';
+import Cache from 'utils/cache';
 
 /**
  * Performs an API request to get the current state of user authentication.
@@ -9,7 +9,7 @@ const userAuthenticated = () => {
   const { apiFetch, i18n: { __ } } = wp;
 
   // Attempt to get auth from the cache.
-  const cachedAuth = cache('oovvuu-user-authenticated');
+  const cachedAuth = Cache.get('oovvuu-user-authenticated');
 
   // Return the auth if it is cached.
   if (cachedAuth !== null) {
@@ -31,7 +31,7 @@ const userAuthenticated = () => {
         };
 
       // Cache the data.
-      cache('oovvuu-user-authenticated', response);
+      Cache.set('oovvuu-user-authenticated', response);
 
       // Return the response.
       return response;
@@ -45,7 +45,7 @@ const userAuthenticated = () => {
       };
 
       // Cache the data.
-      cache('oovvuu-user-authenticated', response);
+      Cache.set('oovvuu-user-authenticated', response);
 
       // Return the response.
       return response;

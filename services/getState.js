@@ -1,5 +1,5 @@
 import initialState from 'components/app/context/initialState';
-import cache from 'utils/cache';
+import Cache from 'utils/cache';
 
 /**
  * Performs an API request to get the current state.
@@ -11,7 +11,7 @@ const getState = (id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
   // Attempt to get the state from the cache.
-  const cachedState = cache('oovvuu-state');
+  const cachedState = Cache.get('oovvuu-state');
 
   // Return the state if it is cached.
   if (cachedState !== null) {
@@ -43,7 +43,7 @@ const getState = (id) => {
         };
 
       // Cache the data.
-      cache('oovvuu-state', response);
+      Cache.set('oovvuu-state', response);
 
       // Return the response.
       return response;
@@ -57,7 +57,7 @@ const getState = (id) => {
       };
 
       // Cache the data.
-      cache('oovvuu-state', response);
+      Cache.set('oovvuu-state', response);
 
       // Return the response.
       return response;

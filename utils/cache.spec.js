@@ -1,4 +1,4 @@
-import cache from './cache';
+import Cache from './cache';
 
 describe('removeVideo', () => {
   it('Set cache value', () => {
@@ -7,12 +7,18 @@ describe('removeVideo', () => {
     };
 
     // Get the cache value.
-    expect(cache('test-key')).toEqual(null);
+    expect(Cache.get('test-key')).toEqual(null);
 
     // Set the cache value.
-    cache('test-key', value);
+    Cache.set('test-key', value);
 
     // Get the cache value.
-    expect(cache('test-key')).toEqual(value);
+    expect(Cache.get('test-key')).toEqual(value);
+
+    // Delete the cache value.
+    Cache.delete('test-key');
+
+    // Cache was deleted.
+    expect(Cache.get('test-key')).toEqual(null);
   });
 });
