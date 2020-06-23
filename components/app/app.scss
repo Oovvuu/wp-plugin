@@ -1,6 +1,10 @@
 .wrapper {
   font-family: $font-sans;
   padding: rem(10) rem(15);
+
+  @include classic-editor-sidebar-only {
+    padding: 0;
+  }
 }
 
 .topButtons {

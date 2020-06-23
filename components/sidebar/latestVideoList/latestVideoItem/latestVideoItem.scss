@@ -1,6 +1,10 @@
 .wrapper {
   @include deep-shadow;
   border-radius: 0 0 $border-radius $border-radius;
+
+  img {
+    max-width: 100%;
+  }
 }
 
 .inner {
