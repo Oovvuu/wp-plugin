@@ -30,5 +30,6 @@ h3.heading {
   @include classic-editor-sidebar-only {
     max-height: 100vh;
     overflow: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }
