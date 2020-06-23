@@ -33,7 +33,7 @@ export default class Cache {
    */
   static set(key, value) {
     // Set the cache.
-    if (key && undefined !== value) {
+    if (undefined !== key && undefined !== value) {
       window.oovvuuClientCache[key] = value;
       return true;
     }
