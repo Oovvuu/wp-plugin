@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import BrightcovePlayer from 'components/shared/brightcovePlayer';
 import VideoCardWrapper from 'components/shared/videoCard';
 import formatDuration from 'services/formatDuration';
+import styles from './latestVideoItem.scss';
 
 /**
  * The latest video list item container.
@@ -22,7 +23,6 @@ const LatestVideoItemWrapper = (props) => {
       thumbnail: {
         url: thumbnailUrl,
       } = {},
-      summary,
       duration,
       id,
       modified,
@@ -49,22 +49,24 @@ const LatestVideoItemWrapper = (props) => {
   };
 
   return (
-    <div
+    <li
       key={id}
     >
-      <div>
+      <div className={styles.wrapper}>
         {renderPlayer()}
-        <VideoCardWrapper
-          summary={summary}
-          clipLength={formatDuration(duration)}
-          modified={modified}
-          title={title}
-          url={url}
-          legalName={legalName}
-        />
+        <div className={styles.inner}>
+          <VideoCardWrapper
+            clipLength={formatDuration(duration)}
+            modified={modified}
+            title={title}
+            url={url}
+            legalName={legalName}
+            size="small"
+          />
+        </div>
         {/* @todo add ADDED button. */}
       </div>
-    </div>
+    </li>
   );
 };
 
@@ -86,7 +88,6 @@ LatestVideoItemWrapper.propTypes = {
     thumbnail: PropTypes.shape({
       url: PropTypes.string.isRequired,
     }).isRequired,
-    summary: PropTypes.string.isRequired,
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,

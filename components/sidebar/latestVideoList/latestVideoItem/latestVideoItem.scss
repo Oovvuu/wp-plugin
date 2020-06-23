@@ -1,0 +1,14 @@
+.wrapper {
+  @include deep-shadow;
+  border-radius: 0 0 $border-radius $border-radius;
+}
+
+.inner {
+  display: grid;
+  grid-gap: rem(10);
+  grid-template-areas:
+    'meta meta'
+    'logo title';
+  padding: rem(5) rem(5) rem(10) rem(10);
+  position: relative;
+}

@@ -1,0 +1,16 @@
+.logo {
+  composes: logo from 'videoCard.shared.scss';
+  height: rem(35);
+  width: rem(35);
+}
+
+.title {
+  @include font-props(12, normal, regular);
+  composes: title from 'videoCard.shared.scss';
+}
+
+.meta {
+  composes: meta from 'videoCard.shared.scss';
+  grid-gap: rem(5);
+  grid-template-columns: repeat(2, max-content);
+}
