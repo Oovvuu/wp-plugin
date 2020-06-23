@@ -18,7 +18,7 @@
 }
 
 /**
- * Base shape and text styles shared between buttons and links.
+ * Base shape styles shared between buttons and links.
  */
 @mixin button-shape-styles {
   border-radius: rem(4);
@@ -26,7 +26,7 @@
 }
 
 /**
- * Base shape and text styles shared between buttons and links.
+ * Base text styles shared between buttons and links.
  */
 @mixin button-text-styles {
   @include font-props(14, 14, medium);
