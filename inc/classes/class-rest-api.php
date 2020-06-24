@@ -377,7 +377,7 @@ class REST_API {
 			}
 
 			// Add the embed.
-			$embeds['hero'] = $embed;
+			$embeds['sidebarHero'] = $embed;
 		}
 
 		// Save the embed code if it is valid.
