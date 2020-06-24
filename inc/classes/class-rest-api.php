@@ -307,13 +307,16 @@ class REST_API {
 	 */
 	public function save_state( $request ) {
 
+		// Get valid positions.
+		$valid_positions = get_valid_positions();
+
 		// Save the state to post meta.
 		$state = array_merge( $request['state'], [ 'isLoadedFromMeta' => true ] );
 		update_post_meta( $request['id'], 'oovvuu_state', $state );
 
-		// Create the embeds.
+		// Create the embeds from modal positions.
 		$embeds = [];
-		foreach ( get_valid_positions() as $position => $data ) {
+		foreach ( $valid_positions as $position => $data ) {
 
 			// Position is empty.
 			if ( empty( $request['state']['selectedVideos'][ $position ] ) ) {
@@ -346,10 +349,39 @@ class REST_API {
 			$embeds[ $position ] = $embed;
 		}
 
-		// Save the embed code if it is valid.
-		if ( ! empty( $embeds ) ) {
-			update_post_meta( $request['id'], 'oovvuu_embeds', $embeds );
+		// Create embeds from the sidebar hero.
+		if (
+			! empty( $valid_positions['hero'] )
+			&& ! empty( $request['state']['sidebarSelectedHeroVideo']['id'] )
+		) {
+			// Create the embed.
+			$response = $this->create_embed(
+				[
+					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
+					'video_ids'      => [ $request['state']['sidebarSelectedHeroVideo'] ],
+					'type'           => $valid_positions['hero']['type'],
+					'keywords'       => [],
+					'post_id'        => $request['id'],
+					'embed_location' => $valid_positions['hero']['embed_location'],
+				]
+			);
+
+			$embed = [];
+
+			// Valid response.
+			if ( ! empty( $response['data'] ) ) {
+				$embed = [
+					'raw_response' => $response['data'],
+					'id'           => $response['data']['createEmbed']['id'] ?? '',
+				];
+			}
+
+			// Add the embed.
+			$embeds['sidebarHero'] = $embed;
 		}
+
+		// Save embeds.
+		update_post_meta( $request['id'], 'oovvuu_embeds', $embeds );
 
 		return rest_ensure_response(
 			[
