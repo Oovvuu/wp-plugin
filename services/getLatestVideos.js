@@ -1,17 +1,18 @@
 /**
  * Performs an API request to obtain the latest videos.
  *
+ * @param {array} keywords The array of keywords.
  * @param  {string}  id Post ID.
  * @returns {Promise} Future object for API response data.
  */
 
-const getLatestVideos = (id) => {
+const getLatestVideos = (keywords, id) => {
   const { apiFetch, i18n: { __ } } = wp;
 
   return apiFetch({
     path: '/oovvuu/v1/latestVideos/',
     method: 'POST',
-    data: { id },
+    data: { keywords, id },
   })
     .then((value) => {
       if (value.data === null) {

@@ -239,7 +239,10 @@ class REST_API {
 					}
 				}' . $this->get_graphql_video_fragment(),
 				[
-					'sort'  => [
+					'filter' => (object) [
+						'keywordMatch' => $request['keywords'] ?? [],
+					],
+					'sort'   => [
 						(object) [
 							'sort'      => 'id',
 							'ascending' => false,

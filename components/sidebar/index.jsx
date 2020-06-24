@@ -8,9 +8,10 @@ import { displayDismissableAlert } from 'services/alert';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
+import Search from './search';
 
 /**
- * The Sidebar container.
+ s The Sidebar container.
  */
 const SidebarWrapper = () => {
   const { i18n: { __ } } = wp;
@@ -25,13 +26,14 @@ const SidebarWrapper = () => {
   /**
    * Fetches the latest videos.
    *
+   * @param {array} keywords The array of keywords.
    * @returns {Promise<void>} Future for response data or error object.
    */
-  const handleFetchLatestVideos = async () => {
+  const handleFetchLatestVideos = async (keywords) => {
     // Start loading state.
     setIsLoading(true);
 
-    const response = await getLatestVideos(getPostAttribute('id'));
+    const response = await getLatestVideos(keywords, getPostAttribute('id'));
 
     const {
       hasError,
@@ -52,19 +54,19 @@ const SidebarWrapper = () => {
     setIsLoading(false);
   };
 
-
   /**
    * Fetch latest videos when this component renders and does not currently
    * contain any videos.
    */
   React.useEffect(() => {
     if (latestVideos.length === 0) {
-      handleFetchLatestVideos();
+      handleFetchLatestVideos([]);
     }
   }, []);
 
   return (
     <section>
+      <Search onFormSubmission={(keywords) => { handleFetchLatestVideos(keywords); }} />
       <header className={styles.header}>
         <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
         <ActionButton
