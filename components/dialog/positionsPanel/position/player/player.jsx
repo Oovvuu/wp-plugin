@@ -18,7 +18,7 @@ const Player = (props) => {
       return null;
     }
 
-    const { id, preview, thumbnail: { url } } = video;
+    const { id, preview } = video;
     const isPreviewConfigured = preview?.brightcoveAccountId
         && preview?.brightcovePlayerId
         && preview?.brightcoveVideoId
@@ -38,7 +38,7 @@ const Player = (props) => {
         className={styles.brightcoveThumbnail}
         onClick={updatePlayer}
       >
-        <img src={url} alt="" />
+        <img src={video?.thumbnail?.url} alt="" />
       </button>
     );
   };
@@ -51,11 +51,11 @@ Player.propTypes = {
     preview: PropTypes.shape({
       brightcoveVideoId: PropTypes.string,
       brightcovePlayerId: PropTypes.string,
-      brightcoveAccountId: PropTypes.string.isRequired,
-    }).isRequired,
+      brightcoveAccountId: PropTypes.string,
+    }),
     thumbnail: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-    }).isRequired,
+      url: PropTypes.string,
+    }),
   }).isRequired,
   position: PropTypes.number.isRequired,
   updatePlayer: PropTypes.func.isRequired,
