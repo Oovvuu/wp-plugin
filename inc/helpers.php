@@ -39,7 +39,7 @@ function get_embed_id( $position, $post_id = 0 ) {
 	// Get the embed codes.
 	$embeds = get_post_meta( $post->ID, 'oovvuu_embeds', true );
 
-	// Shortcuircut if a sidebar hero is active.
+	// Short circuit if a sidebar hero is active.
 	if ( 'hero' === $position && ! empty( $embeds['sidebarHero']['id'] ) ) {
 		return (string) $embeds['sidebarHero']['id'];
 	}
