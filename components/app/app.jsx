@@ -85,7 +85,7 @@ const App = () => {
       >
         <DialogWrapper />
         <a
-          href="https://compass.prod.oovvuu.io/"
+          href="https://compass.oovvuu.media/"
           target="_blank"
           rel="noopener noreferrer nofollow"
           className={styles.buttonLink}
