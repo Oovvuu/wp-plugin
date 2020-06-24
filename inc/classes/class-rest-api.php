@@ -380,10 +380,8 @@ class REST_API {
 			$embeds['sidebarHero'] = $embed;
 		}
 
-		// Save the embed code if it is valid.
-		if ( ! empty( $embeds ) ) {
-			update_post_meta( $request['id'], 'oovvuu_embeds', $embeds );
-		}
+		// Save embeds.
+		update_post_meta( $request['id'], 'oovvuu_embeds', $embeds );
 
 		return rest_ensure_response(
 			[
