@@ -35,9 +35,6 @@ const LatestVideoItemWrapper = (props) => {
         },
       },
       preview,
-      thumbnail: {
-        url: thumbnailUrl,
-      } = {},
       duration,
       id,
       modified,
@@ -54,7 +51,7 @@ const LatestVideoItemWrapper = (props) => {
   const renderPlayer = () => {
     if (preview === null) {
       return (
-        <img src={thumbnailUrl} alt="" />
+        <img src={video?.thumbnail?.url} alt="" />
       );
     }
     return (
@@ -167,8 +164,8 @@ LatestVideoItemWrapper.propTypes = {
       brightcoveAccountId: PropTypes.string,
     }),
     thumbnail: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-    }).isRequired,
+      url: PropTypes.string,
+    }),
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
