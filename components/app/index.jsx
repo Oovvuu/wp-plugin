@@ -6,7 +6,7 @@ import styles from './app.scss';
 
 const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 const { registerPlugin } = wp.plugins;
-const label = 'Oovvuu';
+const pluginLabel = 'Oovvuu';
 
 /**
  * Adds a new Document Settings Panel for all Oovvuu video embedding functionality.
@@ -16,11 +16,11 @@ const OovvuuPluginDocumentSettingPanel = () => (
     <PluginSidebarMoreMenuItem
       target="oovvuu"
     >
-      {label}
+      {pluginLabel}
     </PluginSidebarMoreMenuItem>
     <PluginSidebar
       name="oovvuu"
-      title="Oovvuu"
+      title={pluginLabel}
       className={styles.sidebar}
       icon={OovvuuSmallSVGLogo}
     >
