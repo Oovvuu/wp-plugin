@@ -25,7 +25,7 @@
   margin-bottom: rem(10);
 
   h3 {
-    @include font-props(14, 16, normal);
+    @include font-props(14, 16, regular);
     @include uppercase;
     display: inline-block;
     margin: 0;
