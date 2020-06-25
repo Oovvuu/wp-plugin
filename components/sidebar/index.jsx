@@ -99,8 +99,12 @@ const SidebarWrapper = () => {
           )
         }
       </section>
+
       <section>
         <Search onFormSubmission={(keywords) => { handleFetchLatestVideos(keywords); }} />
+      </section>
+
+      <section>
         <header className={styles.header}>
           <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
           <ActionButton
