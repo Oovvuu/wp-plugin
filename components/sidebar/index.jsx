@@ -19,6 +19,7 @@ const SidebarWrapper = () => {
   const {
     state: {
       sidebarSelectedHeroVideo,
+      isLoadedFromMeta,
     },
   } = React.useContext(OovvuuDataContext);
   const [latestVideos, setLatestVideos] = React.useState([]);
@@ -58,16 +59,26 @@ const SidebarWrapper = () => {
   };
 
   /**
+   * Whether or not latest videos should display.
+   *
+   * Latest videos shouldn't be displayed if videos
+   * have been embedded via the dialog. Since all
+   * dialog embeds set the "isLoadedFromMeta" flag,
+   * it can be used as an indicator here.
+   */
+  const shouldShowLatestVideos = () => !isLoadedFromMeta;
+
+  /**
    * Fetch latest videos when this component renders and does not currently
    * contain any videos.
    */
   React.useEffect(() => {
-    if (latestVideos.length === 0) {
+    if (latestVideos.length === 0 && shouldShowLatestVideos()) {
       handleFetchLatestVideos([]);
     }
   }, []);
 
-  return (
+  const showLatestVideosWrapper = (
     <>
       <section>
         {
@@ -110,6 +121,8 @@ const SidebarWrapper = () => {
       </section>
     </>
   );
+
+  return shouldShowLatestVideos() ? showLatestVideosWrapper : '';
 };
 
 export default SidebarWrapper;
