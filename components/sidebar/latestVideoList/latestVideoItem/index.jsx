@@ -5,6 +5,8 @@ import BrightcovePlayer from 'components/shared/brightcovePlayer';
 import VideoCardWrapper from 'components/shared/videoCard';
 import formatDuration from 'services/formatDuration';
 import OovvuuDataContext from 'components/app/context';
+import AddIcon from 'assets/add.svg';
+import DoneIcon from 'assets/done.svg';
 import styles from './latestVideoItem.scss';
 
 /**
@@ -33,9 +35,6 @@ const LatestVideoItemWrapper = (props) => {
         },
       },
       preview,
-      thumbnail: {
-        url: thumbnailUrl,
-      } = {},
       duration,
       id,
       modified,
@@ -52,7 +51,7 @@ const LatestVideoItemWrapper = (props) => {
   const renderPlayer = () => {
     if (preview === null) {
       return (
-        <img src={thumbnailUrl} alt="" />
+        <img src={video?.thumbnail?.url} alt="" />
       );
     }
     return (
@@ -82,13 +81,7 @@ const LatestVideoItemWrapper = (props) => {
    * @return {boolean} True if there is a video embedded via the sidebar,
    *                   otherwise false.
    */
-  const isVideoAdded = () => {
-    if (sidebarSelectedHeroVideo.id === id) {
-      return true;
-    }
-
-    return false;
-  };
+  const isVideoAdded = () => (sidebarSelectedHeroVideo.id === id);
 
   /**
    * Get the button text for the add to story based on whether this video is already
@@ -96,12 +89,24 @@ const LatestVideoItemWrapper = (props) => {
    *
    * @return {string} The button text.
    */
-  const getButtonText = () => {
-    if (!isSavingStory && isVideoAdded()) {
-      return __('Added', 'oovvuu');
+  const ButtonContents = () => {
+    if (isSavingStory) {
+      return <>{__('Adding...', 'oovvuu')}</>;
     }
 
-    return __('Add to Story', 'oovvuu');
+    return isVideoAdded()
+      ? (
+        <>
+          <DoneIcon />
+          {__('Added', 'oovvuu')}
+        </>
+      )
+      : (
+        <>
+          <AddIcon />
+          {__('Add to story', 'oovvuu')}
+        </>
+      );
   };
 
   /**
@@ -129,15 +134,15 @@ const LatestVideoItemWrapper = (props) => {
             legalName={legalName}
             size="small"
           />
+          <ActionButton
+            disabled={isVideoAdded() || currentlyAddingVideo}
+            buttonStyle="small"
+            onClickHandler={handleAddToStory}
+            className={styles.addButton}
+          >
+            <ButtonContents />
+          </ActionButton>
         </div>
-        <ActionButton
-          disabled={isVideoAdded() || currentlyAddingVideo}
-          buttonStyle="primary"
-          onClickHandler={handleAddToStory}
-        >
-          <>{getButtonText()}</>
-          <>{isSavingStory ? 'Loading...' : ''}</>
-        </ActionButton>
       </div>
     </li>
   );
@@ -159,8 +164,8 @@ LatestVideoItemWrapper.propTypes = {
       brightcoveAccountId: PropTypes.string,
     }),
     thumbnail: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-    }).isRequired,
+      url: PropTypes.string,
+    }),
     duration: PropTypes.number.isRequired,
     modified: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,

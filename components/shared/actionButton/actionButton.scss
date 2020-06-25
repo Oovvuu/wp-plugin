@@ -41,6 +41,29 @@
 }
 
 /**
+ * Small button.
+ */
+.buttonSmall {
+  @include button-base;
+  @include button-shape-styles;
+  @include font-props(12, 12, regular);
+  @include uppercase;
+  background-color: $color-theme;
+  color: $color-white;
+  height: rem(20);
+  padding: 0 rem(5);
+
+  &[disabled] {
+    background-color: $color-deactivated;
+  }
+
+  svg {
+    fill: $color-white;
+    margin-right: rem(5);
+  }
+}
+
+/**
  * Theme-colored button.
  */
 .buttonTheme {

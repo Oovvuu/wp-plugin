@@ -8,6 +8,11 @@
   height: rem(19);
   margin: $keyword-margin;
   width: rem(19);
+
+  svg {
+    height: auto;
+    width: 100%;
+  }
 }
 
 .list {

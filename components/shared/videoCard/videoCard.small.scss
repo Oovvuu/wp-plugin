@@ -1,7 +1,7 @@
 .logo {
   composes: logo from 'videoCard.shared.scss';
-  height: rem(35);
-  width: rem(35);
+  height: $video-card-logo-sm;
+  width: $video-card-logo-sm;
 }
 
 .title {

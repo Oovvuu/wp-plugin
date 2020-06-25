@@ -116,24 +116,10 @@ const DialogWrapper = () => {
     }
   };
 
-  /**
-   * Determine if the current video is already added as the hero embed video.
-   *
-   * @return {boolean} True if there is a video embedded via the sidebar,
-   *                   otherwise false.
-   */
-  const isVideoEmbeddedViaSidebar = () => {
-    if (undefined !== sidebarSelectedHeroVideo.id) {
-      return true;
-    }
-
-    return false;
-  };
-
   return (
     <>
       <ActionButton
-        disabled={isVideoEmbeddedViaSidebar()}
+        disabled={(undefined !== sidebarSelectedHeroVideo.id)}
         type="button"
         buttonStyle="primary"
         onClickHandler={openDialog}

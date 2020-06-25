@@ -1,9 +1,23 @@
 .list {
   display: grid;
   grid-row-gap: rem(20);
+  grid-template: auto / minmax(0, 1fr);
   margin: 0;
+
+  @include classic-editor-sidebar-only {
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(100% - rem(8)); // Prevents the overflow from cutting off the shadow.
+  }
 
   li {
     margin: 0;
+
+    @include classic-editor-sidebar-only {
+
+      &:last-of-type {
+        margin-bottom: rem(6); // Prevents the overflow from cutting off the shadow.
+      }
+    }
   }
 }

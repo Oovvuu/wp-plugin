@@ -170,8 +170,7 @@ const EffectsManager = (props) => {
        */
       dispatch({ type: 'RESET_STATE', payload: data });
     } else {
-      // @todo display any error message.
-      console.log(message);
+      displayDismissableAlert({ message });
     }
   };
 

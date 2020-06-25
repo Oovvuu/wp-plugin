@@ -50,7 +50,10 @@ const PlayerWrapper = (props) => {
    * Update the preview videos when videos are swapped.
    */
   React.useEffect(() => {
-    if (lastActionType === 'SWAP_VIDEOS') {
+    if (
+      lastActionType === 'SWAP_VIDEOS'
+      || lastActionType === 'CLEAR_LOADING_STATE'
+    ) {
       setPreviewVideos([...videos]);
     }
   }, [lastActionType]);
@@ -63,11 +66,8 @@ PlayerWrapper.propTypes = {
     preview: PropTypes.shape({
       brightcoveVideoId: PropTypes.string,
       brightcovePlayerId: PropTypes.string,
-      brightcoveAccountId: PropTypes.string.isRequired,
-    }).isRequired,
-    thumbnail: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-    }).isRequired,
+      brightcoveAccountId: PropTypes.string,
+    }),
   })).isRequired,
 };
 

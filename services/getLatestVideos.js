@@ -38,8 +38,6 @@ const getLatestVideos = (keywords, id) => {
     })
     .catch((error) => {
       const { message } = error;
-      // TODO: Perform error handling.
-      console.error(error);
 
       return {
         hasError: true,
