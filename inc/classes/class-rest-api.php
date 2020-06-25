@@ -239,13 +239,18 @@ class REST_API {
 					}
 				}' . $this->get_graphql_video_fragment(),
 				[
-					'sort'  => [
+					'filter' => (object) [
+						'status' => [
+							'Active',
+						],
+					],
+					'sort'   => [
 						(object) [
 							'sort'      => 'id',
 							'ascending' => false,
 						],
 					],
-					'limit' => 24,
+					'limit'  => 25,
 				],
 				$request['id'] ?? 0,
 				[
