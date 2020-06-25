@@ -106,7 +106,7 @@ const KeywordPanelWrapper = () => {
         <ActionButton
           buttonStyle="primary"
           onClickHandler={handleFetchVideos}
-          disabled={!recommendedKeywords.length}
+          disabled={!recommendedKeywords.length && !userKeywords.length}
           className={styles.getVideos}
         >
           <SearchIcon />

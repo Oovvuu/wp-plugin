@@ -46,6 +46,22 @@ const EffectsManager = (props) => {
     const id = getPostAttribute('id');
     const title = getPostAttribute('title');
     const content = getPostAttribute('content');
+
+    /*
+     * If there is no title or body content to
+     * send to the keyword fetch API, focus cursor on
+     * custom keyword input.
+     *
+     * @TODO test cases with only a title
+     * @TODO test cases with only content
+     */
+    if (!title.length && !content.length) {
+      // @TODO focus cursor on custom key words input.
+
+      // bail early.
+      return;
+    }
+
     dispatch({ type: 'SET_LOADING_STATE' });
 
     const response = await getKeywords(title, content, id);
