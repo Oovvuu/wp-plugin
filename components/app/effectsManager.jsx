@@ -53,7 +53,7 @@ const EffectsManager = (props) => {
       hasError,
       data: {
         keywords,
-      },
+      } = {},
       error: {
         message,
       } = {},
