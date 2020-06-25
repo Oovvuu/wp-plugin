@@ -4,6 +4,7 @@ import initialState from 'components/app/context/initialState';
 import * as getKeywords from 'services/getKeywords';
 import * as getPostAttribute from 'services/getPostAttribute';
 import * as getTopicVideos from 'services/getTopicVideos';
+import * as saveState from 'services/saveState';
 import EffectsManager from './effectsManager';
 
 describe('EffectsManager', () => {
@@ -239,6 +240,28 @@ describe('EffectsManager', () => {
       };
       wrapper.setProps({ actionType: 'UPDATE_RECOMMENDED_VIDEOS', state: positionTwoEmptyState });
       expect(dispatchFn).toHaveBeenCalledWith({ type: 'SHOW_POSITIONS_PANEL' });
+    });
+  });
+
+  describe('REMOVE_SIDEBAR_SELECTED_HERO', () => {
+    it('Dispatches RESET_STATE', () => {
+      jest.spyOn(getPostAttribute, 'default').mockImplementationOnce(() => '1');
+      const response = { hasError: false, data: 'data' };
+      const saveStateSpy = jest.spyOn(saveState, 'default').mockImplementationOnce(() => Promise.resolve(response));
+      const wrapper = shallow(
+        <EffectsManager
+          dispatch={dispatchFn}
+          state={mockState}
+        >
+          <p>Hello, world!</p>
+        </EffectsManager>,
+      );
+
+      wrapper.setProps({ actionType: 'REMOVE_SIDEBAR_SELECTED_HERO' });
+      return new Promise((resolve) => setImmediate(resolve)).then(() => {
+        expect(saveStateSpy).toHaveBeenCalledTimes(1);
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'RESET_STATE', payload: 'data' });
+      });
     });
   });
 });

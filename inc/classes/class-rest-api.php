@@ -241,6 +241,9 @@ class REST_API {
 				[
 					'filter' => (object) [
 						'keywordMatch' => $request['keywords'] ?? [],
+						'status' => [
+							'Active',
+						],
 					],
 					'sort'   => [
 						(object) [
@@ -248,7 +251,7 @@ class REST_API {
 							'ascending' => false,
 						],
 					],
-					'limit' => 24,
+					'limit'  => 25,
 				],
 				$request['id'] ?? 0,
 				[

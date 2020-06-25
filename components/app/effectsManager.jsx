@@ -53,7 +53,7 @@ const EffectsManager = (props) => {
       hasError,
       data: {
         keywords,
-      },
+      } = {},
       error: {
         message,
       } = {},
@@ -188,7 +188,7 @@ const EffectsManager = (props) => {
       syncSelectedToRecommendedVideos();
     }
 
-    if (actionType === 'UPDATE_SIDEBAR_HERO_EMBED') {
+    if (['REMOVE_SIDEBAR_SELECTED_HERO', 'UPDATE_SIDEBAR_HERO_EMBED'].includes(actionType)) {
       saveDatatoPostMeta();
     }
 
