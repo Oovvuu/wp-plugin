@@ -11,7 +11,7 @@ import styles from './sidebar.scss';
 import Search from './search';
 
 /**
- s The Sidebar container.
+ * The Sidebar container.
  */
 const SidebarWrapper = () => {
   const { i18n: { __ } } = wp;
