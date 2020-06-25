@@ -26,7 +26,7 @@ const HeroCardWrapper = (props) => {
         </ActionButton>
       </div>
       <div className={styles.content}>
-        <img src={url} alt="video thumbnail" draggable="false" />
+        <img src={url} alt="video thumbnail" />
         <p>{title}</p>
       </div>
     </div>

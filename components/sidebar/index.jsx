@@ -65,26 +65,27 @@ const SidebarWrapper = () => {
   }, []);
 
   return (
-    <section>
-      <header className={styles.header}>
-        <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
-        <ActionButton
-          buttonStyle="icon"
-          ariaLabel={__('Refresh latest videos', 'oovvuu')}
-          onClickHandler={handleFetchLatestVideos}
-        >
-          <RefreshIcon />
-        </ActionButton>
-      </header>
-
+    <>
       {sidebarSelectedHeroVideo.id && (<HeroCardWrapper video={sidebarSelectedHeroVideo} />)}
+      <section>
+        <header className={styles.header}>
+          <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
+          <ActionButton
+            buttonStyle="icon"
+            ariaLabel={__('Refresh latest videos', 'oovvuu')}
+            onClickHandler={handleFetchLatestVideos}
+          >
+            <RefreshIcon />
+          </ActionButton>
+        </header>
 
-      <div className={styles.listWrapper}>
-        {isLoading
-          ? <LoadingSpinner />
-          : <LatestVideoListWrapper videos={latestVideos} />}
-      </div>
-    </section>
+        <div className={styles.listWrapper}>
+          {isLoading
+            ? <LoadingSpinner />
+            : <LatestVideoListWrapper videos={latestVideos} />}
+        </div>
+      </section>
+    </>
   );
 };
 
