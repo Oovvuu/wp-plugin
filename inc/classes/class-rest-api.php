@@ -318,7 +318,7 @@ class REST_API {
 		// Get the post ID.
 		$post_id = absint( $request['id'] );
 
-		// Santize the state.
+		// Sanitize the state.
 		$state = $this->sanitize_state( $request['state'] );
 
 		// Save the state to post meta.
