@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 
 /**
- * Component for a search form in the sidebar.
+ * Component for sidebar search.
  */
 const Search = (props) => {
   const { onFormSubmission } = props;
