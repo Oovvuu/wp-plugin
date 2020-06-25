@@ -68,10 +68,7 @@ const SidebarWrapper = () => {
    * contain any videos.
    */
   React.useEffect(() => {
-    console.log('should show?');
-    console.log(shouldShowLatestVideos());
     if (latestVideos.length === 0 && shouldShowLatestVideos()) {
-      console.log('hello?');
       handleFetchLatestVideos();
     }
   }, []);
