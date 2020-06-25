@@ -10,7 +10,7 @@ describe('SidebarWrapper', () => {
 
   it('Renders HeroCard when sidebar has selected hero video', () => {
     jest.spyOn(React, 'useContext').mockImplementation(() => ({
-      state: { sidebarSelectedHeroVideo: { id: '1' } },
+      state: { sidebarSelectedHeroVideo: { id: 'id', thumbnail: { url: 'url' }, title: 'title' } },
     }));
     const wrapper = shallow(<SidebarWrapper />);
 
