@@ -118,6 +118,12 @@ const reducer = (state, action) => {
         shouldShowPositionsPanel: true,
       };
     }
+    case 'REMOVE_SIDEBAR_SELECTED_HERO': {
+      return {
+        ...nextState,
+        sidebarSelectedHeroVideo: {},
+      };
+    }
 
     default:
       return nextState;

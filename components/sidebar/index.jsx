@@ -8,6 +8,8 @@ import { displayDismissableAlert } from 'services/alert';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
+import Search from './search';
+import HeroCardWrapper from './heroCard';
 
 /**
  * The Sidebar container.
@@ -26,13 +28,14 @@ const SidebarWrapper = () => {
   /**
    * Fetches the latest videos.
    *
+   * @param {array} keywords The array of keywords.
    * @returns {Promise<void>} Future for response data or error object.
    */
-  const handleFetchLatestVideos = async () => {
+  const handleFetchLatestVideos = async (keywords) => {
     // Start loading state.
     setIsLoading(true);
 
-    const response = await getLatestVideos(getPostAttribute('id'));
+    const response = await getLatestVideos(keywords, getPostAttribute('id'));
 
     const {
       hasError,
@@ -69,12 +72,13 @@ const SidebarWrapper = () => {
    */
   React.useEffect(() => {
     if (latestVideos.length === 0 && shouldShowLatestVideos()) {
-      handleFetchLatestVideos();
+      handleFetchLatestVideos([]);
     }
   }, []);
 
   const showLatestVideosWrapper = (
     <section>
+      <Search onFormSubmission={(keywords) => { handleFetchLatestVideos(keywords); }} />
       <header className={styles.header}>
         <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
         <ActionButton
@@ -86,10 +90,7 @@ const SidebarWrapper = () => {
         </ActionButton>
       </header>
 
-      <div>
-        <h3>{__('Currently Embedded Hero', 'oovvuu')}</h3>
-        {(undefined !== sidebarSelectedHeroVideo.id ? sidebarSelectedHeroVideo.id : 0)}
-      </div>
+      {sidebarSelectedHeroVideo.id && (<HeroCardWrapper video={sidebarSelectedHeroVideo} />)}
 
       <div className={styles.listWrapper}>
         {isLoading
