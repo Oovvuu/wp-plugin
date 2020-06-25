@@ -60,4 +60,16 @@ describe('Application reducer', () => {
       expect(newState.shouldShowPositionsPanel).toBeTruthy();
     });
   });
+
+  describe('REMOVE_SIDEBAR_SELECTED_HERO', () => {
+    it('Sets sidebarSelectedHeroVideo to empty object', () => {
+      const action = { type: 'REMOVE_SIDEBAR_SELECTED_HERO' };
+      const newState = reducer(
+        { ...initialState, sidebarSelectedHeroVideo: { id: '1' } },
+        action,
+      );
+
+      expect(newState.sidebarSelectedHeroVideo.id).not.toBeDefined();
+    });
+  });
 });
