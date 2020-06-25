@@ -11,10 +11,10 @@ const Search = (props) => {
   const inputSearchRef = useRef();
 
   return (
-    <form onSubmit={() => onFormSubmission([inputSearchRef.current.value])}>
+    <>
       <input type="text" defaultValue="" ref={inputSearchRef} />
-      <input type="submit" />
-    </form>
+      <button type="button" onClick={() => onFormSubmission([inputSearchRef.current.value])}>Submit</button>
+    </>
   );
 };
 
