@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ActionButton from 'components/shared/actionButton';
 import SearchIcon from 'assets/search.svg';
+import styles from './search.scss';
 
 /**
  * Component for sidebar search.
@@ -47,14 +48,17 @@ const Search = (props) => {
         </span>
 
         <input
+          className={styles.input}
           id="oovvuu-sidebar-search"
           type="text"
           defaultValue=""
           onChange={handleChange}
+          placeholder={__('Search Video Library', 'oovvuu')}
         />
       </label>
 
       <ActionButton
+        className={styles.submit}
         type="submit"
         buttonStyle="icon"
         onClickHandler={handleSubmit}
