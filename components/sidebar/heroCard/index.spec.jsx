@@ -6,7 +6,7 @@ import HeroCard from './index';
 describe('Sidebar HeroCard', () => {
   const dispatchFn = jest.fn();
   let translateFn;
-  const videoMock = { id: '1' };
+  const videoMock = { thumbnail: { url: 'url' }, title: 'title' };
 
   beforeEach(() => {
     translateFn = jest.fn();
