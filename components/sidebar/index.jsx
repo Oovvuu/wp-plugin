@@ -8,6 +8,7 @@ import { displayDismissableAlert } from 'services/alert';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
+import HeroCardWrapper from './heroCard';
 
 /**
  * The Sidebar container.
@@ -76,10 +77,7 @@ const SidebarWrapper = () => {
         </ActionButton>
       </header>
 
-      <div>
-        <h3>{__('Currently Embedded Hero', 'oovvuu')}</h3>
-        {(undefined !== sidebarSelectedHeroVideo.id ? sidebarSelectedHeroVideo.id : 0)}
-      </div>
+      {sidebarSelectedHeroVideo.id && (<HeroCardWrapper video={sidebarSelectedHeroVideo} />)}
 
       <div className={styles.listWrapper}>
         {isLoading
