@@ -240,6 +240,7 @@ class REST_API {
 				}' . $this->get_graphql_video_fragment(),
 				[
 					'filter' => (object) [
+						'keywordMatch' => $request['keywords'] ?? [],
 						'status' => [
 							'Active',
 						],
