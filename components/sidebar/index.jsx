@@ -66,7 +66,13 @@ const SidebarWrapper = () => {
    * dialog embeds set the "isLoadedFromMeta" flag,
    * it can be used as an indicator here.
    */
-  const shouldShowLatestVideos = () => !isLoadedFromMeta;
+  const shouldShowLatestVideos = () => (
+    !isLoadedFromMeta
+    || (
+      isLoadedFromMeta
+      && undefined !== sidebarSelectedHeroVideo.id
+    )
+  );
 
   /**
    * Fetch latest videos when this component renders and does not currently
