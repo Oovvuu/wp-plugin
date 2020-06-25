@@ -36,13 +36,18 @@ function get_embed_id( $position, $post_id = 0 ) {
 		return null;
 	}
 
+	// Get the embed codes.
+	$embeds = get_post_meta( $post->ID, 'oovvuu_embeds', true );
+
+	// Short circuit if a sidebar hero is active.
+	if ( 'hero' === $position && ! empty( $embeds['sidebarHero']['id'] ) ) {
+		return (string) $embeds['sidebarHero']['id'];
+	}
+
 	// Position is not enabled.
 	if ( ! is_position_enabled( $position, $post->ID ) ) {
 		return null;
 	}
-
-	// Get the embed codes.
-	$embeds = get_post_meta( $post->ID, 'oovvuu_embeds', true );
 
 	// Has hero embed.
 	if ( ! empty( $embeds[ $position ]['id'] ) ) {
