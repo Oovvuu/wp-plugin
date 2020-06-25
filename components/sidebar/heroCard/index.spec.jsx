@@ -11,7 +11,7 @@ describe('Sidebar HeroCard', () => {
   beforeEach(() => {
     translateFn = jest.fn();
     global.wp = { i18n: { __: translateFn } };
-    jest.spyOn(React, 'useContext').mockImplementationOnce(() => ({ dispatch: dispatchFn }));
+    jest.spyOn(React, 'useContext').mockImplementationOnce(() => ({ state: { lastActionType: '' }, dispatch: dispatchFn }));
   });
 
   afterEach(() => {
@@ -19,15 +19,8 @@ describe('Sidebar HeroCard', () => {
   });
 
   it('Has ClearIcon', () => {
-    const wrapper = shallow(<HeroCard video={videoMock} />);
+    const wrapper = shallow(<HeroCard isRemovingVideo={false} video={videoMock} />);
 
     expect(wrapper.find(ClearIcon)).toHaveLength(1);
-  });
-
-  it('Dispatches REMOVE_SIDEBAR_SELECTED_HERO when ActionButton is clicked', () => {
-    const wrapper = mount(<HeroCard video={videoMock} />);
-
-    wrapper.find('button').simulate('click');
-    expect(dispatchFn).toHaveBeenCalledTimes(1);
   });
 });
