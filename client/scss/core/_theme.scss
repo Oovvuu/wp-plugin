@@ -1,14 +1,16 @@
 // Basic colors.
 $color-white: #FFFFFF;
 $color-black: #000000;
+$color-gray-light: #E0E0E0;
+$color-gray-med: #9E9E9E;
 $color-gray-dark: #383838;
 
 // Theme colors.
 $color-theme: #159D8F;
 $color-theme-faded: rgba($color-theme, 0.2);
 $color-warn: #D32F2F;
-$color-decoration: #E0E0E0;
-$color-deactivated: #9E9E9E;
+$color-decoration: $color-gray-light;
+$color-deactivated: $color-gray-med;
 
 // Text
 $color-text: $color-gray-dark;

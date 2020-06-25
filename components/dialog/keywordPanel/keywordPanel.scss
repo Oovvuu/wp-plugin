@@ -14,7 +14,7 @@
 
   p {
     @include font-props(16, 16, light);
-    color: $color-deactivated;
+    color: $color-gray-med;
     margin: 0;
   }
 }
