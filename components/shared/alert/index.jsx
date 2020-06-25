@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import keyCodes from 'utils/keyCodes';
 import withTrappedTabs from 'services/withTrappedTabs';
 import ActionButton from 'components/shared/actionButton';
+import uuid from 'react-uuid';
 import styles from './alert.scss';
 
 /**
@@ -80,6 +81,7 @@ const Alert = (props) => {
               const { action, text } = button;
               return (
                 <ActionButton
+                  key={uuid()}
                   buttonStyle={(action === 'proceed') ? 'warn' : 'button'}
                   onClickHandler={getButtonHandler(action)}
                   className={styles.button}
@@ -119,7 +121,7 @@ Alert.propTypes = {
     text: PropTypes.string,
   })),
   trappedTabsRoot: PropTypes.shape({
-    current: PropTypes.instanceOf(HTMLInputElement),
+    current: PropTypes.instanceOf(HTMLElement),
   }).isRequired,
 };
 

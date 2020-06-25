@@ -24,6 +24,8 @@ const SidebarWrapper = () => {
   } = React.useContext(OovvuuDataContext);
   const [latestVideos, setLatestVideos] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isAddingVideo, setIsAddingVideo] = React.useState(false);
+  const [isRemovingVideo, setIsRemovingVideo] = React.useState(false);
 
   /**
    * Fetches the latest videos.
@@ -64,7 +66,13 @@ const SidebarWrapper = () => {
    * dialog embeds set the "isLoadedFromMeta" flag,
    * it can be used as an indicator here.
    */
-  const shouldShowLatestVideos = () => !isLoadedFromMeta;
+  const shouldShowLatestVideos = () => (
+    !isLoadedFromMeta
+    || (
+      isLoadedFromMeta
+      && undefined !== sidebarSelectedHeroVideo.id
+    )
+  );
 
   /**
    * Fetch latest videos when this component renders and does not currently
@@ -77,27 +85,47 @@ const SidebarWrapper = () => {
   }, []);
 
   const showLatestVideosWrapper = (
-    <section>
-      <Search onFormSubmission={(keywords) => { handleFetchLatestVideos(keywords); }} />
-      <header className={styles.header}>
-        <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
-        <ActionButton
-          buttonStyle="icon"
-          ariaLabel={__('Refresh latest videos', 'oovvuu')}
-          onClickHandler={handleFetchLatestVideos}
-        >
-          <RefreshIcon />
-        </ActionButton>
-      </header>
+    <>
+      <section>
+        {
+          !isAddingVideo
+          && (isRemovingVideo || sidebarSelectedHeroVideo.id)
+          && (
+          <HeroCardWrapper
+            video={sidebarSelectedHeroVideo}
+            isRemovingVideo={isRemovingVideo}
+            updateIsRemovingVideo={setIsRemovingVideo}
+          />
+          )
+        }
+      </section>
+      <section>
+        <Search onFormSubmission={(keywords) => { handleFetchLatestVideos(keywords); }} />
+        <header className={styles.header}>
+          <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
+          <ActionButton
+            buttonStyle="icon"
+            ariaLabel={__('Refresh latest videos', 'oovvuu')}
+            onClickHandler={handleFetchLatestVideos}
+          >
+            <RefreshIcon />
+          </ActionButton>
+        </header>
 
-      {sidebarSelectedHeroVideo.id && (<HeroCardWrapper video={sidebarSelectedHeroVideo} />)}
-
-      <div className={styles.listWrapper}>
-        {isLoading
-          ? <LoadingSpinner />
-          : <LatestVideoListWrapper videos={latestVideos} />}
-      </div>
-    </section>
+        <div className={styles.listWrapper}>
+          {isLoading
+            ? <LoadingSpinner />
+            : (
+              <LatestVideoListWrapper
+                videos={latestVideos}
+                isRemovingVideo={isRemovingVideo}
+                isAddingVideo={isAddingVideo}
+                updateIsAddingVideo={setIsAddingVideo}
+              />
+            )}
+        </div>
+      </section>
+    </>
   );
 
   return shouldShowLatestVideos() ? showLatestVideosWrapper : '';
