@@ -21,7 +21,6 @@ const LatestVideoItemWrapper = (props) => {
     },
     dispatch,
   } = React.useContext(OovvuuDataContext);
-  const [isSavingStory, setIsSavingStory] = React.useState(false);
 
   const {
     video,
@@ -40,9 +39,9 @@ const LatestVideoItemWrapper = (props) => {
       modified,
       title,
     },
-    disableCurrentlyAddingVideo,
-    enableCurrentlyAddingVideo,
-    currentlyAddingVideo,
+    isRemovingVideo,
+    isAddingVideo,
+    updateIsAddingVideo,
   } = props;
 
   /**
@@ -68,8 +67,7 @@ const LatestVideoItemWrapper = (props) => {
    */
   const handleAddToStory = async () => {
     // Set loading state.
-    setIsSavingStory(true);
-    enableCurrentlyAddingVideo();
+    updateIsAddingVideo(true);
 
     // Set the sidebar hero embed.
     dispatch({ type: 'UPDATE_SIDEBAR_HERO_EMBED', payload: video });
@@ -90,7 +88,7 @@ const LatestVideoItemWrapper = (props) => {
    * @return {string} The button text.
    */
   const ButtonContents = () => {
-    if (isSavingStory) {
+    if (isAddingVideo && isVideoAdded()) {
       return <>{__('Adding...', 'oovvuu')}</>;
     }
 
@@ -114,8 +112,7 @@ const LatestVideoItemWrapper = (props) => {
    */
   React.useEffect(() => {
     if (lastActionType === 'RESET_STATE') {
-      setIsSavingStory(false);
-      disableCurrentlyAddingVideo(false);
+      updateIsAddingVideo(false);
     }
   }, [lastActionType]);
 
@@ -135,7 +132,7 @@ const LatestVideoItemWrapper = (props) => {
             size="small"
           />
           <ActionButton
-            disabled={isVideoAdded() || currentlyAddingVideo}
+            disabled={isVideoAdded() || isRemovingVideo || isAddingVideo}
             buttonStyle="small"
             onClickHandler={handleAddToStory}
             className={styles.addButton}
@@ -171,9 +168,9 @@ LatestVideoItemWrapper.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
-  disableCurrentlyAddingVideo: PropTypes.func.isRequired,
-  enableCurrentlyAddingVideo: PropTypes.func.isRequired,
-  currentlyAddingVideo: PropTypes.bool.isRequired,
+  isRemovingVideo: PropTypes.bool.isRequired,
+  isAddingVideo: PropTypes.bool.isRequired,
+  updateIsAddingVideo: PropTypes.func.isRequired,
 };
 
 export default LatestVideoItemWrapper;

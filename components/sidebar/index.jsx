@@ -22,6 +22,8 @@ const SidebarWrapper = () => {
   } = React.useContext(OovvuuDataContext);
   const [latestVideos, setLatestVideos] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isAddingVideo, setIsAddingVideo] = React.useState(false);
+  const [isRemovingVideo, setIsRemovingVideo] = React.useState(false);
 
   /**
    * Fetches the latest videos.
@@ -66,7 +68,19 @@ const SidebarWrapper = () => {
 
   return (
     <>
-      {sidebarSelectedHeroVideo.id && (<HeroCardWrapper video={sidebarSelectedHeroVideo} />)}
+      <section>
+        {
+          !isAddingVideo
+          && (isRemovingVideo || sidebarSelectedHeroVideo.id)
+          && (
+          <HeroCardWrapper
+            video={sidebarSelectedHeroVideo}
+            isRemovingVideo={isRemovingVideo}
+            updateIsRemovingVideo={setIsRemovingVideo}
+          />
+          )
+        }
+      </section>
       <section>
         <header className={styles.header}>
           <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
@@ -82,7 +96,14 @@ const SidebarWrapper = () => {
         <div className={styles.listWrapper}>
           {isLoading
             ? <LoadingSpinner />
-            : <LatestVideoListWrapper videos={latestVideos} />}
+            : (
+              <LatestVideoListWrapper
+                videos={latestVideos}
+                isRemovingVideo={isRemovingVideo}
+                isAddingVideo={isAddingVideo}
+                updateIsAddingVideo={setIsAddingVideo}
+              />
+            )}
         </div>
       </section>
     </>

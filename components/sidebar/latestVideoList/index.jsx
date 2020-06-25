@@ -9,9 +9,10 @@ import styles from './latestVideoList.scss';
 const LatestVideoListWrapper = (props) => {
   const {
     videos,
+    isRemovingVideo,
+    isAddingVideo,
+    updateIsAddingVideo,
   } = props;
-
-  const [currentlyAddingVideo, setCurrentlyAddingVideo] = React.useState(false);
 
   return (
     <ul className={styles.list}>
@@ -19,9 +20,9 @@ const LatestVideoListWrapper = (props) => {
         <LatestVideoItemWrapper
           key={video.id}
           video={video}
-          enableCurrentlyAddingVideo={() => { setCurrentlyAddingVideo(true); }}
-          disableCurrentlyAddingVideo={() => { setCurrentlyAddingVideo(false); }}
-          currentlyAddingVideo={currentlyAddingVideo}
+          isRemovingVideo={isRemovingVideo}
+          isAddingVideo={isAddingVideo}
+          updateIsAddingVideo={updateIsAddingVideo}
         />
       ))}
     </ul>
@@ -45,6 +46,9 @@ LatestVideoListWrapper.propTypes = {
       title: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  isRemovingVideo: PropTypes.bool.isRequired,
+  isAddingVideo: PropTypes.bool.isRequired,
+  updateIsAddingVideo: PropTypes.func.isRequired,
 };
 
 export default LatestVideoListWrapper;
