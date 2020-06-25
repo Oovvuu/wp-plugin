@@ -32,7 +32,7 @@ const HeroCardWrapper = (props) => {
   const handleRemoveVideo = () => {
     confirmThenProceed(
       { message: __('Are you sure you want to remove the hero embed?', 'oovvuu') },
-      __('Yes, close', 'oovvuu'),
+      __('Yes, remove', 'oovvuu'),
       () => {
         updateIsRemovingVideo(true);
         dispatch({ type: 'REMOVE_SIDEBAR_SELECTED_HERO' });
@@ -64,7 +64,7 @@ const HeroCardWrapper = (props) => {
             </ActionButton>
           </div>
           <div className={styles.content}>
-            <img src={video?.thumbnail?.url} alt="video thumbnail" />
+            {video?.thumbnail?.url && <img src={video.thumbnail.url} alt="" />}
             <p>{title}</p>
           </div>
         </>
