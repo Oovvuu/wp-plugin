@@ -1,8 +1,8 @@
 .card {
-  background-color: $color-decoration;
-  border: rem(1) solid #EEE;
+  background-color: #EEEEEE;
+  border: 1px solid $color-gray-light;
   border-radius: $border-radius;
-  padding: rem(5 5 10);
+  padding: rem(5 5 10 5);
 }
 
 .content {
@@ -14,7 +14,12 @@
   }
 
   p {
-    margin: rem(0 0 0 6);
+    @include font-props(12, 18);
+    margin: 0;
+
+    &:not(:only-child) {
+      margin-left: rem(5);
+    }
   }
 }
 
@@ -24,22 +29,18 @@
   margin-bottom: rem(10);
 
   h3 {
-    @include font-props(14, 16, regular);
+    @include font-props(12, normal, regular);
     @include uppercase;
-    display: inline-block;
-    margin: 0;
-  }
-
-  svg {
-    height: rem(16);
-    width: rem(16);
   }
 }
 
 .remove {
   cursor: pointer;
+  height: rem(16);
+  width: rem(16);
 
   svg {
-    background: transparent;
+    height: auto;
+    width: 100%;
   }
 }
