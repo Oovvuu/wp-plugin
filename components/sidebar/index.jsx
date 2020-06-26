@@ -5,6 +5,7 @@ import ActionButton from 'components/shared/actionButton';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import OovvuuDataContext from 'components/app/context';
 import { displayDismissableAlert } from 'services/alert';
+import recommendedVideosEmpty from 'services/recommendedVideosEmpty';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
@@ -19,6 +20,7 @@ const SidebarWrapper = () => {
   const {
     state: {
       sidebarSelectedHeroVideo,
+      recommendedVideos,
       isLoadedFromMeta,
     },
   } = React.useContext(OovvuuDataContext);
@@ -70,7 +72,7 @@ const SidebarWrapper = () => {
     !isLoadedFromMeta
     || (
       isLoadedFromMeta
-      && undefined !== sidebarSelectedHeroVideo.id
+      && !recommendedVideosEmpty(recommendedVideos)
     )
   );
 
