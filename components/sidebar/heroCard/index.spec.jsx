@@ -5,6 +5,7 @@ import HeroCard from './index';
 
 describe('Sidebar HeroCard', () => {
   const dispatchFn = jest.fn();
+  const updateIsRemovingVideo = jest.fn();
   let translateFn;
   const videoMock = { thumbnail: { url: 'url' }, title: 'title' };
 
@@ -19,7 +20,11 @@ describe('Sidebar HeroCard', () => {
   });
 
   it('Has ClearIcon', () => {
-    const wrapper = shallow(<HeroCard isRemovingVideo={false} video={videoMock} />);
+    const wrapper = shallow(<HeroCard
+      updateIsRemovingVideo={updateIsRemovingVideo}
+      isRemovingVideo={false}
+      video={videoMock}
+      />);
 
     expect(wrapper.find(ClearIcon)).toHaveLength(1);
   });

@@ -1,15 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import UserKeywordItem from './';
+import ChipItem from './';
 
 global.wp = {
   i18n: { __: jest.fn(() => 'translated') },
 };
 
-describe('UserKeywordItem', () => {
+describe('ChipItem', () => {
   it('Calls remove function when clicked', () => {
     const handleRemove = jest.fn();
-    const wrapper = shallow(<UserKeywordItem
+    const wrapper = shallow(<ChipItem
       keyword="keyword"
       handleRemove={handleRemove}
     />);
