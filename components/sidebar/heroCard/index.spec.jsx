@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import ClearIcon from 'assets/clear.svg';
 import HeroCard from './index';
 
@@ -24,7 +24,7 @@ describe('Sidebar HeroCard', () => {
       updateIsRemovingVideo={updateIsRemovingVideo}
       isRemovingVideo={false}
       video={videoMock}
-      />);
+    />);
 
     expect(wrapper.find(ClearIcon)).toHaveLength(1);
   });
