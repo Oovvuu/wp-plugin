@@ -8,6 +8,7 @@ const ChipInput = (props) => {
   const {
     onUpdate,
     inputRef,
+    placeholder,
     focusOnMount,
   } = props;
   const [keyword, setKeyword] = React.useState('');
@@ -75,6 +76,7 @@ const ChipInput = (props) => {
         onChange={handleChange}
         ref={inputRef}
         value={keyword}
+        placeholder={placeholder}
         name="keyword-input"
         aria-label={__('Enter a keyword', 'oovvuu')}
       />
@@ -83,12 +85,14 @@ const ChipInput = (props) => {
 };
 
 ChipInput.defaultProps = {
+  placeholder: '',
   focusOnMount: true,
 };
 
 ChipInput.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  placeholder: PropTypes.string,
   focusOnMount: PropTypes.bool,
 };
 

@@ -6,10 +6,15 @@
 
 .input {
   @include input-reset;
-  @include font-props(14, 14, medium);
-  @include uppercase;
+  @include font-props(16, 16);
   height: 100%;
   width: 100%;
+
+  &::placeholder {
+    @include font-props(14, 14, regular);
+    letter-spacing: normal;
+    text-transform: none;
+  }
 
   &:focus {
     outline: none;
