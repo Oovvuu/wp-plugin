@@ -12,6 +12,7 @@ const ChipItem = (props) => {
   const {
     keyword,
     handleRemove,
+    flash,
   } = props;
 
   const textId = keyword.replace(/\s/g, '-');
@@ -19,7 +20,7 @@ const ChipItem = (props) => {
 
   return (
     <div
-      className={classnames(styles.item, styles.user)}
+      className={classnames(styles.item, styles.user, { [styles.flash]: flash })}
     >
       <span
         id={textId}
@@ -44,6 +45,7 @@ const ChipItem = (props) => {
 ChipItem.propTypes = {
   keyword: PropTypes.string.isRequired,
   handleRemove: PropTypes.func.isRequired,
+  flash: PropTypes.bool.isRequired,
 };
 
 export default ChipItem;

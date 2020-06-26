@@ -12,6 +12,7 @@ describe('ChipItem', () => {
     const wrapper = shallow(<ChipItem
       keyword="keyword"
       handleRemove={handleRemove}
+      flash={false}
     />);
 
     const removeButton = wrapper.find('button');

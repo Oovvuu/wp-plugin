@@ -21,6 +21,7 @@ const Search = (props) => {
   const [searchValue, setSearchValue] = React.useState([]);
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
+  const [duplicateIndex, setDuplicateIndex] = React.useState(-1);
   const inputRef = React.createRef();
 
   /**
@@ -46,6 +47,8 @@ const Search = (props) => {
   const handleUpdate = (keyword) => {
     // Do not add a user keyword if it already exists.
     if (searchValue.includes(keyword)) {
+      setDuplicateIndex(searchValue.indexOf(keyword));
+
       return;
     }
 
@@ -80,6 +83,21 @@ const Search = (props) => {
     setLiveRegionMessage(`${lastAction} ${updatedMessage}`);
   }, [lastAction]);
 
+  /**
+   * Clear the flash after we've flashed the duplicate item.
+   */
+  React.useEffect(() => {
+    let timer = null;
+
+    if (duplicateIndex > -1) {
+      timer = setTimeout(() => {
+        setDuplicateIndex(-1);
+      }, 300);
+    }
+
+    return () => clearTimeout(timer);
+  }, [duplicateIndex]);
+
   return (
     <form
       role="search"
@@ -88,11 +106,12 @@ const Search = (props) => {
       onSubmit={handleSubmit}
     >
       <div className={styles.list}>
-        {searchValue.map((keyword) => (
+        {searchValue.map((keyword, index) => (
           <ChipItem
             key={keyword}
             keyword={keyword}
             handleRemove={handleRemove}
+            flash={index === duplicateIndex}
           />
         ))}
 

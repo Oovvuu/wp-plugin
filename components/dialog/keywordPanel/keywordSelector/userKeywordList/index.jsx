@@ -21,6 +21,7 @@ const UserList = () => {
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
   const inputRef = React.createRef();
+  const [duplicateIndex, setDuplicateIndex] = React.useState(-1);
 
   /**
    * Removes a given keyword from the userKeywords state.
@@ -43,6 +44,7 @@ const UserList = () => {
   const handleUpdate = (keyword) => {
     // Do not add a user keyword if it already exists.
     if (userKeywords.includes(keyword)) {
+      setDuplicateIndex(userKeywords.indexOf(keyword));
       return;
     }
 
@@ -84,6 +86,21 @@ const UserList = () => {
     setLiveRegionMessage(`${lastAction} ${updatedMessage}`);
   }, [lastAction]);
 
+  /**
+   * Clear the flash after we've flashed the duplicate item.
+   */
+  React.useEffect(() => {
+    let timer = null;
+
+    if (duplicateIndex > -1) {
+      timer = setTimeout(() => {
+        setDuplicateIndex(-1);
+      }, 300);
+    }
+
+    return () => clearTimeout(timer);
+  }, [duplicateIndex]);
+
   return (
     <div className={styles.wrapper}>
       <a
@@ -96,11 +113,12 @@ const UserList = () => {
       </a>
 
       <div className={styles.list}>
-        {userKeywords.map((keyword) => (
+        {userKeywords.map((keyword, index) => (
           <ChipItem
             key={keyword}
             keyword={keyword}
             handleRemove={handleRemove}
+            flash={index === duplicateIndex}
           />
         ))}
 
