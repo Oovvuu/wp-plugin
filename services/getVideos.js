@@ -35,7 +35,7 @@ const getVideos = (keywords, id) => {
           },
         } : {
           hasError: true,
-          message: __('Malformed response data.', 'oovvuu'),
+          error: { message: __('Malformed response data.', 'oovvuu') },
         };
     })
     .catch((error) => {
