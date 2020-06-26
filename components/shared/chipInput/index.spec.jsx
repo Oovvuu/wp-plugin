@@ -1,19 +1,19 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import KeywordInput from './index';
+import ChipInput from './index';
 
 global.wp = {
   i18n: { __: jest.fn(() => 'translated') },
 };
 
-describe('KeywordInput', () => {
+describe('ChipInput', () => {
   const onUpdate = jest.fn();
   const setKeyword = jest.fn();
   const inputRef = React.createRef();
   jest.spyOn(React, 'useState').mockImplementation(() => ['keyword', setKeyword]);
 
   it('Correctly submits the form', () => {
-    const wrapper = shallow(<KeywordInput inputRef={inputRef} onUpdate={onUpdate} />);
+    const wrapper = shallow(<ChipInput inputRef={inputRef} onUpdate={onUpdate} />);
     const input = wrapper.find('input');
 
     expect(input).toHaveLength(1);
@@ -24,7 +24,7 @@ describe('KeywordInput', () => {
   });
 
   it('Submits the form on TAB key down', () => {
-    const wrapper = shallow(<KeywordInput inputRef={inputRef} onUpdate={onUpdate} />);
+    const wrapper = shallow(<ChipInput inputRef={inputRef} onUpdate={onUpdate} />);
     const input = wrapper.find('input');
 
     expect(input).toHaveLength(1);

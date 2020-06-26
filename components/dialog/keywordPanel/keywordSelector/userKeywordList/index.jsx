@@ -1,8 +1,8 @@
 import React from 'react';
 import AddIcon from 'assets/add.svg';
 import oovvuuData from 'components/app/context';
-import UserKeywordItem from './userKeywordItem';
-import KeywordInput from './keywordInput';
+import ChipItem from 'components/shared/chipItem';
+import ChipInput from 'components/shared/chipInput';
 import styles from './userKeywordList.scss';
 
 /**
@@ -97,14 +97,14 @@ const UserList = () => {
 
       <div className={styles.list}>
         {userKeywords.map((keyword) => (
-          <UserKeywordItem
+          <ChipItem
             key={keyword}
             keyword={keyword}
             handleRemove={handleRemove}
           />
         ))}
 
-        <KeywordInput
+        <ChipInput
           onUpdate={handleUpdate}
           inputRef={inputRef}
         />
