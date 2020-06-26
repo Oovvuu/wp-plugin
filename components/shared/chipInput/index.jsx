@@ -5,7 +5,11 @@ import styles from './chipInput.scss';
 
 const ChipInput = (props) => {
   const { i18n: { __ } } = wp;
-  const { onUpdate, inputRef } = props;
+  const {
+    onUpdate,
+    inputRef,
+    focusOnMount,
+  } = props;
   const [keyword, setKeyword] = React.useState('');
 
   /**
@@ -53,7 +57,9 @@ const ChipInput = (props) => {
    * Focus the input element on mount.
    */
   React.useEffect(() => {
-    inputRef.current.focus();
+    if (focusOnMount) {
+      inputRef.current.focus();
+    }
   }, []);
 
   return (
@@ -76,9 +82,14 @@ const ChipInput = (props) => {
   );
 };
 
+ChipInput.defaultProps = {
+  focusOnMount: true,
+};
+
 ChipInput.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  focusOnMount: PropTypes.bool,
 };
 
 export default ChipInput;
