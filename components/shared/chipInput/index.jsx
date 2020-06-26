@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import keyCodes from 'utils/keyCodes';
 import styles from './chipInput.scss';
 
@@ -8,6 +9,7 @@ const ChipInput = (props) => {
   const {
     onUpdate,
     inputRef,
+    className,
     placeholder,
     focusOnMount,
   } = props;
@@ -66,7 +68,7 @@ const ChipInput = (props) => {
   return (
     <label
       htmlFor="keyword-input"
-      className={styles.inputItem}
+      className={classnames(styles.inputItem, className)}
     >
       <input
         id="user-keyword-input"
@@ -85,6 +87,7 @@ const ChipInput = (props) => {
 };
 
 ChipInput.defaultProps = {
+  className: '',
   placeholder: '',
   focusOnMount: true,
 };
@@ -92,6 +95,7 @@ ChipInput.defaultProps = {
 ChipInput.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  className: PropTypes.string,
   placeholder: PropTypes.string,
   focusOnMount: PropTypes.bool,
 };

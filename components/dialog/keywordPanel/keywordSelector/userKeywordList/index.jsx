@@ -107,6 +107,7 @@ const UserList = () => {
         <ChipInput
           onUpdate={handleUpdate}
           inputRef={inputRef}
+          className={styles.inputItem}
         />
       </div>
       <span
