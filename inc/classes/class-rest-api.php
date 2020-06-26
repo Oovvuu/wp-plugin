@@ -163,7 +163,7 @@ class REST_API {
 	public function get_videos( $request ) {
 		return rest_ensure_response(
 			$this->request(
-				'query ($input: ArticleRecommendationInput, $playbackInput: PlaybackInput) {
+				'query ($input: ArticleRecommendationInput, $playbackInput: PlaybackInput!) {
 					videosForArticle(input: $input) {
 						hero {
 							...VideoDetailFragment
