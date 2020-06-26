@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import ChipItem from 'components/shared/chipItem';
 import UserKeywordList from './index';
-import UserKeywordItem from './userKeywordItem';
 
 global.wp = {
   i18n: { __: jest.fn(() => 'translated') },
@@ -16,6 +16,6 @@ describe('UserKeywordList', () => {
       }));
     const wrapper = shallow(<UserKeywordList />);
 
-    expect(wrapper.find(UserKeywordItem)).toHaveLength(1);
+    expect(wrapper.find(ChipItem)).toHaveLength(1);
   });
 });
