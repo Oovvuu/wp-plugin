@@ -50,7 +50,7 @@ const LatestVideoItemWrapper = (props) => {
   const renderPlayer = () => {
     if (preview === null) {
       return (
-        <img src={video?.thumbnail?.url} alt="" />
+        video?.thumbnail?.url && <img src={video.thumbnail.url} alt="" />
       );
     }
     return (
