@@ -3,7 +3,6 @@ version: 2.1
 jobs:
   test:
     docker:
-<<<<<<< HEAD
       - image: circleci/php:7.4.7-node
       - image: circleci/mysql:latest
         command: [--default-authentication-plugin=mysql_native_password]
@@ -23,16 +22,6 @@ jobs:
           name: Run tests
           command: |
             scripts/setup.sh && \
-=======
-      - image: circleci/7.4.7-node
-    working_directory: ~/repo
-    resource_class: large
-    steps:
-      - checkout
-      - run:
-          name: Run tests
-          command: |
->>>>>>> update for builds in circle ci
             scripts/test.sh
 
   build:
@@ -48,58 +37,47 @@ jobs:
 
 workflows:
   version: 2
-<<<<<<< HEAD
+  validate-commit:
+    jobs:
+      - test:
+          context: test-runner
+          filters:
+            branches:
+              ignore: production
+      - build:
+          context: test-runner
+          filters:
+            branches:
+              ignore: production
+
   build_release:
     jobs:
       - test:
           context: build
           filters:
-            tags:
-              only: /.*/
-=======
-  deploy_plugin:
-    jobs:
-      - test:
-          context: build
-      - build:
-          context: build
-          filters:
-            tags:
-              only: /.*/
             branches:
-              ignore:
-                - production
->>>>>>> update for builds in circle ci
+              only: production
+            tags:
+              only: /.*/
 
       - deploy-prod-approval:
           type: approval
           name: deploy-prod-approval
           requires:
-<<<<<<< HEAD
             - test
-=======
-            - docker-build-push
->>>>>>> update for builds in circle ci
           filters:
             branches:
-              ignore: /.*/
+              only: production
             tags:
               only: /^v.*/
 
-<<<<<<< HEAD
       - build:
           name: deploy-prod
           context: prod
-=======
-      - deploy:
-          name: deploy-prod
-          context: prod
-          environment: prod_oregon
->>>>>>> update for builds in circle ci
           requires:
             - deploy-prod-approval
           filters:
             branches:
-              ignore: /.*/
+              only: production
             tags:
               only: /^v.*/
