@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import uuid from 'react-uuid';
 import keyCodes from 'utils/keyCodes';
 import styles from './chipInput.scss';
 
@@ -14,6 +15,7 @@ const ChipInput = (props) => {
     focusOnMount,
   } = props;
   const [keyword, setKeyword] = React.useState('');
+  const inputId = uuid();
 
   /**
    * Adds the user-entered keyword when the form is submitted.
@@ -67,11 +69,11 @@ const ChipInput = (props) => {
 
   return (
     <label
-      htmlFor="keyword-input"
+      htmlFor={inputId}
       className={classnames(styles.inputItem, className)}
     >
       <input
-        id="user-keyword-input"
+        id={inputId}
         autoComplete="off"
         className={styles.input}
         onKeyDown={handleKeyDown}
@@ -79,7 +81,6 @@ const ChipInput = (props) => {
         ref={inputRef}
         value={keyword}
         placeholder={placeholder}
-        name="keyword-input"
         aria-label={__('Enter a keyword', 'oovvuu')}
       />
     </label>
