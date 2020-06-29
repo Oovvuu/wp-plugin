@@ -7,6 +7,7 @@
 
 .list {
   @include panel-shadow;
+  align-items: center;
   border-radius: $border-radius;
   display: flex;
   flex-wrap: wrap;
