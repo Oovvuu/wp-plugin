@@ -22,7 +22,7 @@ describe('Sidebar HeroCard', () => {
   it('Has ClearIcon', () => {
     const wrapper = shallow(<HeroCard
       updateIsRemovingVideo={updateIsRemovingVideo}
-      isRemovingVideo={false}
+      isWorking={false}
       video={videoMock}
     />);
 

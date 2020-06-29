@@ -3,13 +3,15 @@
   border: 1px solid $color-gray-light;
   border-radius: $border-radius;
   padding: rem(5 5 10 5);
+  position: relative;
 }
 
 .content {
   display: flex;
 
   img {
-    height: auto;
+    height: rem(54);
+    object-fit: cover;
     width: rem(89);
   }
 
@@ -43,4 +45,51 @@
     height: auto;
     width: 100%;
   }
+}
+
+/**
+ * Placeholder styles.
+ */
+.placeholderContent {
+  justify-content: space-between;
+}
+
+.placeholderImg {
+  background-color: $color-decoration;
+  display: block;
+  height: rem(54);
+  width: rem(89);
+}
+
+.placeholderTitle {
+  display: block;
+  flex: 1;
+  margin-left: 5px;
+
+  &::before,
+  &::after {
+    background-color: $color-decoration;
+    border-radius: $border-radius;
+    content: '';
+    display: block;
+    height: rem(12);
+    margin: rem(4) 0;
+  }
+
+  &::before {
+    width: 100%;
+  }
+
+  &::after {
+    width: 75%;
+  }
+}
+
+.placeholderSpinner {
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }

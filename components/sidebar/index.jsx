@@ -88,19 +88,16 @@ const SidebarWrapper = () => {
 
   const showLatestVideosWrapper = (
     <>
-      <section>
-        {
-          !isAddingVideo
-          && (isRemovingVideo || sidebarSelectedHeroVideo.id)
-          && (
-          <HeroCardWrapper
-            video={sidebarSelectedHeroVideo}
-            isRemovingVideo={isRemovingVideo}
-            updateIsRemovingVideo={setIsRemovingVideo}
-          />
-          )
-        }
-      </section>
+      {
+        (isAddingVideo || isRemovingVideo || sidebarSelectedHeroVideo.id)
+        && (
+        <HeroCardWrapper
+          video={sidebarSelectedHeroVideo}
+          isWorking={isRemovingVideo || isAddingVideo}
+          updateIsRemovingVideo={setIsRemovingVideo}
+        />
+        )
+      }
 
       <section>
         <Search onFormSubmission={(keywords) => { handleFetchLatestVideos(keywords); }} />
