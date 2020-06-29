@@ -1,0 +1,63 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: circleci/7.4.7-node
+    working_directory: ~/repo
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: |
+            scripts/test.sh
+
+  build:
+    docker:
+      - image: circleci/php:7.4.7-node
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Run build locally
+          command: |
+            scripts/build.sh
+
+workflows:
+  version: 2
+  deploy_plugin:
+    jobs:
+      - test:
+          context: build
+      - build:
+          context: build
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - production
+
+      - deploy-prod-approval:
+          type: approval
+          name: deploy-prod-approval
+          requires:
+            - docker-build-push
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+
+      - deploy:
+          name: deploy-prod
+          context: prod
+          environment: prod_oregon
+          requires:
+            - deploy-prod-approval
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
