@@ -4,6 +4,7 @@ import ActionButton from 'components/shared/actionButton';
 import ChipItem from 'components/shared/chipItem';
 import ChipInput from 'components/shared/chipInput';
 import SearchIcon from 'assets/search.svg';
+import useEffectFlashTimer from 'utils/useEffectFlashTimer';
 import styles from './search.scss';
 
 /**
@@ -88,15 +89,7 @@ const Search = (props) => {
    * Clear the flash after we've flashed the duplicate item.
    */
   React.useEffect(() => {
-    let timer = null;
-
-    if (duplicateIndex > -1) {
-      timer = setTimeout(() => {
-        setDuplicateIndex(-1);
-      }, 300);
-    }
-
-    return () => clearTimeout(timer);
+    useEffectFlashTimer(duplicateIndex, setDuplicateIndex);
   }, [duplicateIndex]);
 
   return (

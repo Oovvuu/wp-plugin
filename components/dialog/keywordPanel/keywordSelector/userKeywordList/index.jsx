@@ -3,6 +3,7 @@ import AddIcon from 'assets/add.svg';
 import oovvuuData from 'components/app/context';
 import ChipItem from 'components/shared/chipItem';
 import ChipInput from 'components/shared/chipInput';
+import useEffectFlashTimer from 'utils/useEffectFlashTimer';
 import styles from './userKeywordList.scss';
 
 /**
@@ -90,15 +91,7 @@ const UserList = () => {
    * Clear the flash after we've flashed the duplicate item.
    */
   React.useEffect(() => {
-    let timer = null;
-
-    if (duplicateIndex > -1) {
-      timer = setTimeout(() => {
-        setDuplicateIndex(-1);
-      }, 300);
-    }
-
-    return () => clearTimeout(timer);
+    useEffectFlashTimer(duplicateIndex, setDuplicateIndex);
   }, [duplicateIndex]);
 
   return (
