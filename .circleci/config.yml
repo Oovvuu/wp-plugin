@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: circleci/7.4.7-node
+      - image: circleci/php:7.4.7-node
     working_directory: ~/repo
     resource_class: large
     steps:
