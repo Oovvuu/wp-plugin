@@ -109,7 +109,7 @@ const SidebarWrapper = () => {
           <ActionButton
             buttonStyle="icon"
             ariaLabel={__('Refresh latest videos', 'oovvuu')}
-            onClickHandler={handleFetchLatestVideos}
+            onClickHandler={() => handleFetchLatestVideos([])}
           >
             <RefreshIcon />
           </ActionButton>
