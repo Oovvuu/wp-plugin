@@ -1,4 +1,5 @@
 import insertShortcode from './insertShortcode';
+import isGutenbergEditor from './isGutenbergEditor';
 /* global tinymce */
 
 /**
@@ -10,7 +11,7 @@ import insertShortcode from './insertShortcode';
  */
 const insertEmbed = (id, videos, enabled) => {
   // Gutenberg.
-  if (wp.data) {
+  if (isGutenbergEditor() && wp.data && wp.blocks) {
     const {
       data: { dispatch, select },
       blocks: { createBlock },

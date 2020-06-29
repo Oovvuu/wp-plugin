@@ -1,3 +1,4 @@
+import isGutenbergEditor from './isGutenbergEditor';
 /* global tinymce */
 
 /**
@@ -8,10 +9,8 @@
  * @return {[mixed]}            The post attribute value.
  */
 const getPostAttribute = (attribute) => {
-  const classicEditorEl = document.getElementById('oovvuu-classic-editor-react-app');
-
   // Gutenberg.
-  if (classicEditorEl === null && wp.data) {
+  if (isGutenbergEditor() && wp.data) {
     return wp.data.select('core/editor').getEditedPostAttribute(attribute);
   }
 
