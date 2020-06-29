@@ -100,7 +100,7 @@ const SidebarWrapper = () => {
       }
 
       <section>
-        <Search onFormSubmission={(keywords) => { handleFetchLatestVideos(keywords); }} />
+        <Search onFormSubmission={(keywords) => handleFetchLatestVideos(keywords)} />
       </section>
 
       <section>
