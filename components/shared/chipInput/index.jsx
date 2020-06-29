@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import keyCodes from 'utils/keyCodes';
-import styles from './keywordInput.scss';
+import styles from './chipInput.scss';
 
-const KeywordInput = (props) => {
+const ChipInput = (props) => {
   const { i18n: { __ } } = wp;
   const { onUpdate, inputRef } = props;
   const [keyword, setKeyword] = React.useState('');
@@ -76,9 +76,9 @@ const KeywordInput = (props) => {
   );
 };
 
-KeywordInput.propTypes = {
+ChipInput.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
 };
 
-export default KeywordInput;
+export default ChipInput;

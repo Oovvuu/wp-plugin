@@ -40,6 +40,41 @@ function has_hero_embed( $post_id = 0 ) {
 }
 
 /**
+ * Gets the Hero embed HTML given an embed ID.
+ *
+ * @since 1.0.0
+ *
+ * @param string $embed_id The embed ID.
+ * @return string The HTML for the embed.
+ */
+function get_hero_embed_html( $embed_id ) {
+	$html = '<script>!function(e,t,o){let n;const r=e.getElementsByTagName("script")[0];e.getElementById(o)||(n=e.createElement("script"),n.id=o,n.onload=()=>{},n.src="https://playback.prod.oovvuu.io/player/bundle.js",r.parentNode.insertBefore(n,r))}(document,0,"oovvuu-player-sdk");</script>' .
+		'<div data-oovvuu-embed="' . esc_attr( $embed_id ) . '"></div>';
+
+	/**
+	 * Filters the hero embed HTML.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $html     The hero embed HTMl.
+	 * @param string $embed_id The Oovvuu embed ID.
+	 */
+	return apply_filters( 'oovvuu_hero_embed_html', $html, $embed_id );
+}
+
+/**
+ * Gets the Hero embed HTML given an embed ID.
+ *
+ * @since 1.0.0
+ *
+ * @param string $embed_id The embed ID.
+ */
+function the_hero_embed_html( $embed_id ) {
+	// Escaped in the get_hero_embed_html function.
+	echo get_hero_embed_html( $embed_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+
+/**
  * Gets the Hero embed HTML for a specific post.
  *
  * @since 1.0.0
@@ -73,20 +108,9 @@ function get_hero_embed( $post_id ) {
 	$attributes['id'] = $embed_id;
 
 	// Get the HTML.
-	ob_start();
-	include dirname( __DIR__ ) . '/template-parts/blocks/embed.php';
-	$html = ob_get_clean();
+	$html = get_hero_embed_html( $attributes['id'] );
 
-	/**
-	 * Filters the hero embed HTML.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $html     The hero embed HTMl.
-	 * @param int    $post_id  The post ID.
-	 * @param string $embed_id The Oovvuu embed ID.
-	 */
-	return apply_filters( 'oovvuu_hero_embed_html', $html, $post_id, $embed_id );
+	return $html;
 }
 
 /**
