@@ -26,34 +26,25 @@ jobs:
 
 workflows:
   version: 2
-  deploy_plugin:
+  build_release:
     jobs:
       - test:
           context: build
-      - build:
-          context: build
-          filters:
-            tags:
-              only: /.*/
-            branches:
-              ignore:
-                - production
 
       - deploy-prod-approval:
           type: approval
           name: deploy-prod-approval
           requires:
-            - docker-build-push
+            - build
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^v.*/
 
-      - deploy:
+      - build:
           name: deploy-prod
           context: prod
-          environment: prod_oregon
           requires:
             - deploy-prod-approval
           filters:
