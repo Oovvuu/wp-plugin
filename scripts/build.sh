@@ -36,35 +36,27 @@ rm -rf ./node_modules
 NODE_ENV=production npm install
 
 # move the files to a clean location
-mkdir -p $HOME/oovvuu_media/oovvuu
-cp -Rf ./admin $HOME/oovvuu_media/oovvuu/admin
-cp -Rf ./build $HOME/oovvuu_media/oovvuu/build
-cp -Rf ./inc $HOME/oovvuu_media/oovvuu/inc
-cp -Rf ./template-parts $HOME/oovvuu_media/oovvuu/template-parts
-cp -Rf ./vendor $HOME/oovvuu_media/oovvuu/vendor
-cp ./index.php $HOME/oovvuu_media/oovvuu/oovvuu.php
+mkdir -p $HOME/oovvuu_media
+cp -Rf ./admin $HOME/oovvuu_media/admin
+cp -Rf ./build $HOME/oovvuu_media/build
+cp -Rf ./inc $HOME/oovvuu_media/inc
+cp -Rf ./node_modules $HOME/oovvuu_media/node_modules
+cp -Rf ./template-parts $HOME/oovvuu_media/template-parts
+cp -Rf ./vendor $HOME/oovvuu_media/vendor
+cp ./index.php $HOME/oovvuu_media/index.php
+
+
 
 # zip the plugin 
-pushd $HOME/oovvuu_media/
-zip -qq -r oovvuu.zip ./*
-popd
+zip -r oovvuu.zip $HOME/oovvuu_media
 
-chmod 777 $HOME/oovvuu_media/oovvuu.zip
-file=$HOME/oovvuu_media/oovvuu.zip
+file=./oovvuu.zip
 
 # upload to github
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 FILENAME="oovvuu.zip"
 
-
-RELEASE_URL="https://api.github.com/repos/Oovvuu/wp-plugin/releases/tags/${CIRCLE_TAG}"
-RELEASE_ID=$(curl \
-    -H "${AUTH_HEADER}" \
-    -H "Content-Type: application/json" \
-    "${RELEASE_URL}" | jq -r .id) 
-
-
-UPLOAD_URL="https://uploads.github.com/repos/Oovvuu/wp-plugin/releases/${RELEASE_ID}/assets?name=${FILENAME}"
+UPLOAD_URL="https://uploads.github.com/repos/Oovvuu/wp-plugin/releases/${CIRCLE_TAG}/assets?name=${FILENAME}"
 # Generate a temporary file.
 tmp=$(mktemp)
 
