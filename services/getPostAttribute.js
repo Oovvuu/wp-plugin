@@ -8,8 +8,10 @@
  * @return {[mixed]}            The post attribute value.
  */
 const getPostAttribute = (attribute) => {
+  const classicEditorEl = document.getElementById('oovvuu-classic-editor-react-app');
+
   // Gutenberg.
-  if (wp.data) {
+  if (classicEditorEl === null && wp.data) {
     return wp.data.select('core/editor').getEditedPostAttribute(attribute);
   }
 
