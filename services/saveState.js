@@ -1,4 +1,5 @@
 import cleanDirtyState from './cleanDirtyState';
+import recommendedVideosEmpty from './recommendedVideosEmpty';
 
 /**
  * Performs an API request to save the current state.
@@ -15,12 +16,9 @@ const saveState = (state, id) => {
    * Check to determine if the saveState request contains
    * videos. The state shouldn't update if there are no videos to save.
    *
-   * @returns {boolean|boolean}
+   * @returns {bool}
    */
-  const hasVideoEmbedsToSave = () => (
-    cleanState.selectedVideos.hero.length > 0
-    && cleanState.selectedVideos.positionTwo.length > 0
-  );
+  const hasVideoEmbedsToSave = () => recommendedVideosEmpty(cleanState.recommendedVideos);
 
   // Return promise early if no videos are present.
   if (!hasVideoEmbedsToSave()) {
