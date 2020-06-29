@@ -96,7 +96,7 @@ const DialogWrapper = () => {
 
     if (!hasError) {
       // Embed id.
-      const positionTwoEmbedId = data?.embeds?.positionTwo?.id || null;
+      const positionTwoEmbedId = data?.embeds?.positionTwo?.id;
 
       // Insert a new Oovvuu embed to the editor.
       insertEmbed(positionTwoEmbedId, positionTwo, isPositionTwoEnabled);

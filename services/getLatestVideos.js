@@ -22,7 +22,7 @@ const getLatestVideos = (keywords, id) => {
         };
       }
 
-      const videoSet = value?.data?.videoSet || null;
+      const videoSet = value?.data?.videoSet;
 
       return videoSet
         ? {
