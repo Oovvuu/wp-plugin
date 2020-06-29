@@ -33,6 +33,7 @@
   h3 {
     @include font-props(12, normal, regular);
     @include uppercase;
+    margin: 0;
   }
 }
 
