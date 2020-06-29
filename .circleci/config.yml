@@ -35,7 +35,7 @@ workflows:
           type: approval
           name: deploy-prod-approval
           requires:
-            - build
+            - test
           filters:
             branches:
               ignore: /.*/
