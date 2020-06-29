@@ -1,16 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ActionButton from 'components/shared/actionButton';
+import ChipItem from 'components/shared/chipItem';
+import ChipInput from 'components/shared/chipInput';
 import SearchIcon from 'assets/search.svg';
+import useEffectFlashTimer from 'utils/useEffectFlashTimer';
 import styles from './search.scss';
 
 /**
  * Component for sidebar search.
  */
 const Search = (props) => {
-  const { i18n: { __ } } = wp;
+  const {
+    i18n: {
+      __,
+      sprintf,
+      _n,
+    },
+  } = wp;
   const { onFormSubmission } = props;
-  const [searchValue, setSearchValue] = React.useState('');
+  const [searchValue, setSearchValue] = React.useState([]);
+  const [lastAction, setLastAction] = React.useState('');
+  const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
+  const [duplicateIndex, setDuplicateIndex] = React.useState(-1);
+  const inputRef = React.createRef();
+
+  /**
+   * Removes a given keyword from the sidebarsearchValue state.
+   *
+   * @param {string} keyword The keyword to be removed.
+   */
+  const handleRemove = (keyword) => {
+    setSearchValue(searchValue.filter((value) => value !== keyword));
+
+    // Update local state for aria-live region.
+    setLastAction(`${keyword} removed.`);
+
+    // Focus the input
+    inputRef.current.focus();
+  };
+
+  /**
+   * Adds a given keyword to internal state.
+   *
+   * @param item object Keyword item.
+   */
+  const handleUpdate = (keyword) => {
+    // Do not add a user keyword if it already exists.
+    if (searchValue.includes(keyword)) {
+      setDuplicateIndex(searchValue.indexOf(keyword));
+
+      return;
+    }
+
+    // Add the search terms.
+    setSearchValue([...searchValue, keyword]);
+
+    // Update local state for aria-live region.
+    setLastAction(`${keyword} added.`);
+  };
 
   /**
    * Handles search form submission.
@@ -19,19 +67,30 @@ const Search = (props) => {
    */
   const handleSubmit = (event) => {
     event.preventDefault();
-    onFormSubmission([searchValue]);
+
+    if (searchValue.length > 0) {
+      onFormSubmission(searchValue);
+    }
   };
 
   /**
-   * Handles updating internal state for search input.
-   *
-   * @param event Event Event object.
+   * Compile the aria-live region's message string.
    */
-  const handleChange = (event) => {
-    const { target: { value } } = event;
+  React.useEffect(() => {
+    const updatedMessage = sprintf(
+      _n('%d search term total.', '%d search terms total.', searchValue.length, 'oovvuu'),
+      searchValue.length,
+    );
 
-    setSearchValue(value);
-  };
+    setLiveRegionMessage(`${lastAction} ${updatedMessage}`);
+  }, [lastAction]);
+
+  /**
+   * Clear the flash after we've flashed the duplicate item.
+   */
+  React.useEffect(() => {
+    useEffectFlashTimer(duplicateIndex, setDuplicateIndex);
+  }, [duplicateIndex]);
 
   return (
     <form
@@ -40,22 +99,34 @@ const Search = (props) => {
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <label
-        htmlFor="oovvuu-sidebar-search"
-      >
-        <span className="screen-reader-only">
-          {__('Search Oovvuu', 'oovvuu')}
-        </span>
+      <div className={styles.list}>
+        {searchValue.map((keyword, index) => (
+          <ChipItem
+            key={keyword}
+            keyword={keyword}
+            handleRemove={handleRemove}
+            flash={index === duplicateIndex}
+          />
+        ))}
 
-        <input
+        <ChipInput
           className={styles.input}
-          id="oovvuu-sidebar-search"
-          type="text"
-          defaultValue=""
-          onChange={handleChange}
-          placeholder={__('Search Video Library', 'oovvuu')}
+          onUpdate={handleUpdate}
+          inputRef={inputRef}
+          focusOnMount={false}
+          placeholder={(searchValue.length === 0) && __('Search Video Library', 'oovvuu')}
         />
-      </label>
+        <span
+          className="screen-reader-only"
+          role="status"
+          aria-live="assertive"
+          aria-atomic="true"
+          aria-relevant="text"
+          id="form-action-text"
+        >
+          <span>{liveRegionMessage}</span>
+        </span>
+      </div>
 
       <ActionButton
         className={styles.submit}
