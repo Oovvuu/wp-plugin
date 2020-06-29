@@ -65,8 +65,9 @@ const Search = (props) => {
    * @param event Event Event object.
    */
   const handleSubmit = (event) => {
+    event.preventDefault();
+
     if (searchValue.length > 0) {
-      event.preventDefault();
       onFormSubmission(searchValue);
     }
   };
