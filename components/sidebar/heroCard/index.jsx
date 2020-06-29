@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import ClearIcon from 'assets/clear.svg';
 import OovvuuDataContext from 'components/app/context';
 import ActionButton from 'components/shared/actionButton';
+import LoadingSpinner from 'components/shared/loading/spinner';
 import { confirmThenProceed } from 'services/alert';
 import styles from './heroCard.scss';
 
@@ -16,7 +18,7 @@ const HeroCardWrapper = (props) => {
     video: {
       title,
     },
-    isRemovingVideo,
+    isWorking,
     updateIsRemovingVideo,
   } = props;
   const {
@@ -51,24 +53,36 @@ const HeroCardWrapper = (props) => {
 
   return (
     <div className={styles.card}>
-      {!isRemovingVideo ? (
+      <div className={styles.header}>
+        <h3>{__('Current Hero Position Video', 'oovvuu')}</h3>
+        <ActionButton
+          buttonStyle="icon"
+          className={styles.remove}
+          onClickHandler={handleRemoveVideo}
+          disabled={isWorking}
+        >
+          <ClearIcon />
+        </ActionButton>
+      </div>
+      {isWorking ? (
         <>
-          <div className={styles.header}>
-            <h3>{__('Current Hero Position Video', 'oovvuu')}</h3>
-            <ActionButton
-              buttonStyle="icon"
-              className={styles.remove}
-              onClickHandler={handleRemoveVideo}
-            >
-              <ClearIcon />
-            </ActionButton>
+          <div className={classnames(styles.content, styles.placeholderContent)}>
+            <span className={styles.placeholderImg} />
+            <span className={styles.placeholderTitle} />
           </div>
+
+          <span className={styles.placeholderSpinner}>
+            <LoadingSpinner />
+          </span>
+        </>
+      ) : (
+        <>
           <div className={styles.content}>
             {video?.thumbnail?.url && <img src={video.thumbnail.url} alt="" />}
             <p>{title}</p>
           </div>
         </>
-      ) : (__('Removing video...', 'oovvuu'))}
+      )}
     </div>
   );
 };
@@ -82,7 +96,7 @@ HeroCardWrapper.propTypes = {
     thumbnail: PropTypes.shape({ url: PropTypes.string }),
     title: PropTypes.string,
   }),
-  isRemovingVideo: PropTypes.bool.isRequired,
+  isWorking: PropTypes.bool.isRequired,
   updateIsRemovingVideo: PropTypes.func.isRequired,
 };
 

@@ -89,12 +89,11 @@ const SidebarWrapper = () => {
   const showLatestVideosWrapper = (
     <>
       {
-        !isAddingVideo
-        && (isRemovingVideo || sidebarSelectedHeroVideo.id)
+        (isAddingVideo || isRemovingVideo || sidebarSelectedHeroVideo.id)
         && (
         <HeroCardWrapper
           video={sidebarSelectedHeroVideo}
-          isRemovingVideo={isRemovingVideo}
+          isWorking={isRemovingVideo || isAddingVideo}
           updateIsRemovingVideo={setIsRemovingVideo}
         />
         )
