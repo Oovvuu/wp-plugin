@@ -3,15 +3,6 @@
  *
  * @return {bool} True if this is the Gutenberg editor, otherwise false.
  */
-const isGutenbergEditor = () => {
-  const classicEditorEl = document.getElementById('oovvuu-classic-editor-react-app');
-
-  // Classic editor.
-  if (classicEditorEl !== null) {
-    return false;
-  }
-
-  return true;
-};
+const isGutenbergEditor = () => (document.getElementById('oovvuu-classic-editor-react-app') === null);
 
 export default isGutenbergEditor;
