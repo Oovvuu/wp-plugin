@@ -43,22 +43,22 @@ workflows:
       - test:
           context: build
 
-      - deploy-prod-approval:
-          type: approval
-          name: deploy-prod-approval
-          requires:
-            - test
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
+      # - deploy-prod-approval:
+      #     type: approval
+      #     name: deploy-prod-approval
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^v.*/
 
       - build:
           name: deploy-prod
           context: prod
-          requires:
-            - deploy-prod-approval
+          # requires:
+          #   - deploy-prod-approval
           filters:
             branches:
               ignore: /.*/
