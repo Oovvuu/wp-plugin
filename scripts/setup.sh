@@ -6,8 +6,8 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 
 # debian install svn
-sudo apt-get install subversion
-sudo apt-get install libapache2-mod-svn
+# sudo apt-get install subversion
+# sudo apt-get install libapache2-mod-svn
 
 
 # install phpunit
