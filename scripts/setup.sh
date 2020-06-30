@@ -18,6 +18,6 @@ sudo apt-get update && sudo apt-get install subversion
 composer global require "phpunit/phpunit=6.1.*"
 composer global require automattic/vipwpcs
 
-
+WP_VERSION="latest"
 # Set up the WordPress installation.
 bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
