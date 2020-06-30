@@ -4,6 +4,7 @@ jobs:
   test:
     docker:
       - image: circleci/php:7.4.7-node
+      - image: circleci/mysql:latest
     working_directory: ~/repo
     resource_class: large
     steps:
@@ -17,7 +18,7 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.4.7-node
-      - image: circleci/mysql:5.7
+      - image: circleci/mysql:latest
     working_directory: ~/repo
     steps:
       - checkout
