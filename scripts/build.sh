@@ -48,15 +48,24 @@ cp ./index.php $HOME/oovvuu_media/index.php
 
 
 # zip the plugin 
-zip -r oovvuu.zip $HOME/oovvuu_media
+zip -qq -r oovvuu.zip $HOME/oovvuu_media
 
-file=./oovvuu.zip
+chmod 777 oovvuu.zip
+file=oovvuu.zip
 
 # upload to github
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 FILENAME="oovvuu.zip"
 
-UPLOAD_URL="https://uploads.github.com/repos/Oovvuu/wp-plugin/releases/${CIRCLE_TAG}/assets?name=${FILENAME}"
+
+RELEASE_URL="https://api.github.com/repos/Oovvuu/wp-plugin/releases/tags/${CIRCLE_TAG}"
+RELEASE_ID=$(curl \
+    -H "${AUTH_HEADER}" \
+    -H "Content-Type: application/json" \
+    "${RELEASE_URL}" | jq -r .id) 
+
+
+UPLOAD_URL="https://uploads.github.com/repos/Oovvuu/wp-plugin/releases/${RELEASE_ID}/assets?name=${FILENAME}"
 # Generate a temporary file.
 tmp=$(mktemp)
 
