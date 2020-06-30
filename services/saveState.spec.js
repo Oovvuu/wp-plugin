@@ -3,6 +3,8 @@ import saveState from './saveState';
 import cleanDirtyState from './cleanDirtyState';
 
 describe('saveState', () => {
+  // @TODO Add test case for sidebar embeds
+
   it('Does not change saved state if no videos are embedded', async () => {
     const id = 1312;
     const data = {
@@ -13,12 +15,11 @@ describe('saveState', () => {
       i18n: { __: jest.fn() },
     };
 
+    const cleanState = cleanDirtyState(initialState);
     const result = await saveState(data, id);
     expect(result).toEqual({
       hasError: false,
-      data: {
-        state: cleanDirtyState(initialState),
-      },
+      data: { ...cleanState },
     });
   });
 });
