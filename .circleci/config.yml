@@ -41,6 +41,9 @@ workflows:
     jobs:
       - test:
           context: build
+          filters:
+            tags:
+              only: /.*/
 
       - deploy-prod-approval:
           type: approval
