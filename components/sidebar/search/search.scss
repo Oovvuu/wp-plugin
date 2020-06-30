@@ -1,8 +1,10 @@
+$button-square: 36;
+$input-height: 40;
+
 .form {
-  align-items: center;
   display: grid;
   grid-column-gap: rem(10);
-  grid-template-columns: 1fr rem(36);
+  grid-template-columns: 1fr rem($button-square);
 }
 
 .list {
@@ -12,7 +14,7 @@
   display: flex;
   flex-wrap: wrap;
   font-family: $font-sans;
-  min-height: rem(40);
+  min-height: rem($input-height);
   padding: rem(4 6);
 }
 
@@ -26,8 +28,10 @@
 .submit {
   @include button-shape-styles;
   background-color: $color-theme;
-  height: rem(36);
-  width: rem(36);
+  height: rem($button-square);
+  position: relative;
+  top: rem(($input-height - $button-square) / 2);
+  width: rem($button-square);
 
   svg {
     fill: $color-white;
