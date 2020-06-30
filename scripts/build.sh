@@ -36,16 +36,14 @@ rm -rf ./node_modules
 NODE_ENV=production npm install
 
 # move the files to a clean location
-mkdir -p $HOME/oovvuu_media
-cp -Rf ./admin $HOME/oovvuu_media/admin
-cp -Rf ./build $HOME/oovvuu_media/build
-cp -Rf ./inc $HOME/oovvuu_media/inc
-cp -Rf ./node_modules $HOME/oovvuu_media/node_modules
-cp -Rf ./template-parts $HOME/oovvuu_media/template-parts
-cp -Rf ./vendor $HOME/oovvuu_media/vendor
-cp ./index.php $HOME/oovvuu_media/index.php
-
-
+mkdir -p $HOME/oovvuu_media/oovvuu
+cp -Rf ./admin $HOME/oovvuu_media/oovvuu/admin
+cp -Rf ./build $HOME/oovvuu_media/oovvuu/build
+cp -Rf ./inc $HOME/oovvuu_media/oovvuu/inc
+# cp -Rf ./node_modules $HOME/oovvuu_media/node_modules
+cp -Rf ./template-parts $HOME/oovvuu_media/oovvuu/template-parts
+cp -Rf ./vendor $HOME/oovvuu_media/oovvuu/vendor
+cp ./index.php $HOME/oovvuu_media/oovvuu/oovvuu.php
 
 # zip the plugin 
 zip -qq -r oovvuu.zip $HOME/oovvuu_media
