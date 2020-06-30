@@ -51,7 +51,7 @@ module.exports = {
         ':global',
         ':local',
         '#oovvuu-dialog-wrapper',
-        '#oovvuu-alert-wrapper'
+        '#oovvuu-alert-wrapper',
       ],
     }],
     'selector-no-vendor-prefix': true,
