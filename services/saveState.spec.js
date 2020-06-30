@@ -1,9 +1,43 @@
 import initialState from 'components/app/context/initialState';
 import saveState from './saveState';
-import cleanDirtyState from './cleanDirtyState';
 
 describe('saveState', () => {
-  // @TODO Add test case for sidebar embeds
+  it('Recommended videos', async () => {
+    const id = 1312;
+    const data = {
+      ...initialState,
+      recommendedVideos: {
+        hero: [{ id: '1234' }],
+        positionTwo: [{ id: '1234' }],
+      },
+    };
+    global.wp = {
+      apiFetch: jest.fn(() => Promise.resolve(data)),
+      i18n: { __: jest.fn() },
+    };
+
+    await saveState(data, id);
+
+    // ApiFetch should not have been called for an empty state.
+    expect(wp.apiFetch).toHaveBeenCalled();
+  });
+
+  it('Sidebar hero video', async () => {
+    const id = 1312;
+    const data = {
+      ...initialState,
+      sidebarSelectedHeroVideo: { id: '1234' },
+    };
+    global.wp = {
+      apiFetch: jest.fn(() => Promise.resolve(data)),
+      i18n: { __: jest.fn() },
+    };
+
+    await saveState(data, id);
+
+    // ApiFetch should not have been called for an empty state.
+    expect(wp.apiFetch).toHaveBeenCalled();
+  });
 
   it('Does not change saved state if no videos are embedded', async () => {
     const id = 1312;
@@ -15,11 +49,9 @@ describe('saveState', () => {
       i18n: { __: jest.fn() },
     };
 
-    const cleanState = cleanDirtyState(initialState);
-    const result = await saveState(data, id);
-    expect(result).toEqual({
-      hasError: false,
-      data: { ...cleanState },
-    });
+    await saveState(data, id);
+
+    // ApiFetch should not have been called for an empty state.
+    expect(wp.apiFetch).not.toHaveBeenCalled();
   });
 });
