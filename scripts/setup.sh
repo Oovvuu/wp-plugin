@@ -20,4 +20,4 @@ composer global require automattic/vipwpcs
 
 WP_VERSION="latest"
 # Set up the WordPress installation.
-bash bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 latest
+bash bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 latest false
