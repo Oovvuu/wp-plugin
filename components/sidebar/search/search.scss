@@ -19,6 +19,7 @@ $input-height: 40;
 }
 
 .input {
+  flex-basis: rem(50);
 
   &::placeholder {
     color: $color-gray-med;
