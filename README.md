@@ -1,6 +1,15 @@
 # Overview
 
+# Releases
+
+### Stable
+
+| Build  | Status                                                                                                                  | Download                                                                                                                                                     |
+| ------ | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| latest | https://img.shields.io/circleci/build/github/Oovvuu/wp-plugin/production?token=6bf58244e88fd0360ace2bcdb9b73bf36830b374 | [![Download](https://img.shields.io/github/v/release/Oovvuu/wp-plugin?sort=semver)](https://github.com/Oovvuu/wp-plugin/releases/latest/download/oovvuu.zip) |
+
 # Installation
+
 1. Download the [latest built release](https://github.com/alleyinteractive/oovvuu/releases) of the plugin
 1. Go to Plugins > Add New in your dashboard
 1. Click the `Upload Plugin` button to prompt a file selector
@@ -13,6 +22,7 @@
 # Developer Documentation
 
 ## Manually update your theme's featured image
+
 Oovvuu comes with some helper functions that allow you to easily replace the existing featured image HTML with the hero embed HTML. You can simply add the code below to where you normally output your featured image to instead output an Oovvuu embed when one is present.
 
 ```php
@@ -24,6 +34,7 @@ if ( \Oovvuu\has_hero_embed() ) {
 ```
 
 ## Creating a new release
+
 When a new version of the plugin is ready for distribution, we will need to create a new release that can be downloaded. Below are the steps for how to create a new release in GitHub.
 
 1. Run the release script with the version number as its only argument, e.x.,`bash release.sh 1.0.0`
@@ -39,12 +50,15 @@ When a new version of the plugin is ready for distribution, we will need to crea
 1. Delete the built branch since the release is published and tagged
 
 ## Build
+
 All built files are ignored by default and therefore the plugin needs to be built after cloning the repo. The main commands that need to be run are:
+
 1. `composer install`
 1. `npm install`
 1. `npm run build`
 
 ## Composer
+
 This plugin uses the Auth0 php SDK to authenticate with the Oovvuu API. Please run `composer install` to properly install this SDK.
 
 ## Client builds
@@ -59,8 +73,8 @@ With development mode on, client assets are served from `webpack-dev-server`, wh
 
 In order to enable a secure connection you'll need to define a couple environment variables in a `.env` file in the project root:
 
-* `HTTPS_KEY_PATH` - Path to TLS key relative to current home directory.
-* `HTTPS_CERT_PATH` - Path to TLS cert relative to current home directory.
+- `HTTPS_KEY_PATH` - Path to TLS key relative to current home directory.
+- `HTTPS_CERT_PATH` - Path to TLS cert relative to current home directory.
 
 The default URL for development mode is `0.0.0.0`. Define a `PROXY_URL` in the `.env` file in order to use a different URL.
 
