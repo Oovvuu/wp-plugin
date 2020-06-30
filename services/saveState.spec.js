@@ -39,6 +39,23 @@ describe('saveState', () => {
     expect(wp.apiFetch).toHaveBeenCalled();
   });
 
+  it('Already loaded from meta', async () => {
+    const id = 1312;
+    const data = {
+      ...initialState,
+      isLoadedFromMeta: true,
+    };
+    global.wp = {
+      apiFetch: jest.fn(() => Promise.resolve(data)),
+      i18n: { __: jest.fn() },
+    };
+
+    await saveState(data, id);
+
+    // ApiFetch should not have been called for an empty state.
+    expect(wp.apiFetch).toHaveBeenCalled();
+  });
+
   it('Does not change saved state if no videos are embedded', async () => {
     const id = 1312;
     const data = {

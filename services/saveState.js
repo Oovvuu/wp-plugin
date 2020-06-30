@@ -18,8 +18,11 @@ const saveState = (state, id) => {
    *
    * @returns {bool}
    */
-  const hasVideoEmbedsToSave = () => cleanState.sidebarSelectedHeroVideo.id
-    || recommendedVideosEmpty(cleanState.recommendedVideos);
+  const hasVideoEmbedsToSave = () => Boolean(
+    state.isLoadedFromMeta === true
+    || undefined !== cleanState.sidebarSelectedHeroVideo.id
+    || recommendedVideosEmpty(cleanState.recommendedVideos),
+  );
 
   // Return promise early if no videos are present.
   if (!hasVideoEmbedsToSave()) {
