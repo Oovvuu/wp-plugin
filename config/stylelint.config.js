@@ -68,5 +68,8 @@ module.exports = {
     'value-list-comma-space-after': 'always-single-line',
     'value-no-vendor-prefix': true,
   },
-  ignoreFiles: [path.join(process.cwd(), 'node_modules/**/*.css')],
+  ignoreFiles: [
+    path.join(process.cwd(), 'node_modules/**/*.css'),
+    path.join(process.cwd(), 'services/*.spec.js'),
+  ],
 };
