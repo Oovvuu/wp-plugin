@@ -40,13 +40,12 @@ mkdir -p $HOME/oovvuu_media/oovvuu
 cp -Rf ./admin $HOME/oovvuu_media/oovvuu/admin
 cp -Rf ./build $HOME/oovvuu_media/oovvuu/build
 cp -Rf ./inc $HOME/oovvuu_media/oovvuu/inc
-# cp -Rf ./node_modules $HOME/oovvuu_media/node_modules
 cp -Rf ./template-parts $HOME/oovvuu_media/oovvuu/template-parts
 cp -Rf ./vendor $HOME/oovvuu_media/oovvuu/vendor
 cp ./index.php $HOME/oovvuu_media/oovvuu/oovvuu.php
 
 # zip the plugin 
-zip -qq -r oovvuu.zip $HOME/oovvuu_media
+zip -qq -r oovvuu.zip $HOME/oovvuu_media/*
 
 chmod 777 oovvuu.zip
 file=oovvuu.zip
