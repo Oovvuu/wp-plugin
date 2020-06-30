@@ -4,9 +4,9 @@
 
 ### Stable
 
-| Build  | Status                                                                                                                  | Download                                                                                                                                                     |
-| ------ | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| latest | https://img.shields.io/circleci/build/github/Oovvuu/wp-plugin/production?token=6bf58244e88fd0360ace2bcdb9b73bf36830b374 | [![Download](https://img.shields.io/github/v/release/Oovvuu/wp-plugin?sort=semver)](https://github.com/Oovvuu/wp-plugin/releases/latest/download/oovvuu.zip) |
+| Build  | Status                                                                                                                             | Download                                                                                                                                                     |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| latest | [![Build](https://img.shields.io/circleci/build/github/Oovvuu/wp-plugin/production?token=6bf58244e88fd0360ace2bcdb9b73bf36830b374) | [![Download](https://img.shields.io/github/v/release/Oovvuu/wp-plugin?sort=semver)](https://github.com/Oovvuu/wp-plugin/releases/latest/download/oovvuu.zip) |
 
 # Installation
 
