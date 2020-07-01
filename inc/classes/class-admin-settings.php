@@ -41,27 +41,25 @@ class Admin_Settings {
 
 		// Define fields to register.
 		$fields = [
-			'oovvuu_auth0_section'   => [
-				'oovvuu_auth0_domain'        => [
+			'oovvuu_section' => [
+				'oovvuu_auth0_domain'               => [
 					'label' => esc_html__( 'Domain', 'oovvuu' ),
 					'args'  => [
 						'sanitize' => 'sanitize_text_field',
 					],
 				],
-				'oovvuu_auth0_client_id'     => [
+				'oovvuu_auth0_client_id'            => [
 					'label' => esc_html__( 'Client ID', 'oovvuu' ),
 					'args'  => [
 						'sanitize' => 'sanitize_text_field',
 					],
 				],
-				'oovvuu_auth0_client_secret' => [
+				'oovvuu_auth0_client_secret'        => [
 					'label' => esc_html__( 'Client Secret', 'oovvuu' ),
 					'args'  => [
 						'sanitize' => 'sanitize_text_field',
 					],
 				],
-			],
-			'oovvuu_display_section' => [
 				'oovvuu_auto_replace_feature_image' => [
 					'label' => esc_html__( 'Automatically Replace Featured Image', 'oovvuu' ),
 					'args'  => [
@@ -73,18 +71,10 @@ class Admin_Settings {
 			],
 		];
 
-		// Register the Auth0 section.
-		add_settings_section(
-			'oovvuu_auth0_section',
-			esc_html__( 'Auth0 Configuration', 'oovvuu' ),
-			null,
-			'oovvuu_settings'
-		);
-
 		// Register the config section.
 		add_settings_section(
-			'oovvuu_display_section',
-			esc_html__( 'Display', 'oovvuu' ),
+			'oovvuu_section',
+			esc_html__( 'Settings', 'oovvuu' ),
 			null,
 			'oovvuu_settings'
 		);
