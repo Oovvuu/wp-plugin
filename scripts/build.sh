@@ -45,10 +45,12 @@ cp -Rf ./vendor $HOME/oovvuu_media/oovvuu/vendor
 cp ./index.php $HOME/oovvuu_media/oovvuu/oovvuu.php
 
 # zip the plugin 
-zip -qq -r oovvuu.zip $HOME/oovvuu_media/*
+pushd $HOME/oovvuu_media/
+zip -qq -r oovvuu.zip ./*
+popd
 
-chmod 777 oovvuu.zip
-file=oovvuu.zip
+chmod 777 $HOME/oovvuu_media/oovvuu.zip
+file=$HOME/oovvuu_media/oovvuu.zip
 
 # upload to github
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
