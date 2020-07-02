@@ -1,15 +1,19 @@
 .inputItem {
   flex: 1 0 auto;
   height: rem(32);
-  margin: $keyword-margin;
 }
 
 .input {
   @include input-reset;
-  @include font-props(14, 14, medium);
-  @include uppercase;
+  font-size: rem(16);
   height: 100%;
   width: 100%;
+
+  &::placeholder {
+    font-size: rem(14);
+    letter-spacing: normal;
+    text-transform: none;
+  }
 
   &:focus {
     outline: none;

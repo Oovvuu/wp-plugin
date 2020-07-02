@@ -14,7 +14,7 @@
 
   p {
     @include font-props(16, 16, light);
-    color: $color-deactivated;
+    color: $color-gray-med;
     margin: 0;
   }
 }
@@ -29,21 +29,27 @@
   justify-content: end;
 
   @media (min(lg)) {
-    grid-template-columns: repeat(2, fit-content);
-  }
-}
+    grid-template-columns: repeat(3, max-content);
 
-.getKeywords,
-.clearSelection {
-  margin-left: auto;
+    // When there are fewer than three buttons we must specify a grid column.
+    button {
 
-  @media (min(lg)) {
-    grid-column: 1;
-  }
-}
+      /* stylelint-disable selector-max-specificity */
+      &:only-child {
+        grid-column: 3;
+      }
 
-.getVideos {
-  @media (min(lg)) {
-    grid-column: 2;
+      &:nth-last-child(2) {
+
+        &:first-child {
+          grid-column: 2;
+        }
+
+        &:last-child {
+          grid-column: 3;
+        }
+      }
+      /* stylelint-enable */
+    }
   }
 }

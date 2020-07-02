@@ -1,0 +1,40 @@
+$button-square: 36;
+$input-height: 40;
+
+.form {
+  display: grid;
+  grid-column-gap: rem(10);
+  grid-template-columns: 1fr rem($button-square);
+}
+
+.list {
+  @include panel-shadow;
+  align-items: center;
+  border-radius: $border-radius;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: $font-sans;
+  min-height: rem($input-height);
+  padding: rem(4 6);
+}
+
+.input {
+  flex-basis: rem(50);
+
+  &::placeholder {
+    color: $color-gray-med;
+  }
+}
+
+.submit {
+  @include button-shape-styles;
+  background-color: $color-theme;
+  height: rem($button-square);
+  position: relative;
+  top: rem(($input-height - $button-square) / 2);
+  width: rem($button-square);
+
+  svg {
+    fill: $color-white;
+  }
+}

@@ -1,8 +1,9 @@
 import React from 'react';
 import AddIcon from 'assets/add.svg';
 import oovvuuData from 'components/app/context';
-import UserKeywordItem from './userKeywordItem';
-import KeywordInput from './keywordInput';
+import ChipItem from 'components/shared/chipItem';
+import ChipInput from 'components/shared/chipInput';
+import useEffectFlashTimer from 'utils/useEffectFlashTimer';
 import styles from './userKeywordList.scss';
 
 /**
@@ -21,6 +22,7 @@ const UserList = () => {
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
   const inputRef = React.createRef();
+  const [duplicateIndex, setDuplicateIndex] = React.useState(-1);
 
   /**
    * Removes a given keyword from the userKeywords state.
@@ -43,6 +45,7 @@ const UserList = () => {
   const handleUpdate = (keyword) => {
     // Do not add a user keyword if it already exists.
     if (userKeywords.includes(keyword)) {
+      setDuplicateIndex(userKeywords.indexOf(keyword));
       return;
     }
 
@@ -84,6 +87,13 @@ const UserList = () => {
     setLiveRegionMessage(`${lastAction} ${updatedMessage}`);
   }, [lastAction]);
 
+  /**
+   * Clear the flash after we've flashed the duplicate item.
+   */
+  React.useEffect(() => {
+    useEffectFlashTimer(duplicateIndex, setDuplicateIndex);
+  }, [duplicateIndex]);
+
   return (
     <div className={styles.wrapper}>
       <a
@@ -96,17 +106,19 @@ const UserList = () => {
       </a>
 
       <div className={styles.list}>
-        {userKeywords.map((keyword) => (
-          <UserKeywordItem
+        {userKeywords.map((keyword, index) => (
+          <ChipItem
             key={keyword}
             keyword={keyword}
             handleRemove={handleRemove}
+            flash={index === duplicateIndex}
           />
         ))}
 
-        <KeywordInput
+        <ChipInput
           onUpdate={handleUpdate}
           inputRef={inputRef}
+          className={styles.inputItem}
         />
       </div>
       <span

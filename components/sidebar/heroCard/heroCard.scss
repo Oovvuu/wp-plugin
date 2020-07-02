@@ -1,0 +1,96 @@
+.card {
+  background-color: #EEEEEE;
+  border: 1px solid $color-gray-light;
+  border-radius: $border-radius;
+  padding: rem(5 5 10 5);
+  position: relative;
+}
+
+.content {
+  display: flex;
+
+  img {
+    height: rem(54);
+    object-fit: cover;
+    width: rem(89);
+  }
+
+  p {
+    @include font-props(12, 18);
+    margin: 0;
+
+    &:not(:only-child) {
+      margin-left: rem(5);
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: rem(10);
+
+  h3 {
+    @include font-props(12, normal, regular);
+    @include uppercase;
+    margin: 0;
+  }
+}
+
+.remove {
+  cursor: pointer;
+  height: rem(16);
+  width: rem(16);
+
+  svg {
+    height: auto;
+    width: 100%;
+  }
+}
+
+/**
+ * Placeholder styles.
+ */
+.placeholderContent {
+  justify-content: space-between;
+}
+
+.placeholderImg {
+  background-color: $color-decoration;
+  display: block;
+  height: rem(54);
+  width: rem(89);
+}
+
+.placeholderTitle {
+  display: block;
+  flex: 1;
+  margin-left: 5px;
+
+  &::before,
+  &::after {
+    background-color: $color-decoration;
+    border-radius: $border-radius;
+    content: '';
+    display: block;
+    height: rem(12);
+    margin: rem(4) 0;
+  }
+
+  &::before {
+    width: 100%;
+  }
+
+  &::after {
+    width: 75%;
+  }
+}
+
+.placeholderSpinner {
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

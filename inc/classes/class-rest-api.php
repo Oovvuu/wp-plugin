@@ -163,7 +163,7 @@ class REST_API {
 	public function get_videos( $request ) {
 		return rest_ensure_response(
 			$this->request(
-				'query ($input: ArticleRecommendationInput, $playbackInput: PlaybackInput) {
+				'query ($input: ArticleRecommendationInput, $playbackInput: PlaybackInput!) {
 					videosForArticle(input: $input) {
 						hero {
 							...VideoDetailFragment
@@ -239,13 +239,19 @@ class REST_API {
 					}
 				}' . $this->get_graphql_video_fragment(),
 				[
-					'sort'  => [
+					'filter' => (object) [
+						'keywordMatch' => $request['keywords'] ?? [],
+						'status' => [
+							'Active',
+						],
+					],
+					'sort'   => [
 						(object) [
 							'sort'      => 'id',
 							'ascending' => false,
 						],
 					],
-					'limit' => 24,
+					'limit'  => 25,
 				],
 				$request['id'] ?? 0,
 				[
@@ -310,16 +316,21 @@ class REST_API {
 		// Get valid positions.
 		$valid_positions = get_valid_positions();
 
+		// Get the post ID.
+		$post_id = absint( $request['id'] );
+
+		// Sanitize the state.
+		$state = $this->sanitize_state( $request['state'] );
+
 		// Save the state to post meta.
-		$state = array_merge( $request['state'], [ 'isLoadedFromMeta' => true ] );
-		update_post_meta( $request['id'], 'oovvuu_state', $state );
+		update_post_meta( $post_id, 'oovvuu_state', $state );
 
 		// Create the embeds from modal positions.
 		$embeds = [];
 		foreach ( $valid_positions as $position => $data ) {
 
 			// Position is empty.
-			if ( empty( $request['state']['selectedVideos'][ $position ] ) ) {
+			if ( empty( $state['selectedVideos'][ $position ] ) ) {
 				continue;
 			}
 
@@ -327,10 +338,10 @@ class REST_API {
 			$response = $this->create_embed(
 				[
 					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
-					'video_ids'      => $request['state']['selectedVideos'][ $position ],
+					'video_ids'      => $state['selectedVideos'][ $position ],
 					'type'           => $data['type'],
-					'keywords'       => $request['state']['selectedKeywords'],
-					'post_id'        => $request['id'],
+					'keywords'       => $state['selectedKeywords'],
+					'post_id'        => $post_id,
 					'embed_location' => $data['embed_location'],
 				]
 			);
@@ -352,16 +363,16 @@ class REST_API {
 		// Create embeds from the sidebar hero.
 		if (
 			! empty( $valid_positions['hero'] )
-			&& ! empty( $request['state']['sidebarSelectedHeroVideo']['id'] )
+			&& ! empty( $state['sidebarSelectedHeroVideo']->id )
 		) {
 			// Create the embed.
 			$response = $this->create_embed(
 				[
 					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
-					'video_ids'      => [ $request['state']['sidebarSelectedHeroVideo'] ],
+					'video_ids'      => [ (array) $state['sidebarSelectedHeroVideo'] ],
 					'type'           => $valid_positions['hero']['type'],
 					'keywords'       => [],
-					'post_id'        => $request['id'],
+					'post_id'        => $post_id,
 					'embed_location' => $valid_positions['hero']['embed_location'],
 				]
 			);
@@ -381,15 +392,35 @@ class REST_API {
 		}
 
 		// Save embeds.
-		update_post_meta( $request['id'], 'oovvuu_embeds', $embeds );
+		update_post_meta( $post_id, 'oovvuu_embeds', $embeds );
 
 		return rest_ensure_response(
 			[
 				'success' => true,
 				'embeds'  => $embeds,
-				'state' => $state,
+				'state'   => $state,
 			]
 		);
+	}
+
+	/**
+	 * Sanitize the state passed from the REST API call.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  array $state The raw state.
+	 * @return array $state The sanitized state.
+	 */
+	public function sanitize_state( $state ) {
+		$state = array_merge(
+			$state,
+			[ 'isLoadedFromMeta' => true ]
+		);
+
+		// Cast elements to object type as needed.
+		$state['sidebarSelectedHeroVideo'] = (object) $state['sidebarSelectedHeroVideo'];
+
+		return $state;
 	}
 
 	/**
@@ -401,7 +432,7 @@ class REST_API {
 	 * @return \WP_REST_Response The rest response object.
 	 */
 	public function get_state( $request ) {
-		$state = get_post_meta( $request['id'], 'oovvuu_state', true );
+		$state  = get_post_meta( $request['id'], 'oovvuu_state', true );
 		$embeds = get_post_meta( $request['id'], 'oovvuu_embeds', true );
 
 		return rest_ensure_response(

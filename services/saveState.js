@@ -1,3 +1,6 @@
+import cleanDirtyState from './cleanDirtyState';
+import recommendedVideosEmpty from './recommendedVideosEmpty';
+
 /**
  * Performs an API request to save the current state.
  *
@@ -7,32 +10,34 @@
  */
 const saveState = (state, id) => {
   const { apiFetch, i18n: { __ } } = wp;
+  const cleanState = cleanDirtyState(state);
 
   /**
-   * Returns a clean state that removed values that should not be persistent.
+   * Check to determine if the saveState request contains
+   * videos. The state shouldn't update if there are no videos to save.
    *
-   * @param  {object} dirtyState The dirty state.
-   * @return {object}            The clean state.
+   * @returns {bool}
    */
-  const getCleanState = (dirtyState) => Object.keys(dirtyState).reduce((carry, key) => {
-    // Excluded from post meta.
-    const filter = [
-      'embeds',
-      'isLoading',
-      'isUserAuthenticated',
-      'lastActionType',
-      'currentDraggingVideo',
-    ];
+  const hasVideoEmbedsToSave = () => Boolean(
+    state.isLoadedFromMeta === true
+    || undefined !== cleanState.sidebarSelectedHeroVideo.id
+    || recommendedVideosEmpty(cleanState.recommendedVideos),
+  );
 
-    return !filter.includes(key) ? { ...carry, ...{ [key]: dirtyState[key] } } : carry;
-  }, {});
+  // Return promise early if no videos are present.
+  if (!hasVideoEmbedsToSave()) {
+    return Promise.resolve({
+      hasError: false,
+      data: { ...cleanState },
+    });
+  }
 
   return apiFetch({
     path: '/oovvuu/v1/saveState/',
     method: 'POST',
     data: {
       id,
-      state: getCleanState(state),
+      state: cleanState,
     },
   }).then((value) => {
     const { embeds, state: updatedState, success } = value;

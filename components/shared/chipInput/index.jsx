@@ -1,12 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import uuid from 'react-uuid';
 import keyCodes from 'utils/keyCodes';
-import styles from './keywordInput.scss';
+import styles from './chipInput.scss';
 
-const KeywordInput = (props) => {
+const ChipInput = (props) => {
   const { i18n: { __ } } = wp;
-  const { onUpdate, inputRef } = props;
+  const {
+    onUpdate,
+    inputRef,
+    className,
+    placeholder,
+    focusOnMount,
+  } = props;
   const [keyword, setKeyword] = React.useState('');
+  const inputId = uuid();
 
   /**
    * Adds the user-entered keyword when the form is submitted.
@@ -53,32 +62,43 @@ const KeywordInput = (props) => {
    * Focus the input element on mount.
    */
   React.useEffect(() => {
-    inputRef.current.focus();
+    if (focusOnMount) {
+      inputRef.current.focus();
+    }
   }, []);
 
   return (
     <label
-      htmlFor="keyword-input"
-      className={styles.inputItem}
+      htmlFor={inputId}
+      className={classnames(styles.inputItem, className)}
     >
       <input
-        id="user-keyword-input"
+        id={inputId}
         autoComplete="off"
         className={styles.input}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
         ref={inputRef}
         value={keyword}
-        name="keyword-input"
+        placeholder={placeholder}
         aria-label={__('Enter a keyword', 'oovvuu')}
       />
     </label>
   );
 };
 
-KeywordInput.propTypes = {
-  onUpdate: PropTypes.func.isRequired,
-  inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+ChipInput.defaultProps = {
+  className: '',
+  placeholder: '',
+  focusOnMount: true,
 };
 
-export default KeywordInput;
+ChipInput.propTypes = {
+  onUpdate: PropTypes.func.isRequired,
+  inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  focusOnMount: PropTypes.bool,
+};
+
+export default ChipInput;

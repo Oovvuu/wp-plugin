@@ -1,7 +1,7 @@
 import insertShortcode from './insertShortcode';
 
 // Shortcode Regex
-const shortcodePattern = /\[(\[?)(oovvuu-embed)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*(?:\[(?!\/\2\])[^\[]*)*)(\[\/\2\]))?)(\]?)/g;
+const shortcodePattern = /\[(\[?)(oovvuu-embed)(?![\w-])([^\]/]*(?:\/(?!\])[^\]/]*)*?)(?:(\/)\]|\](?:([^[]*(?:\[(?!\/\2\])[^[]*)*)(\[\/\2\]))?)(\]?)/g;
 
 // Sample oovvuu ids
 const ids = [

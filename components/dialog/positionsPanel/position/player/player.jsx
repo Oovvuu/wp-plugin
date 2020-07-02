@@ -38,7 +38,7 @@ const Player = (props) => {
         className={styles.brightcoveThumbnail}
         onClick={updatePlayer}
       >
-        <img src={video?.thumbnail?.url} alt="" />
+        {video?.thumbnail?.url && <img src={video.thumbnail.url} alt="" />}
       </button>
     );
   };

@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CloseIcon from 'assets/close.svg';
-import styles from './userKeywordItem.scss';
+import styles from './chipItem.scss';
 
 /**
  * Component for a single pill for presenting a user-defined keyword.
  */
-const UserKeywordItem = (props) => {
+const ChipItem = (props) => {
   const { i18n: { __ } } = wp;
   const {
     keyword,
     handleRemove,
+    flash,
   } = props;
 
   const textId = keyword.replace(/\s/g, '-');
@@ -19,7 +20,7 @@ const UserKeywordItem = (props) => {
 
   return (
     <div
-      className={classnames(styles.item, styles.user)}
+      className={classnames(styles.item, styles.user, { [styles.flash]: flash })}
     >
       <span
         id={textId}
@@ -41,9 +42,10 @@ const UserKeywordItem = (props) => {
   );
 };
 
-UserKeywordItem.propTypes = {
+ChipItem.propTypes = {
   keyword: PropTypes.string.isRequired,
   handleRemove: PropTypes.func.isRequired,
+  flash: PropTypes.bool.isRequired,
 };
 
-export default UserKeywordItem;
+export default ChipItem;

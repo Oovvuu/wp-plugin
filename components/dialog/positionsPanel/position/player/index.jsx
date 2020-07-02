@@ -18,8 +18,33 @@ const PlayerWrapper = (props) => {
   const [previewVideos, setPreviewVideos] = React.useState([...videos]);
 
   /**
+   * Determines if the video arrays are equal.
+   *
+   * @param  {array} videosA Videos array.
+   * @param  {array} videosB Videos array.
+   * @return {bool} True if the videos are equal, otherwise false;
+   */
+  const videosEqual = (videosA, videosB) => {
+    // Map both video arrays to just include ids.
+    const videoAIds = videosA.map((video) => (video.id));
+    const videoBIds = videosB.map((video) => (video.id));
+
+    // Length is not equal.
+    if (videoAIds.length !== videoBIds.length) {
+      return false;
+    }
+
+    // Remove all videos in videoA that are in videoB.
+    const filteredVideoAIds = videoAIds.filter((videoId, index) => videoBIds[index] !== videoId);
+
+    // The arrays are equal if videoAIds is empty.
+    return filteredVideoAIds.length === 0;
+  };
+
+  /**
    * Swap video that is assigned to the player when clicking in one of the images.
-   * @param int position of the video in the array.
+   *
+   * @param {int} position of the video in the array.
    */
   const updatePlayer = (position) => {
     [previewVideos[0], previewVideos[position]] = [previewVideos[position], previewVideos[0]];
@@ -27,8 +52,30 @@ const PlayerWrapper = (props) => {
   };
 
   /**
+   * Update the video previews if the videos have been updated.
+   */
+  React.useEffect(() => {
+    if (!videosEqual([...videos], [...previewVideos])) {
+      setPreviewVideos([...videos]);
+    }
+  }, [videos]);
+
+  /**
+    * Update the preview videos when videos are swapped.
+    */
+  React.useEffect(() => {
+    if (
+      lastActionType === 'SWAP_VIDEOS'
+       || lastActionType === 'CLEAR_LOADING_STATE'
+    ) {
+      setPreviewVideos([...videos]);
+    }
+  }, [lastActionType]);
+
+  /**
    * At the moment, the player API is in flux, so this is just a stub to identify
-   *   whether we have videos and, if so, to extract the first of the list to show a player.
+   * whether we have videos and, if so, to extract the first of the list to show a player.
+   *
    * @returns {null|*}
    */
   const getPlayer = () => {
@@ -45,18 +92,6 @@ const PlayerWrapper = (props) => {
       />
     ));
   };
-
-  /**
-   * Update the preview videos when videos are swapped.
-   */
-  React.useEffect(() => {
-    if (
-      lastActionType === 'SWAP_VIDEOS'
-      || lastActionType === 'CLEAR_LOADING_STATE'
-    ) {
-      setPreviewVideos([...videos]);
-    }
-  }, [lastActionType]);
 
   return getPlayer();
 };

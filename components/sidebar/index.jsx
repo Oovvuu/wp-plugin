@@ -5,9 +5,12 @@ import ActionButton from 'components/shared/actionButton';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import OovvuuDataContext from 'components/app/context';
 import { displayDismissableAlert } from 'services/alert';
+import recommendedVideosEmpty from 'services/recommendedVideosEmpty';
 import RefreshIcon from 'assets/refresh.svg';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
+import Search from './search';
+import HeroCardWrapper from './heroCard';
 
 /**
  * The Sidebar container.
@@ -17,21 +20,26 @@ const SidebarWrapper = () => {
   const {
     state: {
       sidebarSelectedHeroVideo,
+      recommendedVideos,
+      isLoadedFromMeta,
     },
   } = React.useContext(OovvuuDataContext);
   const [latestVideos, setLatestVideos] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isAddingVideo, setIsAddingVideo] = React.useState(false);
+  const [isRemovingVideo, setIsRemovingVideo] = React.useState(false);
 
   /**
    * Fetches the latest videos.
    *
+   * @param {array} keywords The array of keywords.
    * @returns {Promise<void>} Future for response data or error object.
    */
-  const handleFetchLatestVideos = async () => {
+  const handleFetchLatestVideos = async (keywords) => {
     // Start loading state.
     setIsLoading(true);
 
-    const response = await getLatestVideos(getPostAttribute('id'));
+    const response = await getLatestVideos(keywords, getPostAttribute('id'));
 
     const {
       hasError,
@@ -52,42 +60,78 @@ const SidebarWrapper = () => {
     setIsLoading(false);
   };
 
+  /**
+   * Whether or not latest videos should display.
+   *
+   * Latest videos shouldn't be displayed if videos
+   * have been embedded via the dialog. Since all
+   * dialog embeds set the "isLoadedFromMeta" flag,
+   * it can be used as an indicator here.
+   */
+  const shouldShowLatestVideos = () => (
+    !isLoadedFromMeta
+    || (
+      isLoadedFromMeta
+      && !recommendedVideosEmpty(recommendedVideos)
+    )
+  );
 
   /**
    * Fetch latest videos when this component renders and does not currently
    * contain any videos.
    */
   React.useEffect(() => {
-    if (latestVideos.length === 0) {
-      handleFetchLatestVideos();
+    if (latestVideos.length === 0 && shouldShowLatestVideos()) {
+      handleFetchLatestVideos([]);
     }
   }, []);
 
-  return (
-    <section>
-      <header className={styles.header}>
-        <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
-        <ActionButton
-          buttonStyle="icon"
-          ariaLabel={__('Refresh latest videos', 'oovvuu')}
-          onClickHandler={handleFetchLatestVideos}
-        >
-          <RefreshIcon />
-        </ActionButton>
-      </header>
+  const showLatestVideosWrapper = (
+    <>
+      {
+        (isAddingVideo || isRemovingVideo || sidebarSelectedHeroVideo.id)
+        && (
+        <HeroCardWrapper
+          video={sidebarSelectedHeroVideo}
+          isWorking={isRemovingVideo || isAddingVideo}
+          updateIsRemovingVideo={setIsRemovingVideo}
+        />
+        )
+      }
 
-      <div>
-        <h3>{__('Currently Embedded Hero', 'oovvuu')}</h3>
-        {(undefined !== sidebarSelectedHeroVideo.id ? sidebarSelectedHeroVideo.id : 0)}
-      </div>
+      <section>
+        <Search onFormSubmission={(keywords) => handleFetchLatestVideos(keywords)} />
+      </section>
 
-      <div className={styles.listWrapper}>
-        {isLoading
-          ? <LoadingSpinner />
-          : <LatestVideoListWrapper videos={latestVideos} />}
-      </div>
-    </section>
+      <section>
+        <header className={styles.header}>
+          <h3 className={styles.heading}>{__('Latest videos', 'oovvuu')}</h3>
+          <ActionButton
+            buttonStyle="icon"
+            ariaLabel={__('Refresh latest videos', 'oovvuu')}
+            onClickHandler={() => handleFetchLatestVideos([])}
+          >
+            <RefreshIcon />
+          </ActionButton>
+        </header>
+
+        <div className={styles.listWrapper}>
+          {isLoading
+            ? <LoadingSpinner />
+            : (
+              <LatestVideoListWrapper
+                videos={latestVideos}
+                isRemovingVideo={isRemovingVideo}
+                isAddingVideo={isAddingVideo}
+                updateIsAddingVideo={setIsAddingVideo}
+              />
+            )}
+        </div>
+      </section>
+    </>
   );
+
+  return shouldShowLatestVideos() ? showLatestVideosWrapper : '';
 };
 
 export default SidebarWrapper;

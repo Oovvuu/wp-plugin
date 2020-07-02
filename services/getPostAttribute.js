@@ -1,3 +1,4 @@
+import isGutenbergEditor from './isGutenbergEditor';
 /* global tinymce */
 
 /**
@@ -9,7 +10,7 @@
  */
 const getPostAttribute = (attribute) => {
   // Gutenberg.
-  if (wp.data) {
+  if (isGutenbergEditor() && wp.data) {
     return wp.data.select('core/editor').getEditedPostAttribute(attribute);
   }
 
