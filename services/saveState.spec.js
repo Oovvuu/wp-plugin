@@ -18,7 +18,7 @@ describe('saveState', () => {
 
     await saveState(data, id);
 
-    // ApiFetch should not have been called for an empty state.
+    // ApiFetch should have been called due to state update.
     expect(wp.apiFetch).toHaveBeenCalled();
   });
 
@@ -35,7 +35,7 @@ describe('saveState', () => {
 
     await saveState(data, id);
 
-    // ApiFetch should not have been called for an empty state.
+    // ApiFetch should have been called due to state update.
     expect(wp.apiFetch).toHaveBeenCalled();
   });
 
@@ -52,7 +52,7 @@ describe('saveState', () => {
 
     await saveState(data, id);
 
-    // ApiFetch should not have been called for an empty state.
+    // ApiFetch should have been called due to state update.
     expect(wp.apiFetch).toHaveBeenCalled();
   });
 
