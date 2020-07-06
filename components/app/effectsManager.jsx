@@ -5,6 +5,7 @@ import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getTopicVideos from 'services/getTopicVideos';
 import saveState from 'services/saveState';
+import postIsEmpty from 'services/postIsEmpty';
 import { displayDismissableAlert } from 'services/alert';
 
 /**
@@ -55,7 +56,7 @@ const EffectsManager = (props) => {
      * @TODO test cases with only a title
      * @TODO test cases with only content
      */
-    if (!title.length && !content.length) {
+    if (postIsEmpty()) {
       // @TODO focus cursor on custom key words input.
 
       // bail early.
