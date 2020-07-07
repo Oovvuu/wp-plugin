@@ -5,6 +5,7 @@ import * as getKeywords from 'services/getKeywords';
 import * as getPostAttribute from 'services/getPostAttribute';
 import * as getTopicVideos from 'services/getTopicVideos';
 import * as saveState from 'services/saveState';
+import * as isGutenbergEditor from 'services/isGutenbergEditor';
 import EffectsManager from './effectsManager';
 
 describe('EffectsManager', () => {
@@ -17,41 +18,68 @@ describe('EffectsManager', () => {
     dispatchFn = jest.fn();
 
     global.wp = {
-      data: null,
+      data: {
+        select: () => ({}),
+      },
     };
-    global.tinymce = {};
+
+    jest.spyOn(isGutenbergEditor, 'default').mockReturnValue(true);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('Fetches keywords on FETCH_KEYWORDS action', async () => {
+  describe('FETCH_KEYWORDS', () => {
     const keywords = ['keyword'];
     const response = { hasError: false, data: { keywords } };
     const getKeywordsSpy = jest.spyOn(getKeywords, 'default')
       .mockImplementation(() => Promise.resolve(response));
-    jest.spyOn(getPostAttribute, 'default')
-      .mockImplementationOnce(() => '1')
-      .mockImplementationOnce(() => 'title')
-      .mockImplementationOnce(() => 'content');
-    const wrapper = shallow(
-      <EffectsManager
-        dispatch={dispatchFn}
-        state={mockState}
-      >
-        <p>Hello, world!</p>
-      </EffectsManager>,
-    );
 
-    wrapper.setProps({ actionType: 'FETCH_KEYWORDS' });
-    return new Promise((resolve) => setImmediate(resolve)).then(() => {
-      expect(dispatchFn).toHaveBeenCalledWith({ type: 'SET_LOADING_STATE' });
-      expect(getKeywordsSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_LOADING_STATE' });
-      expect(dispatchFn).toHaveBeenCalledWith({
-        payload: keywords,
-        type: 'UPDATE_RECOMMENDED_KEYWORDS',
+    it('Fetches keywords on FETCH_KEYWORDS action', async () => {
+      jest.spyOn(wp.data, 'select')
+        .mockImplementation(() => ({
+          getEditedPostAttribute: jest.fn().mockReturnValue('content'),
+        }));
+      const wrapper = shallow(
+        <EffectsManager
+          dispatch={dispatchFn}
+          state={mockState}
+        >
+          <p>Hello, world!</p>
+        </EffectsManager>,
+      );
+
+      wrapper.setProps({ actionType: 'FETCH_KEYWORDS' });
+      return new Promise((resolve) => setImmediate(resolve)).then(() => {
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'SET_LOADING_STATE' });
+        expect(getKeywordsSpy).toHaveBeenCalledTimes(1);
+        expect(dispatchFn).toHaveBeenCalledWith({ type: 'CLEAR_LOADING_STATE' });
+        expect(dispatchFn).toHaveBeenCalledWith({
+          payload: keywords,
+          type: 'UPDATE_RECOMMENDED_KEYWORDS',
+        });
+      });
+    });
+
+    it('Does not fetch keywords with no content', async () => {
+      jest.spyOn(wp.data, 'select')
+        .mockImplementation(() => ({
+          getEditedPostAttribute: jest.fn().mockReturnValue(undefined),
+        }));
+      const wrapper = shallow(
+        <EffectsManager
+          dispatch={dispatchFn}
+          state={mockState}
+        >
+          <p>Hello, world!</p>
+        </EffectsManager>,
+      );
+
+      wrapper.setProps({ actionType: 'FETCH_KEYWORDS' });
+      return new Promise((resolve) => setImmediate(resolve)).then(() => {
+        expect(dispatchFn).not.toHaveBeenCalled();
+        expect(getKeywordsSpy).not.toHaveBeenCalled();
       });
     });
   });
