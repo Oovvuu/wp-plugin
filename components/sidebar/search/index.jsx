@@ -21,7 +21,7 @@ const Search = (props) => {
   } = wp;
   const { onFormSubmission } = props;
   const {
-    onRemoveKeyword, onUpdateKeywords, searchKeywords,
+    onRemoveKeyword, onAddKeyword, searchKeywords,
   } = React.useContext(SidebarDataContext);
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
@@ -57,7 +57,7 @@ const Search = (props) => {
     }
 
     // Add the search terms.
-    onUpdateKeywords(keyword);
+    onAddKeyword(keyword);
 
     // Update local state for aria-live region.
     setLastAction(`${keyword} added.`);

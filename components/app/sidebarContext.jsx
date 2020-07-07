@@ -33,7 +33,7 @@ export const Provider = ({ children }) => {
      *
      * @param keyword object Keyword item.
      */
-  const handleUpdateKeywords = (keyword) => {
+  const handleAddKeyword = (keyword) => {
     // Add the search terms.
     setSearchKeywords([...searchKeywords, keyword]);
   };
@@ -42,7 +42,7 @@ export const Provider = ({ children }) => {
     <SidebarDataContext.Provider
       value={{
         onRemoveKeyword: handleRemoveKeyword,
-        onUpdateKeywords: handleUpdateKeywords,
+        onAddKeyword: handleAddKeyword,
         searchKeywords,
       }}
     >
