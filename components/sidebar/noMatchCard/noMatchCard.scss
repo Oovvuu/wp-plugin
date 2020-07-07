@@ -4,6 +4,11 @@
   display: flex;
   flex-wrap: wrap;
   padding: rem(10);
+
+  @include classic-editor-sidebar-only {
+    margin: rem(2 auto 2);
+    width: calc(100% - rem(24)); // Prevents the overflow from cutting off the shadow.
+  }
 }
 
 .notice {
