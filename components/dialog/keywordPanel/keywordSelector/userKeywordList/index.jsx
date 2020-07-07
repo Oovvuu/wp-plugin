@@ -22,7 +22,7 @@ const UserList = () => {
   } = React.useContext(oovvuuData);
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
-  const inputRef = React.createRef();
+  const inputRef = React.useRef(null);
   const [duplicateIndex, setDuplicateIndex] = React.useState(-1);
 
   /**
