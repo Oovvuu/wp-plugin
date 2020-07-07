@@ -18,7 +18,8 @@
     "jest": true
   },
   "globals": {
-    "wp": true
+    "wp": true,
+    "tinymce": true
   },
   "settings": {
     "import/resolver": {
