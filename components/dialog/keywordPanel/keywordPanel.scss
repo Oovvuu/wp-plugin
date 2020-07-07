@@ -6,8 +6,6 @@
 .keywordsHeading {
   @include font-props(16, 24, regular);
   margin: 0 0 rem(20) 0;
-  position: relative;
-  z-index: 10;
 }
 
 .description {
