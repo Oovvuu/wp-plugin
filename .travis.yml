@@ -123,7 +123,13 @@ script:
   - |
     if [[ "$WP_JS" == "1" ]] ; then
       npm run build
+    fi
+  - |
+    if [[ "$WP_JS" == "1" ]] ; then
       npm run test
+    fi
+  - |
+    if [[ "$WP_JS" == "1" ]] ; then
       npm run lint
     fi
 

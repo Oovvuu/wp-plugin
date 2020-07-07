@@ -15,6 +15,11 @@ describe('EffectsManager', () => {
     jest.spyOn(React, 'useEffect')
       .mockImplementation((effect) => effect());
     dispatchFn = jest.fn();
+
+    global.wp = {
+      data: null,
+    };
+    global.tinymce = {};
   });
 
   afterEach(() => {
