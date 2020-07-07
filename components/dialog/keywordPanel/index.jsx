@@ -32,13 +32,13 @@ const KeywordPanelWrapper = () => {
       {
         message: __(
           'Are you sure you want to clear your selected keywords?',
-          'oovvuu'
+          'oovvuu',
         ),
       },
       __('Yes, clear', 'oovvuu'),
       () => {
         dispatch({ type: 'CLEAR_SELECTED_AND_USER_KEYWORDS' });
-      }
+      },
     );
   };
 
@@ -56,7 +56,7 @@ const KeywordPanelWrapper = () => {
 
     const response = await getVideos(
       [...selectedKeywords, ...userKeywords],
-      id
+      id,
     );
     const { hasError, data, error: { message } = {} } = response;
 
@@ -88,7 +88,7 @@ const KeywordPanelWrapper = () => {
           <p>
             {__(
               'Select the most contextually relevant keywords and add any additional keywords to ensure your receive the best video recommendation',
-              'oovvuu'
+              'oovvuu',
             )}
           </p>
         </div>
