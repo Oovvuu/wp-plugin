@@ -14,39 +14,20 @@ const getPostAttribute = (attribute) => {
     return wp.data.select('core/editor').getEditedPostAttribute(attribute);
   }
 
-  let value = null;
-
   switch (attribute) {
     case 'title': {
-      const titleEl = document.getElementById('title');
-      if (titleEl && titleEl.value) {
-        value = titleEl.value;
-      }
-      break;
+      return document.getElementById('title')?.value;
     }
-    case 'content':
-      if (
-        tinymce !== undefined
-      && tinymce.editors !== undefined
-      && tinymce.editors.content !== undefined
-      ) {
-        value = tinymce.editors.content.getContent();
-      }
-      break;
+    case 'content': {
+      return tinymce?.editors?.content?.getContent();
+    }
     case 'id': {
-      const postIDEl = document.getElementById('post_ID');
-      if (postIDEl && postIDEl.value) {
-        value = postIDEl.value;
-      }
-      break;
+      return document.getElementById('post_ID')?.value;
     }
-    default:
-      value = null;
-      break;
+    default: {
+      return undefined;
+    }
   }
-
-  // Return the attribute value.
-  return value;
 };
 
 export default getPostAttribute;
