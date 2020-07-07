@@ -1,4 +1,5 @@
 import React from 'react';
+import eventBus from 'services/eventBus';
 import AddIcon from 'assets/add.svg';
 import oovvuuData from 'components/app/context';
 import ChipItem from 'components/shared/chipItem';
@@ -93,6 +94,23 @@ const UserList = () => {
   React.useEffect(() => {
     useEffectFlashTimer(duplicateIndex, setDuplicateIndex);
   }, [duplicateIndex]);
+
+  React.useEffect(() => {
+    /**
+     * Focus the input ref.
+     */
+    const focusInput = () => {
+      if (inputRef.current !== null) {
+        inputRef.current.focus();
+      }
+    };
+
+    eventBus.on('focusUserKeywordInput', focusInput);
+
+    return () => {
+      eventBus.remove('focusUserKeywordInput', focusInput);
+    };
+  }, []);
 
   return (
     <div className={styles.wrapper}>
