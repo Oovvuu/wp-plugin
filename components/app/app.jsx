@@ -12,6 +12,7 @@ import DashboardSVG from 'assets/dashboard.svg';
 import styles from './app.scss';
 import OovvuuDataContext from './context';
 import EffectsManager from './effectsManager';
+import { Provider as SidebarDataProvider } from './sidebarContext';
 
 // Ensure the app entry point exists.
 addModalDivEl(portalId);
@@ -94,7 +95,9 @@ const App = () => {
           {__('Dashboard', 'oovvuu')}
         </a>
       </div>
-      <SidebarWrapper />
+      <SidebarDataProvider>
+        <SidebarWrapper />
+      </SidebarDataProvider>
     </>
   );
 
