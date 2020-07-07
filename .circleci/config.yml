@@ -37,11 +37,26 @@ jobs:
 
 workflows:
   version: 2
+  validate-commit:
+    jobs:
+      - test:
+          context: test-runner
+          filters:
+            branches:
+              ignore: production
+      - build:
+          context: test-runner
+          filters:
+            branches:
+              ignore: production
+
   build_release:
     jobs:
       - test:
           context: build
           filters:
+            branches:
+              only: production
             tags:
               only: /.*/
 
@@ -52,7 +67,7 @@ workflows:
             - test
           filters:
             branches:
-              ignore: /.*/
+              only: production
             tags:
               only: /^v.*/
 
@@ -63,6 +78,6 @@ workflows:
             - deploy-prod-approval
           filters:
             branches:
-              ignore: /.*/
+              only: production
             tags:
               only: /^v.*/
