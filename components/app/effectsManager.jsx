@@ -5,6 +5,7 @@ import getKeywords from 'services/getKeywords';
 import getPostAttribute from 'services/getPostAttribute';
 import getTopicVideos from 'services/getTopicVideos';
 import saveState from 'services/saveState';
+import postIsEmpty from 'services/postIsEmpty';
 import { displayDismissableAlert } from 'services/alert';
 
 /**
@@ -46,6 +47,15 @@ const EffectsManager = (props) => {
     const id = getPostAttribute('id');
     const title = getPostAttribute('title');
     const content = getPostAttribute('content');
+
+    /*
+     * Bail early if there is no title or body content to
+     * send to the keyword fetch API.
+     */
+    if (postIsEmpty()) {
+      return;
+    }
+
     dispatch({ type: 'SET_LOADING_STATE' });
 
     const response = await getKeywords(title, content, id);
@@ -67,7 +77,6 @@ const EffectsManager = (props) => {
       displayDismissableAlert({ message });
     }
   };
-
 
   /**
    * For a new batch of recommendedVideos, reset selectedVideos on all positions.
