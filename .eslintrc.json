@@ -19,7 +19,7 @@
   },
   "globals": {
     "wp": true,
-    "tinymce": true,
+    "tinymce": true
   },
   "settings": {
     "import/resolver": {
