@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SidebarDataContext from 'components/app/sidebarContext';
 import ActionButton from 'components/shared/actionButton';
 import ChipItem from 'components/shared/chipItem';
 import ChipInput from 'components/shared/chipInput';
@@ -19,7 +20,9 @@ const Search = (props) => {
     },
   } = wp;
   const { onFormSubmission } = props;
-  const [searchValue, setSearchValue] = React.useState([]);
+  const {
+    onRemoveKeyword, onAddKeyword, searchKeywords,
+  } = React.useContext(SidebarDataContext);
   const [lastAction, setLastAction] = React.useState('');
   const [liveRegionMessage, setLiveRegionMessage] = React.useState('');
   const [duplicateIndex, setDuplicateIndex] = React.useState(-1);
@@ -31,7 +34,7 @@ const Search = (props) => {
    * @param {string} keyword The keyword to be removed.
    */
   const handleRemove = (keyword) => {
-    setSearchValue(searchValue.filter((value) => value !== keyword));
+    onRemoveKeyword(keyword);
 
     // Update local state for aria-live region.
     setLastAction(`${keyword} removed.`);
@@ -43,18 +46,18 @@ const Search = (props) => {
   /**
    * Adds a given keyword to internal state.
    *
-   * @param item object Keyword item.
+   * @param keyword object Keyword item.
    */
   const handleUpdate = (keyword) => {
     // Do not add a user keyword if it already exists.
-    if (searchValue.includes(keyword)) {
-      setDuplicateIndex(searchValue.indexOf(keyword));
+    if (searchKeywords.includes(keyword)) {
+      setDuplicateIndex(searchKeywords.indexOf(keyword));
 
       return;
     }
 
     // Add the search terms.
-    setSearchValue([...searchValue, keyword]);
+    onAddKeyword(keyword);
 
     // Update local state for aria-live region.
     setLastAction(`${keyword} added.`);
@@ -68,8 +71,8 @@ const Search = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (searchValue.length > 0) {
-      onFormSubmission(searchValue);
+    if (searchKeywords.length > 0) {
+      onFormSubmission(searchKeywords);
     }
   };
 
@@ -78,8 +81,8 @@ const Search = (props) => {
    */
   React.useEffect(() => {
     const updatedMessage = sprintf(
-      _n('%d search term total.', '%d search terms total.', searchValue.length, 'oovvuu'),
-      searchValue.length,
+      _n('%d search term total.', '%d search terms total.', searchKeywords.length, 'oovvuu'),
+      searchKeywords.length,
     );
 
     setLiveRegionMessage(`${lastAction} ${updatedMessage}`);
@@ -100,7 +103,7 @@ const Search = (props) => {
       onSubmit={handleSubmit}
     >
       <div className={styles.list}>
-        {searchValue.map((keyword, index) => (
+        {searchKeywords.map((keyword, index) => (
           <ChipItem
             key={keyword}
             keyword={keyword}
@@ -114,7 +117,7 @@ const Search = (props) => {
           onUpdate={handleUpdate}
           inputRef={inputRef}
           focusOnMount={false}
-          placeholder={(searchValue.length === 0) && __('Search Video Library', 'oovvuu')}
+          placeholder={(searchKeywords.length === 0) && __('Search Video Library', 'oovvuu')}
         />
         <span
           className="screen-reader-only"

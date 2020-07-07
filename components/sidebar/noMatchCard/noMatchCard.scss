@@ -1,0 +1,39 @@
+.wrapper {
+  @include panel-shadow;
+  border-radius: $border-radius;
+  display: flex;
+  flex-wrap: wrap;
+  padding: rem(10);
+
+  @include classic-editor-sidebar-only {
+    margin: rem(2 auto 2);
+    width: calc(100% - rem(24)); // Prevents the overflow from cutting off the shadow.
+  }
+}
+
+.notice {
+  @include font-props(14, 14, medium);
+  @include uppercase;
+  background-color: $color-warn;
+  border-radius: rem(4);
+  color: $color-white;
+  margin: 0 0 rem(20) 0;
+  padding: 0 rem(16);
+
+  span {
+    align-items: center;
+    display: flex;
+    height: rem(48);
+  }
+
+  svg {
+    fill: white;
+    margin-right: rem(18);
+  }
+}
+
+.content {
+  @include font-props(16, 24);
+  margin: 0;
+  text-align: center;
+}
