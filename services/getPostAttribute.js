@@ -1,5 +1,4 @@
 import isGutenbergEditor from './isGutenbergEditor';
-/* global tinymce */
 
 /**
  * Performs an API request to obtain keywords for an article given its title and

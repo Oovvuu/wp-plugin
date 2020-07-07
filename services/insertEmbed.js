@@ -1,6 +1,5 @@
 import insertShortcode from './insertShortcode';
 import isGutenbergEditor from './isGutenbergEditor';
-/* global tinymce */
 
 /**
  * Insert Oovvuu embed after 3rd paragraph

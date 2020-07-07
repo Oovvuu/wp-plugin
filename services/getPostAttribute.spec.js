@@ -14,10 +14,10 @@ describe('getPostAttribute', () => {
   it('Gets Classic Editor post title', () => {
     expect(getPostAttribute('title')).toBeUndefined();
 
-    document.body.innerHTML = `<input id="title" value="the title" />`;
+    document.body.innerHTML = '<input id="title" value="the title" />';
     expect(getPostAttribute('title')).toEqual('the title');
 
-    document.body.innerHTML = `<input id="title" value="" />`;
+    document.body.innerHTML = '<input id="title" value="" />';
     expect(getPostAttribute('title')).toEqual('');
   });
 
@@ -33,7 +33,7 @@ describe('getPostAttribute', () => {
   it('Gets Classic Editor post id', () => {
     expect(getPostAttribute('id')).toBeUndefined();
 
-    document.body.innerHTML = `<input id="post_ID" value="44" />`;
+    document.body.innerHTML = '<input id="post_ID" value="44" />';
     expect(getPostAttribute('id')).toEqual('44');
   });
 });
