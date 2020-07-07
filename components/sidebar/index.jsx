@@ -7,10 +7,12 @@ import OovvuuDataContext from 'components/app/context';
 import { displayDismissableAlert } from 'services/alert';
 import recommendedVideosEmpty from 'services/recommendedVideosEmpty';
 import RefreshIcon from 'assets/refresh.svg';
+import SidebarDataContext from 'components/app/sidebarContext';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
 import Search from './search';
 import HeroCardWrapper from './heroCard';
+import NoMatchCard from './noMatchCard';
 
 /**
  * The Sidebar container.
@@ -25,9 +27,11 @@ const SidebarWrapper = () => {
     },
   } = React.useContext(OovvuuDataContext);
   const [latestVideos, setLatestVideos] = React.useState([]);
+  const { searchKeywords } = React.useContext(SidebarDataContext);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isAddingVideo, setIsAddingVideo] = React.useState(false);
   const [isRemovingVideo, setIsRemovingVideo] = React.useState(false);
+  const [showNoMatch, setShowNoMatch] = React.useState(false);
 
   /**
    * Fetches the latest videos.
@@ -82,9 +86,17 @@ const SidebarWrapper = () => {
    */
   React.useEffect(() => {
     if (latestVideos.length === 0 && shouldShowLatestVideos()) {
-      handleFetchLatestVideos([]);
+      handleFetchLatestVideos(searchKeywords);
     }
   }, []);
+
+  /**
+   * Watches for condition where latestVideos is updated and remains empty
+   * and the list of keywords in searchValue is not empty. Shows a message if so.
+   */
+  React.useEffect(() => {
+    setShowNoMatch(!latestVideos.length && !!searchKeywords.length);
+  }, [latestVideos, searchKeywords]);
 
   const showLatestVideosWrapper = (
     <>
@@ -126,6 +138,7 @@ const SidebarWrapper = () => {
                 updateIsAddingVideo={setIsAddingVideo}
               />
             )}
+          {showNoMatch && <NoMatchCard />}
         </div>
       </section>
     </>
