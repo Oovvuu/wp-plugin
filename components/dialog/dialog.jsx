@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import portalId from 'services/portalId';
 import withTrappedTabs from 'services/withTrappedTabs';
+import eventBus from 'services/eventBus';
+import postIsEmpty from 'services/postIsEmpty';
 import LoadingWrapper from 'components/shared/loading';
 import buttons from 'components/shared/actionButton/actionButton.scss';
 import OovvuuSVGLogo from 'assets/oovvuu-logo.svg';
@@ -30,11 +32,16 @@ const Dialog = ({
   const backToTopButtonRef = useRef(null);
 
   /**
-   * Sets focus on modal open to the close button.
+   * Conditionally sets focus on modal open to either the close button or the
+   * user keywords' chipInput.
    */
   React.useEffect(() => {
     if (isOpen) {
-      closeButtonRef.current.focus();
+      if (postIsEmpty()) {
+        eventBus.dispatch('focusUserKeywordInput');
+      } else {
+        closeButtonRef.current.focus();
+      }
     }
   }, [isOpen]);
 
