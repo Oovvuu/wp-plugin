@@ -4,7 +4,7 @@
  *
  * Plugin Name: Oovvuu
  * Description: Embed videos into your posts using the Oovvuu platform.
- * Version: 0.8.0
+ * Version: 0.0.8
  *
  * @package Oovvuu
  */

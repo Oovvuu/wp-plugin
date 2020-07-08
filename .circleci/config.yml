@@ -42,14 +42,8 @@ workflows:
     jobs:
       - test:
           context: test-runner
-          filters:
-            branches:
-              ignore: production
       - build:
           context: test-runner
-          filters:
-            branches:
-              ignore: production
 
   build_release:
     jobs:
@@ -57,9 +51,9 @@ workflows:
           context: build
           filters:
             branches:
-              only: production
+              ignore: /.*/
             tags:
-              only: /.*/
+              only: /^v.*/
 
       - deploy-prod-approval:
           type: approval
@@ -68,7 +62,7 @@ workflows:
             - test
           filters:
             branches:
-              only: production
+              ignore: /.*/
             tags:
               only: /^v.*/
 
@@ -79,6 +73,6 @@ workflows:
             - deploy-prod-approval
           filters:
             branches:
-              only: production
+              ignore: /.*/
             tags:
               only: /^v.*/
