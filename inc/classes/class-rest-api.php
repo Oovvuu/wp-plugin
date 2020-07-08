@@ -719,6 +719,9 @@ class REST_API {
 		// Add spaces after all tags to ensure words are not joined.
 		$html = preg_replace( '/<\/(address|article|aside|blockquote|canvas|dd|div|dl|dt|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hr|li|main|nav|noscript|ol|p|pre|section|table|tfoot|ul|video)>/', '</$1> ', $html );
 
+		// Remove extra spaces.
+		$html = preg_replace( '/\s\s+/', ' ', $html );
+
 		// Remove all HTML tags.
 		$html = wp_strip_all_tags( $html, true );
 
