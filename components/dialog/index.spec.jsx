@@ -76,19 +76,19 @@ describe('DialogWrapper', () => {
 
     it('Makes API call to save state', () => {
       const wrapper = shallow(
-        <DialogWrapper />,
+        <Dialog />,
       );
 
-      wrapper.find(Dialog).find(ActionButton).prop('onClickHandler')();
+      wrapper.find(ActionButton).first().simulate('clickHandler')();
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
         expect(saveStateSpy).toHaveBeenCalled();
       });
     });
 
     it('Dispatches RESET_STATE action', () => {
-      const wrapper = shallow(<DialogWrapper />);
+      const wrapper = shallow(<Dialog />);
 
-      wrapper.find(Dialog).find(ActionButton).prop('onClickHandler')();
+      wrapper.find(ActionButton).first().simulate('clickHandler')();
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
         expect(dispatchFn).toHaveBeenCalledWith({
           type: 'RESET_STATE',
