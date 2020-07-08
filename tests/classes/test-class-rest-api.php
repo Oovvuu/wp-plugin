@@ -33,6 +33,14 @@ class REST_API_Test extends WP_UnitTestCase {
 <blockquote class="wp-block-quote"><p>Quote</p><cite>Citation</cite></blockquote>
 <!-- /wp:quote -->
 
+<!-- wp:paragraph -->
+<span>this</span><span>that</span>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>2<sup>nd</sup></p>
+<!-- /wp:paragraph -->
+
 <!-- wp:nextpage -->
 <!--nextpage-->
 <!-- /wp:nextpage -->
@@ -40,7 +48,7 @@ class REST_API_Test extends WP_UnitTestCase {
 <!-- wp:html -->
 <script>hey</script>
 <!-- /wp:html -->';
-		$expected_html = 'Heading content invalid content Caption List item Another list item Quote Citation';
+		$expected_html = 'Heading content invalid content Caption List item Another list item Quote Citation thisthat 2nd';
 
 		$this->assertEquals( $expected_html, \Oovvuu\REST_API::instance()->sanitize_html_for_api( $actual_html ) );
 	}
