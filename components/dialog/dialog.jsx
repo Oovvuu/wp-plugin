@@ -143,7 +143,6 @@ const Dialog = ({
 
             <ActionButton
               className={styles.saveButton}
-              buttonStyle="primary"
               onClickHandler={handleSave}
             >
               <SaveSVG />
