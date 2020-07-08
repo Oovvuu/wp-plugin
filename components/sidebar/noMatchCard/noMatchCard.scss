@@ -16,12 +16,12 @@
   @include uppercase;
   background-color: $color-warn;
   border-radius: rem(4);
-  color: $color-white;
   margin: 0 0 rem(20) 0;
   padding: 0 rem(16);
 
   span {
     align-items: center;
+    color: $color-white;
     display: flex;
     height: rem(48);
   }
