@@ -21,6 +21,10 @@ class REST_API_Test extends WP_UnitTestCase {
 
 <p>invalid content</span>
 
+<!-- wp:shortcode -->
+[oovvuu-embed id="123456789"]
+<!-- /wp:shortcode -->
+
 <!-- wp:image {"id":1,"sizeSlug":"large"} -->
 <figure class="wp-block-image size-large"><img src="http://example.com/image.jpeg" alt="" class="wp-image-1"/><figcaption>Caption</figcaption></figure>
 <!-- /wp:image -->

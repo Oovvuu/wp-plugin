@@ -716,6 +716,9 @@ class REST_API {
 			return '';
 		}
 
+		// Remove all shortcodes.
+		$html = strip_shortcodes( $html );
+
 		// Add spaces after all tags to ensure words are not joined.
 		$html = preg_replace( '/<\/(address|article|aside|blockquote|canvas|dd|div|dl|dt|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hr|li|main|nav|noscript|ol|p|pre|section|table|tfoot|ul|video)>/', '</$1> ', $html );
 
