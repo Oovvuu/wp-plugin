@@ -23,7 +23,7 @@ npm install
 npm run build
 
 # run node tests
-npm run tests
+npm run test
 npm run lint
 
 
