@@ -38,8 +38,14 @@
   z-index: 10;
 }
 
+.branding {
+  align-items: center;
+  display: flex;
+}
+
 .oovvuuLogo,
 .wpVipLogo {
+  display: block;
   height: rem(30);
 
   svg {
@@ -88,11 +94,10 @@
 }
 
 .saveButton {
-  margin-left: auto;
+  margin: 0 rem(28) 0 auto;
 }
 
 .closeButton {
-  margin-left: auto;
 
   svg {
     fill: $color-white;
