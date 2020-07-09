@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import saveState from 'services/saveState';
 import insertEmbed from 'services/insertEmbed';
-import { displayDismissableAlert } from 'services/alert';
+import { displayDismissableAlert, confirmThenProceed } from 'services/alert';
 import portalId from 'services/portalId';
 import withTrappedTabs from 'services/withTrappedTabs';
 import getPostAttribute from 'services/getPostAttribute';
@@ -47,6 +47,17 @@ const Dialog = ({
    */
   const closeButtonRef = useRef(null);
   const backToTopButtonRef = useRef(null);
+
+  /**
+   * Prompt the user with a confirm message prior to closing the dialog.
+   */
+  const promptToClose = () => {
+    confirmThenProceed(
+      { message: __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu') },
+      __('Yes, close', 'oovvuu'),
+      closeDialog,
+    );
+  };
 
   /**
    * Handles the save action when a user clicks the save button.
@@ -153,7 +164,7 @@ const Dialog = ({
               ref={closeButtonRef}
               type="button"
               className={classnames(styles.closeButton, buttons.buttonIcon)}
-              onClick={closeDialog}
+              onClick={promptToClose}
               aria-label={__('Close', 'oovvuu')}
             >
               <span>
