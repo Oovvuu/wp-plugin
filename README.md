@@ -100,9 +100,3 @@ Run `npm run test` to run Jest tests against JavaScript files. Run `npm run test
 Run `npm run lint` to run ESLint against all JavaScript files. Linting will also happen when running development or production builds.
 
 Run `phpcs` to run PHP CodeSniffer tests against PHP files.
-
-# Continuous Integration
-
-## Travis
-
-Travis will automatically run `phpcs`, `npm run test`, and `npm run build` (which includes eslint). If any of these checks fail, the build will fail.
