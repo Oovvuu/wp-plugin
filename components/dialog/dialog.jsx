@@ -191,7 +191,7 @@ const Dialog = ({
 Dialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
-  children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
+  children: PropTypes.arrayOf(PropTypes.element.isRequired),
   isLoading: PropTypes.bool.isRequired,
   trappedTabsRoot: PropTypes.shape({
     current: PropTypes.instanceOf(HTMLElement),
