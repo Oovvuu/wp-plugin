@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import ActionButton from 'components/shared/actionButton';
 import * as saveState from 'services/saveState';
 import DialogWrapper from './index';
@@ -75,20 +75,26 @@ describe('DialogWrapper', () => {
     });
 
     it('Makes API call to save state', () => {
-      const wrapper = shallow(
-        <DialogWrapper />,
-      );
+      const wrapper = mount(<Dialog
+        isOpen={false}
+        isLoading={false}
+        closeDialog={jest.fn()}
+      />);
 
-      wrapper.find(Dialog).find(ActionButton).prop('onClickHandler')();
+      wrapper.find(ActionButton).first().simulate('click');
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
         expect(saveStateSpy).toHaveBeenCalled();
       });
     });
 
     it('Dispatches RESET_STATE action', () => {
-      const wrapper = shallow(<DialogWrapper />);
+      const wrapper = mount(<Dialog
+        isOpen={false}
+        isLoading={false}
+        closeDialog={jest.fn()}
+      />);
 
-      wrapper.find(Dialog).find(ActionButton).prop('onClickHandler')();
+      wrapper.find(ActionButton).first().simulate('click');
       return new Promise((resolve) => setImmediate(resolve)).then(() => {
         expect(dispatchFn).toHaveBeenCalledWith({
           type: 'RESET_STATE',
