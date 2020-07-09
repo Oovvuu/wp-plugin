@@ -10,6 +10,7 @@ node_modules
 .eslintignore
 .eslintrc.json
 .travis.yml
+.prettierrc
 CODEOWNERS
 composer.json
 composer.lock
@@ -22,6 +23,7 @@ webpack.config.js
 
 # Directories
 .github
+.circleci
 bin
 /blocks
 client

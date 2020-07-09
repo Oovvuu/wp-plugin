@@ -3,6 +3,7 @@
 .DS_Store
 .env
 
+# Client files
 node_modules
 
 # Built files
@@ -10,4 +11,8 @@ build
 vendor
 bin
 
+# Scripts
+vip-testing-deploy.sh
+
+# Composer
 composer.phar
