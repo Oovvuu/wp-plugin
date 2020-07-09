@@ -157,6 +157,7 @@
 .panelWithHeading {
   composes: panel;
   padding: rem(4 20 22 20);
+  z-index: 0;
 }
 
 .panelHeading {
