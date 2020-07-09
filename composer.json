@@ -1,8 +1,0 @@
-{
-    "name": "oovvuu/wp-plugin",
-    "description": "Oovvuu WP Plugin",
-    "require": {
-        "auth0/auth0-php": "^7.2",
-        "vlucas/phpdotenv": "^4.1.5"
-    }
-}

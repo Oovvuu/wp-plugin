@@ -1,8 +1,0 @@
-:root {
-  // Custom Properties to be used in markup.
-  --oovvuu-color-theme: #{$color-theme};
-}
-
-.screen-reader-only {
-  @include screen-reader-only;
-}

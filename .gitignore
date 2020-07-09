@@ -5,9 +5,32 @@
 
 node_modules
 
-# Built files
-build
-vendor
-bin
+# Ignore files not needed for a release
+.babelrc
+.eslintignore
+.eslintrc.json
+.travis.yml
+CODEOWNERS
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpcs.xml.dist
+phpunit.xml.dist
+release.sh
+webpack.config.js
 
-composer.phar
+# Directories
+.github
+bin
+/blocks
+client
+components
+config
+constants
+mocks
+services
+tests
+transforms
+utils
+webpack
