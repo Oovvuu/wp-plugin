@@ -78,7 +78,7 @@ describe('DialogWrapper', () => {
       const wrapper = mount(<Dialog
         isOpen={false}
         isLoading={false}
-        closeDialog={() => { jest.fn(); }}
+        closeDialog={jest.fn()}
       />);
 
       wrapper.find(ActionButton).first().simulate('click');
@@ -91,7 +91,7 @@ describe('DialogWrapper', () => {
       const wrapper = mount(<Dialog
         isOpen={false}
         isLoading={false}
-        closeDialog={() => { jest.fn(); }}
+        closeDialog={jest.fn()}
       />);
 
       wrapper.find(ActionButton).first().simulate('click');
