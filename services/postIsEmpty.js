@@ -10,10 +10,7 @@ const postIsEmpty = () => {
   const content = getPostAttribute('content');
 
   // getEditedPostAttribute will return `undefined` or a string.
-  return (
-    (title === undefined || title.length === 0)
-    && (content === undefined || content.length === 0)
-  );
+  return (!title && !content);
 };
 
 export default postIsEmpty;

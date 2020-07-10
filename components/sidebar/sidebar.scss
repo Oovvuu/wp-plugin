@@ -22,6 +22,7 @@ h3.heading {
   @include font-props(16, 22, semibold);
   @include uppercase;
   color: $color-text-dark;
+  margin: 0;
 }
 
 .listWrapper {

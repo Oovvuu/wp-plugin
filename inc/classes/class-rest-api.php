@@ -66,6 +66,18 @@ class REST_API {
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'get_keywords' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
+				'args'                => [
+					'title'   => [
+						'sanitize_callback' => function( $value ) {
+							return REST_API::instance()->sanitize_html_for_api( $value );
+						},
+					],
+					'content' => [
+						'sanitize_callback' => function( $value ) {
+							return REST_API::instance()->sanitize_html_for_api( $value );
+						},
+					],
+				],
 			]
 		);
 
@@ -77,6 +89,18 @@ class REST_API {
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => [ $this, 'get_videos' ],
 				'permission_callback' => [ $this, 'permission_callback' ],
+				'args'                => [
+					'title'   => [
+						'sanitize_callback' => function( $value ) {
+							return REST_API::instance()->sanitize_html_for_api( $value );
+						},
+					],
+					'content' => [
+						'sanitize_callback' => function( $value ) {
+							return REST_API::instance()->sanitize_html_for_api( $value );
+						},
+					],
+				],
 			]
 		);
 
@@ -676,6 +700,35 @@ class REST_API {
 	 */
 	public function permission_callback() {
 		return Auth::instance()->is_user_authenticated();
+	}
+
+	/**
+	 * Sanitize the HTML for the article title and body to be sent to the API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $html The raw HTML to be sent to the API.
+	 * @return string $html The sanitized HTML to be sent to the API.
+	 */
+	public function sanitize_html_for_api( $html ) {
+		// Invalid data.
+		if ( empty( $html ) || ! is_string( $html ) ) {
+			return '';
+		}
+
+		// Remove all shortcodes.
+		$html = strip_shortcodes( $html );
+
+		// Add spaces after all tags to ensure words are not joined.
+		$html = preg_replace( '/<\/(address|article|aside|blockquote|canvas|dd|div|dl|dt|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hr|li|main|nav|noscript|ol|p|pre|section|table|tfoot|ul|video)>/', '</$1> ', $html );
+
+		// Remove extra spaces.
+		$html = preg_replace( '/\s\s+/', ' ', $html );
+
+		// Remove all HTML tags.
+		$html = wp_strip_all_tags( $html, true );
+
+		return (string) $html;
 	}
 }
 

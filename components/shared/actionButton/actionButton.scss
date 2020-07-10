@@ -6,7 +6,7 @@
 .buttonAction {
   @include button-base;
   @include button-shape-and-text-styles;
-  padding: 0 rem(16);
+  padding: 0 rem(12);
 
   &[disabled] {
     background-color: $color-deactivated;
