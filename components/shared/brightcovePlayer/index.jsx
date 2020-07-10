@@ -11,7 +11,7 @@ const BrightcovePlayer = (props) => {
   let player = React.useRef(null);
 
   /**
-   * Handler for succes method of loader. Stores ref to player instance and sets listener.
+   * Handler for success method of loader. Stores ref to player instance and sets listener.
    * @param loaded
    */
   const handleSuccess = (loaded) => {
@@ -22,19 +22,26 @@ const BrightcovePlayer = (props) => {
   };
 
   /**
-   * Sets event bus listener for sync'ing playing state of instance.
+   * Sets event bus listeners for sync'ing playing state of instance.
    */
   React.useEffect(() => {
-    const callback = (details) => {
+    const handlePauseVideo = () => {
+      player.pause();
+    };
+    const handlePlayVideo = (details) => {
       // eslint-disable-next-line no-underscore-dangle
-      if (player.id_ !== details.videoId) {
+      if (!!player && player.id_ !== details.videoId) {
         player.pause();
       }
     };
 
-    eventBus.on('oovvuuPlayVideo', callback);
+    eventBus.on('oovvuuPlayVideo', handlePlayVideo);
+    eventBus.on('oovvuuPauseVideo', handlePauseVideo);
 
-    return () => { eventBus.remove('oovvuuPlayVideo', callback); };
+    return () => {
+      eventBus.remove('oovvuuPauseVideo', handlePauseVideo);
+      eventBus.remove('oovvuuPlayVideo', handlePlayVideo);
+    };
   }, []);
 
   return (
