@@ -30,6 +30,7 @@ const DialogWrapper = () => {
    */
   const openDialog = () => {
     setIsOpen(true);
+    eventBus.dispatch('oovvuuPauseVideo');
 
     // Add body class.
     const body = document.querySelector('.wp-admin.wp-core-ui');
