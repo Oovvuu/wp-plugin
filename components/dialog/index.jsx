@@ -5,6 +5,7 @@ import saveState from 'services/saveState';
 import OovvuuDataContext from 'components/app/context';
 import SaveSVG from 'assets/save.svg';
 import OovvuuSmallSVGLogo from 'assets/oovvuu-small-logo.svg';
+import eventBus from 'services/eventBus';
 import insertEmbed from 'services/insertEmbed';
 import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
 import TopicsPanelWrapper from './topicsPanel';
@@ -38,6 +39,7 @@ const DialogWrapper = () => {
    */
   const openDialog = () => {
     setIsOpen(true);
+    eventBus.dispatch('oovvuuPauseVideo');
 
     // Add body class.
     const body = document.querySelector('.wp-admin.wp-core-ui');
@@ -56,6 +58,7 @@ const DialogWrapper = () => {
    */
   const closeDialog = () => {
     setIsOpen(false);
+    eventBus.dispatch('oovvuuPauseVideo');
 
     // Remove body class.
     const body = document.querySelector('.wp-admin.wp-core-ui');
