@@ -1,6 +1,7 @@
 import React from 'react';
 import ActionButton from 'components/shared/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
+import eventBus from 'services/eventBus';
 import OovvuuDataContext from 'components/app/context';
 import OovvuuSmallSVGLogo from 'assets/oovvuu-small-logo.svg';
 import TopicsPanelWrapper from './topicsPanel';
@@ -47,6 +48,7 @@ const DialogWrapper = () => {
    */
   const closeDialog = () => {
     setIsOpen(false);
+    eventBus.dispatch('oovvuuPauseVideo');
 
     // Remove body class.
     const body = document.querySelector('.wp-admin.wp-core-ui');
