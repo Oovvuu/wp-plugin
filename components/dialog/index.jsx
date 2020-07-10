@@ -3,7 +3,6 @@ import ActionButton from 'components/shared/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
 import OovvuuDataContext from 'components/app/context';
 import OovvuuSmallSVGLogo from 'assets/oovvuu-small-logo.svg';
-import { confirmThenProceed } from 'services/alert';
 import TopicsPanelWrapper from './topicsPanel';
 import PositionsPanelWrapper from './positionsPanel';
 import KeywordPanel from './keywordPanel';
@@ -59,17 +58,6 @@ const DialogWrapper = () => {
     dispatch({ type: 'CLEAR_LOADING_STATE' });
   };
 
-  /**
-   * Prompt the user with a confirm message prior to closing the dialog.
-   */
-  const promptToClose = () => {
-    confirmThenProceed(
-      { message: __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu') },
-      __('Yes, close', 'oovvuu'),
-      closeDialog,
-    );
-  };
-
   return (
     <>
       <ActionButton
@@ -87,7 +75,7 @@ const DialogWrapper = () => {
       <Dialog
         isOpen={isOpen}
         isLoading={isLoading}
-        closeDialog={promptToClose}
+        closeDialog={closeDialog}
       >
         <header className={styles.titleWrapper}>
           <h2 className={styles.postTitle}>
