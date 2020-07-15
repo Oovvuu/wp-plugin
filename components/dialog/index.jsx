@@ -1,12 +1,9 @@
 import React from 'react';
 import ActionButton from 'components/shared/actionButton';
 import getPostAttribute from 'services/getPostAttribute';
-import saveState from 'services/saveState';
+import eventBus from 'services/eventBus';
 import OovvuuDataContext from 'components/app/context';
-import SaveSVG from 'assets/save.svg';
 import OovvuuSmallSVGLogo from 'assets/oovvuu-small-logo.svg';
-import insertEmbed from 'services/insertEmbed';
-import { confirmThenProceed, displayDismissableAlert } from 'services/alert';
 import TopicsPanelWrapper from './topicsPanel';
 import PositionsPanelWrapper from './positionsPanel';
 import KeywordPanel from './keywordPanel';
@@ -20,14 +17,9 @@ const DialogWrapper = () => {
   const { i18n: { __ } } = wp;
   const [isOpen, setIsOpen] = React.useState(false);
   const {
-    state,
     state: {
       isLoadedFromMeta,
       isLoading,
-      isPositionTwoEnabled,
-      selectedVideos: {
-        positionTwo,
-      },
       sidebarSelectedHeroVideo,
     },
     dispatch,
@@ -38,6 +30,7 @@ const DialogWrapper = () => {
    */
   const openDialog = () => {
     setIsOpen(true);
+    eventBus.dispatch('oovvuuPauseVideo');
 
     // Add body class.
     const body = document.querySelector('.wp-admin.wp-core-ui');
@@ -56,6 +49,7 @@ const DialogWrapper = () => {
    */
   const closeDialog = () => {
     setIsOpen(false);
+    eventBus.dispatch('oovvuuPauseVideo');
 
     // Remove body class.
     const body = document.querySelector('.wp-admin.wp-core-ui');
@@ -65,55 +59,6 @@ const DialogWrapper = () => {
     }
 
     dispatch({ type: 'CLEAR_LOADING_STATE' });
-  };
-
-  /**
-   * Prompt the user with a confirm message prior to closing the dialog.
-   */
-  const promptToClose = () => {
-    confirmThenProceed(
-      { message: __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu') },
-      __('Yes, close', 'oovvuu'),
-      closeDialog,
-    );
-  };
-
-  /**
-   * Handles the save action when a user clicks the save button.
-   */
-  const handleSave = async () => {
-    dispatch({ type: 'SET_LOADING_STATE' });
-
-    // Note: Loading state is cleared within the `saveState` service.
-    const response = await saveState(state, getPostAttribute('id'));
-    const {
-      hasError,
-      data,
-      error: {
-        message,
-      } = {},
-    } = response;
-
-    if (!hasError) {
-      // Embed id.
-      const positionTwoEmbedId = data?.embeds?.positionTwo?.id;
-
-      // Insert a new Oovvuu embed to the editor.
-      insertEmbed(positionTwoEmbedId, positionTwo, isPositionTwoEnabled);
-
-      /**
-       * saveState() returns updated state, with flag that data has been loaded
-       *   from meta. This needs to be sync'd back to state.
-       */
-      dispatch({ type: 'RESET_STATE', payload: data });
-
-      // Close the Dialog.
-      closeDialog();
-    } else {
-      dispatch({ type: 'CLEAR_LOADING_STATE' });
-
-      displayDismissableAlert({ message });
-    }
   };
 
   return (
@@ -133,21 +78,12 @@ const DialogWrapper = () => {
       <Dialog
         isOpen={isOpen}
         isLoading={isLoading}
-        closeDialog={promptToClose}
+        closeDialog={closeDialog}
       >
         <header className={styles.titleWrapper}>
           <h2 className={styles.postTitle}>
             {getPostAttribute('title')}
           </h2>
-
-          <ActionButton
-            className={styles.saveButton}
-            buttonStyle="primary"
-            onClickHandler={handleSave}
-          >
-            <SaveSVG />
-            <>{__('Save and Close', 'oovvuu')}</>
-          </ActionButton>
         </header>
         <KeywordPanel />
         <TopicsPanelWrapper />
