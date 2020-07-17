@@ -735,8 +735,6 @@ class REST_API {
 			$payload['variables'] = array_merge( $payload['variables'] ?? [], $variables );
 		}
 
-		error_log( wp_json_encode( $payload ) );
-
 		// Perform the request.
 		$response = wp_remote_post(
 			$this->endpoint,
