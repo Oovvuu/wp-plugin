@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import ChevronRight from 'assets/chevron-right.svg';
 
 /**
  * The Analytics List Item container.
@@ -9,6 +10,7 @@ const AnalyticsListItemWrapper = (props) => {
   const {
     data,
     title,
+    href,
   } = props;
 
   /**
@@ -49,7 +51,19 @@ const AnalyticsListItemWrapper = (props) => {
 
   return (
     <>
-      <dt className={styles.term}>{title}</dt>
+      <dt className={styles.term}>
+        {href.length
+          ? (
+            <a
+              href={href}
+              className={styles.termLink}
+            >
+              {title}
+              <ChevronRight />
+            </a>
+          )
+          : title}
+      </dt>
 
       <dd
         className={classnames(styles.count, { [styles.isNegative]: valueIsNegative() })}
@@ -60,9 +74,14 @@ const AnalyticsListItemWrapper = (props) => {
   );
 };
 
+AnalyticsListItemWrapper.defaultProps = {
+  href: '',
+};
+
 AnalyticsListItemWrapper.propTypes = {
   data: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  href: PropTypes.string,
 };
 
 export default AnalyticsListItemWrapper;

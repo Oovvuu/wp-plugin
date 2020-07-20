@@ -109,6 +109,7 @@ const AnalyticsWrapper = () => {
               key={uuid()}
               data={value.data}
               title={value.title}
+              href={value.href}
             />
           ))}
         </dl>
