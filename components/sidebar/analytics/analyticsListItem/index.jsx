@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import ChevronRight from 'assets/chevron-right.svg';
+import styles from './analyticsListItem.scss';
 
 /**
  * The Analytics List Item container.

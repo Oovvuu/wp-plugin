@@ -3,6 +3,7 @@ import LoadingSpinner from 'components/shared/loading/spinner';
 import getOrganizationMetrics from 'services/getOrganizationMetrics';
 import uuid from 'react-uuid';
 import AnalyticsListItemWrapper from './analyticsListItem';
+import styles from './analytics.scss';
 
 /**
  * The Analytics container.

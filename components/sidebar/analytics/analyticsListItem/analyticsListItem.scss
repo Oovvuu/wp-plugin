@@ -1,0 +1,72 @@
+.term {
+  @include font-props(12, normal);
+  @include uppercase;
+  grid-area: term;
+
+  // Faux grid-row borders.
+  &::before {
+    border: 1px solid $color-gray-light;
+    border-radius: $border-radius;
+    content: '';
+    display: block;
+    grid-column: 1 / span 2;
+    height: rem(50);
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.termLink {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  height: 100%;
+  text-decoration: none;
+  width: 100%;
+
+  &:hover,
+  &:focus {
+    color: $color-theme;
+  }
+
+  svg {
+    margin-left: auto;
+  }
+}
+
+.count {
+  @include font-props(24, 24, semibold);
+  grid-area: count;
+  justify-content: center;
+  margin: 0;
+
+  span {
+    font-weight: $weight-regular;
+  }
+
+  &.isNegative {
+    color: $color-warn;
+  }
+}
+
+.term,
+.count {
+  align-items: center;
+  display: flex;
+  height: rem(50);
+  padding: 0 rem(10);
+
+  // Ensure each item is in the correct row.
+  @each $value in (2, 3, 4) {
+
+    &:nth-of-type(#{$value}) {
+
+      &, // Apply to self.
+      &::before {
+        grid-row: $value;
+      }
+    }
+  }}
