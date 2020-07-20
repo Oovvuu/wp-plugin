@@ -161,6 +161,17 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 			]
 		);
+
+		// Videos Added.
+		register_rest_route(
+			$this->namespace,
+			'/getVideosAdded',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'get_videos_added' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
+			]
+		);
 	}
 
 	/**
@@ -294,6 +305,34 @@ class REST_API {
 					'playbackInput' => [
 						'domain' => wp_parse_url( admin_url(), PHP_URL_HOST ),
 					],
+				]
+			)
+		);
+	}
+
+	/**
+	 * Gets videos added based on a given time period.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function get_videos_added( $request ) {
+		return rest_ensure_response(
+			$this->request(
+				'query ($input: VideoSetInput! ) {
+					videoSet (input: $input) {
+						totalCount
+					}
+				}',
+				[
+					'filter' => (object) [
+						'publishedAt' => (object) [
+							'gte' => gmdate( DATE_ATOM, strtotime( '-1 day' ) ),
+						],
+					],
+					'limit'  => 0,
 				]
 			)
 		);

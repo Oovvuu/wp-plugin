@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import getOrganizationMetrics from 'services/getOrganizationMetrics';
+import getVideosAdded from 'services/getVideosAdded';
 import uuid from 'react-uuid';
 import AnalyticsListItemWrapper from './analyticsListItem';
 import styles from './analytics.scss';
@@ -17,21 +18,27 @@ const AnalyticsWrapper = () => {
    * Gets the organization metrics.
    */
   const getMetrics = async () => {
+    // Start loading.
     setIsloading(true);
 
     const orgMetrics = await getOrganizationMetrics();
+    const videosAddedToday = await getVideosAdded();
 
-    setIsloading(false);
-
-    if (!orgMetrics.hasError) {
+    if (!orgMetrics.hasError && !videosAddedToday.hasError) {
       const metricsData = orgMetrics?.data || {};
 
       const {
+        videoStreamsCount = 0,
         videoStreamsActiveCount = 0,
         videoStreamsGoalCountTodayPortion = 0,
         embedsCreatedCount = 0,
-        videoStreamsCount = 0,
       } = metricsData;
+
+      let trackingToTarget = 0;
+      if (videoStreamsGoalCountTodayPortion !== 0) {
+        trackingToTarget = (videoStreamsCount - videoStreamsGoalCountTodayPortion)
+            / videoStreamsGoalCountTodayPortion;
+      }
 
       const parsedMetricsData = [
         {
@@ -39,7 +46,7 @@ const AnalyticsWrapper = () => {
           title: __('Watching Now', 'oovvuu'),
         },
         {
-          data: `${videoStreamsGoalCountTodayPortion}%`,
+          data: `${trackingToTarget}%`,
           title: __('Tracking To Target', 'oovvuu'),
         },
         {
@@ -47,7 +54,7 @@ const AnalyticsWrapper = () => {
           title: __('Videos Embedded', 'oovvuu'),
         },
         {
-          data: videoStreamsCount,
+          data: videosAddedToday?.data?.totalCount || 0,
           title: __('Videos Added Today', 'oovvuu'),
           href: 'https://compass.oovvuu.media/source/videos',
         },
@@ -61,6 +68,9 @@ const AnalyticsWrapper = () => {
         message: orgMetrics?.message || __('There was an error loading metrics', 'oovvuu'),
       });
     }
+
+    // Stop loading.
+    setIsloading(false);
   };
 
   /**
