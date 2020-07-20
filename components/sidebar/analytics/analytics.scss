@@ -1,0 +1,9 @@
+.list {
+  align-items: center;
+  display: grid;
+  grid-row-gap: rem(10);
+  grid-template-areas: 'count term';
+  grid-template-columns: minmax(rem(80), max-content) 1fr;
+  margin: 0;
+  position: relative;
+}

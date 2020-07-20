@@ -3,7 +3,7 @@ import LoadingSpinner from 'components/shared/loading/spinner';
 import getOrganizationMetrics from 'services/getOrganizationMetrics';
 import uuid from 'react-uuid';
 import AnalyticsListItemWrapper from './analyticsListItem';
-
+import styles from './analytics.scss';
 
 /**
  * The Analytics container.
@@ -25,22 +25,31 @@ const AnalyticsWrapper = () => {
 
     if (!orgMetrics.hasError) {
       const metricsData = orgMetrics?.data || {};
+
+      const {
+        videoStreamsActiveCount = 0,
+        videoStreamsGoalCountTodayPortion = 0,
+        embedsCreatedCount = 0,
+        videoStreamsCount = 0,
+      } = metricsData;
+
       const parsedMetricsData = [
         {
-          data: Number(metricsData?.videoStreamsActiveCount || 0),
+          data: videoStreamsActiveCount,
           title: __('Watching Now', 'oovvuu'),
         },
         {
-          data: Number(metricsData?.videoStreamsGoalCountTodayPortion || 0),
+          data: `${videoStreamsGoalCountTodayPortion}%`,
           title: __('Tracking To Target', 'oovvuu'),
         },
         {
-          data: Number(metricsData?.embedsCreatedCount || 0),
+          data: embedsCreatedCount,
           title: __('Videos Embedded', 'oovvuu'),
         },
         {
-          data: Number(metricsData?.videoStreamsCount || 0),
+          data: videoStreamsCount,
           title: __('Videos Added Today', 'oovvuu'),
+          href: 'https://compass.oovvuu.media/source/videos',
         },
       ];
 
@@ -85,17 +94,28 @@ const AnalyticsWrapper = () => {
     }
 
     return (
-      <div>
-        <ul>
+      <section>
+        <h3
+          className="screen-reader-only"
+          id="analytics-heading"
+        >
+          {__('Network Analytics', 'oovvuu')}
+        </h3>
+
+        <dl
+          className={styles.list}
+          aria-labelledby="analytics-heading"
+        >
           {metrics.map((value) => (
             <AnalyticsListItemWrapper
               key={uuid()}
               data={value.data}
               title={value.title}
+              href={value.href}
             />
           ))}
-        </ul>
-      </div>
+        </dl>
+      </section>
     );
   };
 
