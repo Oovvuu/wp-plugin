@@ -49,6 +49,7 @@ const AnalyticsWrapper = () => {
         {
           data: videoStreamsCount,
           title: __('Videos Added Today', 'oovvuu'),
+          href: 'https://compass.oovvuu.media/source/videos',
         },
       ];
 
