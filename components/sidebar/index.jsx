@@ -1,7 +1,6 @@
 import React from 'react';
 import getPostAttribute from 'services/getPostAttribute';
 import getLatestVideos from 'services/getLatestVideos';
-import getOrganizationMetrics from 'services/getOrganizationMetrics';
 import ActionButton from 'components/shared/actionButton';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import OovvuuDataContext from 'components/app/context';
@@ -12,6 +11,7 @@ import SidebarDataContext from 'components/app/sidebarContext';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
 import Search from './search';
+import Analytics from './analytics';
 import HeroCardWrapper from './heroCard';
 import NoMatchCard from './noMatchCard';
 
@@ -89,8 +89,6 @@ const SidebarWrapper = () => {
     if (latestVideos.length === 0 && shouldShowLatestVideos()) {
       handleFetchLatestVideos(searchKeywords);
     }
-
-    console.log(getOrganizationMetrics());
   }, []);
 
   /**
@@ -103,9 +101,8 @@ const SidebarWrapper = () => {
 
   const showLatestVideosWrapper = (
     <>
-      <div>
-        <h3>Metrics</h3>
-      </div>
+      <Analytics />
+
       {
         (isAddingVideo || isRemovingVideo || sidebarSelectedHeroVideo.id)
         && (
