@@ -434,6 +434,9 @@ class Auth {
 		// Set the token.
 		update_user_meta( $user_id, 'oovvuu_auth0_token', $token );
 
+		// Clear the saved user publisher ID when the user authenticates.
+		delete_user_meta( $user_id, 'oovvuu_auth0_publisher_id' );
+
 		// Add this user to the cron job to re-authenticate.
 		$this->add_user_to_refresh_cron( $user_id );
 
