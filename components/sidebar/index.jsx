@@ -11,6 +11,7 @@ import SidebarDataContext from 'components/app/sidebarContext';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
 import Search from './search';
+import Analytics from './analytics';
 import HeroCardWrapper from './heroCard';
 import NoMatchCard from './noMatchCard';
 
@@ -100,6 +101,8 @@ const SidebarWrapper = () => {
 
   const showLatestVideosWrapper = (
     <>
+      <Analytics />
+
       {
         (isAddingVideo || isRemovingVideo || sidebarSelectedHeroVideo.id)
         && (
