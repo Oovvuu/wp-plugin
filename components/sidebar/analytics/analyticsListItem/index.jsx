@@ -58,6 +58,8 @@ const AnalyticsListItemWrapper = (props) => {
             <a
               href={href}
               className={styles.termLink}
+              target="_blank"
+              rel="noreferrer noopener"
             >
               {title}
               <ChevronRight />
