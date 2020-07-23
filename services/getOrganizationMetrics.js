@@ -19,11 +19,12 @@ const getOrganizationMetrics = () => {
       }
 
       const metrics = value?.data?.organisation?.metrics;
+      const totalCount = value?.data?.videoSet?.totalCount || 0;
 
       return metrics
         ? {
           hasError: false,
-          data: { ...metrics },
+          data: { ...metrics, totalCount },
         } : {
           hasError: true,
           message: __('Malformed response data.', 'oovvuu'),

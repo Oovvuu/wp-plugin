@@ -1,7 +1,6 @@
 import React from 'react';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import getOrganizationMetrics from 'services/getOrganizationMetrics';
-import getVideosAdded from 'services/getVideosAdded';
 import uuid from 'react-uuid';
 import AnalyticsListItemWrapper from './analyticsListItem';
 import styles from './analytics.scss';
@@ -22,9 +21,8 @@ const AnalyticsWrapper = () => {
     setIsloading(true);
 
     const orgMetrics = await getOrganizationMetrics();
-    const videosAddedToday = await getVideosAdded();
 
-    if (!orgMetrics.hasError && !videosAddedToday.hasError) {
+    if (!orgMetrics.hasError) {
       const metricsData = orgMetrics?.data || {};
 
       const {
@@ -32,6 +30,7 @@ const AnalyticsWrapper = () => {
         videoStreamsActiveCount = 0,
         videoStreamsGoalCountTodayPortion = 0,
         embedsCreatedCount = 0,
+        totalCount = 0,
       } = metricsData;
 
       let trackingToTarget = 0;
@@ -54,7 +53,7 @@ const AnalyticsWrapper = () => {
           title: __('Videos Embedded', 'oovvuu'),
         },
         {
-          data: videosAddedToday?.data?.totalCount || 0,
+          data: totalCount,
           title: __('Videos Added Today', 'oovvuu'),
           href: 'https://compass.oovvuu.media/source/videos',
         },

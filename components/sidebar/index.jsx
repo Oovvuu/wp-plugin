@@ -101,8 +101,6 @@ const SidebarWrapper = () => {
 
   const showLatestVideosWrapper = (
     <>
-      <Analytics />
-
       {
         (isAddingVideo || isRemovingVideo || sidebarSelectedHeroVideo.id)
         && (
@@ -147,7 +145,12 @@ const SidebarWrapper = () => {
     </>
   );
 
-  return shouldShowLatestVideos() ? showLatestVideosWrapper : '';
+  return (
+    <>
+      <Analytics />
+      {shouldShowLatestVideos() ? showLatestVideosWrapper : ''}
+    </>
+  );
 };
 
 export default SidebarWrapper;
