@@ -778,7 +778,7 @@ class REST_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool True or false.
+	 * @return bool
 	 */
 	public function permission_callback() {
 		return Auth::instance()->is_user_authenticated();
