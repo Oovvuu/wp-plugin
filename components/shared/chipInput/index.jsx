@@ -22,7 +22,7 @@ const ChipInput = (props) => {
    *
    * @param {Event} event The event object.
    */
-  const handleSubmit = (event) => {
+  const convertInputValueToChip = (event) => {
     event.preventDefault();
 
     if (keyword) {
@@ -34,7 +34,7 @@ const ChipInput = (props) => {
   };
 
   /**
-   * Patches in support for submitting the form with the TAB key.
+   * Converts the input value with the TAB or Return key.
    *
    * @param {Event} event The event object.
    */
@@ -43,7 +43,7 @@ const ChipInput = (props) => {
     const { keyCode } = event;
 
     if (keyword && [TAB, RETURN].includes(keyCode)) {
-      handleSubmit(event);
+      convertInputValueToChip(event);
     }
   };
 
