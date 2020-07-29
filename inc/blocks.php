@@ -12,7 +12,15 @@ register_block_type(
 	'oovvuu/embed',
 	[
 		'attributes'      => [
-			'id' => [
+			'id'              => [
+				'type'    => 'string',
+				'default' => '',
+			],
+			'playerScriptUrl' => [
+				'type'    => 'string',
+				'default' => '',
+			],
+			'frameUrl'        => [
 				'type'    => 'string',
 				'default' => '',
 			],
@@ -33,4 +41,3 @@ function render_block_embed( $attributes, $content ) {
 	include dirname( __DIR__ ) . '/template-parts/blocks/embed.php';
 	return ob_get_clean();
 }
-

@@ -3,13 +3,16 @@ import insertShortcode from './insertShortcode';
 // Shortcode Regex
 const shortcodePattern = /\[(\[?)(oovvuu-embed)(?![\w-])([^\]/]*(?:\/(?!\])[^\]/]*)*?)(?:(\/)\]|\](?:([^[]*(?:\[(?!\/\2\])[^[]*)*)(\[\/\2\]))?)(\]?)/g;
 
-// Sample oovvuu ids
-const ids = ['00-vv-uu', '11-vv-uu'];
+// Sample oovvuu args
+const args = [
+  {id: '00-vv-uu', frameUrl: 'https://playback.oovvuu.media/frame/00-vv-uu', playerScriptUrl: 'https://playback.oovvuu.media/player/v1.js'},
+  {id: '11-vv-uu', frameUrl: 'https://playback.oovvuu.media/frame/11-vv-uu', playerScriptUrl: 'https://playback.oovvuu.media/player/v1.js'}
+];
 
 // Shortcode samples
 const shortcodes = [
-  `[oovvuu-embed id="${ids[0]}"]`,
-  `[oovvuu-embed id="${ids[1]}"]`,
+  `[oovvuu-embed id="${args.id}" frameUrl="${args.frameUrl}" playerScriptUrl="${args.playerScriptUrl}"]]`,
+  `[oovvuu-embed id="${args.id}" frameUrl="${args.frameUrl}" playerScriptUrl="${args.playerScriptUrl}"]]`,
 ];
 
 describe('insertShortcode', () => {

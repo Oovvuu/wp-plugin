@@ -3,12 +3,12 @@
  * Insert Oovvuu shortcode after 3th element.
  * Remove existing shortcode if present.
  *
- * @param   {int}    id    The embed ID.
- * @param   {string} html  The markup.
- * @param   {RegExp} regex Shortcode regex.
+ * @param {Array}   args    The embed args.
+ * @param {string}  html    The markup.
+ * @param {RegExp}  regex   Shortcode regex.
  * @param {boolean} enabled True when the position is enabled, otherwise false.
  */
-const insertShortcode = (id, html, regex, enabled) => {
+const insertShortcode = (args, html, regex, enabled) => {
   // Dummy element to process nodes.
   const el = document.createElement('div');
   el.innerHTML = html;
@@ -29,15 +29,15 @@ const insertShortcode = (id, html, regex, enabled) => {
   );
 
   // If position is disabled, do not add new shortcode.
-  if (!enabled || !id) {
+  if (!enabled || !args) {
     return filteredNodes.join('');
   }
 
   // Add new shortcode as the 4th element.
   if (filteredNodes.length > 2) {
-    filteredNodes.splice(3, 0, `[oovvuu-embed id="${id}"]`);
+    filteredNodes.splice(3, 0, `[oovvuu-embed id="${args.id}" frameUrl="${args.frameUrl}" playerScriptUrl="${args.playerScriptUrl}"]`);
   } else {
-    filteredNodes.push(`[oovvuu-embed id="${id}"]`);
+    filteredNodes.push(`[oovvuu-embed id="${args.id}" frameUrl="${args.frameUrl}" playerScriptUrl="${args.playerScriptUrl}"]`);
   }
 
   return filteredNodes.join('');

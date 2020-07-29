@@ -4,11 +4,11 @@ import isGutenbergEditor from './isGutenbergEditor';
 /**
  * Insert Oovvuu embed after 3rd paragraph
  *
- * @param {int} id The embed ID.
- * @param {object} videos The videos.
+ * @param {array}   args    The embed args.
+ * @param {object}  videos  The videos.
  * @param {boolean} enabled True when the position is enabled, otherwise false.
  */
-const insertEmbed = (id, videos, enabled) => {
+const insertEmbed = (args, videos, enabled) => {
   // Gutenberg.
   if (isGutenbergEditor() && wp.data && wp.blocks) {
     const {
@@ -33,7 +33,7 @@ const insertEmbed = (id, videos, enabled) => {
     removeBlocks(clientIds);
 
     // Add new block if enabled and contains videos.
-    if (enabled && id && videos.length > 0) {
+    if (enabled && args && videos.length > 0) {
       // Remove all un-needed data from videos.
       const minimalVideos = videos.map((video) => ({
         id: video.id,
@@ -44,7 +44,9 @@ const insertEmbed = (id, videos, enabled) => {
       // Create new embed block.
       const newBlock = createBlock(
         'oovvuu/embed', {
-          id,
+          id: args.id,
+          frameUrl: args.frameUrl,
+          playerScriptUrl: args.playerScriptUrl,
           videos: JSON.stringify(minimalVideos),
         },
       );
@@ -60,7 +62,7 @@ const insertEmbed = (id, videos, enabled) => {
 
     // Get editor content and insert/modify embed shortcode.
     const currentHtml = tinymce.editors.content.getContent();
-    const newHtml = insertShortcode(id, currentHtml, shortcode.regexp('oovvuu-embed'), enabled);
+    const newHtml = insertShortcode(args, currentHtml, shortcode.regexp('oovvuu-embed'), enabled);
 
     // Check content is valid and different to current.
     if (newHtml !== '' && newHtml !== currentHtml) {
