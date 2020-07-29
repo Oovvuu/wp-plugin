@@ -86,7 +86,7 @@ require_once OOVVUU_PATH . '/inc/meta-boxes.php';
 require_once OOVVUU_PATH . '/inc/blocks.php';
 
 // Hero.
-require_once OOVVUU_PATH . '/inc/hero.php';
+require_once OOVVUU_PATH . '/inc/embeds.php';
 
 // Shortcodes.
 require_once OOVVUU_PATH . '/inc/shortcodes.php';

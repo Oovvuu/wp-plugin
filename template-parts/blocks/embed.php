@@ -10,8 +10,9 @@
 
 namespace Oovvuu;
 
+// Bail if no embed ID is passed.
 if ( empty( $attributes ) || empty( $attributes['id'] ) ) {
 	return;
 }
 
-the_hero_embed_html( $attributes['id'] );
+the_embed_html( $attributes['id'] );
