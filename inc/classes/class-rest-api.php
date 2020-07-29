@@ -373,7 +373,7 @@ class REST_API {
 			$embed = [];
 
 			// Valid response.
-			if ( ! empty( $response['data'] ) ) {
+			if ( ! \is_wp_error( $response ) && ! empty( $response['data'] ) ) {
 				$embed = [
 					'raw_response' => $response['data'],
 					'id'           => $response['data']['createEmbed']['id'] ?? '',
@@ -404,7 +404,7 @@ class REST_API {
 			$embed = [];
 
 			// Valid response.
-			if ( ! empty( $response['data'] ) ) {
+			if ( ! \is_wp_error( $response ) && ! empty( $response['data'] ) ) {
 				$embed = [
 					'raw_response' => $response['data'],
 					'id'           => $response['data']['createEmbed']['id'] ?? '',
