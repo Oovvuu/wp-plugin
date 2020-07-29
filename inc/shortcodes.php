@@ -17,7 +17,9 @@ namespace Oovvuu;
 function embed_shortcode( $atts ) {
 	$attributes = shortcode_atts(
 		[
-			'id' => '',
+			'id'              => '',
+			'frameUrl'        => 'https://playback.oovvuu.media/frame/' . $atts['id'] ?? '',
+			'playerScriptUrl' => 'https://playback.oovvuu.media/player/v1.js',
 		],
 		$atts,
 		'oovvuu-embed'

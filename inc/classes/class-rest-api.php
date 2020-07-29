@@ -370,8 +370,8 @@ class REST_API {
 				continue;
 			}
 
-			// Create the embed.
-			$response = $this->create_embed(
+			// Add the embed.
+			$embeds[ $position ] = $this->create_and_get_embed(
 				[
 					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => $state['selectedVideos'][ $position ],
@@ -381,19 +381,6 @@ class REST_API {
 					'embed_location' => $data['embed_location'],
 				]
 			);
-
-			$embed = [];
-
-			// Valid response.
-			if ( ! empty( $response['data'] ) ) {
-				$embed = [
-					'raw_response' => $response['data'],
-					'id'           => $response['data']['createEmbed']['id'] ?? '',
-				];
-			}
-
-			// Add the embed.
-			$embeds[ $position ] = $embed;
 		}
 
 		// Create embeds from the sidebar hero.
@@ -401,8 +388,8 @@ class REST_API {
 			! empty( $valid_positions['hero'] )
 			&& ! empty( $state['sidebarSelectedHeroVideo']->id )
 		) {
-			// Create the embed.
-			$response = $this->create_embed(
+			// Add the embed.
+			$embeds['sidebarHero'] = $this->create_and_get_embed(
 				[
 					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => [ (array) $state['sidebarSelectedHeroVideo'] ],
@@ -412,19 +399,6 @@ class REST_API {
 					'embed_location' => $valid_positions['hero']['embed_location'],
 				]
 			);
-
-			$embed = [];
-
-			// Valid response.
-			if ( ! empty( $response['data'] ) ) {
-				$embed = [
-					'raw_response' => $response['data'],
-					'id'           => $response['data']['createEmbed']['id'] ?? '',
-				];
-			}
-
-			// Add the embed.
-			$embeds['sidebarHero'] = $embed;
 		}
 
 		// Save embeds.
@@ -437,6 +411,32 @@ class REST_API {
 				'state'   => $state,
 			]
 		);
+	}
+
+	/**
+	 * Create and gets an embed for use in the REST API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args The embed args.
+	 * @return array The embed array.
+	 */
+	public function create_and_get_embed( $args ) {
+		// Create the embed.
+		$response = $this->create_embed( $args );
+
+		// Valid response.
+		if ( ! empty( $response['data'] ) ) {
+			return [
+				'raw_response'    => $response['data'],
+				'id'              => $response['data']['createEmbed']['id'] ?? '',
+				'frameUrl'        => $response['data']['createEmbed']['frameUrl'] ?? '',
+				'playerScriptUrl' => $response['data']['createEmbed']['playerScriptUrl'] ?? '',
+			];
+		}
+
+		// Return nothing by default.
+		return [];
 	}
 
 	/**
@@ -502,6 +502,8 @@ class REST_API {
 			'mutation CreateEmbed($input: CreateEmbedInput!) {
 				createEmbed(input: $input) {
 					id
+					frameUrl
+					playerScriptUrl
 					snippet
 				}
 			}',
