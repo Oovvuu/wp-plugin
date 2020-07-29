@@ -2,6 +2,7 @@ import React from 'react';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import getOrganizationMetrics from 'services/getOrganizationMetrics';
 import uuid from 'react-uuid';
+import { usePageVisibility } from 'utils/usePageVisibility';
 import AnalyticsListItemWrapper from './analyticsListItem';
 import styles from './analytics.scss';
 
@@ -12,6 +13,7 @@ const AnalyticsWrapper = () => {
   const { i18n: { __ } } = wp;
   const [metrics, setMetrics] = React.useState(null);
   const [isLoading, setIsloading] = React.useState(false);
+  const isVisible = usePageVisibility();
 
   /**
    * Gets the organization metrics.
@@ -76,8 +78,14 @@ const AnalyticsWrapper = () => {
    * Populate the analytics data.
    */
   React.useEffect(() => {
-    getMetrics();
-  }, []);
+    let timer = null;
+
+    if (isVisible) {
+      timer = setInterval(() => getMetrics(), 60000);
+    }
+
+    return () => clearInterval(timer);
+  }, [isVisible]);
 
   /**
    * Renders the analtyics data or loading state.

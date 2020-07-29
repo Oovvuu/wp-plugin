@@ -22,5 +22,4 @@ Badge.propTypes = {
   type: PropTypes.string,
 };
 
-
 export default Badge;

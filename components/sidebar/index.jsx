@@ -74,10 +74,8 @@ const SidebarWrapper = () => {
    * it can be used as an indicator here.
    */
   const shouldShowLatestVideos = () => (
-    !isLoadedFromMeta
-    || (
-      isLoadedFromMeta
-      && !recommendedVideosEmpty(recommendedVideos)
+    !isLoadedFromMeta || (
+      isLoadedFromMeta && !recommendedVideosEmpty(recommendedVideos)
     )
   );
 
