@@ -68,11 +68,13 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'title'   => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
 					],
 					'content' => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
@@ -91,11 +93,13 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'title'   => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
 					],
 					'content' => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
@@ -124,6 +128,7 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'id' => [
+						'type'              => 'integer',
 						'sanitize_callback' => function( $value, $request, $param ) {
 							return absint( $value );
 						},
@@ -142,6 +147,7 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'id' => [
+						'type'              => 'integer',
 						'sanitize_callback' => function( $value, $request, $param ) {
 							return absint( $value );
 						},
