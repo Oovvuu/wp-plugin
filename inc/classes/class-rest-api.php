@@ -104,6 +104,7 @@ class REST_API {
 			]
 		);
 
+		// Latest Videos.
 		register_rest_route(
 			$this->namespace,
 			'/latestVideos',
@@ -147,6 +148,17 @@ class REST_API {
 						},
 					],
 				],
+			]
+		);
+
+		// Analytics.
+		register_rest_route(
+			$this->namespace,
+			'/getOrganizationMetrics',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'get_organization_metrics' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
 			]
 		);
 	}
@@ -570,6 +582,70 @@ class REST_API {
 	}
 
 	/**
+	 * Gets organization metrics from the Oovvuu API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
+	 */
+	public function get_organization_metrics( $request ) {
+		$organization_id = $this->get_publisher_id( get_current_user_id() );
+
+		// Invalid organization.
+		if ( empty( $organization_id ) ) {
+			return rest_ensure_response( new \WP_Error( 'invalid-org', __( 'Invalid organization ID', 'oovvuu' ) ) );
+		}
+
+		return rest_ensure_response(
+			$this->request(
+				'query organization($orgId: ID!) {
+					organisation(id: $orgId) {
+						metrics {
+							embedsCreatedCount
+							videoStreamsActiveCount
+							videoStreamsCount
+							videoStreamsGoalCountTodayPortion
+							videoStreams {
+								startTime
+								endTime
+								data {
+									timestamp
+									value
+								}
+							}
+							videoStreamsGoal {
+								startTime
+								endTime
+								data {
+									timestamp
+									value
+								}
+							}
+						}
+					}
+					videoSet (input: {
+						limit: 0,
+						filter: {
+							publishedAt: {
+								gte: "' . gmdate( DATE_ATOM, strtotime( '-1 day' ) ) . '"
+							}
+						}
+					}) {
+						totalCount
+					}
+				}',
+				false,
+				0,
+				[
+					'orgId' => (string) $organization_id,
+				],
+				false
+			)
+		);
+	}
+
+	/**
 	 * Gets the user Oovvuu publisher ID.
 	 *
 	 * @since 1.0.0
@@ -668,7 +744,7 @@ class REST_API {
 			// Ensure we are not overridding the default input.
 			unset( $variables['input'] );
 
-			$payload['variables'] = array_merge( $payload['variables'], $variables );
+			$payload['variables'] = array_merge( $payload['variables'] ?? [], $variables );
 		}
 
 		// Perform the request.
