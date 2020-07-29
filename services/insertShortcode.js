@@ -3,7 +3,7 @@
  * Insert Oovvuu shortcode after 3th element.
  * Remove existing shortcode if present.
  *
- * @param {Array}   args    The embed args.
+ * @param {object}  args    The embed args.
  * @param {string}  html    The markup.
  * @param {RegExp}  regex   Shortcode regex.
  * @param {boolean} enabled True when the position is enabled, otherwise false.

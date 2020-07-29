@@ -4,7 +4,7 @@ import isGutenbergEditor from './isGutenbergEditor';
 /**
  * Insert Oovvuu embed after 3rd paragraph
  *
- * @param {array}   args    The embed args.
+ * @param {object}  args    The embed args.
  * @param {object}  videos  The videos.
  * @param {boolean} enabled True when the position is enabled, otherwise false.
  */
