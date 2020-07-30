@@ -1,0 +1,12 @@
+
+.parent {
+  background-color: rgb(233, 233, 233);
+  margin-bottom: 10px;
+}
+
+.progress {
+  background-color: $color-theme;
+  height: 4px;
+  transition: 1s ease;
+  transition-delay: 0.2s;
+}

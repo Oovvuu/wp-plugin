@@ -1,27 +1,5 @@
 import React, { useEffect } from 'react';
 
-/**
- * Get browser visibility.
- * 
- * @returns bool
- */
-export const usePageVisibility = () => {
-  const [isVisible, setIsVisible] = React.useState(getIsDocumentHidden());
-  const onVisibilityChange = () => setIsVisible(getIsDocumentHidden());
-
-  useEffect(() => {
-    const visibilityChange = getBrowserVisibilityProp();
-
-    window.addEventListener(visibilityChange, onVisibilityChange, false);
-
-    return () => {
-      window.removeEventListener(visibilityChange, onVisibilityChange);
-    };
-  });
-
-  return isVisible;
-};
-
 export const getBrowserVisibilityProp = () => {
   if (typeof document.hidden !== 'undefined') {
     return 'visibilitychange';
@@ -55,3 +33,25 @@ export const getBrowserDocumentHiddenProp = () => {
 };
 
 export const getIsDocumentHidden = () => !document[getBrowserDocumentHiddenProp()];
+
+/**
+ * Get browser visibility.
+ *
+ * @returns bool
+ */
+export const usePageVisibility = () => {
+  const [isVisible, setIsVisible] = React.useState(getIsDocumentHidden());
+  const onVisibilityChange = () => setIsVisible(getIsDocumentHidden());
+
+  useEffect(() => {
+    const visibilityChange = getBrowserVisibilityProp();
+
+    window.addEventListener(visibilityChange, onVisibilityChange, false);
+
+    return () => {
+      window.removeEventListener(visibilityChange, onVisibilityChange);
+    };
+  });
+
+  return isVisible;
+};

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import getOrganizationMetrics from 'services/getOrganizationMetrics';
 import uuid from 'react-uuid';
 import { usePageVisibility } from 'utils/usePageVisibility';
+import ProgressBar from './progressBar';
 import AnalyticsListItemWrapper from './analyticsListItem';
 import styles from './analytics.scss';
 
@@ -11,8 +12,9 @@ import styles from './analytics.scss';
  */
 const AnalyticsWrapper = () => {
   const { i18n: { __ } } = wp;
-  const [metrics, setMetrics] = React.useState(null);
-  const [isLoading, setIsloading] = React.useState(false);
+  const [metrics, setMetrics] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [isLoading, setIsloading] = useState(false);
   const isVisible = usePageVisibility();
 
   /**
@@ -75,13 +77,38 @@ const AnalyticsWrapper = () => {
   };
 
   /**
-   * Populate the analytics data.
+   * Update Progress Bar.
    */
-  React.useEffect(() => {
+  useEffect(() => {
+    // Update progress at every second.
+    const progressTimer = setInterval(() => setProgress(progress + 0.0172), 1000);
+
+    return () => clearInterval(progressTimer);
+  }, [progress]);
+
+  /**
+   * Update analytics data.
+   */
+  useEffect(() => {
     let timer = null;
 
     if (isVisible) {
-      timer = setInterval(() => getMetrics(), 60000);
+      // Get data the first time around.
+      getMetrics();
+
+      // Set progress bar.
+      setProgress(0);
+
+      timer = setInterval(
+        () => {
+          // Reset progress bar.
+          setProgress(0);
+
+          // Fetch new data.
+          getMetrics();
+        },
+        60000, // 60 seconds.
+      );
     }
 
     return () => clearInterval(timer);
@@ -112,6 +139,7 @@ const AnalyticsWrapper = () => {
 
     return (
       <section>
+        <ProgressBar width={250} percent={progress} />
         <h3
           className="screen-reader-only"
           id="analytics-heading"
