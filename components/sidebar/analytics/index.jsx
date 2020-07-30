@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import LoadingSpinner from 'components/shared/loading/spinner';
 import getOrganizationMetrics from 'services/getOrganizationMetrics';
 import uuid from 'react-uuid';
@@ -12,9 +12,9 @@ import styles from './analytics.scss';
  */
 const AnalyticsWrapper = () => {
   const { i18n: { __ } } = wp;
-  const [metrics, setMetrics] = useState(null);
-  const [progress, setProgress] = useState(0);
-  const [isLoading, setIsloading] = useState(false);
+  const [metrics, setMetrics] = React.useState(null);
+  const [progress, setProgress] = React.useState(0);
+  const [isLoading, setIsloading] = React.useState(false);
   const isVisible = usePageVisibility();
 
   /**
@@ -79,7 +79,7 @@ const AnalyticsWrapper = () => {
   /**
    * Update Progress Bar.
    */
-  useEffect(() => {
+  React.useEffect(() => {
     // Update progress at every second.
     const progressTimer = setInterval(() => setProgress(progress + 0.0172), 1000);
 
@@ -89,7 +89,7 @@ const AnalyticsWrapper = () => {
   /**
    * Update analytics data.
    */
-  useEffect(() => {
+  React.useEffect(() => {
     let timer = null;
 
     if (isVisible) {
