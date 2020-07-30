@@ -1,11 +1,11 @@
 <?php
 /**
- * Tests the hero file.
+ * Tests the embeds file.
  *
  * @package Oovvuu
  */
 
-class Hero_Test extends WP_UnitTestCase {
+class Embeds_Test extends WP_UnitTestCase {
 
 	/**
 	 * Tests if post has hero embed.

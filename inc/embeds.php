@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains functions for displaying a hero embed from a specific post.
+ * Contains functions for displaying an embed from a specific post.
  *
  * @package Oovvuu
  */
@@ -44,34 +44,72 @@ function has_hero_embed( $post_id = 0 ) {
  *
  * @since 1.0.0
  *
- * @param string $embed_id The embed ID.
+ * @param string|array $args The embed args.
  * @return string The HTML for the embed.
  */
-function get_hero_embed_html( $embed_id ) {
-	$html = '<script>!function(e,t,o){let n;const r=e.getElementsByTagName("script")[0];e.getElementById(o)||(n=e.createElement("script"),n.id=o,n.onload=()=>{},n.src="https://playback.prod.oovvuu.io/player/bundle.js",r.parentNode.insertBefore(n,r))}(document,0,"oovvuu-player-sdk");</script>' .
-		'<div data-oovvuu-embed="' . esc_attr( $embed_id ) . '"></div>';
+function get_embed_html( $args ) {
+	// No args.
+	if ( empty( $args ) ) {
+		return '';
+	}
+
+	// Backwards support for an embed ID being passed.
+	if ( is_string( $args ) ) {
+		$args = [
+			'id' => $args,
+		];
+	}
+
+	// Embed ID is required.
+	if ( empty( $args['id'] ) ) {
+		return '';
+	}
+
+	// Default args.
+	$args = wp_parse_args(
+		$args,
+		[
+			'frameUrl'        => 'https://playback.oovvuu.media/frame/' . $args['id'] ?? '',
+			'playerScriptUrl' => 'https://playback.oovvuu.media/player/v1.js',
+		]
+	);
+
+	// Create the embed HTML.
+	$html = sprintf(
+		'<div>
+			<script>!function(e,t,r){let n;if(e.getElementById(r))return;const a=e.getElementsByTagName("script")[0];n=e.createElement("script"),n.id=r,n.src="%1$s",a.parentNode.insertBefore(n,a)}(document,0,"oovvuu-player-sdk");</script>
+			<div data-oovvuu-embed="%2$s">
+				<amp-iframe src="%3$s" width="5" height="4" sandbox="allow-scripts allow-same-origin" layout="responsive" frameborder="0" resizable>
+					<div overflow placeholder></div>
+				</amp-iframe>
+			</div>
+		</div>',
+		$args['playerScriptUrl'],
+		$args['id'],
+		$args['frameUrl'],
+	);
 
 	/**
-	 * Filters the hero embed HTML.
+	 * Filters the embed HTML.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $html     The hero embed HTMl.
+	 * @param string $html     The embed HTML.
 	 * @param string $embed_id The Oovvuu embed ID.
 	 */
-	return apply_filters( 'oovvuu_hero_embed_html', $html, $embed_id );
+	return apply_filters( 'oovvuu_embed_html', $html, $args['id'] );
 }
 
 /**
- * Gets the Hero embed HTML given an embed ID.
+ * Echos the embed HTML.
  *
  * @since 1.0.0
  *
- * @param string $embed_id The embed ID.
+ * @param string|array $args The embed args.
  */
-function the_hero_embed_html( $embed_id ) {
-	// Escaped in the get_hero_embed_html function.
-	echo get_hero_embed_html( $embed_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+function the_embed_html( $args ) {
+	// Escaped in the get_embed_html function.
+	echo get_embed_html( $args ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -103,12 +141,8 @@ function get_hero_embed( $post_id ) {
 		return '';
 	}
 
-	// Set the attributes varaible for use in the template part.
-	$attributes       = [];
-	$attributes['id'] = $embed_id;
-
 	// Get the HTML.
-	$html = get_hero_embed_html( $attributes['id'] );
+	$html = get_embed_html( $embed_id );
 
 	return $html;
 }
