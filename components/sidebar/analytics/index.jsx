@@ -80,11 +80,10 @@ const AnalyticsWrapper = () => {
    * Update Progress Bar.
    */
   React.useEffect(() => {
-
     /**
      * Update the progress at every 60 seconds.
-     * 
-     * The math for the progress: 0.0172 * 60 * 250
+     *
+     * The math for the progress: 0.0172 * 60 * 250.
      */
     const progressTimer = setInterval(() => setProgress(progress + 0.0172), 1000);
 
