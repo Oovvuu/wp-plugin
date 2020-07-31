@@ -1,4 +1,3 @@
-
 // Store the value globally.
 window.oovvuuClientCache = window.oovvuuClientCache || [];
 

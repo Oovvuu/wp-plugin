@@ -68,11 +68,13 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'title'   => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
 					],
 					'content' => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
@@ -91,11 +93,13 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'title'   => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
 					],
 					'content' => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
@@ -125,6 +129,7 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'id' => [
+						'type'              => 'integer',
 						'sanitize_callback' => function( $value, $request, $param ) {
 							return absint( $value );
 						},
@@ -143,6 +148,7 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'id' => [
+						'type'              => 'integer',
 						'sanitize_callback' => function( $value, $request, $param ) {
 							return absint( $value );
 						},
@@ -426,7 +432,7 @@ class REST_API {
 		$response = $this->create_embed( $args );
 
 		// Valid response.
-		if ( ! empty( $response['data'] ) ) {
+		if ( ! \is_wp_error( $response ) && ! empty( $response['data'] ) ) {
 			return [
 				'raw_response'    => $response['data'],
 				'id'              => $response['data']['createEmbed']['id'] ?? '',
@@ -774,7 +780,7 @@ class REST_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool True or false.
+	 * @return bool
 	 */
 	public function permission_callback() {
 		return Auth::instance()->is_user_authenticated();

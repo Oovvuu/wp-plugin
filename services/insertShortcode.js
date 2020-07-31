@@ -1,4 +1,3 @@
-
 /**
  * Insert Oovvuu shortcode after 3th element.
  * Remove existing shortcode if present.
