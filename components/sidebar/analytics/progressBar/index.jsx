@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './progressBar.scss';
 
 const ProgressBar = ({ width, percent }) => {
-  const value = percent * width;
+  const value = Math.round(percent * width);
   return (
     <div>
       <div className={styles.parent} style={{ width }}>
@@ -14,8 +14,8 @@ const ProgressBar = ({ width, percent }) => {
 };
 
 ProgressBar.propTypes = {
-  width: PropTypes.string.isRequired,
-  percent: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  percent: PropTypes.number.isRequired,
 };
 
 export default ProgressBar;
