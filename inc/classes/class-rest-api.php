@@ -508,7 +508,6 @@ class REST_API {
 				}
 			}',
 			[
-				'userId'   => (string) $payload['user_id'] ?? '0',
 				'videoIds' => array_values(
 					array_filter(
 						array_map(
@@ -523,10 +522,9 @@ class REST_API {
 					'type'     => $payload['type'] ?? 'Single',
 					'keywords' => $payload['keywords'] ?? [],
 					'article'  => [
-						'publisherId'   => (string) $payload['user_id'] ?? '0',
 						'cmsArticleId'  => (string) $payload['post_id'] ?? '0',
 						'embedLocation' => (string) $payload['embed_location'] ?? 'Hero',
-						'masthead'      => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+						'cmsName'       => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
 					],
 				],
 			],
@@ -599,27 +597,32 @@ class REST_API {
 
 		return rest_ensure_response(
 			$this->request(
-				'query organization($orgId: ID!) {
-					organisation(id: $orgId) {
-						metrics {
-							embedsCreatedCount
-							videoStreamsActiveCount
-							videoStreamsCount
-							videoStreamsGoalCountTodayPortion
-							videoStreams {
-								startTime
-								endTime
-								data {
-									timestamp
-									value
-								}
-							}
-							videoStreamsGoal {
-								startTime
-								endTime
-								data {
-									timestamp
-									value
+				'query organization {
+					currentUser {
+						details {
+							ownerOrganisation {
+								id
+								metrics {
+									embedsCreatedCount
+									videoStreamsActiveCount
+									videoStreamsCount
+									videoStreamsGoalCountTodayPortion
+									videoStreams {
+										startTime
+										endTime
+										data {
+											timestamp
+											value
+										}
+									}
+									videoStreamsGoal {
+										startTime
+										endTime
+										data {
+											timestamp
+											value
+										}
+									}
 								}
 							}
 						}
@@ -725,9 +728,8 @@ class REST_API {
 				$input,
 				[
 					'articleMetadata' => [
-						'publisherId'  => (string) $this->get_publisher_id( $current_user_id ),
 						'cmsArticleId' => (string) $post_id,
-						'masthead'     => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+						'cmsName'      => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
 					],
 				]
 			);
