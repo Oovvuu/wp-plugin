@@ -53,7 +53,7 @@ const Dialog = ({
    */
   const promptToClose = () => {
     confirmThenProceed(
-      { message: __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu') },
+      { message: __('Are you sure you want to exit without saving?', 'oovvuu') },
       __('Yes, close', 'oovvuu'),
       closeDialog,
     );
