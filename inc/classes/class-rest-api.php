@@ -373,7 +373,6 @@ class REST_API {
 			// Add the embed.
 			$embeds[ $position ] = $this->create_and_get_embed(
 				[
-					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => $state['selectedVideos'][ $position ],
 					'type'           => $data['type'],
 					'keywords'       => $state['selectedKeywords'],
@@ -391,7 +390,6 @@ class REST_API {
 			// Add the embed.
 			$embeds['sidebarHero'] = $this->create_and_get_embed(
 				[
-					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => [ (array) $state['sidebarSelectedHeroVideo'] ],
 					'type'           => $valid_positions['hero']['type'],
 					'keywords'       => [],
@@ -588,13 +586,6 @@ class REST_API {
 	 * @return \WP_REST_Response The rest response object.
 	 */
 	public function get_organization_metrics( $request ) {
-		$organization_id = $this->get_publisher_id( get_current_user_id() );
-
-		// Invalid organization.
-		if ( empty( $organization_id ) ) {
-			return rest_ensure_response( new \WP_Error( 'invalid-org', __( 'Invalid organization ID', 'oovvuu' ) ) );
-		}
-
 		return rest_ensure_response(
 			$this->request(
 				'query organization {
@@ -640,53 +631,10 @@ class REST_API {
 				}',
 				false,
 				0,
-				[
-					'orgId' => (string) $organization_id,
-				],
+				[],
 				false
 			)
 		);
-	}
-
-	/**
-	 * Gets the user Oovvuu publisher ID.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param  int $user_id WP user ID.
-	 * @return int The Oovvuu user publisher ID.
-	 */
-	public function get_publisher_id( $user_id ) {
-		$publisher_id = get_user_meta( $user_id, 'oovvuu_auth0_publisher_id', true );
-
-		// Publisher ID already set.
-		if ( ! empty( $publisher_id ) ) {
-			return $publisher_id;
-		}
-
-		// Get the current Oovvuu user ID.
-		$oovvuu_user_id = $this->get_current_user();
-
-		// Invalid Oovvuu current user ID.
-		if ( is_wp_error( $oovvuu_user_id ) || empty( $oovvuu_user_id['data']['currentUser']['id'] ) ) {
-			return 0;
-		}
-
-		$publisher_id = $this->get_current_user_org( absint( $oovvuu_user_id['data']['currentUser']['id'] ) );
-
-		// Invalid Oovvuu publisher ID.
-		if ( is_wp_error( $publisher_id ) || empty( $publisher_id['data']['user']['ownerOrganisation']['id'] ) ) {
-			return 0;
-		}
-
-		// Sanitize value.
-		$publisher_id = absint( $publisher_id['data']['user']['ownerOrganisation']['id'] );
-
-		// Save to user meta.
-		update_user_meta( $user_id, 'oovvuu_auth0_publisher_id', $publisher_id );
-
-		// Return the publisher ID.
-		return $publisher_id;
 	}
 
 	/**
