@@ -17,8 +17,7 @@ const getOrganizationMetrics = () => {
           message: __('Unable to perform request.', 'oovvuu'),
         };
       }
-
-      const metrics = value?.data?.organisation?.metrics;
+      const metrics = value?.data?.currentUser?.details?.ownerOrganisation?.metrics;
       const totalCount = value?.data?.videoSet?.totalCount || 0;
 
       return metrics
