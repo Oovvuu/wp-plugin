@@ -28,11 +28,11 @@ function has_hero_embed( $post_id = 0 ) {
 		return false;
 	}
 
-	// Get the embed ID.
-	$embed_id = get_embed_id( 'hero', $post_id );
+	// Get the embed args.
+	$embed_args = get_embed_args( 'hero', $post_id );
 
 	// Has hero embed.
-	if ( ! empty( $embed_id ) ) {
+	if ( ! empty( $embed_args['id'] ) ) {
 		return true;
 	}
 
@@ -134,15 +134,15 @@ function get_hero_embed( $post_id ) {
 	}
 
 	// Get the embed codes.
-	$embed_id = get_embed_id( 'hero', $post_id );
+	$embed_args = get_embed_args( 'hero', $post_id );
 
 	// No hero embed.
-	if ( empty( $embed_id ) ) {
+	if ( empty( $embed_args['id'] ) ) {
 		return '';
 	}
 
 	// Get the HTML.
-	$html = get_embed_html( $embed_id );
+	$html = get_embed_html( $embed_args );
 
 	return $html;
 }
