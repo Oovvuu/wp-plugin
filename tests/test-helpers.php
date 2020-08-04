@@ -27,7 +27,7 @@ class Helpers_Test extends WP_UnitTestCase {
 		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => $embed_data ] );
 
 		// Has hero embed.
-		$this->assertEquals( $embed_data, \Oovvuu\get_embed_args( 'hero',$post_id ) );
+		$this->assertEquals( $embed_data, \Oovvuu\get_embed_args( 'hero', $post_id ) );
 
 		// Check if invalid post ID.
 		$this->assertEmpty( \Oovvuu\get_embed_args( 'hero', 0 ) );
@@ -52,7 +52,7 @@ class Helpers_Test extends WP_UnitTestCase {
 		update_post_meta( $post_id, 'oovvuu_embeds', [ 'hero' => [ 'id' => '1234' ] ] );
 
 		// Has hero embed.
-		$this->assertEquals( '1234', \Oovvuu\get_embed_id( 'hero',$post_id ) );
+		$this->assertEquals( '1234', \Oovvuu\get_embed_id( 'hero', $post_id ) );
 
 		// Check if invalid post ID.
 		$this->assertEmpty( \Oovvuu\get_embed_id( 'hero', 0 ) );
