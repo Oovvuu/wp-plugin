@@ -14,7 +14,7 @@ namespace Oovvuu;
  *
  * @param string $position The position key.
  * @param int    $post_id The post ID.
- * @return null|string The embed args, otherwise null.
+ * @return null|array The embed args, otherwise null.
  */
 function get_embed_args( $position, $post_id = 0 ) {
 	$valid_positions = get_valid_positions();
