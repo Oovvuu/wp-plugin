@@ -48,7 +48,7 @@ function has_hero_embed( $post_id = 0 ) {
  * @return string The HTML for the embed.
  */
 function get_hero_embed_html( $embed_id ) {
-	$html = '<script>!function(e,t,o){let n;const r=e.getElementsByTagName("script")[0];e.getElementById(o)||(n=e.createElement("script"),n.id=o,n.onload=()=>{},n.src="https://playback.prod.oovvuu.io/player/bundle.js",r.parentNode.insertBefore(n,r))}(document,0,"oovvuu-player-sdk");</script>' .
+	$html = '<script>!function(e,t,o){let n;const r=e.getElementsByTagName("script")[0];e.getElementById(o)||(n=e.createElement("script"),n.defer=true,n.id=o,n.onload=()=>{},n.src="https://playback.prod.oovvuu.io/player/bundle.js",r.parentNode.insertBefore(n,r))}(document,0,"oovvuu-player-sdk");</script>' .
 		'<div data-oovvuu-embed="' . esc_attr( $embed_id ) . '"></div>';
 
 	/**
