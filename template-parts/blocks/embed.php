@@ -16,4 +16,4 @@ if ( empty( $attributes ) || empty( $attributes['id'] ) ) {
 }
 
 // Render the embed.
-the_embed_html( $attributes['id'] );
+the_embed_html( $attributes );

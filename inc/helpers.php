@@ -8,20 +8,20 @@
 namespace Oovvuu;
 
 /**
- * Gets the embed ID for a given position.
+ * Gets the embed args for a given position.
  *
  * @since 1.0.0
  *
  * @param string $position The position key.
  * @param int    $post_id The post ID.
- * @return null|string The embed id string, otherwise null.
+ * @return null|array The embed args, otherwise null.
  */
-function get_embed_id( $position, $post_id = 0 ) {
+function get_embed_args( $position, $post_id = 0 ) {
 	$valid_positions = get_valid_positions();
 
 	// Invalid position.
 	if ( ! array_key_exists( $position, $valid_positions ) ) {
-		return null;
+		return [];
 	}
 
 	// No post ID.
@@ -33,28 +33,43 @@ function get_embed_id( $position, $post_id = 0 ) {
 
 	// Invalid post.
 	if ( ! ( $post instanceof \WP_Post ) ) {
-		return null;
+		return [];
 	}
 
 	// Get the embed codes.
 	$embeds = get_post_meta( $post->ID, 'oovvuu_embeds', true );
 
 	// Short circuit if a sidebar hero is active.
-	if ( 'hero' === $position && ! empty( $embeds['sidebarHero']['id'] ) ) {
-		return (string) $embeds['sidebarHero']['id'];
+	if ( 'hero' === $position && ! empty( $embeds['sidebarHero'] ) ) {
+		return $embeds['sidebarHero'];
 	}
 
 	// Position is not enabled.
 	if ( ! is_position_enabled( $position, $post->ID ) ) {
-		return null;
+		return [];
 	}
 
 	// Has hero embed.
-	if ( ! empty( $embeds[ $position ]['id'] ) ) {
-		return (string) $embeds[ $position ]['id'];
+	if ( ! empty( $embeds[ $position ] ) ) {
+		return $embeds[ $position ];
 	}
 
-	return null;
+	return [];
+}
+
+/**
+ * Gets the embed ID for a given position.
+ *
+ * @since 1.0.0
+ *
+ * @param string $position The position key.
+ * @param int    $post_id The post ID.
+ * @return null|string The embed id string, otherwise null.
+ */
+function get_embed_id( $position, $post_id = 0 ) {
+	$args = get_embed_args( $position, $post_id );
+
+	return (string) ! empty( $args['id'] ) ? $args['id'] : '';
 }
 
 /**
