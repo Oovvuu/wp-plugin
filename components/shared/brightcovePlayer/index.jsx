@@ -51,11 +51,11 @@ const BrightcovePlayer = (props) => {
     /**
      * Handles pausing all videos expect for the current video being played.
      *
-     * @param {object} details Event details.
+     * @param {Event} event The event object.
      */
-    const handlePlayVideo = (details) => {
+    const handlePlayVideo = ({ detail }) => {
       // eslint-disable-next-line no-underscore-dangle
-      if (!!player && player.id_ !== details.videoId) {
+      if (!!player && player.id_ !== detail.videoId) {
         player.pause();
         exitPictureInPicture(player);
       }

@@ -68,11 +68,13 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'title'   => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
 					],
 					'content' => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
@@ -91,11 +93,13 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'title'   => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
 					],
 					'content' => [
+						'type'              => 'string',
 						'sanitize_callback' => function( $value ) {
 							return REST_API::instance()->sanitize_html_for_api( $value );
 						},
@@ -104,6 +108,7 @@ class REST_API {
 			]
 		);
 
+		// Latest Videos.
 		register_rest_route(
 			$this->namespace,
 			'/latestVideos',
@@ -124,6 +129,7 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'id' => [
+						'type'              => 'integer',
 						'sanitize_callback' => function( $value, $request, $param ) {
 							return absint( $value );
 						},
@@ -142,11 +148,23 @@ class REST_API {
 				'permission_callback' => [ $this, 'permission_callback' ],
 				'args'                => [
 					'id' => [
+						'type'              => 'integer',
 						'sanitize_callback' => function( $value, $request, $param ) {
 							return absint( $value );
 						},
 					],
 				],
+			]
+		);
+
+		// Analytics.
+		register_rest_route(
+			$this->namespace,
+			'/getOrganizationMetrics',
+			[
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'get_organization_metrics' ],
+				'permission_callback' => [ $this, 'permission_callback' ],
 			]
 		);
 	}
@@ -358,10 +376,9 @@ class REST_API {
 				continue;
 			}
 
-			// Create the embed.
-			$response = $this->create_embed(
+			// Add the embed.
+			$embeds[ $position ] = $this->create_and_get_embed(
 				[
-					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => $state['selectedVideos'][ $position ],
 					'type'           => $data['type'],
 					'keywords'       => $state['selectedKeywords'],
@@ -369,19 +386,6 @@ class REST_API {
 					'embed_location' => $data['embed_location'],
 				]
 			);
-
-			$embed = [];
-
-			// Valid response.
-			if ( ! empty( $response['data'] ) ) {
-				$embed = [
-					'raw_response' => $response['data'],
-					'id'           => $response['data']['createEmbed']['id'] ?? '',
-				];
-			}
-
-			// Add the embed.
-			$embeds[ $position ] = $embed;
 		}
 
 		// Create embeds from the sidebar hero.
@@ -389,10 +393,9 @@ class REST_API {
 			! empty( $valid_positions['hero'] )
 			&& ! empty( $state['sidebarSelectedHeroVideo']->id )
 		) {
-			// Create the embed.
-			$response = $this->create_embed(
+			// Add the embed.
+			$embeds['sidebarHero'] = $this->create_and_get_embed(
 				[
-					'user_id'        => $this->get_publisher_id( get_current_user_id() ),
 					'video_ids'      => [ (array) $state['sidebarSelectedHeroVideo'] ],
 					'type'           => $valid_positions['hero']['type'],
 					'keywords'       => [],
@@ -400,19 +403,6 @@ class REST_API {
 					'embed_location' => $valid_positions['hero']['embed_location'],
 				]
 			);
-
-			$embed = [];
-
-			// Valid response.
-			if ( ! empty( $response['data'] ) ) {
-				$embed = [
-					'raw_response' => $response['data'],
-					'id'           => $response['data']['createEmbed']['id'] ?? '',
-				];
-			}
-
-			// Add the embed.
-			$embeds['sidebarHero'] = $embed;
 		}
 
 		// Save embeds.
@@ -425,6 +415,32 @@ class REST_API {
 				'state'   => $state,
 			]
 		);
+	}
+
+	/**
+	 * Create and gets an embed for use in the REST API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args The embed args.
+	 * @return array The embed array.
+	 */
+	public function create_and_get_embed( $args ) {
+		// Create the embed.
+		$response = $this->create_embed( $args );
+
+		// Valid response.
+		if ( ! \is_wp_error( $response ) && ! empty( $response['data'] ) ) {
+			return [
+				'raw_response'    => $response['data'],
+				'id'              => $response['data']['createEmbed']['id'] ?? '',
+				'frameUrl'        => $response['data']['createEmbed']['frameUrl'] ?? '',
+				'playerScriptUrl' => $response['data']['createEmbed']['playerScriptUrl'] ?? '',
+			];
+		}
+
+		// Return nothing by default.
+		return [];
 	}
 
 	/**
@@ -490,11 +506,12 @@ class REST_API {
 			'mutation CreateEmbed($input: CreateEmbedInput!) {
 				createEmbed(input: $input) {
 					id
+					frameUrl
+					playerScriptUrl
 					snippet
 				}
 			}',
 			[
-				'userId'   => (string) $payload['user_id'] ?? '0',
 				'videoIds' => array_values(
 					array_filter(
 						array_map(
@@ -509,10 +526,9 @@ class REST_API {
 					'type'     => $payload['type'] ?? 'Single',
 					'keywords' => $payload['keywords'] ?? [],
 					'article'  => [
-						'publisherId'   => (string) $payload['user_id'] ?? '0',
 						'cmsArticleId'  => (string) $payload['post_id'] ?? '0',
 						'embedLocation' => (string) $payload['embed_location'] ?? 'Hero',
-						'masthead'      => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+						'cmsName'       => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
 					],
 				],
 			],
@@ -568,44 +584,63 @@ class REST_API {
 	}
 
 	/**
-	 * Gets the user Oovvuu publisher ID.
+	 * Gets organization metrics from the Oovvuu API.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param  int $user_id WP user ID.
-	 * @return int The Oovvuu user publisher ID.
+	 * @param \WP_REST_Request $request The request object.
+	 * @return \WP_REST_Response The rest response object.
 	 */
-	public function get_publisher_id( $user_id ) {
-		$publisher_id = get_user_meta( $user_id, 'oovvuu_auth0_publisher_id', true );
-
-		// Publisher ID already set.
-		if ( ! empty( $publisher_id ) ) {
-			return $publisher_id;
-		}
-
-		// Get the current Oovvuu user ID.
-		$oovvuu_user_id = $this->get_current_user();
-
-		// Invalid Oovvuu current user ID.
-		if ( is_wp_error( $oovvuu_user_id ) || empty( $oovvuu_user_id['data']['currentUser']['id'] ) ) {
-			return 0;
-		}
-
-		$publisher_id = $this->get_current_user_org( absint( $oovvuu_user_id['data']['currentUser']['id'] ) );
-
-		// Invalid Oovvuu publisher ID.
-		if ( is_wp_error( $publisher_id ) || empty( $publisher_id['data']['user']['ownerOrganisation']['id'] ) ) {
-			return 0;
-		}
-
-		// Sanitize value.
-		$publisher_id = absint( $publisher_id['data']['user']['ownerOrganisation']['id'] );
-
-		// Save to user meta.
-		update_user_meta( $user_id, 'oovvuu_auth0_publisher_id', $publisher_id );
-
-		// Return the publisher ID.
-		return $publisher_id;
+	public function get_organization_metrics( $request ) {
+		return rest_ensure_response(
+			$this->request(
+				'query organization {
+					currentUser {
+						details {
+							ownerOrganisation {
+								id
+								metrics {
+									embedsCreatedCount
+									videoStreamsActiveCount
+									videoStreamsCount
+									videoStreamsGoalCountTodayPortion
+									videoStreams {
+										startTime
+										endTime
+										data {
+											timestamp
+											value
+										}
+									}
+									videoStreamsGoal {
+										startTime
+										endTime
+										data {
+											timestamp
+											value
+										}
+									}
+								}
+							}
+						}
+					}
+					videoSet (input: {
+						limit: 0,
+						filter: {
+							publishedAt: {
+								gte: "' . gmdate( DATE_ATOM, strtotime( '-1 day' ) ) . '"
+							}
+						}
+					}) {
+						totalCount
+					}
+				}',
+				false,
+				0,
+				[],
+				false
+			)
+		);
 	}
 
 	/**
@@ -647,9 +682,8 @@ class REST_API {
 				$input,
 				[
 					'articleMetadata' => [
-						'publisherId'  => (string) $this->get_publisher_id( $current_user_id ),
 						'cmsArticleId' => (string) $post_id,
-						'masthead'     => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+						'cmsName'      => (string) wp_parse_url( home_url(), PHP_URL_HOST ),
 					],
 				]
 			);
@@ -666,7 +700,7 @@ class REST_API {
 			// Ensure we are not overridding the default input.
 			unset( $variables['input'] );
 
-			$payload['variables'] = array_merge( $payload['variables'], $variables );
+			$payload['variables'] = array_merge( $payload['variables'] ?? [], $variables );
 		}
 
 		// Perform the request.
@@ -696,7 +730,7 @@ class REST_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool True or false.
+	 * @return bool
 	 */
 	public function permission_callback() {
 		return Auth::instance()->is_user_authenticated();

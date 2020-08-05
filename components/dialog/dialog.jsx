@@ -53,7 +53,7 @@ const Dialog = ({
    */
   const promptToClose = () => {
     confirmThenProceed(
-      { message: __('Are you sure you want exit the Oovvuu modal without saving?', 'oovvuu') },
+      { message: __('Are you sure you want to exit without saving?', 'oovvuu') },
       __('Yes, close', 'oovvuu'),
       closeDialog,
     );
@@ -76,11 +76,11 @@ const Dialog = ({
     } = response;
 
     if (!hasError) {
-      // Embed id.
-      const positionTwoEmbedId = data?.embeds?.positionTwo?.id;
+      // Embed args.
+      const positionTwoEmbedArgs = data?.embeds?.positionTwo;
 
       // Insert a new Oovvuu embed to the editor.
-      insertEmbed(positionTwoEmbedId, positionTwo, isPositionTwoEnabled);
+      insertEmbed(positionTwoEmbedArgs, positionTwo, isPositionTwoEnabled);
 
       /**
        * saveState() returns updated state, with flag that data has been loaded

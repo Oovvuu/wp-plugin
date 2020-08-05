@@ -70,9 +70,12 @@ const Search = (props) => {
    */
   const handleSubmit = (event) => {
     event.preventDefault();
+    const { value = '' } = inputRef.current;
+    // Merge input value with keywords.
+    const query = (value) ? [...searchKeywords, value] : searchKeywords;
 
-    if (searchKeywords.length > 0) {
-      onFormSubmission(searchKeywords);
+    if (query.length > 0) {
+      onFormSubmission(query);
     }
   };
 

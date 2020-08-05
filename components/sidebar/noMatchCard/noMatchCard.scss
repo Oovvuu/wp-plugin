@@ -15,7 +15,7 @@
   @include font-props(14, 14, medium);
   @include uppercase;
   background-color: $color-warn;
-  border-radius: rem(4);
+  border-radius: $border-radius;
   margin: 0 0 rem(20) 0;
   padding: 0 rem(16);
 

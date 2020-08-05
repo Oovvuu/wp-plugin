@@ -18,23 +18,7 @@ const ChipInput = (props) => {
   const inputId = uuid();
 
   /**
-   * Adds the user-entered keyword when the form is submitted.
-   *
-   * @param {Event} event The event object.
-   */
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (keyword) {
-      // Clear the input.
-      setKeyword('');
-
-      onUpdate(keyword);
-    }
-  };
-
-  /**
-   * Patches in support for submitting the form with the TAB key.
+   * Converts the input value with the TAB or Return key.
    *
    * @param {Event} event The event object.
    */
@@ -43,14 +27,17 @@ const ChipInput = (props) => {
     const { keyCode } = event;
 
     if (keyword && [TAB, RETURN].includes(keyCode)) {
-      handleSubmit(event);
+      event.preventDefault();
+      onUpdate(keyword);
+      // Clear the input.
+      setKeyword('');
     }
   };
 
   /**
    * Handles updating internal state for user input.
    *
-   * @param event Event Event object.
+   * @param {Event} event The event object.
    */
   const handleChange = (event) => {
     const { target: { value } } = event;

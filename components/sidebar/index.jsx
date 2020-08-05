@@ -11,6 +11,7 @@ import SidebarDataContext from 'components/app/sidebarContext';
 import LatestVideoListWrapper from './latestVideoList';
 import styles from './sidebar.scss';
 import Search from './search';
+import Analytics from './analytics';
 import HeroCardWrapper from './heroCard';
 import NoMatchCard from './noMatchCard';
 
@@ -73,10 +74,8 @@ const SidebarWrapper = () => {
    * it can be used as an indicator here.
    */
   const shouldShowLatestVideos = () => (
-    !isLoadedFromMeta
-    || (
-      isLoadedFromMeta
-      && !recommendedVideosEmpty(recommendedVideos)
+    !isLoadedFromMeta || (
+      isLoadedFromMeta && !recommendedVideosEmpty(recommendedVideos)
     )
   );
 
@@ -144,7 +143,12 @@ const SidebarWrapper = () => {
     </>
   );
 
-  return shouldShowLatestVideos() ? showLatestVideosWrapper : '';
+  return (
+    <>
+      <Analytics />
+      {shouldShowLatestVideos() ? showLatestVideosWrapper : ''}
+    </>
+  );
 };
 
 export default SidebarWrapper;
