@@ -86,7 +86,7 @@ function get_embed_html( $args ) {
 		</div>',
 		$args['playerScriptUrl'],
 		$args['id'],
-		$args['frameUrl'],
+		$args['frameUrl']
 	);
 
 	/**
