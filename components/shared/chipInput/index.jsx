@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import uuid from 'react-uuid';
 import keyCodes from 'utils/keyCodes';
+import eventBus from 'services/eventBus';
 import styles from './chipInput.scss';
 
 const ChipInput = (props) => {
@@ -56,6 +57,12 @@ const ChipInput = (props) => {
     if (focusOnMount) {
       inputRef.current.focus();
     }
+
+    eventBus.on('OovvuuClearSearchInput', clearInput);
+
+    return () => {
+      eventBus.remove('OovvuuClearSearchInput', clearInput);
+    };
   }, []);
 
   return (

@@ -6,6 +6,7 @@ import ChipItem from 'components/shared/chipItem';
 import ChipInput from 'components/shared/chipInput';
 import SearchIcon from 'assets/search.svg';
 import useEffectFlashTimer from 'utils/useEffectFlashTimer';
+import eventBus from 'services/eventBus';
 import styles from './search.scss';
 
 /**
@@ -71,7 +72,13 @@ const Search = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const { value = '' } = inputRef.current;
+
+    // Convert the input value to a chip and clear the input.
+    handleUpdate(value);
+    eventBus.dispatch('OovvuuClearSearchInput');
+
     // Merge input value with keywords.
+    // We can't be assured the searchKeywords state will have been updated.
     const query = (value) ? [...searchKeywords, value] : searchKeywords;
 
     if (query.length > 0) {
