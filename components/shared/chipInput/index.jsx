@@ -18,6 +18,11 @@ const ChipInput = (props) => {
   const inputId = uuid();
 
   /**
+   * Clear the input by resetting the component `keyword` state.
+   */
+  const clearInput = () => setKeyword('');
+
+  /**
    * Converts the input value with the TAB or Return key.
    *
    * @param {Event} event The event object.
@@ -29,8 +34,7 @@ const ChipInput = (props) => {
     if (keyword && [TAB, RETURN].includes(keyCode)) {
       event.preventDefault();
       onUpdate(keyword);
-      // Clear the input.
-      setKeyword('');
+      clearInput();
     }
   };
 
