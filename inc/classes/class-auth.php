@@ -141,7 +141,7 @@ class Auth {
 	 */
 	public function get_authentication_audience() {
 		// Make sure to update this back to the production endpoint after testing is done.
-		// return 'https://api.prod.oovvuu.io';
+		// return 'https://api.prod.oovvuu.io'; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		// @TODO: SHOULD NOT BE DEPLOYED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		return 'https://api.staging.oovvuu.io';
