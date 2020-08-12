@@ -22,7 +22,8 @@ if ( ! $oovvuu_auth0->is_token_valid( $oovvuu_current_user_token ) ) {
 
 <h3><?php esc_html_e( 'Token Information', 'oovvuu' ); ?></h3>
 <p><strong><?php esc_html_e( 'Authenticated At:', 'oovvuu' ); ?></strong> <?php echo esc_html( \Oovvuu\get_date_with_timezone( $oovvuu_current_user_token['added_at'] ) ); ?></p>
-<p><strong><?php esc_html_e( 'Auto-renews At:', 'oovvuu' ); ?></strong> <?php echo esc_html( \Oovvuu\get_date_with_timezone( $oovvuu_current_user_token['added_at'] + $oovvuu_current_user_token['expires_in'] ) ); ?></p>
+<p><strong><?php esc_html_e( 'Expires At:', 'oovvuu' ); ?></strong> <?php echo esc_html( \Oovvuu\get_date_with_timezone( $oovvuu_current_user_token['added_at'] + $oovvuu_current_user_token['expires_in'] ) ); ?></p>
+<p><strong><?php esc_html_e( 'Auto-renews At:', 'oovvuu' ); ?></strong> <?php echo esc_html( \Oovvuu\get_date_with_timezone( wp_next_scheduled( 'oovvuu_auth0_user_refresh_cron' ) ) ); ?></p>
 
 <p>
 	<a
