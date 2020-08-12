@@ -20,6 +20,10 @@ if ( ! $oovvuu_auth0->is_token_valid( $oovvuu_current_user_token ) ) {
 ?>
 <p><span class="dashicons dashicons-yes-alt"></span> <?php esc_html_e( 'You are currently authenticated with the Oovvuu API.', 'oovvuu' ); ?></p>
 
+<h3><?php esc_html_e( 'Token Information', 'oovvuu' ); ?></h3>
+<p><strong><?php esc_html_e( 'Authenticated At:', 'oovvuu' ); ?></strong> <?php echo esc_html( \Oovvuu\get_date_with_timezone( $oovvuu_current_user_token['added_at'] ) ); ?></p>
+<p><strong><?php esc_html_e( 'Auto-renews At:', 'oovvuu' ); ?></strong> <?php echo esc_html( \Oovvuu\get_date_with_timezone( $oovvuu_current_user_token['added_at'] + $oovvuu_current_user_token['expires_in'] ) ); ?></p>
+
 <p>
 	<a
 		class="button"
