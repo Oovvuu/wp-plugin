@@ -563,6 +563,17 @@ class Auth {
 	}
 
 	/**
+	 * Deletes the last Auth0 authentication error.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	public function delete_last_auth_error( $user_id ) {
+		delete_user_meta( $user_id, 'oovvuu_auth0_refresh_last_error' );
+	}
+
+	/**
 	 * Returns the authorization link.
 	 *
 	 * @since 1.0.0
@@ -669,6 +680,9 @@ class Auth {
 		if ( empty( $current_user_id ) ) {
 			return null;
 		}
+
+		// Clear out the last error message.
+		$this->delete_last_auth_error( $current_user_id );
 
 		try {
 			// Perform the refresh.
