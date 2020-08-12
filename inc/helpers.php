@@ -138,11 +138,10 @@ function get_valid_positions() {
 /**
  * A helper function for loading partials.
  *
+ * @since 1.0.0
+ *
  * @param string $scope Where to load the partial from (admin or public).
  * @param string $slug The partial filepath to the partial template.
- *
- * @since 1.0.0
- * @access public
  */
 function load_admin_partial( $scope, $slug ) {
 
@@ -153,4 +152,25 @@ function load_admin_partial( $scope, $slug ) {
 	}
 
 	require $filepath; //phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+}
+
+/**
+ * Returns the date of a timestamp using the site's timezone.
+ *
+ * @since 1.0.2
+ *
+ * @param string $timestamp The Unix timestamp.
+ * @return string The date string.
+ */
+function get_date_with_timezone( $timestamp ) {
+	// Use wp_date if available.
+	if ( function_exists( 'wp_date' ) ) {
+		return wp_date( 'D, d M Y H:i:s T', $timestamp );
+	}
+
+	$date = new \DateTime();
+	$date->setTimestamp( $timestamp );
+	$date->setTimezone( new \DateTimeZone( get_option( 'timezone_string', 'GMT' ) ) );
+
+	return $date->format( 'D, d M Y H:i:s T' );
 }
