@@ -216,6 +216,9 @@ class Auth {
 	 * @since 1.0.0
 	 */
 	public function oovvuu_auth0_redirect_callback() {
+		// Clear out the last error message.
+		$this->delete_last_auth_error( $current_user_id );
+
 		// Error.
 		if ( isset( $_GET['error'] ) ) {
 			$error_message = sanitize_text_field( wp_unslash( $_GET['error_description'] ?? '' ) );
