@@ -140,7 +140,12 @@ class Auth {
 	 * @return array The audience.
 	 */
 	public function get_authentication_audience() {
+		// Make sure to update this back to the production endpoint after testing is done.
+		// return 'https://api.prod.oovvuu.io';
+
+		// @TODO: SHOULD NOT BE DEPLOYED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		return 'https://api.staging.oovvuu.io';
+		// @TODO: SHOULD NOT BE DEPLOYED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 
 	/**
@@ -217,7 +222,7 @@ class Auth {
 	 */
 	public function oovvuu_auth0_redirect_callback() {
 		// Clear out the last error message.
-		$this->delete_last_auth_error( $current_user_id );
+		$this->delete_last_auth_error( get_current_user_id() );
 
 		// Error.
 		if ( isset( $_GET['error'] ) ) {
