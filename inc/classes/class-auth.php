@@ -216,12 +216,21 @@ class Auth {
 	 * @since 1.0.0
 	 */
 	public function oovvuu_auth0_redirect_callback() {
+		// Clear out the last error message.
+		$this->delete_last_auth_error( get_current_user_id() );
+
 		// Error.
 		if ( isset( $_GET['error'] ) ) {
+			$error_message = sanitize_text_field( wp_unslash( $_GET['error_description'] ?? '' ) );
+
+			// Log error message.
+			$this->set_last_auth_error( get_current_user_id(), 'Error returned from Auth0', $error_message );
+
 			$this->redirect_to_user_profile(
 				[
 					'oovvuu-notice' => true,
-					'message'       => __( 'Error: ', 'oovvuu' ) . sanitize_text_field( wp_unslash( $_GET['error_description'] ?? '' ) ),
+					/* translators: 1. Error message */
+					'message'       => sprintf( __( 'Error: %s', 'oovvuu' ), $error_message ),
 					'type'          => 'error',
 				]
 			);
@@ -339,7 +348,7 @@ class Auth {
 				$this->delete_user_token( $user_id );
 
 				// Log last error message.
-				update_user_meta( $user_id, 'oovvuu_auth0_refresh_last_error', 'Invalid token: ' . wp_json_encode( $new_token ) );
+				$this->set_last_auth_error( $user_id, 'Invalid token', wp_json_encode( $new_token ) );
 
 				return null;
 			}
@@ -538,6 +547,38 @@ class Auth {
 	}
 
 	/**
+	 * Sets the last Auth0 authentication error.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param int    $user_id The user ID.
+	 * @param string $type    The error type.
+	 * @param string $message The error message.
+	 */
+	public function set_last_auth_error( $user_id, $type, $message ) {
+		update_user_meta(
+			$user_id,
+			'oovvuu_auth0_refresh_last_error',
+			[
+				'type'    => $type,
+				'message' => $message,
+				'time'    => time(),
+			]
+		);
+	}
+
+	/**
+	 * Deletes the last Auth0 authentication error.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	public function delete_last_auth_error( $user_id ) {
+		delete_user_meta( $user_id, 'oovvuu_auth0_refresh_last_error' );
+	}
+
+	/**
 	 * Returns the authorization link.
 	 *
 	 * @since 1.0.0
@@ -645,6 +686,9 @@ class Auth {
 			return null;
 		}
 
+		// Clear out the last error message.
+		$this->delete_last_auth_error( $current_user_id );
+
 		try {
 			// Perform the refresh.
 			$new_token = $authentication_client->refresh_token(
@@ -663,11 +707,11 @@ class Auth {
 				return $this->set_user_token( $current_user_id, $new_token );
 			} else {
 				// Log last error message.
-				update_user_meta( $current_user_id, 'oovvuu_auth0_refresh_last_error', 'Invalid token format: ' . wp_json_encode( $new_token ) );
+				$this->set_last_auth_error( $current_user_id, 'Invalid token format', wp_json_encode( $new_token ) );
 			}
 		} catch ( \Exception $exception ) {
 			// Log last error message.
-			update_user_meta( $current_user_id, 'oovvuu_auth0_refresh_last_error', $exception->getMessage() );
+			$this->set_last_auth_error( $current_user_id, 'Unable to make API call to Oovvuu', $exception->getMessage() );
 
 			return new \WP_Error( 'error', __( 'Oovvuu: Unable to refresh access token with error: ', 'oovvuu' ) . $exception->getMessage() );
 		}
