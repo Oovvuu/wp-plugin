@@ -229,7 +229,8 @@ class Auth {
 			$this->redirect_to_user_profile(
 				[
 					'oovvuu-notice' => true,
-					'message'       => sprintf( __( 'Error: %s', 'oovvuu' ) ),
+					/* translators: 1. Error message */
+					'message'       => sprintf( __( 'Error: %s', 'oovvuu' ), $error_message ),
 					'type'          => 'error',
 				]
 			);
