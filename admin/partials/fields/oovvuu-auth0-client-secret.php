@@ -11,7 +11,7 @@ $oovvuu_auth0_client_secret = get_option( 'oovvuu_auth0_client_secret', '' );
 
 <div>
 	<input
-		type="text"
+		type="password"
 		id="oovvuu_auth0_client_secret"
 		name="oovvuu_auth0_client_secret"
 		class="regular-text"

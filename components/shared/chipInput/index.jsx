@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import uuid from 'react-uuid';
 import keyCodes from 'utils/keyCodes';
+import eventBus from 'services/eventBus';
 import styles from './chipInput.scss';
 
 const ChipInput = (props) => {
@@ -18,6 +19,11 @@ const ChipInput = (props) => {
   const inputId = uuid();
 
   /**
+   * Clear the input by resetting the component `keyword` state.
+   */
+  const clearInput = () => setKeyword('');
+
+  /**
    * Converts the input value with the TAB or Return key.
    *
    * @param {Event} event The event object.
@@ -29,8 +35,7 @@ const ChipInput = (props) => {
     if (keyword && [TAB, RETURN].includes(keyCode)) {
       event.preventDefault();
       onUpdate(keyword);
-      // Clear the input.
-      setKeyword('');
+      clearInput();
     }
   };
 
@@ -52,6 +57,12 @@ const ChipInput = (props) => {
     if (focusOnMount) {
       inputRef.current.focus();
     }
+
+    eventBus.on('OovvuuClearSearchInput', clearInput);
+
+    return () => {
+      eventBus.remove('OovvuuClearSearchInput', clearInput);
+    };
   }, []);
 
   return (
