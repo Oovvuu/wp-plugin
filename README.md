@@ -12,25 +12,25 @@
 
 ## WordPress Plugin
 
-1. Download the [latest built release](https://github.com/alleyinteractive/oovvuu/releases) of the plugin
-1. Go to Plugins > Add New in your dashboard
-1. Click the `Upload Plugin` button to prompt a file selector
-1. Locate the built zip file in your Downloads folder and select it to be uploaded
-1. Activate the plugin
-1. Go to the `Oovvuu` settings page in the admin menu
-1. Configure the Auth0 settings to be able to authenticate with the Oovvuu platform
-1. Visit your profile page and Authenticate with the Oovvuu platform
+1. Download the [latest built release](https://github.com/oovvuu/wp-plugin/releases/latest) of the plugin, make sure you get the file `oovvuu.zip`
+2. Go to Plugins > Add New in your dashboard
+3. Click the `Upload Plugin` button to prompt a file selector
+4. Locate the built zip file in your Downloads folder and select it to be uploaded
+5. Activate the plugin
+6. Go to the `Oovvuu` settings page in the admin menu
+7. Configure the Auth0 settings to be able to authenticate with the Oovvuu platform
+8. Visit your profile page and Authenticate with the Oovvuu platform
 
 ## Plugin Setup
 
 Once the plugin is installed you will need to set up the Authentication details in order for your users to be able to use the Oovvuu platform. This is done by clicking on the `Oovvuu Settings` on the lower left of the WordPress dashboard.
 
 Once you have the Oovvuu plugin settings page open you can enter the following details:
-| Name | value | Description |
-| ---- | ---- | ----- |
-| Domain | oovvuu-production.au.auth0.com | The Authentication Domain for the Oovvuu platform |
-| Client ID | | The client ID, this will be provided by Oovvuu and is unique for your organisation |
-| Client Secret | | This is the login secret, just like a password this should be kept safe. This will be provided by Oovvuu |
+| Name          | value                          | Description                                                                                              |
+| ------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| Domain        | oovvuu-production.au.auth0.com | The Authentication Domain for the Oovvuu platform                                                        |
+| Client ID     |                                | The client ID, this will be provided by Oovvuu and is unique for your organisation                       |
+| Client Secret |                                | This is the login secret, just like a password this should be kept safe. This will be provided by Oovvuu |
 
 # Developer Documentation
 
