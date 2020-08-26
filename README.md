@@ -12,25 +12,25 @@
 
 ## WordPress Plugin
 
-1. Download the [latest built release](https://github.com/alleyinteractive/oovvuu/releases) of the plugin
-1. Go to Plugins > Add New in your dashboard
-1. Click the `Upload Plugin` button to prompt a file selector
-1. Locate the built zip file in your Downloads folder and select it to be uploaded
-1. Activate the plugin
-1. Go to the `Oovvuu` settings page in the admin menu
-1. Configure the Auth0 settings to be able to authenticate with the Oovvuu platform
-1. Visit your profile page and Authenticate with the Oovvuu platform
+1. Download the [latest built release](https://github.com/oovvuu/wp-plugin/releases/latest) of the plugin, make sure you get the file `oovvuu.zip`
+2. Go to Plugins > Add New in your dashboard
+3. Click the `Upload Plugin` button to prompt a file selector
+4. Locate the built zip file in your Downloads folder and select it to be uploaded
+5. Activate the plugin
+6. Go to the `Oovvuu` settings page in the admin menu
+7. Configure the Auth0 settings to be able to authenticate with the Oovvuu platform
+8. Visit your profile page and Authenticate with the Oovvuu platform
 
 ## Plugin Setup
 
 Once the plugin is installed you will need to set up the Authentication details in order for your users to be able to use the Oovvuu platform. This is done by clicking on the `Oovvuu Settings` on the lower left of the WordPress dashboard.
 
 Once you have the Oovvuu plugin settings page open you can enter the following details:
-| Name | value | Description |
-| ---- | ---- | ----- |
-| Domain | oovvuu-production.au.auth0.com | The Authentication Domain for the Oovvuu platform |
-| Client ID | | The client ID, this will be provided by Oovvuu and is unique for your organisation |
-| Client Secret | | This is the login secret, just like a password this should be kept safe. This will be provided by Oovvuu |
+| Name          | value                          | Description                                                                                              |
+| ------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| Domain        | oovvuu-production.au.auth0.com | The Authentication Domain for the Oovvuu platform                                                        |
+| Client ID     |                                | The client ID, this will be provided by Oovvuu and is unique for your organisation                       |
+| Client Secret |                                | This is the login secret, just like a password this should be kept safe. This will be provided by Oovvuu |
 
 # Developer Documentation
 
@@ -45,22 +45,6 @@ if ( \Oovvuu\has_hero_embed() ) {
 	// Perform normal feature image logic.
 }
 ```
-
-## Creating a new release
-
-When a new version of the plugin is ready for distribution, we will need to create a new release that can be downloaded. Below are the steps for how to create a new release in GitHub.
-
-1. Run the release script with the version number as its only argument, e.x.,`bash release.sh 1.0.0`
-1. Add all untracked files `git add -A` and commit this to the built branch `git commit -m "{Message}"`
-1. Push this branch up to the repo `git push -u origin`
-1. Go to the GitHub repo and [create a new release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release)
-1. Create a non-built release based on the `production` branch and use a tag name without the `-built` suffix (i.e. `v1.0.0`)
-1. Add relevant changelog notes
-1. Publish the release
-1. Create a built release based on the built branch you created in the above steps. Make sure to have `-built` after the tag version (i.e. `v1.0.0-built`)
-1. Publish the built release. No changelog notes are needed in the built release since they are already added to the non-built release.
-1. Download the built plugin locally and ensure it can be installed properly. Also, do a general testing of the plugin featured to ensure everything works as expected
-1. Delete the built branch since the release is published and tagged
 
 ## Build
 
