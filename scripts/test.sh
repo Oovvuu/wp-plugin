@@ -8,7 +8,7 @@ set -e
 # echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 # install and configure phpcs
-phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs
+phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs,$HOME/.composer/vendor/sirbrillig/phpcs-variable-analysis
 
 # run the php linting
 find . -type "f" -iname "*.php" -not -path "./vendor/*" | xargs -L "1" php -l
