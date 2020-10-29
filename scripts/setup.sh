@@ -14,6 +14,7 @@ sudo apt-get update && sudo apt-get install default-mysql-client
 # install phpunit
 composer global require "phpunit/phpunit=6.1.*"
 composer global require automattic/vipwpcs
+composer require --dev sirbrillig/phpcs-variable-analysis
 
 WP_VERSION="latest"
 # Set up the WordPress installation.
