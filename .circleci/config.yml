@@ -4,7 +4,13 @@ jobs:
   test:
     docker:
       - image: circleci/php:7.4.7-node
+        auth:
+          username: oovvuu
+          password: $DOCKER_HUB_ACCESS_KEY
       - image: circleci/mysql:latest
+        auth:
+          username: oovvuu
+          password: $DOCKER_HUB_ACCESS_KEY
         command: [--default-authentication-plugin=mysql_native_password]
     working_directory: ~/repo
     resource_class: large
@@ -27,7 +33,13 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.4.7-node
+        auth:
+          username: oovvuu
+          password: $DOCKER_HUB_ACCESS_KEY
       - image: circleci/mysql:5.7
+        auth:
+          username: oovvuu
+          password: $DOCKER_HUB_ACCESS_KEY
     working_directory: ~/repo
     steps:
       - checkout
