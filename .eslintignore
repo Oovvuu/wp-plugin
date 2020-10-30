@@ -1,4 +1,4 @@
 build
 *.spec.js
 *.php
-**/vendor/*.*
+**/vendor/**/*
