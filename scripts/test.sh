@@ -14,7 +14,7 @@ phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wp
 find . -type "f" -iname "*.php" -not -path "./vendor/*" | xargs -L "1" php -l
 
 # run phcs & phpunit
-phpcs
+phpcs ./admin ./inc ./template-parts ./tests
 phpunit
 WP_MULTISITE=1 phpunit
 
