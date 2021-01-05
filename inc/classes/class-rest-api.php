@@ -180,7 +180,7 @@ class REST_API {
 	public function get_keywords( $request ) {
 		return rest_ensure_response(
 			$this->request(
-				'query ($input: TextAnalysisInput) {
+				'query ($input: TextAnalysisInput!) {
 					analyseText(input: $input) {
 						wordings
 					}
