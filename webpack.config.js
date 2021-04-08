@@ -149,6 +149,7 @@ module.exports = (env, argv) => {
       publicPath: (mode === 'development')
         ? `${PROXY_URL}/build/`
         : paths.build,
+      globalObject: 'this',
     },
     plugins: [
       new StatsPlugin({
