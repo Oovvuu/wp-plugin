@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import eventBus from 'services/eventBus';
+/**
+ * Use the CommonJS version of the Brightcove Player Loader to avoid ES Module
+ * issues on VIP Go envs.
+ */
 /* eslint-disable-next-line import/extensions */
 import ReactPlayerLoader from '@brightcove/react-player-loader/dist/brightcove-react-player-loader.cjs.js';
 
