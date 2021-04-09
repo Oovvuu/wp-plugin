@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import eventBus from 'services/eventBus';
-import ReactPlayerLoader from '@brightcove/react-player-loader';
+/* eslint-disable-next-line import/extensions */
+import ReactPlayerLoader from '@brightcove/react-player-loader/dist/brightcove-react-player-loader.cjs.js';
 
 /**
  * Renders a Brightcove player.
