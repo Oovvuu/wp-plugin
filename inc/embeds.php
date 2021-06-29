@@ -77,7 +77,7 @@ function get_embed_html( $args ) {
 	// Create the embed HTML.
 	$html = sprintf(
 		'<div>
-			<script>!function(e,t,r){let n;if(e.getElementById(r))return;const a=e.getElementsByTagName("script")[0];n=e.createElement("script"),n.id=r,n.defer=true,n.src="%1$s",a.parentNode.insertBefore(n,a)}(document,0,"oovvuu-player-sdk");</script>
+			<script type="text/javascript">!function(e,t,r){let n;if(e.getElementById(r))return;const a=e.getElementsByTagName("script")[0];n=e.createElement("script"),n.id=r,n.defer=true,n.src="%1$s",a.parentNode.insertBefore(n,a)}(document,0,"oovvuu-player-sdk");</script>
 			<div data-oovvuu-embed="%2$s">
 				<amp-iframe src="%3$s" width="5" height="4" sandbox="allow-scripts allow-same-origin" layout="responsive" frameborder="0" resizable>
 					<div overflow placeholder></div>
