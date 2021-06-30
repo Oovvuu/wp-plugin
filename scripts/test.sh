@@ -18,12 +18,15 @@ phpcs ./admin ./inc ./template-parts ./tests
 phpunit
 WP_MULTISITE=1 phpunit
 
-# install lnode components
+# install
 npm install
-npm run build
+
+# audit
+npm audit --audit-level=high --production
 
 # run node tests
 npm run test
 npm run lint
 
-
+# build
+npm run build
